@@ -1,0 +1,3012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stratosyn | Closing the Gaps — 12-Phase Remediation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181b22;
+    --border: rgba(255,255,255,0.07);
+    --border-active: rgba(99,200,150,0.4);
+    --accent: #3effa0;
+    --accent2: #00c2ff;
+    --accent3: #ff7c5c;
+    --accent-dim: rgba(62,255,160,0.12);
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --muted2: #9ca3af;
+    --gold: #f5c842;
+    --rose: #ff5d8f;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(62,255,160,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(62,255,160,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .logo span { color: var(--muted); }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--muted2);
+    font-family: var(--mono);
+  }
+
+  .badge {
+    background: var(--accent-dim);
+    border: 1px solid rgba(62,255,160,0.25);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .badge-warn {
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.25);
+    color: var(--gold);
+  }
+
+  .timer {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--gold);
+    min-width: 60px;
+  }
+
+  /* MISSION BRIEF */
+  .mission-brief {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 48px auto 0;
+    padding: 0 32px;
+  }
+
+  .mission-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .mission-title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .mission-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .mission-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+
+  .standards-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .std-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--muted2);
+  }
+
+  .std-chip strong { color: var(--accent2); }
+  .std-chip.gap strong { color: var(--rose); }
+  .std-chip.gap { border-color: rgba(255,93,143,0.25); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 32px;
+  }
+
+  /* DIAGNOSTIC SNAPSHOT */
+  .scenario-block {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 40px auto;
+    padding: 0 32px;
+  }
+
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scenario-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent), transparent);
+  }
+
+  .scenario-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .scenario-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .scenario-text strong { color: var(--accent); }
+
+  /* SNAPSHOT GRID */
+  .snap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .snap-cell {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+  }
+
+  .snap-num {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .snap-num.warn { color: var(--gold); }
+  .snap-num.bad  { color: var(--rose); }
+
+  .snap-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .snap-detail {
+    font-size: 12px;
+    color: var(--muted2);
+    line-height: 1.5;
+  }
+
+  /* CLASS RESULT BAR (mini) */
+  .class-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--surface2);
+    margin-top: 10px;
+  }
+  .class-bar .seg-skip { background: var(--muted); }
+  .class-bar .seg-wrong { background: var(--accent3); }
+  .class-bar .seg-right { background: var(--accent); }
+
+  /* Worst-question table */
+  .worst-table {
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .worst-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 90px 90px 110px;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .worst-row:last-child { border-bottom: none; }
+  .worst-row.head {
+    background: var(--surface2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .worst-q { font-family: var(--mono); color: var(--accent); }
+  .worst-name { color: var(--text); }
+  .worst-skill {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(0,194,255,0.1);
+    color: var(--accent2);
+    text-align: center;
+  }
+  .worst-skill.justify {
+    background: rgba(255,124,92,0.12);
+    color: var(--accent3);
+  }
+  .worst-correct {
+    font-family: var(--mono);
+    color: var(--rose);
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* STEPS ENGINE */
+  .steps-container {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .steps-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .steps-title {
+    font-size: 13px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    text-transform: uppercase;
+  }
+
+  .progress-track {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .pip {
+    width: 28px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .pip.done { background: var(--accent); border-color: var(--accent); }
+  .pip.active { background: rgba(62,255,160,0.4); border-color: var(--accent); }
+
+  /* PHASE CARD */
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .step-card.active { border-color: var(--border-active); }
+  .step-card.locked { opacity: 0.4; pointer-events: none; }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    user-select: none;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted2);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .step-card.active .step-num {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .step-card.completed .step-num {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 14px;
+  }
+
+  .step-meta { flex: 1; }
+
+  .step-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .step-hint {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .step-hint b { color: var(--accent2); font-weight: 400; }
+  .step-hint b.warn { color: var(--accent3); }
+
+  .step-status {
+    font-size: 11px;
+    font-family: var(--mono);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .step-card.active .step-status {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(62,255,160,0.2);
+  }
+
+  .step-card.completed .step-status {
+    background: rgba(62,255,160,0.08);
+    color: var(--accent);
+  }
+
+  /* PHASE BODY */
+  .step-body {
+    padding: 0 24px 24px;
+    display: none;
+  }
+
+  .step-card.active .step-body { display: block; }
+
+  .step-instruction {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted2);
+    margin-bottom: 20px;
+    padding-top: 4px;
+  }
+
+  .step-instruction strong { color: var(--text); }
+
+  /* QUESTION CARD INSIDE STEP */
+  .q-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .q-card .q-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* GRAPH WRAP */
+  .graph-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    margin: 14px 0;
+    text-align: center;
+  }
+
+  .graph-wrap svg { max-width: 100%; height: auto; }
+
+  .graph-caption {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  /* CLASS PERFORMANCE STRIP */
+  .perf-strip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: rgba(255,93,143,0.05);
+    border: 1px solid rgba(255,93,143,0.15);
+    border-radius: var(--radius-sm);
+  }
+
+  .perf-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--rose);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .perf-text {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted2);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .perf-text b { color: var(--rose); }
+
+  /* CHOICES */
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+
+  .choice-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .choice-item:hover { border-color: rgba(62,255,160,0.3); background: var(--surface2); }
+  .choice-item.selected { border-color: var(--accent2); background: rgba(0,194,255,0.06); }
+  .choice-item.revealed.correct { border-color: var(--accent); background: rgba(62,255,160,0.08); }
+  .choice-item.revealed.incorrect { border-color: var(--accent3); background: rgba(255,124,92,0.06); }
+  .choice-item.disabled { cursor: default; pointer-events: none; }
+
+  .choice-item input[type="radio"] { display: none; }
+
+  .choice-letter {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: var(--mono);
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted2);
+    transition: all 0.2s;
+  }
+
+  .choice-item.selected .choice-letter {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+  .choice-item.revealed.correct .choice-letter {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .choice-item.revealed.incorrect .choice-letter {
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+
+  .choice-text {
+    font-size: 13px;
+    font-family: var(--mono);
+    line-height: 1.6;
+    color: var(--muted2);
+    flex: 1;
+  }
+  .choice-item.selected .choice-text { color: var(--text); }
+  .choice-item.revealed.correct .choice-text { color: var(--accent); }
+
+  /* WALKTHROUGH REVEAL */
+  .walkthrough {
+    margin-top: 18px;
+    background: rgba(62,255,160,0.04);
+    border: 1px solid rgba(62,255,160,0.2);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    display: none;
+  }
+  .walkthrough.visible { display: block; }
+
+  .walk-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .walk-body {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .walk-body p { margin-bottom: 10px; }
+  .walk-body p:last-child { margin-bottom: 0; }
+  .walk-body code {
+    font-family: var(--mono);
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  .walk-trap {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,124,92,0.2);
+  }
+
+  .walk-trap-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .walk-trap-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted2);
+  }
+
+  /* DIAGNOSTIC SELF-LABEL */
+  .diag-block {
+    margin-top: 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    display: none;
+  }
+  .diag-block.visible { display: block; }
+
+  .diag-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .diag-prompt {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .diag-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .diag-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .diag-option:hover { border-color: rgba(245,200,66,0.4); }
+  .diag-option.selected {
+    border-color: var(--gold);
+    background: rgba(245,200,66,0.06);
+  }
+
+  .diag-letter {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .diag-option-text {
+    font-size: 12px;
+    color: var(--muted2);
+    line-height: 1.6;
+  }
+  .diag-option.selected .diag-option-text { color: var(--text); }
+
+  /* BUTTONS */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid;
+    font-family: var(--sans);
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: #5fffb4; }
+  .btn-primary:disabled {
+    background: var(--surface2);
+    color: var(--muted);
+    border-color: var(--border);
+    cursor: not-allowed;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--muted2);
+  }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .gate-msg {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--muted);
+  }
+
+  /* DIAGNOSTIC TAXONOMY (replaces rubric) */
+  .rubric-section {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto 0;
+    padding: 0 32px 40px;
+  }
+
+  .rubric-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .rubric-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .rubric-intro {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.7;
+    margin: 16px 0 22px;
+    max-width: 720px;
+  }
+
+  .taxonomy-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .tax-cell {
+    background: var(--surface);
+    padding: 16px 18px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  .tax-cell.header {
+    background: var(--surface2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 12px 18px;
+  }
+
+  .tax-cell.label-cell {
+    font-weight: 600;
+    border-right: 2px solid var(--accent2);
+  }
+  .tax-cell.label-cell.warn { border-right-color: var(--gold); }
+  .tax-cell.label-cell.bad  { border-right-color: var(--rose); }
+
+  .tax-skill-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: rgba(0,194,255,0.12);
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .tax-skill-tag.justify {
+    background: rgba(255,124,92,0.12);
+    color: var(--accent3);
+  }
+  .tax-skill-tag.proc {
+    background: rgba(245,200,66,0.12);
+    color: var(--gold);
+  }
+  .tax-skill-tag.misread {
+    background: rgba(255,93,143,0.1);
+    color: var(--rose);
+  }
+
+  .tax-label-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .tax-cell .signature {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted2);
+    line-height: 1.7;
+    background: var(--bg);
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-top: 4px;
+  }
+  .tax-cell .move {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* DATA LOG (replaces rationale) */
+  .rationale-block {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+
+  .rationale-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    position: relative;
+  }
+
+  .rationale-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--gold), transparent);
+  }
+
+  .rationale-body {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--muted2);
+  }
+  .rationale-body strong { color: var(--text); }
+  .rationale-body em { color: var(--accent); font-style: normal; }
+
+  /* PROGRESS BAR (footer) */
+  .score-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(10,12,16,0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+  }
+
+  .score-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .score-num {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .score-denom { color: var(--muted); font-size: 14px; }
+
+  .completion-msg {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted);
+    display: none;
+  }
+
+  /* SECTION DIVIDERS */
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 40px auto 24px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-divider-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* TIER DIVIDERS — bigger than section dividers */
+  .tier-divider {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 36px auto 22px;
+    padding: 0 32px;
+  }
+
+  .tier-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rose);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .tier-card.t2 { border-left-color: var(--gold); }
+  .tier-card.t3 { border-left-color: var(--accent2); }
+
+  .tier-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--rose);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .tier-card.t2 .tier-num { color: var(--gold); }
+  .tier-card.t3 .tier-num { color: var(--accent2); }
+
+  .tier-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  .tier-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 240px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .header { padding: 12px 18px; }
+    .header-meta { gap: 12px; }
+    .mission-brief, .scenario-block, .steps-container, .rubric-section, .rationale-block, .section-divider { padding-left: 18px; padding-right: 18px; }
+    .scenario-card, .rationale-card { padding: 22px; }
+    .snap-grid { grid-template-columns: 1fr; }
+    .worst-row { grid-template-columns: 50px 1fr 80px; font-size: 11px; }
+    .worst-row .col-skill, .worst-row .col-bar { display: none; }
+    .taxonomy-grid { grid-template-columns: 1fr; }
+    .tax-cell.label-cell { border-right: none; border-bottom: 2px solid var(--accent2); }
+    .tax-cell.label-cell.warn { border-bottom-color: var(--gold); }
+    .tax-cell.label-cell.bad  { border-bottom-color: var(--rose); }
+    .mission-title { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">Strato<span>syn</span></div>
+  <div class="header-meta">
+    <span class="badge">AP CALCULUS AB</span>
+    <span class="badge badge-warn">POST-EXAM REMEDIATION</span>
+    <span class="timer" id="timer">00:00</span>
+  </div>
+</header>
+
+<!-- MISSION BRIEF -->
+<div class="mission-brief">
+  <div class="mission-tag">// CLASS DIAGNOSTIC — 5TH PERIOD — 2019 INT'L PRACTICE EXAM AB · MCQ PART A</div>
+  <h1 class="mission-title">Operation: <em>Closing the Gaps</em></h1>
+  <p class="mission-sub">
+    The class results are in. You crushed the procedural questions — derivative rules, integrals, MVT, area, L'Hôpital's. But the data shows
+    sharp collapse on <strong style="color:var(--text)">12 specific questions</strong> distributed across three severity tiers. This mission walks you through every one
+    of them, organized worst-first. You must answer each before you advance. By the end, you will be able to <strong style="color:var(--text)">label your own gap</strong>,
+    <strong style="color:var(--text)">identify it next time</strong>, and <strong style="color:var(--text)">consolidate the move</strong> that closes it — for every
+    skill family the class struggled with, not just the worst one.
+  </p>
+  <div class="standards-row">
+    <div class="std-chip"><strong>STRENGTH</strong> Skill 1.E — Procedures</div>
+    <div class="std-chip gap"><strong>GAP</strong> Skill 2.B — Connecting Representations</div>
+    <div class="std-chip gap"><strong>GAP</strong> Skill 3.D — Justification w/ Theorems</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- DIAGNOSTIC SNAPSHOT -->
+<div class="scenario-block">
+  <div class="scenario-card">
+    <div class="scenario-label">// CLASS DIAGNOSTIC SNAPSHOT</div>
+    <p class="scenario-text">
+      Out of <strong>30 questions</strong>, the class went 4-for-4 on <strong>9 questions</strong> and earned 3-of-4 on most of the rest.
+      The problem isn't computation — it's <strong>translation</strong>, <strong>justification</strong>, and <strong>setup-under-pressure</strong>.
+      Twelve questions need attention. They cluster into three severity tiers — and the dominant skill gaps repeat across all three.
+      That's not noise. That's the curriculum telling you exactly where to land next.
+    </p>
+
+    <div class="snap-grid">
+      <div class="snap-cell">
+        <div class="snap-label">// PROCEDURAL ACCURACY</div>
+        <div class="snap-num">86%</div>
+        <div class="snap-detail">Across all Skill 1.E questions (derivatives, integrals, rules)</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">// REPRESENTATION ACCURACY</div>
+        <div class="snap-num warn">38%</div>
+        <div class="snap-detail">Skill 2.B / 2.D — translating between graphs, tables, equations, slope fields</div>
+      </div>
+      <div class="snap-cell">
+        <div class="snap-label">// JUSTIFICATION ACCURACY</div>
+        <div class="snap-num bad">42%</div>
+        <div class="snap-detail">Skill 3.D / 3.F — citing FTC, MVT, and interpreting in context</div>
+      </div>
+    </div>
+
+    <div class="worst-table">
+      <div class="worst-row head">
+        <div>Q#</div>
+        <div>Topic</div>
+        <div class="col-skill">Skill</div>
+        <div>Correct</div>
+        <div class="col-bar">Class Result</div>
+      </div>
+      <!-- TIER 1 — 1/4 correct -->
+      <div class="worst-row">
+        <div class="worst-q">Q5</div>
+        <div class="worst-name">Functions / Concavity</div>
+        <div class="col-skill"><span class="worst-skill">2.B</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q17</div>
+        <div class="worst-name">Behavior of a Function</div>
+        <div class="col-skill"><span class="worst-skill">2.B</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q19</div>
+        <div class="worst-name">Particle Motion</div>
+        <div class="col-skill"><span class="worst-skill">2.B</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q20</div>
+        <div class="worst-name">Properties of Definite Integrals</div>
+        <div class="col-skill"><span class="worst-skill" style="background:rgba(245,200,66,0.12);color:#f5c842">1.C</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q24</div>
+        <div class="worst-name">Fundamental Theorem of Calculus</div>
+        <div class="col-skill"><span class="worst-skill justify">3.D</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q30</div>
+        <div class="worst-name">Definite Integral as Riemann Sum</div>
+        <div class="col-skill"><span class="worst-skill justify">3.D</span></div>
+        <div class="worst-correct">1 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:3"></div><div class="seg-right" style="flex:1"></div></div></div>
+      </div>
+      <!-- TIER 2 — 2/4 correct -->
+      <div class="worst-row">
+        <div class="worst-q">Q16</div>
+        <div class="worst-name">Separation of Variables</div>
+        <div class="col-skill"><span class="worst-skill" style="background:rgba(245,200,66,0.12);color:#f5c842">1.E</span></div>
+        <div class="worst-correct" style="color:#f5c842">2 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:2"></div><div class="seg-right" style="flex:2"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q23</div>
+        <div class="worst-name">Volume — Square Cross Sections</div>
+        <div class="col-skill"><span class="worst-skill" style="background:rgba(245,200,66,0.12);color:#f5c842">1.E</span></div>
+        <div class="worst-correct" style="color:#f5c842">2 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:2"></div><div class="seg-right" style="flex:2"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q28</div>
+        <div class="worst-name">Related Rates</div>
+        <div class="col-skill"><span class="worst-skill" style="background:rgba(245,200,66,0.12);color:#f5c842">1.E</span></div>
+        <div class="worst-correct" style="color:#f5c842">2 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:2"></div><div class="seg-right" style="flex:2"></div></div></div>
+      </div>
+      <!-- TIER 3 — 3/4 correct -->
+      <div class="worst-row">
+        <div class="worst-q">Q22</div>
+        <div class="worst-name">Slope Field</div>
+        <div class="col-skill"><span class="worst-skill">2.D</span></div>
+        <div class="worst-correct" style="color:#00c2ff">3 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:1"></div><div class="seg-right" style="flex:3"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q27</div>
+        <div class="worst-name">Meaning of Derivative in Context</div>
+        <div class="col-skill"><span class="worst-skill justify">3.F</span></div>
+        <div class="worst-correct" style="color:#00c2ff">3 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:1"></div><div class="seg-right" style="flex:3"></div></div></div>
+      </div>
+      <div class="worst-row">
+        <div class="worst-q">Q29</div>
+        <div class="worst-name">Vertical Asymptotes</div>
+        <div class="col-skill"><span class="worst-skill">2.B</span></div>
+        <div class="worst-correct" style="color:#00c2ff">3 / 4</div>
+        <div class="col-bar"><div class="class-bar"><div class="seg-skip" style="flex:1"></div><div class="seg-wrong" style="flex:1"></div><div class="seg-right" style="flex:3"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASES -->
+<div class="section-divider">
+  <span class="section-divider-label">// PART 1 — TARGETED REMEDIATION · 12 PHASES · ORDERED BY SEVERITY</span>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="steps-container">
+  <div class="steps-header">
+    <span class="steps-title">// answer each question to unlock the next phase</span>
+    <div class="progress-track" id="progress-track">
+      <div class="pip" id="pip-1"></div>
+      <div class="pip" id="pip-2"></div>
+      <div class="pip" id="pip-3"></div>
+      <div class="pip" id="pip-4"></div>
+      <div class="pip" id="pip-5"></div>
+      <div class="pip" id="pip-6"></div>
+      <div class="pip" id="pip-7"></div>
+      <div class="pip" id="pip-8"></div>
+      <div class="pip" id="pip-9"></div>
+      <div class="pip" id="pip-10"></div>
+      <div class="pip" id="pip-11"></div>
+      <div class="pip" id="pip-12"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- TIER 1 — HOTSPOTS (1/4 correct)                                 -->
+  <!-- ============================================================== -->
+  <div class="tier-divider" style="padding: 0; margin: 8px 0 18px;">
+    <div class="tier-card">
+      <div class="tier-num">// TIER 1</div>
+      <div class="tier-title">HOTSPOTS</div>
+      <div class="tier-meta">6 questions · only 1 of 4 students correct · the deepest gaps in the data</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 01 — Q5 CONCAVITY                                         -->
+  <!-- ============================================================== -->
+  <div class="step-card active" id="step-1">
+    <div class="step-head">
+      <div class="step-num">01</div>
+      <div class="step-meta">
+        <div class="step-name">Q5 — Concavity from the Graph of f′</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Representations</b></span>
+          <span>// SKILL: <b class="warn">2.B — Connecting Representations</b></span>
+        </div>
+      </div>
+      <span class="step-status">ACTIVE</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">On the original Q5, only <b>1 of 4 students</b> in the class chose the correct answer. The other 3 picked the same wrong choice — that is the trap we are about to expose.</div>
+      </div>
+
+      <p class="step-instruction">
+        The graph below is the graph of <strong>f′</strong> — the <em style="color:var(--accent);font-style:normal">derivative</em> of <strong>f</strong>, not the graph of f itself.
+        On which interval is f <strong>concave down</strong>?
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 2.B / Concavity)</div>
+        <div class="graph-wrap">
+          <svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- axes -->
+            <line x1="40" y1="130" x2="440" y2="130" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <!-- gridlines (light) -->
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+              <line x1="60" y1="60" x2="440" y2="60"/>
+              <line x1="60" y1="100" x2="440" y2="100"/>
+              <line x1="60" y1="160" x2="440" y2="160"/>
+              <line x1="60" y1="200" x2="440" y2="200"/>
+              <line x1="120" y1="20" x2="120" y2="240"/>
+              <line x1="180" y1="20" x2="180" y2="240"/>
+              <line x1="240" y1="20" x2="240" y2="240"/>
+              <line x1="300" y1="20" x2="300" y2="240"/>
+              <line x1="360" y1="20" x2="360" y2="240"/>
+              <line x1="420" y1="20" x2="420" y2="240"/>
+            </g>
+            <!-- x-axis labels -->
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="middle">
+              <text x="60" y="252">-2</text>
+              <text x="120" y="252">-1</text>
+              <text x="180" y="252">0</text>
+              <text x="240" y="252">1</text>
+              <text x="300" y="252">2</text>
+              <text x="360" y="252">3</text>
+              <text x="420" y="252">4</text>
+            </g>
+            <!-- y-axis labels -->
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="end">
+              <text x="54" y="64">2</text>
+              <text x="54" y="104">1</text>
+              <text x="54" y="164">-1</text>
+              <text x="54" y="204">-2</text>
+            </g>
+            <!-- y-axis arrow -->
+            <text x="48" y="18" font-family="DM Sans" font-size="14" fill="#3effa0" font-style="italic" text-anchor="end">f′(x)</text>
+            <text x="446" y="146" font-family="DM Sans" font-size="12" fill="#9ca3af" font-style="italic">x</text>
+            <!-- f' curve: rises from (-2, -1) up to (1, 2), then falls to (3, -2), then rises to (4, 0)
+                 in pixels: x = 60 + (val+2)*60, y = 130 - val*40
+                 (-2,-1) -> (60, 170)
+                 (1, 2) -> (240, 50)
+                 (3, -2) -> (360, 210)
+                 (4, 0) -> (420, 130) -->
+            <path d="M 60 170 Q 150 -10 240 50 Q 300 90 360 210 Q 390 220 420 130"
+                  stroke="#3effa0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- highlighted region: x in (1, 3) where f' decreasing -->
+            <rect x="240" y="20" width="120" height="220" fill="rgba(255,93,143,0.06)"/>
+            <text x="300" y="36" font-family="Space Mono" font-size="10" fill="#ff5d8f" text-anchor="middle">f′ DECREASING HERE</text>
+            <!-- key markers -->
+            <circle cx="240" cy="50" r="3.5" fill="#3effa0"/>
+            <circle cx="360" cy="210" r="3.5" fill="#3effa0"/>
+            <text x="240" y="42" font-family="Space Mono" font-size="9" fill="#3effa0" text-anchor="middle">max</text>
+            <text x="360" y="226" font-family="Space Mono" font-size="9" fill="#3effa0" text-anchor="middle">min</text>
+          </svg>
+          <div class="graph-caption">// FIG 1. GRAPH OF f′(x) — THIS IS THE DERIVATIVE, NOT f</div>
+        </div>
+
+        <div class="choices" id="q1-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(1, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">f is concave down on (−2, 1)  — where f′ is increasing</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(1, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">f is concave down on (1, 3)  — where f′ is decreasing</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(1, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">f is concave down on (−2, 0) ∪ (3, 4)  — where f′ is negative</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(1, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">f is concave down on (3, 4)  — where f′ is increasing AND negative</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-1">
+        <div class="walk-title">// WALKTHROUGH — WHY (B) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Concavity of f is about the <strong>second derivative</strong> f″. And f″ is the <strong>derivative of f′</strong>. So:</p>
+          <p><code>f concave down  ⟺  f″ &lt; 0  ⟺  f′ is DECREASING</code></p>
+          <p>On the graph of f′, look for where the curve is <strong>going downhill</strong> — not where it dips below the x-axis. The curve peaks at x = 1 and bottoms out at x = 3, so it is decreasing on the open interval (1, 3). That is exactly where f is concave down.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY MOST OF THE CLASS PICKED (C)</div>
+            <div class="walk-trap-body">
+              The most common wrong answer confuses the <strong>sign of f′</strong> with the <strong>direction of f′</strong>. When f′ is negative, that tells you f is decreasing — not concave down. Sign of f′ governs increasing/decreasing of f. Direction of f′ (its slope) governs concavity of f. Two different ideas; one graph.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-1">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Be honest. Pick the option that best describes what was happening in your head when you chose your answer. There is no points-deduction here — this label is the data you need to fix it for next time.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="2B" onclick="pickDiag(1, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Representation gap (Skill 2.B)</strong> — I confused the sign of f′ with the direction of f′. I read the graph as if it were f.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(1, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I solved for "f decreasing" instead of "f concave down".</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(1, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I forgot what "concave down" means in terms of f″.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(1, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I read f′ correctly and connected decreasing f′ to concave-down f.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-1" onclick="revealAnswer(1)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-1" onclick="completeStep(1)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-1">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 02 — Q17 BEHAVIOR OF FUNCTION                             -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-2">
+    <div class="step-head">
+      <div class="step-num">02</div>
+      <div class="step-meta">
+        <div class="step-name">Q17 — Behavior of f from the Graph of f′</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Representations</b></span>
+          <span>// SKILL: <b class="warn">2.B — Connecting Representations</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q17 was the same trap as Q5, dressed differently. <b>1 of 4</b> got it. This time you are asked for <b>two</b> conditions at once — and the trap is satisfying only one.</div>
+      </div>
+
+      <p class="step-instruction">
+        Same graph format. Same warning: <strong>this is f′</strong>. On which interval is f <strong>BOTH decreasing AND concave up</strong>?
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 2.B / Behavior)</div>
+        <div class="graph-wrap">
+          <svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg">
+            <line x1="40" y1="130" x2="440" y2="130" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+              <line x1="60" y1="60" x2="440" y2="60"/>
+              <line x1="60" y1="100" x2="440" y2="100"/>
+              <line x1="60" y1="160" x2="440" y2="160"/>
+              <line x1="60" y1="200" x2="440" y2="200"/>
+              <line x1="120" y1="20" x2="120" y2="240"/>
+              <line x1="180" y1="20" x2="180" y2="240"/>
+              <line x1="240" y1="20" x2="240" y2="240"/>
+              <line x1="300" y1="20" x2="300" y2="240"/>
+              <line x1="360" y1="20" x2="360" y2="240"/>
+              <line x1="420" y1="20" x2="420" y2="240"/>
+            </g>
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="middle">
+              <text x="60" y="252">-2</text>
+              <text x="120" y="252">-1</text>
+              <text x="180" y="252">0</text>
+              <text x="240" y="252">1</text>
+              <text x="300" y="252">2</text>
+              <text x="360" y="252">3</text>
+              <text x="420" y="252">4</text>
+            </g>
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="end">
+              <text x="54" y="64">2</text>
+              <text x="54" y="104">1</text>
+              <text x="54" y="164">-1</text>
+              <text x="54" y="204">-2</text>
+            </g>
+            <text x="48" y="18" font-family="DM Sans" font-size="14" fill="#3effa0" font-style="italic" text-anchor="end">f′(x)</text>
+            <text x="446" y="146" font-family="DM Sans" font-size="12" fill="#9ca3af" font-style="italic">x</text>
+            <!-- f' from (-2, 2) decreasing to (0, -2), increasing to (2, -1), increasing through axis to (4, 2)
+                 (-2, 2) -> (60, 50)
+                 (0, -2) -> (180, 210)
+                 (2, -1) -> (300, 170)
+                 (4, 2) -> (420, 50) -->
+            <path d="M 60 50 Q 110 60 180 210 Q 240 240 300 170 Q 360 130 420 50"
+                  stroke="#3effa0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- highlight (0, 2): f' negative AND increasing -->
+            <rect x="180" y="130" width="120" height="110" fill="rgba(62,255,160,0.07)"/>
+            <text x="240" y="124" font-family="Space Mono" font-size="9" fill="#3effa0" text-anchor="middle">f′ &lt; 0 AND f′ INCREASING</text>
+            <circle cx="180" cy="210" r="3.5" fill="#3effa0"/>
+            <circle cx="300" cy="170" r="3.5" fill="#3effa0"/>
+          </svg>
+          <div class="graph-caption">// FIG 2. GRAPH OF f′(x) — THIS IS THE DERIVATIVE, NOT f</div>
+        </div>
+
+        <div class="choices" id="q2-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(2, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">(−2, 0) — because f′ is positive there, f is concave up</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(2, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">(−2, 0) — because f′ is decreasing there, f is decreasing</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(2, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">(0, 2) — because f′ &lt; 0 (f decreasing) AND f′ is increasing (f concave up)</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(2, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">(2, 4) — because f′ is increasing and crosses zero, f is concave up everywhere</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-2">
+        <div class="walk-title">// WALKTHROUGH — WHY (C) IS CORRECT</div>
+        <div class="walk-body">
+          <p>You need <strong>two conditions</strong> simultaneously:</p>
+          <p><code>f decreasing  ⟺  f′ &lt; 0  (curve below x-axis)</code><br>
+             <code>f concave up  ⟺  f′ is INCREASING  (curve going uphill)</code></p>
+          <p>So scan the graph of f′ for the region that is <strong>both below the axis AND going uphill</strong>. That is the interval (0, 2): the curve is at its minimum near x = 0 and climbs back toward the axis at x = 2. Negative AND rising.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY THE OTHER CHOICES LOOK RIGHT</div>
+            <div class="walk-trap-body">
+              Choices (A) and (B) each satisfy <strong>one</strong> of the two conditions and ignore the other. The exam writers know that students who are unsure will lock onto the first condition they verify and stop checking. The fix: turn the question into a <strong>checklist</strong>. Write both conditions down, scan once for each, then take the intersection. Never accept a "yes" without confirming both halves.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-2">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Same drill. Be honest about what tripped you.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="2B" onclick="pickDiag(2, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Representation gap (Skill 2.B)</strong> — I read the graph of f′ but checked only one of the two conditions instead of both.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(2, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I missed that the prompt said "AND" — I treated it like "OR".</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(2, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I wasn't sure how f′ &lt; 0 vs f′ increasing translate to f.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(2, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I checked both conditions on the graph and took the intersection.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-2" onclick="revealAnswer(2)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-2" onclick="completeStep(2)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-2">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 03 — Q19 PARTICLE MOTION                                  -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-3">
+    <div class="step-head">
+      <div class="step-num">03</div>
+      <div class="step-meta">
+        <div class="step-name">Q19 — Speed vs Velocity (Particle Motion)</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Representations</b></span>
+          <span>// SKILL: <b class="warn">2.B — Connecting Representations</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q19 hit the <b>speed-vs-velocity confusion</b> directly. <b>1 of 4</b> in the class got it. The trap: confusing "speed increasing" with "velocity increasing".</div>
+      </div>
+
+      <p class="step-instruction">
+        A particle moves along a horizontal line with velocity <strong>v(t)</strong> graphed below for 0 ≤ t ≤ 6.
+        On which interval is the particle's <strong>speed</strong> increasing?
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 2.B / Particle Motion)</div>
+        <div class="graph-wrap">
+          <svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg">
+            <line x1="60" y1="130" x2="440" y2="130" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+              <line x1="60" y1="60" x2="440" y2="60"/>
+              <line x1="60" y1="100" x2="440" y2="100"/>
+              <line x1="60" y1="160" x2="440" y2="160"/>
+              <line x1="60" y1="200" x2="440" y2="200"/>
+              <line x1="123" y1="20" x2="123" y2="240"/>
+              <line x1="187" y1="20" x2="187" y2="240"/>
+              <line x1="250" y1="20" x2="250" y2="240"/>
+              <line x1="313" y1="20" x2="313" y2="240"/>
+              <line x1="377" y1="20" x2="377" y2="240"/>
+              <line x1="440" y1="20" x2="440" y2="240"/>
+            </g>
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="middle">
+              <text x="60" y="252">0</text>
+              <text x="123" y="252">1</text>
+              <text x="187" y="252">2</text>
+              <text x="250" y="252">3</text>
+              <text x="313" y="252">4</text>
+              <text x="377" y="252">5</text>
+              <text x="440" y="252">6</text>
+            </g>
+            <g font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="end">
+              <text x="54" y="64">2</text>
+              <text x="54" y="104">1</text>
+              <text x="54" y="164">-1</text>
+              <text x="54" y="204">-2</text>
+            </g>
+            <text x="48" y="18" font-family="DM Sans" font-size="14" fill="#00c2ff" font-style="italic" text-anchor="end">v(t)</text>
+            <text x="446" y="146" font-family="DM Sans" font-size="12" fill="#9ca3af" font-style="italic">t</text>
+            <!-- v(t): starts (0, 1), peaks (1, 2), drops to (3, -2), rises back to (5, 0), peaks (6, 1.5)
+                 (0, 1)  -> (60, 90)
+                 (1, 2)  -> (123, 50)
+                 (3, -2) -> (250, 210)
+                 (5, 0)  -> (377, 130)
+                 (6, 1.5)-> (440, 70) -->
+            <path d="M 60 90 Q 90 40 123 50 Q 180 65 250 210 Q 320 240 377 130 Q 415 80 440 70"
+                  stroke="#00c2ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- highlight: speed increasing where v and a same sign -->
+            <!-- on (1, 3): v positive then negative; not consistent -->
+            <!-- specifically: speed increases when |v| is rising -->
+            <!-- region around (1, 2.5): v > 0 falling to 0 then v < 0 rising in magnitude => |v| growing
+                 actually let me reason cleanly: |v| increases when v and a have same sign.
+                 On (1, 2): v > 0 but decreasing (a < 0) => speed DEcreasing
+                 On (2, 3): v < 0 and decreasing (a < 0) => speed INcreasing  ← KEY
+                 On (3, 4): v < 0 but increasing toward 0 (a > 0) => speed decreasing
+                 On (4, 5): v < 0 increasing toward 0 (a > 0) => speed decreasing
+                 On (5, 6): v > 0 increasing (a > 0) => speed INcreasing  ← also -->
+            <!-- highlight (2,3) -->
+            <rect x="187" y="130" width="63" height="110" fill="rgba(245,200,66,0.08)"/>
+            <text x="218" y="124" font-family="Space Mono" font-size="9" fill="#f5c842" text-anchor="middle">|v| ↑</text>
+            <!-- highlight (5,6) -->
+            <rect x="377" y="20" width="63" height="110" fill="rgba(245,200,66,0.08)"/>
+            <text x="408" y="124" font-family="Space Mono" font-size="9" fill="#f5c842" text-anchor="middle">|v| ↑</text>
+          </svg>
+          <div class="graph-caption">// FIG 3. VELOCITY v(t) FOR 0 ≤ t ≤ 6  ·  YELLOW BANDS = SPEED INCREASING</div>
+        </div>
+
+        <div class="choices" id="q3-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(3, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">0 &lt; t &lt; 1 — because v is positive and increasing, the particle is speeding up</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(3, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">3 &lt; t &lt; 5 — because v is increasing (becoming less negative)</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(3, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">2 &lt; t &lt; 3 — because v &lt; 0 and v is decreasing, so |v| is growing</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(3, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">Speed is increasing whenever v &gt; 0, so on 0 &lt; t &lt; 2 and 5 &lt; t &lt; 6</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-3">
+        <div class="walk-title">// WALKTHROUGH — WHY (C) IS CORRECT</div>
+        <div class="walk-body">
+          <p>The single most important translation in particle motion:</p>
+          <p><code>SPEED = |v|</code> &nbsp; · &nbsp; <code>SPEED INCREASING ⟺ v and a have the SAME SIGN</code></p>
+          <p>That's it. Same sign — speeding up. Opposite signs — slowing down. On (2, 3) the velocity is negative <em style="color:var(--accent);font-style:normal">and</em> the acceleration is negative (v is decreasing further), so the particle is moving in the negative direction faster and faster. The magnitude |v| is growing — that is "speeding up".</p>
+          <p>Choice (C) is correct. So is the interval (5, 6) by the same logic — both v and a are positive there, so the particle is speeding up in the positive direction.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY (B) IS THE FAVORITE WRONG ANSWER</div>
+            <div class="walk-trap-body">
+              On (3, 5) the velocity is increasing — the curve is going uphill — but the velocity is still <strong>negative</strong>. So a > 0 and v &lt; 0: opposite signs. The particle is <strong>slowing down</strong>, not speeding up. "v increasing" ≠ "speed increasing". The fix: never answer a speed question by looking at slope alone. Always check the sign of v AND the sign of a.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-3">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Pick the closest match.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="2B" onclick="pickDiag(3, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Representation gap (Skill 2.B)</strong> — I treated "v increasing" as "speed increasing" without checking the sign of v.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(3, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I answered for velocity instead of speed.</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(3, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I didn't know the rule "v and a same sign ⟹ speeding up".</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(3, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I checked sign of v AND sign of a (slope of v).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-3" onclick="revealAnswer(3)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-3" onclick="completeStep(3)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-3">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 04 — Q20 PROPERTIES OF DEFINITE INTEGRALS                 -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-4">
+    <div class="step-head">
+      <div class="step-num">04</div>
+      <div class="step-meta">
+        <div class="step-name">Q20 — Properties of Definite Integrals</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Procedural Properties</b></span>
+          <span>// SKILL: <b class="warn">1.C — Apply Procedures Algebraically</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q20 was a <b>property-of-integrals</b> question — splitting, scaling, integrating a constant. <b>1 of 4</b> got it. The trap is on the constant.</div>
+      </div>
+
+      <p class="step-instruction">
+        Use the given values to evaluate the integral. The skill is <strong>combining properties</strong> (additivity, scalar multiple, constant integration) into one chain — without dropping any.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 1.C / Properties of ∫)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-family:var(--mono);font-size:14px;color:var(--text);line-height:1.9">
+          Given:&nbsp; <span style="color:var(--accent)">∫₀⁴ f(x) dx = 10</span>&nbsp;&nbsp;and&nbsp;&nbsp;<span style="color:var(--accent)">∫₂⁴ f(x) dx = 7</span><br>
+          Find:&nbsp;&nbsp; <span style="color:var(--gold)">∫₀² ( 3·f(x) − 2 ) dx</span>
+        </div>
+
+        <div class="choices" id="q4-choices">
+          <label class="choice-item" data-correct="true" onclick="selectMC(4, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">5</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(4, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">7</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(4, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">11</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(4, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">28</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-4">
+        <div class="walk-title">// WALKTHROUGH — WHY (A) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Step 1 — split the original integral using <strong>additivity</strong>:</p>
+          <p><code>∫₀⁴ f = ∫₀² f + ∫₂⁴ f</code> &nbsp;⟹&nbsp; <code>10 = ∫₀² f + 7</code> &nbsp;⟹&nbsp; <code>∫₀² f(x) dx = 3</code></p>
+          <p>Step 2 — break apart the target integral using the <strong>linearity</strong> property:</p>
+          <p><code>∫₀² ( 3f(x) − 2 ) dx = 3·∫₀² f(x) dx − ∫₀² 2 dx</code></p>
+          <p>Step 3 — evaluate each piece:</p>
+          <p><code>3·(3) − [ 2x ]₀² = 9 − 4 = 5</code></p>
+          <p>The constant 2 integrates to 2x, evaluated from 0 to 2, which equals <strong>4</strong> — not 2.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY (B) IS THE FAVORITE WRONG ANSWER</div>
+            <div class="walk-trap-body">
+              Choice (B) = 7 comes from computing <code>3·(3) − 2 = 7</code>, treating the integral of a constant as the constant itself. <strong>∫ₐᵇ k dx = k·(b − a)</strong>, not just k. Whenever you see a bare constant inside a definite integral, multiply by the interval length. Write that out as a habit before simplifying.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-4">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Be specific about which property tripped you.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(4, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I forgot that ∫ₐᵇ k dx = k(b − a). I treated the constant as if it integrated to itself.</div>
+          </div>
+          <div class="diag-option" data-label="PROC" onclick="pickDiag(4, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Procedural slip</strong> — I had the right setup but slipped on additivity (used + instead of −, or wrong subtraction).</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(4, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I tried to compute ∫₂⁴ instead of ∫₀² for the bounds.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(4, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I split, scaled, subtracted — and remembered the constant integrates with the interval length.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-4" onclick="revealAnswer(4)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-4" onclick="completeStep(4)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-4">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 05 — Q24 FTC                                               -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-5">
+    <div class="step-head">
+      <div class="step-num">05</div>
+      <div class="step-meta">
+        <div class="step-name">Q24 — Justifying with the FTC</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Justification</b></span>
+          <span>// SKILL: <b class="warn">3.D — Justify Using Analytic Results</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q24 was a <b>which-theorem-justifies-this</b> question. <b>1 of 4</b> got it. Most of the class picked an option that was a true statement but not the actual justification.</div>
+      </div>
+
+      <p class="step-instruction">
+        Let <strong>g(x) = ∫₂ˣ e<sup>−t²</sup> dt</strong>. Although the integrand has no elementary antiderivative,
+        we can still conclude that <strong>g′(x) = e<sup>−x²</sup></strong>. Which statement provides the
+        <em style="color:var(--accent);font-style:normal">justification</em> for that conclusion?
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 3.D / FTC)</div>
+        <div class="choices" id="q5-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(5, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">Because e<sup>−t²</sup> is continuous on every closed interval.</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(5, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">By the Fundamental Theorem of Calculus, Part 1: if f is continuous on [a, b], then d/dx [∫ₐˣ f(t) dt] = f(x).</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(5, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">By the Mean Value Theorem applied to g on the interval [2, x].</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(5, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">By the Chain Rule, since g is a composition of an integral and the variable x.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-5">
+        <div class="walk-title">// WALKTHROUGH — WHY (B) IS CORRECT</div>
+        <div class="walk-body">
+          <p>A justification question has a <strong>specific structure</strong>: it asks "which theorem has the exact form <code>IF [hypothesis] THEN [my conclusion]</code>?"</p>
+          <p>Your conclusion is: <code>d/dx [∫₂ˣ e<sup>−t²</sup> dt] = e<sup>−x²</sup></code></p>
+          <p>That conclusion has <strong>exactly the form</strong> of FTC Part 1: <code>d/dx [∫ₐˣ f(t) dt] = f(x)</code>. There is one theorem in the AB curriculum with this exact statement, and that is the only correct citation.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY (A) IS THE FAVORITE WRONG ANSWER</div>
+            <div class="walk-trap-body">
+              Choice (A) is a <strong>true fact</strong> — e<sup>−t²</sup> really is continuous everywhere. But continuity is the <strong>hypothesis</strong> of FTC, not the justification itself. The class kept picking "true and related" instead of "is the theorem named". To fix this, train yourself to ask: <em>"Could I write this conclusion as a direct quotation from a theorem in the textbook? If yes — name that theorem. That is the justification."</em>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-5">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Honesty unlocks the next phase.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="3D" onclick="pickDiag(5, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Justification gap (Skill 3.D)</strong> — I picked a "true statement" instead of identifying the theorem with the matching IF-THEN form.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(5, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I focused on computing g′(x) rather than naming the theorem that licenses the computation.</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(5, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I didn't recognize FTC Part 1 in its formal statement.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(5, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I matched my conclusion to the exact form of the theorem.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-5" onclick="revealAnswer(5)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-5" onclick="completeStep(5)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-5">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 06 — Q30 RIEMANN SUM                                       -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-6">
+    <div class="step-head">
+      <div class="step-num">06</div>
+      <div class="step-meta">
+        <div class="step-name">Q30 — Riemann Sum to Definite Integral</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Justification</b></span>
+          <span>// SKILL: <b class="warn">3.D — Justify Using Analytic Results</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q30 needed you to <b>read a Riemann sum and recover the integral it converges to</b>. <b>1 of 4</b> got it. The trap is in the bounds.</div>
+      </div>
+
+      <p class="step-instruction">
+        The expression below is a Riemann sum. Identify the definite integral it converges to as n → ∞.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 3.D / Riemann Sum)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-family:var(--mono);font-size:15px;color:var(--accent);line-height:1.9;text-align:center">
+          lim<sub>n→∞</sub>  Σ<sub>i=1</sub><sup>n</sup>  ( 1 + 2i/n )<sup>3</sup> · ( 2/n )
+        </div>
+
+        <div class="choices" id="q6-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(6, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">∫₀² x³ dx</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(6, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">∫₁³ x³ dx</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(6, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">∫₀³ x³ dx</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(6, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">∫₁² (1 + 2x)³ dx</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-6">
+        <div class="walk-title">// WALKTHROUGH — WHY (B) IS CORRECT</div>
+        <div class="walk-body">
+          <p>A right-endpoint Riemann sum has the structure: <code>Σ f(a + i·Δx) · Δx</code> where Δx = (b−a)/n.</p>
+          <p>Match the parts of the given sum:</p>
+          <p>
+            <code>Δx = 2/n</code> &nbsp;⟹&nbsp; <code>b − a = 2</code><br>
+            <code>x_i = 1 + 2i/n = a + i·Δx</code> &nbsp;⟹&nbsp; <code>a = 1</code><br>
+            <code>so b = a + 2 = 3</code>, &nbsp;and&nbsp; <code>f(x) = x³</code>
+          </p>
+          <p>The sum converges to <code>∫₁³ x³ dx</code>. The integrand is <strong>x³</strong>, NOT (1 + 2x)³ — once you've identified a, b, and Δx, the sample point becomes the variable of integration.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — TWO COMMON ERRORS</div>
+            <div class="walk-trap-body">
+              <strong>Trap A:</strong> Choice (A) — students see "2/n" and think the bounds are 0 and 2. But Δx tells you the <em>length</em> of the interval, not the endpoints. <br>
+              <strong>Trap D:</strong> Students keep "1 + 2x" inside the integral instead of recognizing it as the sample point that will be replaced by the variable. The fix: write a 3-line reverse-engineering ritual every time — (1) Δx →  (b − a). (2) x_i → a. (3) the part inside f(...) without the i becomes x.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-6">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Last one. Be precise.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="3D" onclick="pickDiag(6, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Justification gap (Skill 3.D)</strong> — I didn't run the reverse-engineering procedure (Δx, x_i, f) — I guessed from the shape of the sum.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(6, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread</strong> — I assumed Δx = 2/n meant the bounds were 0 to 2.</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(6, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I didn't remember the structure <code>Σ f(a + i·Δx) · Δx</code>.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(6, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I extracted Δx, recovered a and b, and identified f(x) = x³.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-6" onclick="revealAnswer(6)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-6" onclick="completeStep(6)" style="display:none">Lock In & Complete →</button>
+        <span class="gate-msg" id="gate-6">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- TIER 2 — PAIN POINTS (2/4 correct)                              -->
+  <!-- ============================================================== -->
+  <div class="tier-divider" style="padding: 0; margin: 28px 0 18px;">
+    <div class="tier-card t2">
+      <div class="tier-num">// TIER 2</div>
+      <div class="tier-title">PAIN POINTS</div>
+      <div class="tier-meta">3 questions · only 2 of 4 students correct · setup-under-pressure failures</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 07 — Q16 SEPARATION OF VARIABLES                          -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-7">
+    <div class="step-head">
+      <div class="step-num">07</div>
+      <div class="step-meta">
+        <div class="step-name">Q16 — Separation of Variables</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Procedural Setup</b></span>
+          <span>// SKILL: <b class="warn">1.E — Apply Procedures</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q16 was a <b>differential equation with an initial condition</b>. <b>2 of 4</b> got it. The trap is solving the integration but skipping a step in the algebra.</div>
+      </div>
+
+      <p class="step-instruction">
+        Solve the initial-value problem. Separate variables, integrate both sides, apply the initial condition, then solve for y as a function of x.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 1.E / Separation of Variables)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-family:var(--mono);font-size:14px;color:var(--text);line-height:1.9">
+          Given:&nbsp; <span style="color:var(--accent)">dy/dx = 2x / y</span>,&nbsp; <span style="color:var(--accent)">y(0) = 3</span><br>
+          Find:&nbsp;&nbsp; <span style="color:var(--gold)">y as a function of x</span>
+        </div>
+
+        <div class="choices" id="q7-choices">
+          <label class="choice-item" data-correct="true" onclick="selectMC(7, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">y = √(2x² + 9)</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(7, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">y = 2x² + 9</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(7, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">y = √(x² + 9)</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(7, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">y = √(4x² + 9)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-7">
+        <div class="walk-title">// WALKTHROUGH — WHY (A) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Step 1 — separate variables:</p>
+          <p><code>y dy = 2x dx</code></p>
+          <p>Step 2 — integrate both sides:</p>
+          <p><code>y² / 2 = x² + C</code></p>
+          <p>Step 3 — apply y(0) = 3 to find C:</p>
+          <p><code>9 / 2 = 0 + C</code> &nbsp;⟹&nbsp; <code>C = 9 / 2</code></p>
+          <p>Step 4 — solve for y, multiplying through by 2:</p>
+          <p><code>y² = 2x² + 9</code> &nbsp;⟹&nbsp; <code>y = √(2x² + 9)</code></p>
+          <p>Take the <strong>positive</strong> branch because y(0) = 3 is positive.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — THREE WAYS TO SLIP</div>
+            <div class="walk-trap-body">
+              <strong>Trap B:</strong> stops at y² = 2x² + 9 and forgets to take the square root. <br>
+              <strong>Trap C:</strong> integrates ∫2x dx as x² and then divides by something extra, losing the factor of 2 that survives multiplying through.<br>
+              <strong>Trap D:</strong> integrates ∫2x as 2x², not x². The fix: every separation problem ends with a substitution check — plug x = 0 back in and confirm you get y = 3.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-7">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Where in the four-step chain did you fall off?</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="PROC" onclick="pickDiag(7, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Procedural slip</strong> — I separated and integrated correctly but slipped on the algebra (lost a factor, forgot to square-root, dropped a 2).</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(7, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I'm not confident on how to separate dy/dx into y dy = 2x dx, or didn't know to integrate both sides.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(7, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I forgot to apply the initial condition y(0) = 3 to solve for C.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(7, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I separated, integrated, applied IC, and verified with substitution.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-7" onclick="revealAnswer(7)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-7" onclick="completeStep(7)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-7">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 08 — Q23 VOLUME SQUARE CROSS SECTIONS                     -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-8">
+    <div class="step-head">
+      <div class="step-num">08</div>
+      <div class="step-meta">
+        <div class="step-name">Q23 — Volume by Square Cross Sections</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Procedural Setup</b></span>
+          <span>// SKILL: <b class="warn">1.E — Apply Procedures</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q23 was a <b>volumes-by-cross-sections</b> question. <b>2 of 4</b> got it. The trap is reaching for the disk-method reflex when the problem has nothing to do with rotation.</div>
+      </div>
+
+      <p class="step-instruction">
+        The base is a 2D region. Above each x in that base, build a <strong>square</strong> standing perpendicular to the x-axis with one side lying on the base. Find the volume of that solid.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 1.E / Volume — Cross Sections)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-size:14px;color:var(--text);line-height:1.9">
+          The base of a solid is the region in the xy-plane bounded by <code style="font-family:var(--mono);color:var(--accent)">y = √x</code>, <code style="font-family:var(--mono);color:var(--accent)">y = 0</code>, and <code style="font-family:var(--mono);color:var(--accent)">x = 4</code>.
+          Cross sections perpendicular to the x-axis are <strong>squares</strong>. Find the volume of the solid.
+        </div>
+
+        <div class="graph-wrap">
+          <svg viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg">
+            <!-- axes -->
+            <line x1="60" y1="180" x2="430" y2="180" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+            <text x="446" y="184" font-family="DM Sans" font-size="12" fill="#9ca3af">x</text>
+            <text x="50" y="18" font-family="DM Sans" font-size="12" fill="#9ca3af" text-anchor="end">y</text>
+            <!-- y = sqrt(x) curve from x=0 to x=4 — pixel scale: x in [0,4] -> [60, 380], y in [0, 2] -> [180, 60]
+                 sample: x=0 -> (60, 180), x=1 -> (140, 140), x=2 -> (220, 119), x=3 -> (300, 111), x=4 -> (380, 100) -->
+            <path d="M 60 180 Q 140 100 380 100" stroke="#3effa0" stroke-width="2" fill="none"/>
+            <text x="385" y="96" font-family="Space Mono" font-size="11" fill="#3effa0">y = √x</text>
+            <!-- shaded base region -->
+            <path d="M 60 180 Q 140 100 380 100 L 380 180 Z" fill="rgba(62,255,160,0.08)" stroke="none"/>
+            <!-- representative square cross section at x = 2.5 (pixel ~260), side = sqrt(2.5) ~1.58 (pixel y from 180 to ~115) -->
+            <rect x="245" y="115" width="30" height="65" fill="rgba(0,194,255,0.14)" stroke="#00c2ff" stroke-width="1.5"/>
+            <text x="260" y="195" font-family="Space Mono" font-size="10" fill="#00c2ff" text-anchor="middle">side = √x</text>
+            <!-- x = 4 line -->
+            <line x1="380" y1="180" x2="380" y2="100" stroke="rgba(255,255,255,0.2)" stroke-dasharray="3 3"/>
+            <text x="380" y="200" font-family="Space Mono" font-size="10" fill="#9ca3af" text-anchor="middle">x = 4</text>
+          </svg>
+          <div class="graph-caption">// FIG 4. BASE REGION + REPRESENTATIVE SQUARE CROSS SECTION</div>
+        </div>
+
+        <div class="choices" id="q8-choices">
+          <label class="choice-item" data-correct="true" onclick="selectMC(8, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">8</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(8, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">16/3</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(8, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">8π</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(8, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">32</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-8">
+        <div class="walk-title">// WALKTHROUGH — WHY (A) IS CORRECT</div>
+        <div class="walk-body">
+          <p>For cross-section problems, the volume formula is:</p>
+          <p><code>V = ∫ₐᵇ A(x) dx</code> &nbsp;where A(x) is the AREA of one cross section</p>
+          <p>The cross section is a <strong>square</strong> with side length equal to the distance from y = 0 to y = √x — so side = √x. The area of the square is:</p>
+          <p><code>A(x) = (side)² = (√x)² = x</code></p>
+          <p>Then:</p>
+          <p><code>V = ∫₀⁴ x dx = x²/2 |₀⁴ = 16/2 = 8</code></p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY THE WRONG ANSWERS LOOK RIGHT</div>
+            <div class="walk-trap-body">
+              <strong>Trap B (16/3):</strong> Forgot to square the side — integrated √x instead of (√x)². <br>
+              <strong>Trap C (8π):</strong> Reflex-applied the disk method (V = π∫r² dx). The π only appears for circular cross sections, not squares.<br>
+              <strong>Trap D (32):</strong> Treated the side as 2√x (using the height of the curve as a diameter). Always read the cross-section shape carefully — the question tells you exactly what A(x) needs to be.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-8">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Pick what tripped you.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(8, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I confused this with a disk/rotation problem and added a π that doesn't belong.</div>
+          </div>
+          <div class="diag-option" data-label="PROC" onclick="pickDiag(8, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Procedural slip</strong> — I forgot to square the side length before integrating.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(8, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I read "square cross sections" but used the wrong side length.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(8, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I identified A(x) = (√x)² = x and integrated.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-8" onclick="revealAnswer(8)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-8" onclick="completeStep(8)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-8">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 09 — Q28 RELATED RATES                                     -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-9">
+    <div class="step-head">
+      <div class="step-num">09</div>
+      <div class="step-meta">
+        <div class="step-name">Q28 — Related Rates (Sphere)</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Procedural Setup</b></span>
+          <span>// SKILL: <b class="warn">1.E — Apply Procedures</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q28 was a classic <b>related-rates with a sphere</b>. <b>2 of 4</b> got it. The trap is dropping the chain rule factor on the radius.</div>
+      </div>
+
+      <p class="step-instruction">
+        Differentiate the volume formula <em>implicitly with respect to time</em>, substitute the known values, and solve for the unknown rate. Show every step — this is exactly the protocol from your Operation: Draining the Reservoir mission.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 1.E / Related Rates)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-size:14px;color:var(--text);line-height:1.9">
+          A spherical balloon is being inflated so that its volume is increasing at <code style="font-family:var(--mono);color:var(--accent)">36π in³ / sec</code>.
+          How fast is the <strong>radius</strong> increasing at the moment when <code style="font-family:var(--mono);color:var(--accent)">r = 3 in</code>?
+        </div>
+
+        <div class="choices" id="q9-choices">
+          <label class="choice-item" data-correct="true" onclick="selectMC(9, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">1 in / sec</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(9, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">4 in / sec</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(9, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">9 in / sec</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(9, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">1/9 in / sec</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-9">
+        <div class="walk-title">// WALKTHROUGH — WHY (A) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Volume of a sphere: <code>V = (4/3) π r³</code></p>
+          <p>Differentiate with respect to t (chain rule on r since r is a function of time):</p>
+          <p><code>dV/dt = 4 π r² · (dr/dt)</code></p>
+          <p>Substitute the known values: dV/dt = 36π and r = 3:</p>
+          <p><code>36π = 4π (3²) · (dr/dt) = 36π · (dr/dt)</code></p>
+          <p>Divide both sides by 36π:</p>
+          <p><code>dr/dt = 1 in / sec</code></p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — THE CHAIN RULE OMISSION</div>
+            <div class="walk-trap-body">
+              The most common error is differentiating V = (4/3)πr³ as if r were a constant variable, getting dV/dt = 4πr² with no <strong>(dr/dt)</strong> factor. That's not implicit differentiation — that's just plain differentiation. Whenever a related-rates problem asks for dr/dt, every variable that depends on time picks up a derivative factor when you differentiate. The fix: <em>label the chain-rule factors out loud</em> as you differentiate. "Derivative of r³ with respect to t is 3r² times dr/dt."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-9">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Be specific.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(9, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I forgot the chain rule factor (dr/dt) when differentiating r³ with respect to t.</div>
+          </div>
+          <div class="diag-option" data-label="PROC" onclick="pickDiag(9, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Procedural slip</strong> — I had the right setup but slipped on the algebra solving for dr/dt.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(9, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I solved for dV/dt instead of dr/dt, or used a different formula.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(9, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I differentiated implicitly, kept the (dr/dt) factor, substituted, solved.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-9" onclick="revealAnswer(9)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-9" onclick="completeStep(9)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-9">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- TIER 3 — NEAR-MISSES (3/4 correct)                              -->
+  <!-- ============================================================== -->
+  <div class="tier-divider" style="padding: 0; margin: 28px 0 18px;">
+    <div class="tier-card t3">
+      <div class="tier-num">// TIER 3</div>
+      <div class="tier-title">NEAR-MISSES</div>
+      <div class="tier-meta">3 questions · 3 of 4 students correct · the gap is real, just narrower — close it before it widens</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 10 — Q22 SLOPE FIELD                                       -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-10">
+    <div class="step-head">
+      <div class="step-num">10</div>
+      <div class="step-meta">
+        <div class="step-name">Q22 — Reading a Slope Field</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Representations</b></span>
+          <span>// SKILL: <b class="warn">2.D — Identify Differential Equations</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q22 asked you to <b>match a slope field to its differential equation</b>. <b>3 of 4</b> got it — but for the one student who missed it, this same skill will reappear on the AP exam.</div>
+      </div>
+
+      <p class="step-instruction">
+        A slope field shows the value of dy/dx at every point in the plane. To match it to an equation, ask: <strong>does the slope depend only on x, only on y, or on both?</strong> Where are the slopes zero? Positive? Negative?
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 2.D / Slope Field)</div>
+
+        <div class="graph-wrap">
+          <svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- axes -->
+            <line x1="40" y1="130" x2="440" y2="130" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="240" y1="20" x2="240" y2="240" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <!-- slope field for dy/dx = x: slopes at gridpoints (xi, yj) where slope = xi
+                 grid: xi = -3..3, yj = -2..2 in math units. pixel scale: x: 240 + 50*xi, y: 130 - 40*yj
+                 segment length = 14, half = 7 -->
+            <g stroke="#3effa0" stroke-width="1.5" stroke-linecap="round">
+              <!-- For each grid point, draw segment of slope xi -->
+              <!-- xi=-3 (x_pix=90): slope=-3 -> dy/dx = -3, so for half-length L, dx = L/sqrt(1+9), dy = -3*dx -->
+              <!-- Simpler: I'll just compute pixel offsets directly. For slope m, segment endpoints offset by (cos θ, -sin θ)*halfLen where tan θ = m. cos θ = 1/sqrt(1+m²), sin θ = m/sqrt(1+m²). Half-len = 9. -->
+              <!-- xi=-3, slope=-3: cos=1/√10≈0.316, sin=-3/√10≈-0.949. dx=2.85, dy=-(-8.54)=+8.54 (y in screen flips so: dy_screen = -(-8.54)=+8.54... wait let me reconsider.
+                   In math, slope m means line goes (dx, m*dx). On screen y is flipped, so: drawing direction (dx_pix, -m*dx_pix) for half-length L.
+                   So endpoints: (cx ± L/√(1+m²), cy ∓ m*L/√(1+m²)).
+                   For m=-3, L=9: ±9/√10 ≈ ±2.85, and ∓(-3)·2.85 = ±8.54
+                   So segment: (cx-2.85, cy-8.54) to (cx+2.85, cy+8.54). -->
+              
+              <!-- Generate slope field for dy/dx = x. I'll use 7 columns x 5 rows. 
+                   Columns: x = -3, -2, -1, 0, 1, 2, 3 (px: 90, 140, 190, 240, 290, 340, 390)
+                   Rows: y = -2, -1, 0, 1, 2 (py: 210, 170, 130, 90, 50) -->
+              
+              <!-- COLUMN x=-3 (cx=90, slope=-3): dx=2.85, dy=8.54 (since -m*dx = 3*2.85 = 8.54)
+                   Wait m=-3, -m=3, so dy_pix = 3*2.85 = 8.54. Endpoints (cx-2.85, cy-8.54) and (cx+2.85, cy+8.54) -->
+              <line x1="87.15" y1="201.46" x2="92.85" y2="218.54"/>
+              <line x1="87.15" y1="161.46" x2="92.85" y2="178.54"/>
+              <line x1="87.15" y1="121.46" x2="92.85" y2="138.54"/>
+              <line x1="87.15" y1="81.46"  x2="92.85" y2="98.54"/>
+              <line x1="87.15" y1="41.46"  x2="92.85" y2="58.54"/>
+
+              <!-- COLUMN x=-2 (cx=140, slope=-2): dx=4.02, dy=8.05 -->
+              <line x1="135.98" y1="201.95" x2="144.02" y2="218.05"/>
+              <line x1="135.98" y1="161.95" x2="144.02" y2="178.05"/>
+              <line x1="135.98" y1="121.95" x2="144.02" y2="138.05"/>
+              <line x1="135.98" y1="81.95"  x2="144.02" y2="98.05"/>
+              <line x1="135.98" y1="41.95"  x2="144.02" y2="58.05"/>
+
+              <!-- COLUMN x=-1 (cx=190, slope=-1): dx=6.36, dy=6.36 -->
+              <line x1="183.64" y1="203.64" x2="196.36" y2="216.36"/>
+              <line x1="183.64" y1="163.64" x2="196.36" y2="176.36"/>
+              <line x1="183.64" y1="123.64" x2="196.36" y2="136.36"/>
+              <line x1="183.64" y1="83.64"  x2="196.36" y2="96.36"/>
+              <line x1="183.64" y1="43.64"  x2="196.36" y2="56.36"/>
+
+              <!-- COLUMN x=0 (cx=240, slope=0): horizontal -->
+              <line x1="231" y1="210" x2="249" y2="210"/>
+              <line x1="231" y1="170" x2="249" y2="170"/>
+              <line x1="231" y1="130" x2="249" y2="130"/>
+              <line x1="231" y1="90"  x2="249" y2="90"/>
+              <line x1="231" y1="50"  x2="249" y2="50"/>
+
+              <!-- COLUMN x=1 (cx=290, slope=1): dx=6.36, dy=-6.36 -->
+              <line x1="283.64" y1="216.36" x2="296.36" y2="203.64"/>
+              <line x1="283.64" y1="176.36" x2="296.36" y2="163.64"/>
+              <line x1="283.64" y1="136.36" x2="296.36" y2="123.64"/>
+              <line x1="283.64" y1="96.36"  x2="296.36" y2="83.64"/>
+              <line x1="283.64" y1="56.36"  x2="296.36" y2="43.64"/>
+
+              <!-- COLUMN x=2 (cx=340, slope=2): dx=4.02, dy=-8.05 -->
+              <line x1="335.98" y1="218.05" x2="344.02" y2="201.95"/>
+              <line x1="335.98" y1="178.05" x2="344.02" y2="161.95"/>
+              <line x1="335.98" y1="138.05" x2="344.02" y2="121.95"/>
+              <line x1="335.98" y1="98.05"  x2="344.02" y2="81.95"/>
+              <line x1="335.98" y1="58.05"  x2="344.02" y2="41.95"/>
+
+              <!-- COLUMN x=3 (cx=390, slope=3): dx=2.85, dy=-8.54 -->
+              <line x1="387.15" y1="218.54" x2="392.85" y2="201.46"/>
+              <line x1="387.15" y1="178.54" x2="392.85" y2="161.46"/>
+              <line x1="387.15" y1="138.54" x2="392.85" y2="121.46"/>
+              <line x1="387.15" y1="98.54"  x2="392.85" y2="81.46"/>
+              <line x1="387.15" y1="58.54"  x2="392.85" y2="41.46"/>
+            </g>
+            <!-- axis labels -->
+            <text x="446" y="134" font-family="DM Sans" font-size="12" fill="#9ca3af">x</text>
+            <text x="246" y="18" font-family="DM Sans" font-size="12" fill="#9ca3af">y</text>
+            <!-- Highlight x=0 column -->
+            <rect x="225" y="20" width="30" height="220" fill="rgba(245,200,66,0.06)"/>
+            <text x="240" y="14" font-family="Space Mono" font-size="9" fill="#f5c842" text-anchor="middle">slope = 0 here ↓</text>
+          </svg>
+          <div class="graph-caption">// FIG 5. SLOPE FIELD — WHICH DIFFERENTIAL EQUATION GENERATED IT?</div>
+        </div>
+
+        <div class="choices" id="q10-choices">
+          <label class="choice-item" data-correct="true" onclick="selectMC(10, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">dy/dx = x</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(10, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">dy/dx = y</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(10, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">dy/dx = x + y</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(10, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">dy/dx = xy</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-10">
+        <div class="walk-title">// WALKTHROUGH — WHY (A) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Run the <strong>three-test diagnostic</strong> on the slope field:</p>
+          <p><strong>Test 1 — does the slope depend on y?</strong> Look at any vertical column (fix x, vary y). The slopes are identical up and down the column. So the slope does <em>not</em> depend on y. → eliminates (B), (C), (D).</p>
+          <p><strong>Test 2 — does the slope depend on x?</strong> Look at any horizontal row (fix y, vary x). The slopes change with x. So the slope <em>does</em> depend on x. Confirms (A).</p>
+          <p><strong>Test 3 — sanity check the values.</strong> At x = 0, slopes are horizontal (slope = 0 ✓). At x = 1, slopes have slope 1 (45° upward ✓). At x = -2, slopes are steep negative ✓. All consistent with dy/dx = x.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY (B) FOOLS PEOPLE</div>
+            <div class="walk-trap-body">
+              Choice (B) dy/dx = y has a similar look — slopes are 0 at y = 0 and grow as |y| grows. But (B) has slopes that are zero on the <strong>x-axis</strong> (a horizontal line), while this field has slopes zero on the <strong>y-axis</strong> (a vertical line). Always identify the "zero line" — that one detail picks the right equation.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-10">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">If you got this right, "G4" is fine — log it.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="2B" onclick="pickDiag(10, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Representation gap (Skill 2.D)</strong> — I didn't run the depend-on-x vs depend-on-y test; I matched on "vibes".</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(10, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I wasn't sure how to read a slope field at all.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(10, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I confused which axis the zero-slope line was on.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(10, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I tested whether slope depends on x, on y, then verified specific points.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-10" onclick="revealAnswer(10)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-10" onclick="completeStep(10)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-10">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 11 — Q27 MEANING OF DERIVATIVE                            -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-11">
+    <div class="step-head">
+      <div class="step-num">11</div>
+      <div class="step-meta">
+        <div class="step-name">Q27 — Meaning of Derivative in Context</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Justification</b></span>
+          <span>// SKILL: <b class="warn">3.F — Communicate Reasoning in Context</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q27 was a <b>real-world interpretation</b> question. <b>3 of 4</b> got it. The trap is confusing the derivative value (a rate) with the function value (a quantity).</div>
+      </div>
+
+      <p class="step-instruction">
+        Real-world interpretation problems will appear on the AP exam free-response in nearly every form. The skill is reading a derivative value as a <strong>rate at an instant</strong> — with units of [output per input] — and writing one clean sentence in context.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 3.F / Meaning of Derivative)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-size:14px;color:var(--text);line-height:1.9">
+          A water tank holds <code style="font-family:var(--mono);color:var(--accent)">W(t)</code> gallons of water at time <code style="font-family:var(--mono);color:var(--accent)">t</code> hours.
+          Suppose <code style="font-family:var(--mono);color:var(--accent)">W′(5) = −12</code>. Which statement best interprets this in the context of the problem?
+        </div>
+
+        <div class="choices" id="q11-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(11, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">The tank holds 12 gallons less than it did 5 hours ago.</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(11, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">The tank holds 12 gallons at time t = 5 hours.</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(11, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">At time t = 5 hours, water is leaving the tank at a rate of 12 gallons per hour.</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(11, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">Between t = 0 and t = 5, the average rate of change of W was −12 gallons per hour.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-11">
+        <div class="walk-title">// WALKTHROUGH — WHY (C) IS CORRECT</div>
+        <div class="walk-body">
+          <p>A clean interpretation of W′(5) = −12 has <strong>four required components</strong>:</p>
+          <p>① <strong>WHEN</strong> → "At time t = 5 hours"<br>
+             ② <strong>WHAT</strong> → "the volume of water in the tank is changing"<br>
+             ③ <strong>HOW FAST + DIRECTION</strong> → "decreasing at 12 (negative sign)"<br>
+             ④ <strong>UNITS</strong> → "gallons per hour"</p>
+          <p>Choice (C) hits all four. "Water is leaving the tank" captures the negative sign as a direction (decreasing), "12 gallons per hour" gives the magnitude with proper rate units, and "at time t = 5 hours" anchors the instant.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — THREE WAYS TO MISINTERPRET A DERIVATIVE</div>
+            <div class="walk-trap-body">
+              <strong>Trap A:</strong> Treats W′(5) as a <em>cumulative</em> change (gallons total) rather than an <em>instantaneous</em> rate. <br>
+              <strong>Trap B:</strong> Confuses W′ with W — gives an amount, not a rate.<br>
+              <strong>Trap D:</strong> Confuses an <em>instantaneous</em> derivative with an <em>average</em> rate of change over an interval. <br>
+              The fix: every derivative interpretation has UNITS = [output unit] / [input unit]. If your interpretation doesn't say "per [input unit]", it's wrong.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-11">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Pick the closest match.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="3D" onclick="pickDiag(11, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Justification gap (Skill 3.F)</strong> — I confused W′(5) with a quantity instead of a rate, or used wrong units.</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(11, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I forgot the difference between instantaneous rate and average rate of change.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(11, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I missed the negative sign and described the tank as filling.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(11, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I included WHEN, WHAT, HOW FAST + DIRECTION, and UNITS.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-11" onclick="revealAnswer(11)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-11" onclick="completeStep(11)" style="display:none">Lock In & Advance →</button>
+        <span class="gate-msg" id="gate-11">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PHASE 12 — Q29 VERTICAL ASYMPTOTES                              -->
+  <!-- ============================================================== -->
+  <div class="step-card locked" id="step-12">
+    <div class="step-head">
+      <div class="step-num">12</div>
+      <div class="step-meta">
+        <div class="step-name">Q29 — Vertical Asymptotes vs Removable Discontinuities</div>
+        <div class="step-hint">
+          <span>// QUESTION TYPE: <b>Representations</b></span>
+          <span>// SKILL: <b class="warn">2.B — Connecting Representations</b></span>
+        </div>
+      </div>
+      <span class="step-status">LOCKED</span>
+    </div>
+    <div class="step-body">
+      <div class="perf-strip">
+        <div class="perf-icon">!</div>
+        <div class="perf-text">Q29 closes the loop on Skill 2.B — back to where the trouble started. <b>3 of 4</b> got it. The trap: calling every denominator zero an asymptote without checking for cancellation.</div>
+      </div>
+
+      <p class="step-instruction">
+        Vertical asymptotes occur where the function <strong>blows up</strong> — not just wherever the denominator is zero. If a factor cancels with the numerator, that point is a <em style="color:var(--accent);font-style:normal">hole</em>, not an asymptote.
+      </p>
+
+      <div class="q-card">
+        <div class="q-tag">// EQUIVALENT PRACTICE PROBLEM (Topic-Skill match: 2.B / Asymptotes)</div>
+
+        <div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:18px 22px;margin:14px 0;font-family:var(--mono);font-size:14px;color:var(--text);line-height:1.9;text-align:center">
+          f(x) = ( x² − 4 ) / ( x² − 5x + 6 )
+        </div>
+
+        <div class="choices" id="q12-choices">
+          <label class="choice-item" data-correct="false" onclick="selectMC(12, this, 'A')">
+            <div class="choice-letter">A</div>
+            <span class="choice-text">f has vertical asymptotes at x = 2 and x = 3.</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(12, this, 'B')">
+            <div class="choice-letter">B</div>
+            <span class="choice-text">f has a vertical asymptote only at x = 2.</span>
+          </label>
+          <label class="choice-item" data-correct="true" onclick="selectMC(12, this, 'C')">
+            <div class="choice-letter">C</div>
+            <span class="choice-text">f has a vertical asymptote only at x = 3 (and a removable discontinuity at x = 2).</span>
+          </label>
+          <label class="choice-item" data-correct="false" onclick="selectMC(12, this, 'D')">
+            <div class="choice-letter">D</div>
+            <span class="choice-text">f has no vertical asymptotes because the function simplifies.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="walkthrough" id="walk-12">
+        <div class="walk-title">// WALKTHROUGH — WHY (C) IS CORRECT</div>
+        <div class="walk-body">
+          <p>Always factor before declaring asymptotes:</p>
+          <p><code>f(x) = ( x − 2 )( x + 2 ) / ( x − 2 )( x − 3 )</code></p>
+          <p>The factor <code>(x − 2)</code> cancels — but only as long as x ≠ 2. So the simplified function is:</p>
+          <p><code>f(x) = ( x + 2 ) / ( x − 3 )</code>, &nbsp;for x ≠ 2</p>
+          <p>Now check the limits:</p>
+          <p>① At x = 2 — the simplified function is defined, value (2+2)/(2-3) = -4. The original f is undefined here, but the limit exists. → <strong>removable discontinuity (hole)</strong>, not an asymptote.<br>
+             ② At x = 3 — the denominator is zero and the numerator is nonzero (5). The function blows up. → <strong>vertical asymptote</strong>.</p>
+          <div class="walk-trap">
+            <div class="walk-trap-title">// TRAP — WHY (A) IS THE FAVORITE WRONG ANSWER</div>
+            <div class="walk-trap-body">
+              The instinct is "denominator equals zero ⟹ vertical asymptote". That's <strong>almost</strong> right — but only when the numerator is nonzero at the same point. If both numerator and denominator hit zero, you have to factor and check for cancellation. The fix: every rational-function asymptote question begins with one move — <em>factor numerator and denominator completely, then cancel</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-block" id="diag-12">
+        <div class="diag-title">// SELF-LABEL — WHICH GAP MATCHES YOUR REASONING?</div>
+        <div class="diag-prompt">Final phase. Be precise.</div>
+        <div class="diag-options">
+          <div class="diag-option" data-label="2B" onclick="pickDiag(12, this)">
+            <div class="diag-letter">G1</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Representation gap (Skill 2.B)</strong> — I labeled both denominator zeros as asymptotes without factoring first.</div>
+          </div>
+          <div class="diag-option" data-label="CONCEPT" onclick="pickDiag(12, this)">
+            <div class="diag-letter">G2</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Concept gap</strong> — I didn't know the difference between a removable discontinuity (hole) and a vertical asymptote.</div>
+          </div>
+          <div class="diag-option" data-label="MISREAD" onclick="pickDiag(12, this)">
+            <div class="diag-letter">G3</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Misread the question</strong> — I picked (D) because I cancelled the factor and forgot that x = 2 still creates a hole.</div>
+          </div>
+          <div class="diag-option" data-label="CORRECT" onclick="pickDiag(12, this)">
+            <div class="diag-letter">G4</div>
+            <div class="diag-option-text"><strong style="color:var(--text)">Got it right</strong> — I factored, cancelled, identified the asymptote at x = 3 and the hole at x = 2.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="reveal-btn-12" onclick="revealAnswer(12)" disabled>Submit & Reveal →</button>
+        <button class="btn btn-primary" id="advance-btn-12" onclick="completeStep(12)" style="display:none">Lock In & Complete →</button>
+        <span class="gate-msg" id="gate-12">// select an answer to continue</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGNOSTIC TAXONOMY (replaces rubric)                           -->
+<!-- ============================================================== -->
+<div class="section-divider">
+  <span class="section-divider-label">// PART 2 — DIAGNOSTIC TAXONOMY · LABEL · IDENTIFY · CONSOLIDATE</span>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="rubric-section">
+  <div class="rubric-header">
+    <div class="badge">DIAGNOSTIC RUBRIC</div>
+    <div class="rubric-title">A Field Guide to Your Own Errors</div>
+  </div>
+
+  <p class="rubric-intro">
+    This is not a scoring rubric — no points are added or taken away here. It is a <strong style="color:var(--text)">diagnostic taxonomy</strong>: a structured way to
+    name the gap behind each wrong answer, so the next time you see the same trap you recognize it before you fall in. For every question you missed, find your row,
+    read the <strong style="color:var(--accent2)">signature</strong>, and run the <strong style="color:var(--accent)">consolidation move</strong>.
+  </p>
+
+  <div class="taxonomy-grid">
+    <div class="tax-cell header">Label the Gap</div>
+    <div class="tax-cell header">Identify the Signature</div>
+    <div class="tax-cell header">Consolidate the Move</div>
+
+    <!-- ROW 1: Skill 2.B / 2.D — Representation Translation -->
+    <div class="tax-cell label-cell">
+      <span class="tax-skill-tag">SKILL 2.B / 2.D</span>
+      <div class="tax-label-text">Representation Translation</div>
+    </div>
+    <div class="tax-cell">
+      You can read the graph, but you confuse <em style="color:var(--accent3);font-style:normal">what the graph is OF</em>. The graph is f′ and you treat it as f. Or you check one condition (sign) when the question wants two (sign + slope). Or you label every denominator zero an asymptote without factoring first.
+      <div class="signature">"I picked the interval where f′ was negative when the question asked about concavity."</div>
+    </div>
+    <div class="tax-cell">
+      Before answering any graph problem, write <span class="move">one sentence at the top of your work:</span> "This graph is f′. So where f′ is [property], f is [translated property]." Build a 2-column translation table and refer back to it before locking your answer.
+    </div>
+
+    <!-- ROW 2: Skill 3.D / 3.F — Justification with Theorems -->
+    <div class="tax-cell label-cell">
+      <span class="tax-skill-tag justify">SKILL 3.D / 3.F</span>
+      <div class="tax-label-text">Justification &amp; Interpretation</div>
+    </div>
+    <div class="tax-cell">
+      You arrive at a correct conclusion but cite a <em style="color:var(--accent3);font-style:normal">true fact</em> instead of the <em style="color:var(--accent);font-style:normal">named theorem</em>. Or you interpret a derivative value as a quantity instead of a rate. Or you forget the units that turn the number into a sentence.
+      <div class="signature">"I picked the option that mentioned the right idea — but it wasn't the actual theorem (or the right units)."</div>
+    </div>
+    <div class="tax-cell">
+      Memorize each theorem in <span class="move">strict IF-THEN form</span> on a notecard: FTC1, FTC2, MVT, IVT, EVT, Squeeze. For interpretation: include WHEN, WHAT, HOW FAST + DIRECTION, UNITS — every time.
+    </div>
+
+    <!-- ROW 3: Misread the question -->
+    <div class="tax-cell label-cell warn">
+      <span class="tax-skill-tag misread">PROCESS</span>
+      <div class="tax-label-text">Misread the Question</div>
+    </div>
+    <div class="tax-cell">
+      You solved a problem — just not the one that was asked. Confused dh/dt with dV/dt. Answered for "velocity" when asked for "speed". Found "decreasing" when asked for "concave down".
+      <div class="signature">"My algebra was clean but I solved for the wrong unknown."</div>
+    </div>
+    <div class="tax-cell">
+      Before any algebra, <span class="move">circle the verb and underline the unknown</span> in the prompt. After computing, re-read the question one more time and confirm your answer matches the <em>thing</em> being asked for.
+    </div>
+
+    <!-- ROW 4: Concept gap -->
+    <div class="tax-cell label-cell warn">
+      <span class="tax-skill-tag proc">CONCEPT</span>
+      <div class="tax-label-text">Concept Gap</div>
+    </div>
+    <div class="tax-cell">
+      You don't fully own the underlying definition. You know "concave up" sounds like a smile but cannot translate it to f″ &gt; 0. You know FTC exists but cannot state it.
+      <div class="signature">"I had to guess because I didn't know the definition cold."</div>
+    </div>
+    <div class="tax-cell">
+      Build a <span class="move">one-page concept sheet</span>: every key term in the unit, defined in your own words AND in formal notation, with one example. Re-derive it from the sheet at least twice before exam day.
+    </div>
+
+    <!-- ROW 5: Procedural slip -->
+    <div class="tax-cell label-cell bad">
+      <span class="tax-skill-tag misread">EXECUTION</span>
+      <div class="tax-label-text">Procedural Slip</div>
+    </div>
+    <div class="tax-cell">
+      Your reasoning was right but a sign got dropped, an algebra step got skipped, or a number got copied wrong. The thinking was sound; the execution was rushed.
+      <div class="signature">"I knew exactly how to do it. I just wrote the wrong thing down."</div>
+    </div>
+    <div class="tax-cell">
+      Slow down on the substitution step. Write each substitution <span class="move">on its own line</span>, no shortcuts. Verify the sign of every term before simplifying. The class is at 86% on Skill 1.E — the issue isn't ability, it's pace.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CLASS DATA LOG (replaces assessment rationale)                   -->
+<!-- ============================================================== -->
+<div class="section-divider">
+  <span class="section-divider-label">// PART 3 — CLASS DATA LOG · TEACHER-FACING SUMMARY</span>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="rationale-block">
+  <div class="rationale-card">
+    <div class="scenario-label">// REMEDIATION RATIONALE — 5TH PERIOD · 2019 INT'L PRACTICE EXAM AB · MCQ PART A</div>
+    <p class="rationale-body">
+      This remediation was generated from <strong>real class data</strong> — the 5th-period response distribution on the 2019 International Practice Exam AB MCQ Part A —
+      and pivots to land directly where the data tells it to land. The class earned <strong>4-of-4</strong> on nine procedural questions, confirming
+      <strong>Skill 1.E is well-instructed</strong>. The performance collapse is concentrated in <em>twelve specific questions</em> spread across three severity tiers:
+      <strong>Tier 1</strong> (1/4 correct — Q5, Q17, Q19, Q20, Q24, Q30) targets the deepest gaps where almost no one converged on the right answer;
+      <strong>Tier 2</strong> (2/4 correct — Q16, Q23, Q28) addresses the procedural-with-setup questions where the class can compute but stalls on the modeling step;
+      <strong>Tier 3</strong> (3/4 correct — Q22, Q27, Q29) covers the narrow-but-real gaps that will reappear and widen if not closed now.
+      Across all three tiers, two skill clusters dominate: <strong>Skill 2.B / 2.D</strong> (connecting representations — graphs, slope fields, asymptote analysis)
+      and <strong>Skill 3.D / 3.F</strong> (justification with named theorems and interpretation in context). This is what <em>dynamic, data-driven remediation</em> looks like in practice:
+      not a generic "review unit," but a <strong>twelve-question, three-tier, gap-mapped intervention</strong> — every phase tied to a specific student response distribution, every walkthrough engineered around the actual trap the class fell for, and every diagnostic label drawn from the same taxonomy so the work compounds across questions instead of fragmenting. The Diagnostic Taxonomy below converts twelve discrete remediation events into one portable field guide. The goal is not grade-rescue — it is for every student in 5th period to leave able to <strong>name their own error pattern</strong>, <strong>predict where it will reappear</strong>, and <strong>execute the consolidation move</strong> that closes it. This is the proof that the model pivots in real time to what students actually need, rather than what a generic curriculum guesses they might.
+    </p>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="score-bar">
+  <div class="score-left">
+    <span>PHASES COMPLETE</span>
+    <span><span class="score-num" id="score-display">0</span><span class="score-denom"> / 12</span></span>
+    <span id="completion-msg" class="completion-msg">// MISSION COMPLETE — GAPS LABELED · MOVES CONSOLIDATED</span>
+  </div>
+  <div style="font-size:11px;font-family:var(--mono);color:var(--muted)">
+    AP CALC AB · POST-EXAM REMEDIATION · STRATOSYN
+  </div>
+</div>
+
+<script>
+// ===== Timer =====
+let seconds = 0;
+const timerEl = document.getElementById('timer');
+setInterval(() => {
+  seconds++;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+}, 1000);
+
+// ===== State =====
+const phaseState = {
+  1: { selected: null, revealed: false, diag: null },
+  2: { selected: null, revealed: false, diag: null },
+  3: { selected: null, revealed: false, diag: null },
+  4: { selected: null, revealed: false, diag: null },
+  5: { selected: null, revealed: false, diag: null },
+  6: { selected: null, revealed: false, diag: null },
+  7: { selected: null, revealed: false, diag: null },
+  8: { selected: null, revealed: false, diag: null },
+  9: { selected: null, revealed: false, diag: null },
+  10: { selected: null, revealed: false, diag: null },
+  11: { selected: null, revealed: false, diag: null },
+  12: { selected: null, revealed: false, diag: null }
+};
+const completed = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false, 11: false, 12: false };
+const TOTAL_PHASES = 12;
+
+// ===== MC selection =====
+function selectMC(phase, el, letter) {
+  if (phaseState[phase].revealed) return; // lock after reveal
+  const choices = el.parentElement.querySelectorAll('.choice-item');
+  choices.forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  phaseState[phase].selected = { letter, correct: el.dataset.correct === 'true' };
+  // enable reveal button
+  document.getElementById(`reveal-btn-${phase}`).disabled = false;
+  document.getElementById(`gate-${phase}`).textContent = '// answer locked — click submit to reveal';
+}
+
+// ===== Reveal =====
+function revealAnswer(phase) {
+  const state = phaseState[phase];
+  if (!state.selected || state.revealed) return;
+  state.revealed = true;
+  // mark choices revealed
+  const choicesContainer = document.getElementById(`q${phase}-choices`);
+  choicesContainer.querySelectorAll('.choice-item').forEach(c => {
+    c.classList.add('disabled');
+    if (c.dataset.correct === 'true') {
+      c.classList.add('revealed', 'correct');
+    } else if (c.classList.contains('selected')) {
+      c.classList.add('revealed', 'incorrect');
+    }
+  });
+  // show walkthrough
+  document.getElementById(`walk-${phase}`).classList.add('visible');
+  // show diagnostic block
+  document.getElementById(`diag-${phase}`).classList.add('visible');
+  // hide reveal button, show advance (but advance disabled until diag picked)
+  document.getElementById(`reveal-btn-${phase}`).style.display = 'none';
+  const advBtn = document.getElementById(`advance-btn-${phase}`);
+  advBtn.style.display = 'inline-block';
+  advBtn.disabled = true;
+  document.getElementById(`gate-${phase}`).textContent = '// pick a self-diagnosis to unlock advance';
+  // scroll to walkthrough
+  setTimeout(() => {
+    document.getElementById(`walk-${phase}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+}
+
+// ===== Diagnostic self-label =====
+function pickDiag(phase, el) {
+  const opts = el.parentElement.querySelectorAll('.diag-option');
+  opts.forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  phaseState[phase].diag = el.dataset.label;
+  // enable advance
+  document.getElementById(`advance-btn-${phase}`).disabled = false;
+  document.getElementById(`gate-${phase}`).textContent = '// diagnosis logged — click advance to continue';
+}
+
+// ===== Complete a phase =====
+function completeStep(phase) {
+  if (completed[phase]) return;
+  if (!phaseState[phase].revealed || !phaseState[phase].diag) return;
+  completed[phase] = true;
+  const card = document.getElementById(`step-${phase}`);
+  card.classList.remove('active');
+  card.classList.add('completed');
+  const status = card.querySelector('.step-status');
+  if (status) status.textContent = '✓ COMPLETE';
+  const num = card.querySelector('.step-num');
+  if (num) num.textContent = '✓';
+  updateScore();
+  updatePips();
+  if (phase < TOTAL_PHASES) unlockStep(phase + 1);
+  else {
+    document.getElementById('completion-msg').style.display = 'inline';
+  }
+}
+
+function unlockStep(n) {
+  const card = document.getElementById(`step-${n}`);
+  if (!card) return;
+  card.classList.remove('locked');
+  card.classList.add('active');
+  const status = card.querySelector('.step-status');
+  if (status) status.textContent = 'ACTIVE';
+  setTimeout(() => {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 250);
+}
+
+function updateScore() {
+  const n = Object.values(completed).filter(Boolean).length;
+  document.getElementById('score-display').textContent = n;
+}
+
+function updatePips() {
+  for (let i = 1; i <= TOTAL_PHASES; i++) {
+    const pip = document.getElementById(`pip-${i}`);
+    const card = document.getElementById(`step-${i}`);
+    if (completed[i]) {
+      pip.className = 'pip done';
+    } else if (!card.classList.contains('locked')) {
+      pip.className = 'pip active';
+    } else {
+      pip.className = 'pip';
+    }
+  }
+}
+
+// init
+updatePips();
+</script>
+</body>
+</html>
