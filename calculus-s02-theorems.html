@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 02 · The Theorems</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:   #06080f;
+    --d1:     #0b0f1e;
+    --d2:     #111828;
+    --d3:     #161e30;
+    --glass:  rgba(255,255,255,0.044);
+    --gb:     rgba(255,255,255,0.08);
+    --shine:  rgba(255,255,255,0.13);
+    --b:      rgba(255,255,255,0.07);
+    --b2:     rgba(255,255,255,0.12);
+    --green:  #3effa0;
+    --gold:   #f5c842;
+    --red:    #f87171;
+    --blue:   #38bdf8;
+    --purple: #c084fc;
+    --cyan:   #00e5ff;
+    --orange: #fb923c;
+    --tx:     #dde6f5;
+    --tx2:    #8898b8;
+    --tx3:    #4a5570;
+    --accent: #f5c842;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--tx);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,200,66,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,200,66,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse at center,
+      rgba(245,200,66,0.05) 0%, rgba(192,132,252,0.03) 40%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAV ── */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(6,8,15,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--b);
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--tx2); text-decoration: none;
+    padding: 8px 16px; border-radius: 100px;
+    border: 1px solid var(--b); background: var(--glass);
+    transition: all 0.2s;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .nav-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--tx3); }
+  .nav-badge {
+    font-size:11px; font-weight:500; letter-spacing:0.1em;
+    padding:4px 12px; border-radius:100px;
+    background:rgba(245,200,66,0.12); border:1px solid rgba(245,200,66,0.3);
+    color:var(--gold);
+  }
+
+  /* ── LAYOUT ── */
+  .page { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:48px 32px 100px; }
+
+  /* ── SECTION HEADER ── */
+  .section-header { margin-bottom: 56px; }
+  .sec-label { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+  .sec-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(32px,5vw,52px); line-height:1.0; letter-spacing:-0.02em; margin-bottom:16px; }
+  .sec-title span { background:linear-gradient(135deg,var(--gold),var(--orange)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .sec-desc { font-size:13px; font-weight:300; color:var(--tx2); max-width:620px; line-height:1.8; }
+
+  /* ── THEOREM CARD (big featured card) ── */
+  .theorem-card {
+    border-radius: 16px;
+    border: 1px solid var(--b);
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .tc-header {
+    padding: 24px 28px 20px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .tc-left { flex: 1; }
+  .tc-num {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tc-name {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 26px;
+    letter-spacing: -0.01em; line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .tc-abbr {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    padding: 3px 10px; border-radius: 100px;
+    border: 1px solid; display: inline-block;
+  }
+  .tc-body {
+    padding: 0 28px 28px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  /* ── CONCEPT CARD ── */
+  .concept {
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 12px;
+    padding: 22px 24px;
+  }
+  .concept-title {
+    font-size:10px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase;
+    color: var(--tx3); margin-bottom:12px;
+  }
+  .concept p { font-size:13px; font-weight:300; color:var(--tx2); line-height:1.85; margin-bottom:10px; }
+  .concept p:last-child { margin-bottom:0; }
+  .concept strong { color:var(--tx); font-weight:500; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--d2);
+    border: 1px solid var(--b2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 4px 0;
+    font-size: 13px; font-weight: 400; color: var(--tx); line-height: 2.0;
+  }
+  .formula-box .flabel {
+    font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--tx3); margin-bottom:8px;
+  }
+
+  /* ── FRQ CITATION BOX ── */
+  .frq-box {
+    border-radius: 10px;
+    padding: 18px 22px;
+    font-size: 13px; font-weight: 300; color: var(--tx2); line-height: 1.9;
+  }
+  .frq-box .frq-label {
+    font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+    font-weight:500; margin-bottom:10px; display:flex; align-items:center; gap:8px;
+  }
+  .frq-box .frq-label::before {
+    content:''; display:block; width:16px; height:2px; border-radius:2px;
+  }
+  .frq-box blockquote {
+    border-left: 2px solid;
+    padding-left: 16px;
+    margin: 8px 0;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--tx);
+  }
+  .frq-box p { font-size:12px; color:var(--tx3); margin-top:10px; }
+
+  /* color themes */
+  .theme-ivt  { --tc: #38bdf8; }
+  .theme-evt  { --tc: #3effa0; }
+  .theme-mvt  { --tc: #f5c842; }
+  .theme-rolle { --tc: #c084fc; }
+  .theme-squeeze { --tc: #fb923c; }
+
+  .theorem-card { border-color: rgba(255,255,255,0.07); }
+  .theorem-card .tc-header { border-bottom: 1px solid var(--b); }
+
+  [class*="theme-"] .tc-num { color: var(--tc); }
+  [class*="theme-"] .tc-name { color: var(--tc); }
+  [class*="theme-"] .tc-abbr { color: var(--tc); border-color: var(--tc); background: rgba(255,255,255,0.04); }
+  [class*="theme-"] .concept-title { color: var(--tc); }
+  [class*="theme-"] .formula-box { border-left: 3px solid var(--tc); }
+  [class*="theme-"] .frq-box { background: color-mix(in srgb, var(--tc) 5%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 22%, transparent); }
+  [class*="theme-"] .frq-box .frq-label { color: var(--tc); }
+  [class*="theme-"] .frq-box .frq-label::before { background: var(--tc); }
+  [class*="theme-"] .frq-box blockquote { border-color: var(--tc); color: var(--tx); }
+
+  /* ── CONDITION LIST ── */
+  .cond-list { list-style:none; padding:0; margin:8px 0; display:flex; flex-direction:column; gap:8px; }
+  .cond-item {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:10px 14px; border-radius:8px;
+    background:var(--d2); border:1px solid var(--b);
+    font-size:12px; font-weight:300; color:var(--tx2); line-height:1.7;
+  }
+  .cond-icon { flex-shrink:0; font-size:14px; margin-top:1px; }
+  .cond-item strong { color:var(--tx); font-weight:500; }
+
+  /* ── CONCLUSION LIST ── */
+  .conclusion-box {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 13px; font-weight: 300; line-height: 1.85;
+  }
+  .conclusion-box .c-label { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:8px; font-weight:500; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display:flex; gap:12px; align-items:flex-start;
+    padding: 13px 17px; border-radius: 10px;
+    font-size: 12px; font-weight: 300; line-height: 1.75;
+  }
+  .callout-warn { background:rgba(245,200,66,0.07); border:1px solid rgba(245,200,66,0.2); color:var(--tx2); }
+  .callout-tip  { background:rgba(62,255,160,0.06); border:1px solid rgba(62,255,160,0.18); color:var(--tx2); }
+  .callout-err  { background:rgba(248,113,113,0.07); border:1px solid rgba(248,113,113,0.2); color:var(--tx2); }
+  .callout-info { background:rgba(56,189,248,0.07);  border:1px solid rgba(56,189,248,0.2);  color:var(--tx2); }
+  .callout-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .callout strong { font-weight:500; color:var(--tx); }
+
+  /* ── COMPARISON TABLE ── */
+  .data-table {
+    width:100%; border-collapse:collapse; font-size:12px; margin:10px 0;
+  }
+  .data-table th {
+    background:var(--d2); padding:10px 14px; text-align:left;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--tx3); border-bottom:1px solid var(--b2);
+  }
+  .data-table td {
+    padding:10px 14px; border-bottom:1px solid var(--b);
+    color:var(--tx2); font-weight:300; vertical-align:top; line-height:1.7;
+  }
+  .data-table tr:hover td { background:var(--glass); }
+  .hl  { color:var(--gold) !important; font-weight:500 !important; }
+  .hl2 { color:var(--blue) !important; font-weight:500 !important; }
+  .hl3 { color:var(--green) !important; font-weight:500 !important; }
+  .hl4 { color:var(--purple) !important; font-weight:500 !important; }
+
+  /* ── MATH ── */
+  .m       { color:var(--gold);   font-weight:500; }
+  .mblue   { color:var(--blue);   font-weight:500; }
+  .mgreen  { color:var(--green);  font-weight:500; }
+  .mred    { color:var(--red);    font-weight:500; }
+  .mpurple { color:var(--purple); font-weight:500; }
+  .morange { color:var(--orange); font-weight:500; }
+  .fr { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; font-size:0.88em; line-height:1.15; margin:0 2px; }
+  .fr .n { border-bottom:1px solid currentColor; padding:0 3px 1px; }
+  .fr .d { padding:1px 3px 0; }
+
+  /* ── GUIDED STEPS ── */
+  .guided-step {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:12px; padding:14px;
+    background:var(--glass); border:1px solid var(--b); border-radius:10px;
+  }
+  .gs-num {
+    flex-shrink:0; width:26px; height:26px; border-radius:50%;
+    background:rgba(245,200,66,0.12); border:1px solid rgba(245,200,66,0.3);
+    color:var(--gold); font-size:11px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gs-body { flex:1; }
+  .gs-label { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--tx3); margin-bottom:4px; }
+  .gs-content { font-size:13px; font-weight:300; color:var(--tx2); line-height:1.75; }
+  .gs-content strong { color:var(--tx); font-weight:500; }
+  .gs-why { font-size:11px; color:var(--tx3); font-style:italic; margin-top:4px; }
+
+  /* ── PRACTICE SECTION ── */
+  .practice-section {
+    margin-top: 24px;
+    border: 1px solid var(--b2); border-radius: 14px; overflow: hidden;
+  }
+  .practice-header {
+    background:var(--d2); padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--b);
+  }
+  .practice-header-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--tx); }
+  .practice-tabs { display:flex; gap:4px; }
+  .ptab {
+    font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+    padding:5px 12px; border-radius:6px; cursor:pointer;
+    border:1px solid transparent; color:var(--tx3);
+    transition:all 0.2s; background:transparent;
+  }
+  .ptab.active { background:var(--glass); border-color:var(--gold); color:var(--gold); }
+  .ptab:hover:not(.active) { color:var(--tx2); }
+  .practice-body { padding:24px; }
+  .pane { display:none; }
+  .pane.active { display:block; }
+
+  .problem-box {
+    background:var(--d1); border:1px solid var(--b); border-radius:10px;
+    padding:18px 22px; margin-bottom:18px;
+    font-size:14px; color:var(--tx); line-height:1.8;
+  }
+  .problem-box .p-label {
+    font-size:10px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--tx3); margin-bottom:8px;
+  }
+
+  .scaffold-step {
+    padding:12px 16px; margin-bottom:10px;
+    border:1px dashed rgba(255,255,255,0.1); border-radius:8px;
+  }
+  .scaffold-step .s-prompt { font-size:12px; color:var(--tx3); margin-bottom:8px; }
+  .scaffold-step .s-input {
+    background:var(--d2); border:1px solid var(--b2); border-radius:6px;
+    padding:8px 12px; font-family:'DM Mono',monospace; font-size:13px;
+    color:var(--tx); width:100%; outline:none; transition:border-color 0.2s;
+  }
+  .scaffold-step .s-input:focus { border-color:var(--gold); }
+
+  .reveal-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:500; letter-spacing:0.08em;
+    padding:9px 20px; border-radius:8px; cursor:pointer;
+    background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.25); color:var(--gold);
+    transition:all 0.2s; margin-top:14px;
+  }
+  .reveal-btn:hover { background:rgba(245,200,66,0.18); border-color:var(--gold); }
+  .answer-box {
+    display:none; margin-top:14px; padding:16px 20px;
+    background:rgba(62,255,160,0.05); border:1px solid rgba(62,255,160,0.2);
+    border-radius:10px; font-size:13px; font-weight:300; color:var(--tx2); line-height:1.9;
+  }
+  .answer-box strong { color:var(--green); font-weight:500; }
+  .answer-box.shown { display:block; }
+
+  /* ── DIVIDER ── */
+  .div-line { border:none; border-top:1px solid var(--b); margin:8px 0 0; }
+
+  /* ── SCROLL TOP ── */
+  .scroll-top {
+    position:fixed; bottom:32px; right:32px; z-index:50;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--d2); border:1px solid var(--b2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--tx3); transition:all 0.2s;
+    opacity:0; pointer-events:none;
+  }
+  .scroll-top.visible { opacity:1; pointer-events:auto; }
+  .scroll-top:hover { border-color:var(--gold); color:var(--gold); }
+  .scroll-top svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position:fixed; top:0; left:0; right:0; height:2px; z-index:200;
+    background:linear-gradient(90deg, var(--gold), var(--orange));
+    transform-origin:left; transform:scaleX(0); transition:transform 0.1s;
+  }
+
+  /* ── SVG diagram wrapper ── */
+  .diagram-wrap {
+    background:var(--d1); border:1px solid var(--b); border-radius:12px;
+    padding:20px; margin:10px 0; display:flex; justify-content:center;
+  }
+  .diagram-wrap svg { max-width:100%; }
+
+  /* ── QUICK REF TABLE ── */
+  .quick-ref {
+    background:var(--d2); border:1px solid var(--b2); border-radius:12px;
+    padding:20px 24px; margin-top:0;
+  }
+  .quick-ref-title {
+    font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--tx3); margin-bottom:16px;
+  }
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .tc-header{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 02</span>
+  <span class="nav-badge">The Theorems</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 02 · AP Calculus AB</div>
+    <h1 class="sec-title">The<br><span>Theorems</span></h1>
+    <p class="sec-desc">Five theorems — IVT, EVT, MVT, Rolle's, and the Squeeze Theorem. Each one broken down into what it says, when you can use it, and the exact language graders expect in an FRQ.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       THEOREM 1 · IVT
+  ═══════════════════════════════════════════════ -->
+  <div class="theorem-card theme-ivt" id="ivt">
+    <div class="tc-header">
+      <div class="tc-left">
+        <div class="tc-num">Theorem 01</div>
+        <div class="tc-name">Intermediate Value Theorem</div>
+        <span class="tc-abbr">IVT</span>
+      </div>
+    </div>
+    <div class="tc-body">
+
+      <div class="concept">
+        <div class="concept-title">Plain English</div>
+        <p>If a function is continuous on a closed interval and you pick any output value between f(a) and f(b), there must be at least one input in that interval that produces it. In other words: <strong>a continuous function cannot skip over values.</strong></p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Formal Statement</div>
+        <div class="formula-box">
+          <div class="flabel">IVT</div>
+          If <span class="mblue">f is continuous on [a, b]</span> and <span class="m">k</span> is any value between <span class="m">f(a)</span> and <span class="m">f(b)</span>,<br>
+          then there exists at least one <span class="mgreen">c ∈ (a, b)</span> such that <span class="mgreen">f(c) = k</span>.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Conditions — Both Must Be Met</div>
+        <ul class="cond-list">
+          <li class="cond-item">
+            <span class="cond-icon">①</span>
+            <span><strong>f is continuous on [a, b]</strong> — must be stated and verified before citing IVT</span>
+          </li>
+          <li class="cond-item">
+            <span class="cond-icon">②</span>
+            <span><strong>k is between f(a) and f(b)</strong> — you must show the target value is actually in the range of outputs on the interval</span>
+          </li>
+        </ul>
+        <div class="callout callout-err" style="margin-top:10px">
+          <span class="callout-icon">❌</span>
+          <span><strong>Common mistake:</strong> Forgetting to confirm continuity first. If the function has a jump or hole on [a,b], IVT does not apply — no matter what the values look like.</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Visual Intuition</div>
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono, monospace">
+            <!-- axes -->
+            <line x1="40" y1="170" x2="390" y2="170" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="40" y1="20" x2="40" y2="175" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <!-- interval marks -->
+            <line x1="80" y1="167" x2="80" y2="173" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <line x1="340" y1="167" x2="340" y2="173" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <text x="78" y="186" fill="rgba(255,255,255,0.4)" font-size="11" text-anchor="middle">a</text>
+            <text x="338" y="186" fill="rgba(255,255,255,0.4)" font-size="11" text-anchor="middle">b</text>
+            <!-- continuous curve -->
+            <path d="M80,150 C130,145 150,60 210,70 C270,80 300,120 340,50"
+                  fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+            <!-- f(a) and f(b) markers -->
+            <circle cx="80" cy="150" r="4" fill="#38bdf8"/>
+            <circle cx="340" cy="50" r="4" fill="#38bdf8"/>
+            <text x="14" y="154" fill="rgba(56,189,248,0.7)" font-size="10">f(a)</text>
+            <text x="348" y="54" fill="rgba(56,189,248,0.7)" font-size="10">f(b)</text>
+            <!-- k horizontal line -->
+            <line x1="40" y1="100" x2="380" y2="100" stroke="rgba(245,200,66,0.5)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <text x="382" y="104" fill="rgba(245,200,66,0.8)" font-size="10">k</text>
+            <!-- c marker — intersection -->
+            <circle cx="175" cy="100" r="4" fill="#f5c842"/>
+            <line x1="175" y1="100" x2="175" y2="170" stroke="rgba(245,200,66,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="172" y="186" fill="rgba(245,200,66,0.8)" font-size="10" text-anchor="middle">c</text>
+            <text x="115" y="195" fill="rgba(255,255,255,0.25)" font-size="9">f(c) = k guaranteed</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="frq-box">
+        <div class="frq-label">FRQ Citation Template</div>
+        <blockquote>
+          Since f is continuous on [a, b] and f(a) = ___ and f(b) = ___, and since k = ___ is between f(a) and f(b), by the Intermediate Value Theorem there exists at least one c in (a, b) such that f(c) = k.
+        </blockquote>
+        <p>Fill in the blanks with the numbers from the specific problem. Always state continuity explicitly — it's a required condition, and graders will deduct without it.</p>
+      </div>
+
+      <!-- PRACTICE IVT -->
+      <div class="practice-section">
+        <div class="practice-header">
+          <span class="practice-header-title">Practice · IVT Application</span>
+          <div class="practice-tabs">
+            <button class="ptab active" onclick="switchTab(this,'ivt','v1')">Guided</button>
+            <button class="ptab" onclick="switchTab(this,'ivt','v2')">Scaffolded</button>
+            <button class="ptab" onclick="switchTab(this,'ivt','v3')">Blind</button>
+          </div>
+        </div>
+        <div class="practice-body">
+
+          <div class="pane active" id="ivt-v1">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Let f(x) = x³ − 4x + 1. Show there exists a value c in (0, 2) where f(c) = 0.
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">1</div>
+              <div class="gs-body">
+                <div class="gs-label">Verify continuity</div>
+                <div class="gs-content">f(x) = x³ − 4x + 1 is a <strong>polynomial</strong>. Polynomials are continuous everywhere, so f is continuous on [0, 2]. ✓</div>
+                <div class="gs-why">→ You must say this out loud in an FRQ — don't assume graders infer it.</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">2</div>
+              <div class="gs-body">
+                <div class="gs-label">Evaluate the endpoints</div>
+                <div class="gs-content">
+                  f(0) = 0 − 0 + 1 = <strong>1</strong><br>
+                  f(2) = 8 − 8 + 1 = <strong>1</strong>... wait — let me use (0, 3) instead.<br>
+                  f(0) = 1 &nbsp;|&nbsp; f(3) = 27 − 12 + 1 = <strong>16</strong>
+                </div>
+                <div class="gs-why">→ We need k = 0 to be between the two endpoint values.</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">3</div>
+              <div class="gs-body">
+                <div class="gs-label">Check that k is between f(a) and f(b)</div>
+                <div class="gs-content">f(0) = 1 &gt; 0, so try f at a negative endpoint. f(−3) = −27 + 12 + 1 = −14 &lt; 0.<br>
+                So <strong>f(−3) = −14 &lt; 0 &lt; 1 = f(0)</strong>. The value k = 0 lies between them. ✓</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">4</div>
+              <div class="gs-body">
+                <div class="gs-label">Cite IVT</div>
+                <div class="gs-content">Since f is continuous on [−3, 0] and f(−3) = −14 &lt; 0 &lt; 1 = f(0), <strong>by IVT there exists at least one c ∈ (−3, 0) such that f(c) = 0.</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pane" id="ivt-v2">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Let g(x) = x² − 5. Show there exists a c in (2, 3) where g(c) = 0.
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 1 — What type of function is g(x)? Is it continuous on [2, 3]?</div>
+              <input class="s-input" type="text" placeholder="g(x) is a ... therefore continuous on ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 2 — Evaluate g(2) and g(3)</div>
+              <input class="s-input" type="text" placeholder="g(2) = ... , g(3) = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 3 — Is k = 0 between g(2) and g(3)?</div>
+              <input class="s-input" type="text" placeholder="g(2) = ... and g(3) = ... so 0 is/is not between them because ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 4 — Write the IVT conclusion in full</div>
+              <input class="s-input" type="text" placeholder="Since g is continuous on ... and g(2) = ... and g(3) = ... and 0 is between them, by IVT ..."/>
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              g(x) = x² − 5 is a polynomial → continuous everywhere, including [2, 3]. ✓<br><br>
+              g(2) = 4 − 5 = <strong>−1</strong> &nbsp;|&nbsp; g(3) = 9 − 5 = <strong>4</strong><br><br>
+              −1 &lt; 0 &lt; 4 → k = 0 is between g(2) and g(3). ✓<br><br>
+              <strong>Since g is continuous on [2, 3] and g(2) = −1 &lt; 0 &lt; 4 = g(3), by the Intermediate Value Theorem there exists at least one c ∈ (2, 3) such that g(c) = 0.</strong>
+            </div>
+          </div>
+
+          <div class="pane" id="ivt-v3">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              h(x) = e^x − 3. Show there exists a c in (1, 2) where h(c) = 0. Write a complete FRQ-style justification.
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              h(x) = e^x − 3 is continuous everywhere (exponential function). ✓<br><br>
+              h(1) = e − 3 ≈ 2.718 − 3 = <strong>−0.282</strong> &lt; 0<br>
+              h(2) = e² − 3 ≈ 7.389 − 3 = <strong>4.389</strong> &gt; 0<br><br>
+              −0.282 &lt; 0 &lt; 4.389 → k = 0 lies between h(1) and h(2). ✓<br><br>
+              <strong>Since h is continuous on [1, 2] and h(1) &lt; 0 &lt; h(2), by the Intermediate Value Theorem there exists at least one c ∈ (1, 2) such that h(c) = 0.</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       THEOREM 2 · EVT
+  ═══════════════════════════════════════════════ -->
+  <div class="theorem-card theme-evt" id="evt">
+    <div class="tc-header">
+      <div class="tc-left">
+        <div class="tc-num">Theorem 02</div>
+        <div class="tc-name">Extreme Value Theorem</div>
+        <span class="tc-abbr">EVT</span>
+      </div>
+    </div>
+    <div class="tc-body">
+
+      <div class="concept">
+        <div class="concept-title">Plain English</div>
+        <p>If a function is continuous on a <strong>closed</strong> interval, it is guaranteed to reach both an absolute maximum and an absolute minimum somewhere on that interval. The extremes cannot be missed — they must actually be achieved.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Formal Statement</div>
+        <div class="formula-box">
+          <div class="flabel">EVT</div>
+          If <span class="mgreen">f is continuous on [a, b]</span>, then f attains an <span class="m">absolute maximum</span> value f(M) and an <span class="mblue">absolute minimum</span> value f(m) for some M, m ∈ [a, b].
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Conditions — Both Must Be Met</div>
+        <ul class="cond-list">
+          <li class="cond-item">
+            <span class="cond-icon">①</span>
+            <span><strong>f is continuous on [a, b]</strong> — a single discontinuity can allow the function to avoid its extremes</span>
+          </li>
+          <li class="cond-item">
+            <span class="cond-icon">②</span>
+            <span><strong>The interval is closed [a, b]</strong> — EVT fails on open intervals. On (a, b), the function might approach but never reach the extreme.</span>
+          </li>
+        </ul>
+        <div class="callout callout-warn" style="margin-top:10px">
+          <span class="callout-icon">⚠️</span>
+          <span><strong>EVT guarantees existence — not location.</strong> It says the max and min exist. Finding where they are requires the Closed Interval Method (check critical points AND endpoints).</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Closed Interval Method — Finding the Actual Extrema</div>
+        <ol class="cond-list">
+          <li class="cond-item"><span class="cond-icon">①</span><span>Find all critical numbers (where f′ = 0 or f′ undefined) on (a, b)</span></li>
+          <li class="cond-item"><span class="cond-icon">②</span><span>Evaluate f at every critical number AND at both endpoints a and b</span></li>
+          <li class="cond-item"><span class="cond-icon">③</span><span>The largest value is the absolute max. The smallest is the absolute min.</span></li>
+        </ol>
+      </div>
+
+      <div class="frq-box">
+        <div class="frq-label">FRQ Citation Template</div>
+        <blockquote>
+          Since f is continuous on the closed interval [a, b], by the Extreme Value Theorem f attains both an absolute maximum and an absolute minimum on [a, b].
+        </blockquote>
+        <p>EVT is most often used to justify why a maximum or minimum must exist before you go find it — it's the "it exists" statement, not the "here it is" statement.</p>
+      </div>
+
+      <div class="practice-section">
+        <div class="practice-header">
+          <span class="practice-header-title">Practice · EVT + Closed Interval Method</span>
+          <div class="practice-tabs">
+            <button class="ptab active" onclick="switchTab(this,'evt','v1')">Guided</button>
+            <button class="ptab" onclick="switchTab(this,'evt','v2')">Scaffolded</button>
+            <button class="ptab" onclick="switchTab(this,'evt','v3')">Blind</button>
+          </div>
+        </div>
+        <div class="practice-body">
+
+          <div class="pane active" id="evt-v1">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Find the absolute maximum and minimum of f(x) = x³ − 3x² on [−1, 4].
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">1</div>
+              <div class="gs-body">
+                <div class="gs-label">Invoke EVT</div>
+                <div class="gs-content">f(x) = x³ − 3x² is a polynomial → continuous on [−1, 4]. By EVT, an absolute max and min exist on this interval. ✓</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">2</div>
+              <div class="gs-body">
+                <div class="gs-label">Find critical numbers — set f′ = 0</div>
+                <div class="gs-content">
+                  f′(x) = 3x² − 6x = 3x(x − 2)<br>
+                  f′(x) = 0 → <strong>x = 0</strong> and <strong>x = 2</strong><br>
+                  Both are in (−1, 4). ✓
+                </div>
+                <div class="gs-why">→ Critical numbers are where the derivative is zero or undefined (inside the open interval).</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">3</div>
+              <div class="gs-body">
+                <div class="gs-label">Evaluate f at critical numbers AND endpoints</div>
+                <div class="gs-content">
+                  f(−1) = −1 − 3 = <strong>−4</strong><br>
+                  f(0) = 0 − 0 = <strong>0</strong><br>
+                  f(2) = 8 − 12 = <strong>−4</strong><br>
+                  f(4) = 64 − 48 = <strong>16</strong>
+                </div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">4</div>
+              <div class="gs-body">
+                <div class="gs-label">Identify the extrema</div>
+                <div class="gs-content">
+                  <strong>Absolute Maximum: f(4) = 16</strong><br>
+                  <strong>Absolute Minimum: f(−1) = f(2) = −4</strong> (a tie — both are valid)
+                </div>
+                <div class="gs-why">→ There can be multiple points achieving the same extreme value.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pane" id="evt-v2">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Find the absolute max and min of g(x) = x³ − 6x + 2 on [−2, 3].
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 1 — Justify EVT applies</div>
+              <input class="s-input" type="text" placeholder="g(x) is a ... therefore EVT guarantees ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 2 — Find g′(x) and solve g′(x) = 0</div>
+              <input class="s-input" type="text" placeholder="g′(x) = ... → critical numbers: x = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 3 — Evaluate g at critical numbers and endpoints x = −2, 3</div>
+              <input class="s-input" type="text" placeholder="g(−2) = ... , g(?) = ... , g(?) = ... , g(3) = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 4 — State the absolute max and min</div>
+              <input class="s-input" type="text" placeholder="Absolute max = f( ) = ... Absolute min = f( ) = ..."/>
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              Polynomial → continuous → EVT applies. ✓<br><br>
+              g′(x) = 3x² − 6 = 0 → x² = 2 → x = ±√2 ≈ ±1.414. Both in (−2, 3). ✓<br><br>
+              g(−2) = −8 + 12 + 2 = <strong>6</strong><br>
+              g(−√2) = −2√2 + 6√2 + 2 = 4√2 + 2 ≈ <strong>7.66</strong><br>
+              g(√2) = 2√2 − 6√2 + 2 = −4√2 + 2 ≈ <strong>−3.66</strong><br>
+              g(3) = 27 − 18 + 2 = <strong>11</strong><br><br>
+              <strong>Absolute Maximum: g(3) = 11</strong><br>
+              <strong>Absolute Minimum: g(√2) = 2 − 4√2 ≈ −3.66</strong>
+            </div>
+          </div>
+
+          <div class="pane" id="evt-v3">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Find the absolute max and min of h(x) = −x² + 4x − 1 on [0, 5].
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              Polynomial → continuous → EVT applies. ✓<br><br>
+              h′(x) = −2x + 4 = 0 → x = <strong>2</strong>. In (0, 5). ✓<br><br>
+              h(0) = 0 + 0 − 1 = <strong>−1</strong><br>
+              h(2) = −4 + 8 − 1 = <strong>3</strong><br>
+              h(5) = −25 + 20 − 1 = <strong>−6</strong><br><br>
+              <strong>Absolute Maximum: h(2) = 3</strong><br>
+              <strong>Absolute Minimum: h(5) = −6</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       THEOREM 3 · MVT
+  ═══════════════════════════════════════════════ -->
+  <div class="theorem-card theme-mvt" id="mvt">
+    <div class="tc-header">
+      <div class="tc-left">
+        <div class="tc-num">Theorem 03 · Most Important for FRQ</div>
+        <div class="tc-name">Mean Value Theorem</div>
+        <span class="tc-abbr">MVT</span>
+      </div>
+    </div>
+    <div class="tc-body">
+
+      <div class="concept">
+        <div class="concept-title">Plain English</div>
+        <p>If a function is smooth (differentiable) on an interval, then at some point the <strong>instantaneous rate of change (slope of the tangent line) must equal the average rate of change (slope of the secant line)</strong> over the whole interval.</p>
+        <p>Think of it as a driving analogy: if you average 60 mph over a trip, at some exact moment your speedometer must have read exactly 60 mph.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Formal Statement</div>
+        <div class="formula-box">
+          <div class="flabel">MVT</div>
+          If <span class="m">f is continuous on [a, b]</span> and <span class="m">differentiable on (a, b)</span>,<br>
+          then there exists at least one <span class="mgreen">c ∈ (a, b)</span> such that:<br><br>
+          <span style="font-size:16px">
+            <span class="mgreen">f′(c)</span> = <span class="fr"><span class="n">f(b) − f(a)</span><span class="d">b − a</span></span>
+          </span><br><br>
+          <span style="font-size:11px;color:var(--tx3)">Instantaneous rate of change = Average rate of change</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Conditions — Both Required</div>
+        <ul class="cond-list">
+          <li class="cond-item">
+            <span class="cond-icon">①</span>
+            <span><strong>Continuous on [a, b]</strong> — closed interval, no breaks</span>
+          </li>
+          <li class="cond-item">
+            <span class="cond-icon">②</span>
+            <span><strong>Differentiable on (a, b)</strong> — open interval (corners, cusps, or vertical tangents break this condition)</span>
+          </li>
+        </ul>
+        <div class="callout callout-warn" style="margin-top:10px">
+          <span class="callout-icon">⚠️</span>
+          <span><strong>Differentiability implies continuity</strong> — but not the reverse. If you confirm differentiable, continuity is automatic. However, you still need to state both conditions in an FRQ.</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Visual Intuition</div>
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono, monospace">
+            <line x1="40" y1="170" x2="390" y2="170" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="40" y1="10" x2="40" y2="175" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <!-- interval marks -->
+            <line x1="80" y1="167" x2="80" y2="173" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <line x1="340" y1="167" x2="340" y2="173" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <text x="78" y="186" fill="rgba(255,255,255,0.4)" font-size="11" text-anchor="middle">a</text>
+            <text x="338" y="186" fill="rgba(255,255,255,0.4)" font-size="11" text-anchor="middle">b</text>
+            <!-- curve -->
+            <path d="M80,140 C140,135 200,50 260,70 C300,83 320,80 340,60"
+                  fill="none" stroke="#f5c842" stroke-width="2.5"/>
+            <!-- secant line (a to b) -->
+            <line x1="80" y1="140" x2="340" y2="60" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <!-- f(a) and f(b) dots -->
+            <circle cx="80" cy="140" r="4" fill="#f5c842"/>
+            <circle cx="340" cy="60" r="4" fill="#f5c842"/>
+            <!-- c — tangent parallel to secant -->
+            <circle cx="210" cy="56" r="4" fill="#3effa0"/>
+            <line x1="145" y1="80" x2="275" y2="33" stroke="#3effa0" stroke-width="1.5"/>
+            <line x1="210" y1="56" x2="210" y2="170" stroke="rgba(62,255,160,0.35)" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="207" y="186" fill="rgba(62,255,160,0.8)" font-size="10" text-anchor="middle">c</text>
+            <!-- labels -->
+            <text x="176" y="114" fill="rgba(255,255,255,0.3)" font-size="9">secant slope</text>
+            <text x="158" y="28" fill="rgba(62,255,160,0.7)" font-size="9">tangent slope = secant slope at c</text>
+          </svg>
+        </div>
+        <p style="font-size:12px;color:var(--tx3);margin-top:8px">The green tangent at c is parallel to the dashed secant line connecting the endpoints.</p>
+      </div>
+
+      <div class="frq-box">
+        <div class="frq-label">FRQ Citation Template — This Is the Most Tested</div>
+        <blockquote>
+          Since f is differentiable on (a, b) [and continuous on [a, b]], by the Mean Value Theorem there exists at least one c ∈ (a, b) such that f′(c) = [f(b) − f(a)] / (b − a) = ___.
+        </blockquote>
+        <p>In many FRQs you are given a table of values. Compute the slope (average rate of change) from the table, then cite MVT to justify that f′ must equal that slope somewhere on the interval.</p>
+      </div>
+
+      <div class="practice-section">
+        <div class="practice-header">
+          <span class="practice-header-title">Practice · Mean Value Theorem</span>
+          <div class="practice-tabs">
+            <button class="ptab active" onclick="switchTab(this,'mvt','v1')">Guided</button>
+            <button class="ptab" onclick="switchTab(this,'mvt','v2')">Scaffolded</button>
+            <button class="ptab" onclick="switchTab(this,'mvt','v3')">Blind</button>
+          </div>
+        </div>
+        <div class="practice-body">
+
+          <div class="pane active" id="mvt-v1">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              f(x) = x² − x on [1, 4]. Find the value of c guaranteed by MVT.
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">1</div>
+              <div class="gs-body">
+                <div class="gs-label">Verify conditions</div>
+                <div class="gs-content">f(x) = x² − x is a polynomial → <strong>continuous on [1, 4] and differentiable on (1, 4)</strong>. MVT applies. ✓</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">2</div>
+              <div class="gs-body">
+                <div class="gs-label">Compute the average rate of change</div>
+                <div class="gs-content">
+                  f(1) = 1 − 1 = 0 &nbsp;|&nbsp; f(4) = 16 − 4 = 12<br>
+                  Average rate = <span class="fr"><span class="n">f(4) − f(1)</span><span class="d">4 − 1</span></span> = <span class="fr"><span class="n">12 − 0</span><span class="d">3</span></span> = <strong>4</strong>
+                </div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">3</div>
+              <div class="gs-body">
+                <div class="gs-label">Set f′(c) equal to the average rate</div>
+                <div class="gs-content">
+                  f′(x) = 2x − 1<br>
+                  Set f′(c) = 4: &nbsp; 2c − 1 = 4 → 2c = 5 → <strong>c = 5/2</strong>
+                </div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">4</div>
+              <div class="gs-body">
+                <div class="gs-label">Verify c is in the interval</div>
+                <div class="gs-content">c = 5/2 = 2.5 ∈ (1, 4) ✓</div>
+                <div class="gs-why">→ Always check! If c fell outside the interval, it would not satisfy MVT's conclusion.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pane" id="mvt-v2">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              g(x) = x³ on [0, 3]. Find the value of c guaranteed by MVT.
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 1 — Verify MVT conditions for g(x) on [0, 3]</div>
+              <input class="s-input" type="text" placeholder="g(x) is ... therefore continuous and differentiable ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 2 — Compute the average rate of change [f(3)−f(0)] / (3−0)</div>
+              <input class="s-input" type="text" placeholder="g(0) = ... , g(3) = ... → AROC = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 3 — Find g′(x), then solve g′(c) = AROC</div>
+              <input class="s-input" type="text" placeholder="g′(x) = ... → g′(c) = ... → c = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 4 — Verify c ∈ (0, 3)</div>
+              <input class="s-input" type="text" placeholder="c = ... which is/is not in (0, 3)"/>
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              Polynomial → continuous on [0,3] and differentiable on (0,3). MVT applies. ✓<br><br>
+              g(0) = 0, g(3) = 27 → AROC = (27 − 0)/(3 − 0) = <strong>9</strong><br><br>
+              g′(x) = 3x² → set 3c² = 9 → c² = 3 → c = √3 ≈ 1.732<br><br>
+              √3 ∈ (0, 3) ✓ &nbsp; <strong>c = √3</strong>
+            </div>
+          </div>
+
+          <div class="pane" id="mvt-v3">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              The table shows values of a differentiable function f: f(1) = 3, f(5) = 11. What does MVT guarantee, and what is the value of f′(c)?
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              f is differentiable (given) → continuous on [1, 5]. MVT applies. ✓<br><br>
+              Average rate of change = (11 − 3)/(5 − 1) = 8/4 = <strong>2</strong><br><br>
+              <strong>By MVT, there exists at least one c ∈ (1, 5) such that f′(c) = 2.</strong><br><br>
+              Note: MVT doesn't tell us the exact value of c here — only that it exists. If we had a formula for f we could solve for it.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       THEOREM 4 · ROLLE'S
+  ═══════════════════════════════════════════════ -->
+  <div class="theorem-card theme-rolle" id="rolle">
+    <div class="tc-header">
+      <div class="tc-left">
+        <div class="tc-num">Theorem 04</div>
+        <div class="tc-name">Rolle's Theorem</div>
+        <span class="tc-abbr">Special Case of MVT</span>
+      </div>
+    </div>
+    <div class="tc-body">
+
+      <div class="concept">
+        <div class="concept-title">Plain English</div>
+        <p>Rolle's is just MVT with one extra condition: <strong>f(a) = f(b)</strong>. When the function starts and ends at the same height, the average rate of change is zero — so the guaranteed tangent slope is also zero. That means there's a horizontal tangent somewhere in between.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Formal Statement</div>
+        <div class="formula-box">
+          <div class="flabel">Rolle's Theorem</div>
+          If <span class="mpurple">f is continuous on [a, b]</span>, <span class="mpurple">differentiable on (a, b)</span>, and <span class="m">f(a) = f(b)</span>,<br>
+          then there exists at least one <span class="mgreen">c ∈ (a, b)</span> such that <span class="mgreen">f′(c) = 0</span>.
+        </div>
+        <div class="callout callout-info" style="margin-top:12px">
+          <span class="callout-icon">ℹ️</span>
+          <span><strong>Rolle's vs MVT:</strong> Rolle's has 3 conditions (MVT's 2 + equal endpoint values). Its conclusion is always f′(c) = 0. MVT's conclusion is f′(c) = AROC which could be any number.</span>
+        </div>
+      </div>
+
+      <div class="frq-box">
+        <div class="frq-label">FRQ Citation Template</div>
+        <blockquote>
+          Since f is continuous on [a, b], differentiable on (a, b), and f(a) = f(b) = ___, by Rolle's Theorem there exists at least one c ∈ (a, b) such that f′(c) = 0.
+        </blockquote>
+      </div>
+
+      <div class="practice-section">
+        <div class="practice-header">
+          <span class="practice-header-title">Practice · Rolle's Theorem</span>
+          <div class="practice-tabs">
+            <button class="ptab active" onclick="switchTab(this,'rolle','v1')">Guided</button>
+            <button class="ptab" onclick="switchTab(this,'rolle','v2')">Scaffolded</button>
+            <button class="ptab" onclick="switchTab(this,'rolle','v3')">Blind</button>
+          </div>
+        </div>
+        <div class="practice-body">
+
+          <div class="pane active" id="rolle-v1">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Verify Rolle's Theorem applies to f(x) = x² − 4x on [0, 4], then find c.
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">1</div>
+              <div class="gs-body">
+                <div class="gs-label">Check all 3 conditions</div>
+                <div class="gs-content">
+                  ① Polynomial → continuous on [0, 4] ✓<br>
+                  ② Polynomial → differentiable on (0, 4) ✓<br>
+                  ③ f(0) = 0 − 0 = 0 &nbsp;|&nbsp; f(4) = 16 − 16 = 0 → <strong>f(0) = f(4) = 0</strong> ✓
+                </div>
+                <div class="gs-why">→ All 3 conditions met. Rolle's Theorem applies.</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">2</div>
+              <div class="gs-body">
+                <div class="gs-label">Find c where f′(c) = 0</div>
+                <div class="gs-content">
+                  f′(x) = 2x − 4<br>
+                  Set f′(c) = 0: 2c − 4 = 0 → <strong>c = 2</strong>
+                </div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">3</div>
+              <div class="gs-body">
+                <div class="gs-label">Verify c ∈ (0, 4)</div>
+                <div class="gs-content">c = 2 ∈ (0, 4) ✓ &nbsp; This is the vertex of the parabola — the horizontal tangent point.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pane" id="rolle-v2">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Verify Rolle's applies to g(x) = x³ − x on [−1, 1], then find all values of c.
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 1 — Check the 3 conditions (continuity, differentiability, equal endpoints)</div>
+              <input class="s-input" type="text" placeholder="g is ... | g(−1) = ... , g(1) = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 2 — Find g′(x) and solve g′(c) = 0</div>
+              <input class="s-input" type="text" placeholder="g′(x) = ... → g′(c) = 0 → c = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 3 — Check which values of c are in (−1, 1)</div>
+              <input class="s-input" type="text" placeholder="c values in (−1,1): ..."/>
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              Polynomial → continuous and differentiable ✓<br>
+              g(−1) = −1 + 1 = 0 &nbsp;|&nbsp; g(1) = 1 − 1 = 0 → f(−1) = f(1) ✓<br><br>
+              g′(x) = 3x² − 1 = 0 → x² = 1/3 → x = ±1/√3 = ±√3/3<br><br>
+              Both ±√3/3 ≈ ±0.577 ∈ (−1, 1) ✓<br><br>
+              <strong>c = ±√3/3 ≈ ±0.577</strong>
+            </div>
+          </div>
+
+          <div class="pane" id="rolle-v3">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Does Rolle's Theorem apply to h(x) = |x| on [−2, 2]? Explain. If not, which condition fails?
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              Check conditions:<br>
+              ① h(x) = |x| is continuous on [−2, 2] ✓<br>
+              ② h(x) = |x| is <strong>NOT differentiable at x = 0</strong> (corner/cusp). 0 ∈ (−2, 2) → condition fails ✗<br>
+              ③ h(−2) = 2 = h(2) ✓<br><br>
+              <strong>Rolle's Theorem does NOT apply</strong> because h is not differentiable on (−2, 2). Condition ② fails at x = 0.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       THEOREM 5 · SQUEEZE
+  ═══════════════════════════════════════════════ -->
+  <div class="theorem-card theme-squeeze" id="squeeze">
+    <div class="tc-header">
+      <div class="tc-left">
+        <div class="tc-num">Theorem 05</div>
+        <div class="tc-name">Squeeze Theorem</div>
+        <span class="tc-abbr">Sandwich Theorem</span>
+      </div>
+    </div>
+    <div class="tc-body">
+
+      <div class="concept">
+        <div class="concept-title">Plain English</div>
+        <p>If one function is trapped between two others that both approach the same limit, the trapped function must approach that limit too. The two outer functions "squeeze" it to the same value.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Formal Statement</div>
+        <div class="formula-box">
+          <div class="flabel">Squeeze Theorem</div>
+          If <span class="morange">g(x) ≤ f(x) ≤ h(x)</span> near x = a (not necessarily at x = a),<br>
+          and <span class="m">lim<sub>x→a</sub> g(x) = lim<sub>x→a</sub> h(x) = L</span>,<br>
+          then <span class="mgreen">lim<sub>x→a</sub> f(x) = L</span>.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Classic Application</div>
+        <div class="formula-box">
+          <div class="flabel">Most Common Use</div>
+          Prove: &nbsp; lim<sub>x→0</sub> x² sin(<span class="fr"><span class="n">1</span><span class="d">x</span></span>) = 0<br><br>
+          We know: &nbsp; <span class="morange">−1 ≤ sin(1/x) ≤ 1</span> &nbsp; for all x ≠ 0<br>
+          Multiply by x²: &nbsp; <span class="morange">−x² ≤ x² sin(1/x) ≤ x²</span><br><br>
+          lim<sub>x→0</sub> (−x²) = 0 &nbsp; and &nbsp; lim<sub>x→0</sub> (x²) = 0<br><br>
+          <span class="mgreen">∴ lim<sub>x→0</sub> x² sin(1/x) = 0</span> &nbsp; by the Squeeze Theorem
+        </div>
+        <div class="callout callout-tip" style="margin-top:10px">
+          <span class="callout-icon">💡</span>
+          <span><strong>When to use it:</strong> Whenever you have a trig function (whose values are bounded between −1 and 1) multiplied by something that goes to 0. The product gets squeezed to 0.</span>
+        </div>
+      </div>
+
+      <div class="practice-section">
+        <div class="practice-header">
+          <span class="practice-header-title">Practice · Squeeze Theorem</span>
+          <div class="practice-tabs">
+            <button class="ptab active" onclick="switchTab(this,'sq','v1')">Guided</button>
+            <button class="ptab" onclick="switchTab(this,'sq','v2')">Scaffolded</button>
+            <button class="ptab" onclick="switchTab(this,'sq','v3')">Blind</button>
+          </div>
+        </div>
+        <div class="practice-body">
+
+          <div class="pane active" id="sq-v1">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Evaluate: &nbsp; lim<sub>x→0</sub> x⁴ cos(<span class="fr"><span class="n">1</span><span class="d">x²</span></span>)
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">1</div>
+              <div class="gs-body">
+                <div class="gs-label">Bound the cosine function</div>
+                <div class="gs-content">We know −1 ≤ cos(anything) ≤ 1. So: <strong>−1 ≤ cos(1/x²) ≤ 1</strong> for all x ≠ 0.</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">2</div>
+              <div class="gs-body">
+                <div class="gs-label">Multiply all sides by x⁴ (which is ≥ 0)</div>
+                <div class="gs-content"><strong>−x⁴ ≤ x⁴ cos(1/x²) ≤ x⁴</strong></div>
+                <div class="gs-why">→ x⁴ ≥ 0 always, so inequality signs don't flip.</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">3</div>
+              <div class="gs-body">
+                <div class="gs-label">Take limits of the outer bounds</div>
+                <div class="gs-content">lim<sub>x→0</sub> (−x⁴) = 0 &nbsp; and &nbsp; lim<sub>x→0</sub> (x⁴) = 0</div>
+              </div>
+            </div>
+            <div class="guided-step">
+              <div class="gs-num">4</div>
+              <div class="gs-body">
+                <div class="gs-label">Apply Squeeze Theorem</div>
+                <div class="gs-content">Both bounds approach 0, so: <strong>lim<sub>x→0</sub> x⁴ cos(1/x²) = 0</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pane" id="sq-v2">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Evaluate: &nbsp; lim<sub>x→0</sub> x² sin(<span class="fr"><span class="n">3</span><span class="d">x</span></span>)
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 1 — Write the bounding inequality for sin(3/x)</div>
+              <input class="s-input" type="text" placeholder="−1 ≤ sin(3/x) ≤ ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 2 — Multiply all three parts by x² to bound the full expression</div>
+              <input class="s-input" type="text" placeholder="... ≤ x²sin(3/x) ≤ ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 3 — Evaluate the limits of both outer bounds as x → 0</div>
+              <input class="s-input" type="text" placeholder="lim (outer left) = ... and lim (outer right) = ..."/>
+            </div>
+            <div class="scaffold-step">
+              <div class="s-prompt">Step 4 — State the conclusion using the Squeeze Theorem</div>
+              <input class="s-input" type="text" placeholder="By the Squeeze Theorem, lim x²sin(3/x) = ..."/>
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              −1 ≤ sin(3/x) ≤ 1<br>
+              −x² ≤ x²sin(3/x) ≤ x²<br>
+              lim<sub>x→0</sub>(−x²) = 0 and lim<sub>x→0</sub>(x²) = 0<br><br>
+              <strong>By the Squeeze Theorem: lim<sub>x→0</sub> x²sin(3/x) = 0</strong>
+            </div>
+          </div>
+
+          <div class="pane" id="sq-v3">
+            <div class="problem-box">
+              <div class="p-label">Problem</div>
+              Evaluate: &nbsp; lim<sub>x→0</sub> x³ cos(<span class="fr"><span class="n">5</span><span class="d">x</span></span>). Be careful — does the sign of x³ matter?
+            </div>
+            <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+            <div class="answer-box">
+              −1 ≤ cos(5/x) ≤ 1<br><br>
+              Multiply by x³: note x³ can be negative when x &lt; 0, so we must use absolute value bounds instead:<br>
+              −|x³| ≤ x³ cos(5/x) ≤ |x³|<br><br>
+              lim<sub>x→0</sub> (−|x³|) = 0 and lim<sub>x→0</sub> |x³| = 0<br><br>
+              <strong>By the Squeeze Theorem: lim<sub>x→0</sub> x³ cos(5/x) = 0</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       QUICK REFERENCE — ALL 5 THEOREMS
+  ═══════════════════════════════════════════════ -->
+  <div class="quick-ref">
+    <div class="quick-ref-title">Quick Reference · All 5 Theorems Side by Side</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Theorem</th>
+          <th>Conditions</th>
+          <th>Conclusion</th>
+          <th>FRQ Trigger</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="hl2">IVT</td>
+          <td>Continuous on [a,b]; k between f(a) and f(b)</td>
+          <td>∃ c ∈ (a,b) with f(c) = k</td>
+          <td>"Show there exists a value where f = ___"</td>
+        </tr>
+        <tr>
+          <td class="hl3">EVT</td>
+          <td>Continuous on closed [a,b]</td>
+          <td>Absolute max and min are attained</td>
+          <td>"Find the absolute extrema on a closed interval"</td>
+        </tr>
+        <tr>
+          <td class="hl">MVT</td>
+          <td>Continuous on [a,b]; differentiable on (a,b)</td>
+          <td>∃ c where f′(c) = [f(b)−f(a)]/(b−a)</td>
+          <td>Table of values; "justify f′ must equal ___"</td>
+        </tr>
+        <tr>
+          <td class="hl4">Rolle's</td>
+          <td>Continuous [a,b]; diff (a,b); f(a) = f(b)</td>
+          <td>∃ c where f′(c) = 0</td>
+          <td>"Show a horizontal tangent exists"</td>
+        </tr>
+        <tr>
+          <td class="morange">Squeeze</td>
+          <td>g ≤ f ≤ h near a; lim g = lim h = L</td>
+          <td>lim f = L</td>
+          <td>Bounded trig × small function → 0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end .page -->
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s02-theorems.html -->
+
+<script>
+  function switchTab(btn, group, version) {
+    const section = btn.closest('.practice-section');
+    section.querySelector('.practice-body').querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    section.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    section.querySelector('#' + group + '-' + version).classList.add('active');
+  }
+  function toggleAnswer(btn) {
+    const box = btn.nextElementSibling;
+    if (box.classList.contains('shown')) {
+      box.classList.remove('shown');
+      btn.innerHTML = '✓ Reveal Answer';
+    } else {
+      box.classList.add('shown');
+      btn.innerHTML = '▲ Hide Answer';
+    }
+  }
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    document.getElementById('progressBar').style.transform = `scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 300);
+  });
+</script>
+</body>
+</html>

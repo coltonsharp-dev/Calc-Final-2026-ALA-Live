@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 07 · U-Substitution</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828; --d3:#161e30;
+    --glass:rgba(255,255,255,0.044); --gb:rgba(255,255,255,0.08);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#fb923c;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(251,146,60,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(251,146,60,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at center,rgba(251,146,60,0.06) 0%,rgba(245,200,66,0.025) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  /* NAV */
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.28);color:var(--orange);}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  /* HEADER */
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  /* TOPIC */
+  .topic{margin-bottom:60px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;text-align:right;}
+
+  /* CONCEPT */
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  /* FORMULA BOX */
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.1;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.teal{border-left-color:var(--teal);}
+  .fbox.pink{border-left-color:var(--pink);}
+
+  /* ANNOTATED — color-coded substitution display */
+  .sub-display{background:var(--d1);border:1px solid var(--b2);border-radius:12px;padding:22px 24px;margin:12px 0;}
+  .sub-display .sd-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:14px;}
+  .sub-line{font-size:14px;font-weight:300;color:var(--tx2);line-height:2.2;margin-bottom:4px;}
+  .sub-line .step-tag{font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--tx3);text-transform:uppercase;display:inline-block;width:80px;}
+  .u-word{color:var(--orange);font-weight:500;}
+  .du-word{color:var(--gold);font-weight:500;}
+  .result-word{color:var(--green);font-weight:500;}
+
+  /* CALLOUT */
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* STEPS */
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.25);color:var(--orange);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  /* MATH */
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .mpink{color:var(--pink);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  /* GUIDED STEPS */
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.25);color:var(--orange);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  /* PRACTICE */
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.25);color:var(--orange);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(251,146,60,0.16);border-color:var(--orange);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--orange),var(--gold));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* PATTERN CARD */
+  .pattern-card{background:var(--d1);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-bottom:12px;}
+  .pattern-card::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-bottom:16px;border-radius:2px;}
+  .pattern-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--tx);margin-bottom:4px;}
+  .pattern-trigger{font-size:11px;color:var(--tx3);margin-bottom:14px;font-weight:300;}
+  .pattern-body{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .pattern-body strong{color:var(--tx);font-weight:500;}
+
+  /* BOUNDS CARD */
+  .bounds-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;overflow:hidden;margin:12px 0;}
+  .bounds-header{background:var(--d1);padding:12px 20px;border-bottom:1px solid var(--b);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);}
+  .bounds-body{padding:18px 20px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .bounds-body strong{color:var(--tx);font-weight:500;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 07</span>
+  <span class="nav-badge">U-Substitution</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 07 · AP Calculus AB</div>
+    <h1 class="sec-title">U-Sub-<br><span>stitution</span></h1>
+    <p class="sec-desc">The chain rule in reverse. A complete 6-step method, every integration pattern — polynomial, trig, e^x, ln — with dedicated worked examples, and both methods for handling definite integrals with u-sub.</p>
+  </div>
+
+
+  <!-- ══════════════════════════
+       7.1 · WHY U-SUB EXISTS
+  ══════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">7.1</span>
+      <h2 class="topic-title">Why U-Substitution Exists</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Chain Rule in Reverse</div>
+      <p>Recall from Section 03 that the chain rule says:</p>
+      <div class="fbox">
+        <div class="flabel">Chain Rule (differentiation)</div>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[F(g(x))] = <span class="morange">F′(g(x))</span> · <span class="m">g′(x)</span>
+      </div>
+      <p>Reading that backwards — if we see a product of a composite function and the derivative of its inner part, we can integrate it:</p>
+      <div class="fbox green">
+        <div class="flabel">Chain Rule Reversed (u-substitution)</div>
+        ∫ <span class="morange">F′(g(x))</span> · <span class="m">g′(x)</span> dx = <span class="mgreen">F(g(x)) + C</span><br><br>
+        Let <span class="morange">u = g(x)</span>, then <span class="m">du = g′(x) dx</span>:<br><br>
+        ∫ F′(u) du = F(u) + C → back-sub → <span class="mgreen">F(g(x)) + C</span>
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">🔁</span>
+        <span><strong>U-sub is triggered by pattern recognition.</strong> You're looking for an integrand that looks like f(inner) × (derivative of inner). The inner function becomes u, and its derivative becomes du — making the integral clean.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Pattern That Signals U-Sub</div>
+      <div class="fbox gold">
+        <div class="flabel">What to look for</div>
+        ∫ <span class="morange">[some function of g(x)]</span> · <span class="m">g′(x)</span> dx<br><br>
+        Example: ∫ <span class="morange">sin(<span class="mblue">x²</span>)</span> · <span class="m">2x</span> dx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inner = <span class="mblue">x²</span> &nbsp;|&nbsp; derivative of inner = <span class="m">2x</span> ← it's right there!<br><br>
+        Example: ∫ <span class="morange">e<sup><span class="mblue">3x+1</span></sup></span> · <span class="m">3</span> dx<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inner = <span class="mblue">3x+1</span> &nbsp;|&nbsp; derivative of inner = <span class="m">3</span> ← it's right there!
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.2 · THE 6-STEP METHOD
+  ══════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">7.2</span>
+      <h2 class="topic-title">The 6-Step Method</h2>
+      <span class="topic-sub">Apply in order every time</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Complete Procedure</div>
+      <ol class="steps">
+        <li>
+          <strong>Identify u — the inner function.</strong>
+          <span class="why">→ Pick the expression whose derivative also appears in the integrand (or can be made to appear). Start with the most complex "inside" piece.</span>
+        </li>
+        <li>
+          <strong>Compute du/dx, then solve for dx.</strong>
+          <span class="why">→ Differentiate u with respect to x. Rearrange to get dx = du / (du/dx).</span>
+        </li>
+        <li>
+          <strong>Substitute u and dx into the integral — eliminate all x.</strong>
+          <span class="why">→ The entire integrand must be in terms of u only. If any x remains, u-sub won't work as chosen.</span>
+        </li>
+        <li>
+          <strong>Integrate with respect to u using basic rules.</strong>
+          <span class="why">→ The u-integral should now be a standard form — power rule, e^u, trig, etc.</span>
+        </li>
+        <li>
+          <strong>Back-substitute: replace u with the original expression in x.</strong>
+          <span class="why">→ The final answer must be in terms of x (for indefinite integrals).</span>
+        </li>
+        <li>
+          <strong>Add +C (for indefinite integrals only).</strong>
+          <span class="why">→ Never forget. This is the family of antiderivatives.</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Annotated color-coded first example -->
+    <div class="concept">
+      <div class="concept-title">Fully Annotated Walkthrough</div>
+      <div class="sub-display">
+        <div class="sd-label">∫ 2x(x² + 1)⁵ dx — every step color coded</div>
+        <div class="sub-line"><span class="step-tag">Choose u:</span> u = <span class="u-word">x² + 1</span> &nbsp;(the inner function of the power)</div>
+        <div class="sub-line"><span class="step-tag">Find du:</span> du/dx = 2x &nbsp;→&nbsp; <span class="du-word">du = 2x dx</span></div>
+        <div class="sub-line"><span class="step-tag">Substitute:</span> ∫ <span class="u-word">u</span>⁵ <span class="du-word">du</span> &nbsp;(2x and dx are both replaced by du)</div>
+        <div class="sub-line"><span class="step-tag">Integrate:</span> = <span class="fr"><span class="n"><span class="u-word">u</span>⁶</span><span class="d">6</span></span></div>
+        <div class="sub-line"><span class="step-tag">Back-sub:</span> = <span class="fr"><span class="n">(<span class="u-word">x² + 1</span>)⁶</span><span class="d">6</span></span></div>
+        <div class="sub-line"><span class="step-tag">+C:</span> <span class="result-word">= (x² + 1)⁶ / 6 + C</span></div>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Why did that work?</strong> The 2x in the integrand is exactly the derivative of x²+1. When the inner function's derivative is present in the integrand, u-sub will always clean up perfectly.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Core U-Sub Method</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'core','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'core','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'core','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="core-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ 3x²(x³ + 4)⁷ dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify u</div><div class="gs-content">Inner function of the power: <span class="morange">u = x³ + 4</span></div><div class="gs-why">→ The expression being raised to the 7th power is x³+4. That's the inner function.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Compute du</div><div class="gs-content">du/dx = 3x² &nbsp;→&nbsp; <span class="m">du = 3x² dx</span></div><div class="gs-why">→ The 3x² dx is already sitting in the integrand. Perfect match.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute everything</div><div class="gs-content">∫ 3x²·<span class="morange">(x³+4)</span>⁷ dx = ∫ <span class="morange">u</span>⁷ <span class="m">du</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Integrate in u</div><div class="gs-content">= <span class="fr"><span class="n">u⁸</span><span class="d">8</span></span></div></div></div>
+          <div class="guided-step"><div class="gs-num">5</div><div class="gs-body"><div class="gs-label">Back-substitute and add +C</div><div class="gs-content"><strong>= <span class="fr"><span class="n">(x³ + 4)⁸</span><span class="d">8</span></span> + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="core-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ 4x(x² + 3)⁵ dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — What is u? (what's inside the power?)</div><input class="s-input" type="text" placeholder="u = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find du/dx, then write du = ... dx</div><input class="s-input" type="text" placeholder="du/dx = ... → du = ... dx"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Substitute. Write the integral purely in u</div><input class="s-input" type="text" placeholder="∫ u^( ) du"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Integrate in u</div><input class="s-input" type="text" placeholder="= u^( ) / ( )"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 5 — Back-substitute and add +C</div><input class="s-input" type="text" placeholder="= ( )^( ) / ( ) + C"/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = x²+3 &nbsp;|&nbsp; du = 2x dx &nbsp;→&nbsp; 4x dx = 2 du<br><br>∫ 4x(x²+3)⁵ dx = 2∫ u⁵ du = 2 · u⁶/6 = u⁶/3<br><br><strong>= (x²+3)⁶ / 3 + C</strong></div>
+        </div>
+        <div class="pane" id="core-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ 5x⁴(x⁵ − 2)⁸ dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = x⁵−2 &nbsp;|&nbsp; du = 5x⁴ dx<br><br>∫ u⁸ du = u⁹/9<br><br><strong>= (x⁵−2)⁹ / 9 + C</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.3 · ADJUSTING FOR MISSING CONSTANTS
+  ══════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">7.3</span>
+      <h2 class="topic-title">Adjusting When the Derivative Isn't Exact</h2>
+      <span class="topic-sub">Off by a constant factor</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When du Doesn't Match Perfectly</div>
+      <p>Sometimes the derivative of u is in the integrand, but multiplied by the wrong constant. You can fix this by <strong>multiplying and dividing by the missing constant</strong>.</p>
+      <div class="fbox gold">
+        <div class="flabel">Example: ∫ x(x² + 1)⁴ dx</div>
+        u = x² + 1 &nbsp;→&nbsp; du = 2x dx &nbsp;→&nbsp; x dx = <span class="m">du/2</span><br><br>
+        The integrand has x dx but du = 2x dx. So x dx = du/2.<br><br>
+        ∫ x·(x²+1)⁴ dx = ∫ u⁴ · <span class="m"><span class="fr"><span class="n">du</span><span class="d">2</span></span></span> = <span class="fr"><span class="n">1</span><span class="d">2</span></span>∫ u⁴ du = <span class="fr"><span class="n">u⁵</span><span class="d">10</span></span> = <span class="mgreen"><span class="fr"><span class="n">(x²+1)⁵</span><span class="d">10</span></span> + C</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>You can only adjust for constants — not variable factors.</strong> If the missing piece is x² instead of 2, u-sub won't work with that choice of u. Constants can always be moved outside; variables cannot.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Adjusting for Missing Constants</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'adj','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'adj','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'adj','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="adj-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ x³(x⁴ − 5)⁶ dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Choose u and find du</div><div class="gs-content"><span class="morange">u = x⁴ − 5</span> &nbsp;|&nbsp; du/dx = 4x³ &nbsp;→&nbsp; <span class="m">du = 4x³ dx</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">The integrand has x³ dx, but du needs 4x³ dx. Solve for x³ dx.</div><div class="gs-content">x³ dx = <span class="m">du/4</span></div><div class="gs-why">→ Divide both sides of du = 4x³ dx by 4.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute and factor the constant</div><div class="gs-content">∫ <span class="morange">u</span>⁶ · <span class="m"><span class="fr"><span class="n">du</span><span class="d">4</span></span></span> = <span class="fr"><span class="n">1</span><span class="d">4</span></span> ∫ u⁶ du</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Integrate and back-substitute</div><div class="gs-content">= <span class="fr"><span class="n">1</span><span class="d">4</span></span> · <span class="fr"><span class="n">u⁷</span><span class="d">7</span></span> = <strong><span class="fr"><span class="n">(x⁴−5)⁷</span><span class="d">28</span></span> + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="adj-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ x(3x² + 1)⁴ dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Let u = 3x²+1. Find du.</div><input class="s-input" type="text" placeholder="du = ... dx → x dx = du/(?)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Substitute (replace x dx with du/constant)</div><input class="s-input" type="text" placeholder="∫ u^4 · (du/?) = (1/?) ∫ u^4 du"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Integrate and back-substitute with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = 3x²+1 &nbsp;|&nbsp; du = 6x dx &nbsp;→&nbsp; x dx = du/6<br><br>(1/6)∫ u⁴ du = (1/6) · u⁵/5 = u⁵/30<br><br><strong>= (3x²+1)⁵ / 30 + C</strong></div>
+        </div>
+        <div class="pane" id="adj-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ x² √(x³+1) dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = x³+1 &nbsp;|&nbsp; du = 3x² dx &nbsp;→&nbsp; x² dx = du/3<br><br>∫ u^(1/2) · du/3 = (1/3) · u^(3/2)/(3/2) = (2/9)u^(3/2)<br><br><strong>= (2/9)(x³+1)^(3/2) + C</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.4 · U-SUB WITH TRIG
+  ══════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">7.4</span>
+      <h2 class="topic-title">U-Substitution with Trig Functions</h2>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-name">Trig of a Linear Function</div>
+      <div class="pattern-trigger">Trigger: sin(ax+b), cos(ax+b), sec²(ax+b), etc.</div>
+      <div class="pattern-body">
+        u = ax+b &nbsp;→&nbsp; du = a dx &nbsp;→&nbsp; dx = du/a<br><br>
+        ∫ sin(3x) dx: u = 3x, du = 3dx, dx = du/3<br>
+        = ∫ sin(u) · du/3 = (1/3)(−cos u) = <strong>−cos(3x)/3 + C</strong><br><br>
+        ∫ cos(5x+2) dx: u = 5x+2, dx = du/5<br>
+        = (1/5) sin(5x+2) + C
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-name">Trig Function Raised to a Power</div>
+      <div class="pattern-trigger">Trigger: sinⁿx · cos x &nbsp; or &nbsp; cosⁿx · sin x</div>
+      <div class="pattern-body">
+        When trig is raised to a power and multiplied by its own derivative:<br><br>
+        ∫ sin⁴x · cos x dx: &nbsp;u = sin x, du = cos x dx<br>
+        = ∫ u⁴ du = u⁵/5 = <strong>sin⁵x / 5 + C</strong><br><br>
+        ∫ cos³x · (−sin x) dx: &nbsp;u = cos x, du = −sin x dx<br>
+        = ∫ u³ du = u⁴/4 = <strong>cos⁴x / 4 + C</strong>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-name">Trig Function Inside Another Function</div>
+      <div class="pattern-trigger">Trigger: e^(sin x), ln(cos x), [tan x]ⁿ · sec²x</div>
+      <div class="pattern-body">
+        ∫ e^(sin x) · cos x dx: &nbsp;u = sin x, du = cos x dx<br>
+        = ∫ e^u du = e^u = <strong>e^(sin x) + C</strong><br><br>
+        ∫ tan⁵x · sec²x dx: &nbsp;u = tan x, du = sec²x dx<br>
+        = ∫ u⁵ du = u⁶/6 = <strong>tan⁶x / 6 + C</strong>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · U-Sub with Trig</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'trig','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="trig-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ sin³x · cos x dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify the pattern</div><div class="gs-content">sin³x is a power of sin. Multiplied by cos x — which is exactly the derivative of sin x. <strong>Classic u-sub pattern.</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Choose u and find du</div><div class="gs-content"><span class="morange">u = sin x</span> &nbsp;|&nbsp; <span class="m">du = cos x dx</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute — cos x dx is exactly du</div><div class="gs-content">∫ <span class="morange">sin³x</span> · <span class="m">cos x dx</span> = ∫ <span class="morange">u³</span> <span class="m">du</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Integrate and back-substitute</div><div class="gs-content">= <span class="fr"><span class="n">u⁴</span><span class="d">4</span></span> = <strong><span class="fr"><span class="n">sin⁴x</span><span class="d">4</span></span> + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="trig-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ cos(4x + 1) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — What is u? (the argument of cosine)</div><input class="s-input" type="text" placeholder="u = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find du, then solve for dx</div><input class="s-input" type="text" placeholder="du = ... dx → dx = du/(?)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Substitute and integrate ∫ cos(u) · du/constant</div><input class="s-input" type="text" placeholder="= (1/?) ∫ cos u du = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Back-substitute with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = 4x+1 &nbsp;|&nbsp; du = 4 dx &nbsp;→&nbsp; dx = du/4<br><br>(1/4) ∫ cos(u) du = (1/4) sin(u)<br><br><strong>= sin(4x+1) / 4 + C</strong></div>
+        </div>
+        <div class="pane" id="trig-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ tan²x · sec²x dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = tan x &nbsp;|&nbsp; du = sec²x dx<br><br>∫ u² du = u³/3<br><br><strong>= tan³x / 3 + C</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.5 · U-SUB WITH E^x AND LN
+  ══════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">7.5</span>
+      <h2 class="topic-title">U-Substitution with e^x and ln</h2>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-name">e raised to a function</div>
+      <div class="pattern-trigger">Trigger: e^(f(x)) · f′(x) — the exponent's derivative is present</div>
+      <div class="pattern-body">
+        ∫ e^(x²) · 2x dx: &nbsp;u = x², du = 2x dx<br>
+        = ∫ e^u du = e^u = <strong>e^(x²) + C</strong><br><br>
+        ∫ e^(3x+1) · 3 dx: &nbsp;u = 3x+1, du = 3 dx<br>
+        = ∫ e^u du = <strong>e^(3x+1) + C</strong><br><br>
+        ∫ e^(sin x) · cos x dx: &nbsp;u = sin x, du = cos x dx<br>
+        = ∫ e^u du = <strong>e^(sin x) + C</strong>
+      </div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-name">1/f(x) · f′(x) — produces ln</div>
+      <div class="pattern-trigger">Trigger: numerator is the derivative of the denominator</div>
+      <div class="pattern-body">
+        ∫ <span class="fr"><span class="n">2x</span><span class="d">x² + 1</span></span> dx: &nbsp;u = x²+1, du = 2x dx<br>
+        = ∫ <span class="fr"><span class="n">du</span><span class="d">u</span></span> = ln|u| = <strong>ln|x²+1| + C</strong><br><br>
+        ∫ <span class="fr"><span class="n">cos x</span><span class="d">sin x</span></span> dx: &nbsp;u = sin x, du = cos x dx<br>
+        = ∫ <span class="fr"><span class="n">du</span><span class="d">u</span></span> = <strong>ln|sin x| + C</strong>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">💡</span>
+      <span><strong>ln pattern recognition:</strong> Any time the numerator is (or is proportional to) the derivative of the denominator, the answer is ln|denominator| + C. This is the most common pattern on the AP exam for integrals that produce logarithms.</span>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · U-Sub with e^x and ln</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'expln','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'expln','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'expln','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="expln-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ <span class="fr"><span class="n">3x²</span><span class="d">x³ + 5</span></span> dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Recognize the pattern</div><div class="gs-content">Numerator 3x² = derivative of denominator x³+5. This is the <strong>∫ f′/f = ln|f| pattern</strong>.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Choose u = denominator, find du</div><div class="gs-content"><span class="morange">u = x³ + 5</span> &nbsp;|&nbsp; <span class="m">du = 3x² dx</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute</div><div class="gs-content">∫ <span class="fr"><span class="n"><span class="m">3x² dx</span></span><span class="d"><span class="morange">x³+5</span></span></span> = ∫ <span class="fr"><span class="n">du</span><span class="d">u</span></span></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Integrate and back-substitute</div><div class="gs-content">= ln|u| = <strong>ln|x³ + 5| + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="expln-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ x · e^(x²) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — What is u? (the exponent)</div><input class="s-input" type="text" placeholder="u = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find du. Does x dx appear? Solve for x dx in terms of du.</div><input class="s-input" type="text" placeholder="du = ... → x dx = du/(?)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Substitute and integrate ∫ e^u · du/constant</div><input class="s-input" type="text" placeholder="= (1/?) ∫ e^u du = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Back-substitute with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = x² &nbsp;|&nbsp; du = 2x dx &nbsp;→&nbsp; x dx = du/2<br><br>(1/2) ∫ e^u du = (1/2) e^u<br><br><strong>= e^(x²)/2 + C</strong></div>
+        </div>
+        <div class="pane" id="expln-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ <span class="fr"><span class="n">sin x</span><span class="d">2 + cos x</span></span> dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Numerator sin x = −(derivative of denominator 2+cos x, since d/dx[cos x] = −sin x)<br><br>u = 2 + cos x &nbsp;|&nbsp; du = −sin x dx &nbsp;→&nbsp; sin x dx = −du<br><br>∫ −du/u = −ln|u|<br><br><strong>= −ln|2 + cos x| + C</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.6 · U-SUB ON DEFINITE INTEGRALS
+  ══════════════════════════ -->
+  <div class="topic" id="t6">
+    <div class="topic-header">
+      <span class="topic-num">7.6</span>
+      <h2 class="topic-title">U-Substitution on Definite Integrals</h2>
+      <span class="topic-sub">Two methods — know both</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Two Valid Methods</div>
+
+      <div class="bounds-card">
+        <div class="bounds-header">Method A — Change the Bounds (Cleaner)</div>
+        <div class="bounds-body">
+          When you substitute u = g(x), also convert the x-bounds to u-bounds using u = g(x).<br>
+          Then you can evaluate directly without back-substituting.<br><br>
+          <strong>Procedure:</strong><br>
+          Lower bound: substitute x = a into u = g(x) → u = g(a)<br>
+          Upper bound: substitute x = b into u = g(x) → u = g(b)<br><br>
+          Then evaluate ∫<sub>g(a)</sub><sup>g(b)</sup> f(u) du directly.
+        </div>
+      </div>
+
+      <div class="bounds-card" style="margin-top:10px">
+        <div class="bounds-header">Method B — Back-Substitute First</div>
+        <div class="bounds-body">
+          Treat the integral as indefinite, find F(u), back-substitute to F(g(x)), then evaluate at original x-bounds.<br><br>
+          More steps, but avoids changing bounds. Both methods give the same answer.
+        </div>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Definite Integrals with U-Sub</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'defn','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'defn','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'defn','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="defn-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>2</sup> 2x(x² + 1)³ dx using Method A (change bounds)</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Choose u and find du</div><div class="gs-content"><span class="morange">u = x² + 1</span> &nbsp;|&nbsp; <span class="m">du = 2x dx</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Change the bounds</div><div class="gs-content">When x = 0: u = 0² + 1 = <strong>1</strong><br>When x = 2: u = 4 + 1 = <strong>5</strong></div><div class="gs-why">→ The new integral runs from u = 1 to u = 5.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write and evaluate the u-integral with new bounds</div><div class="gs-content">∫<sub>1</sub><sup>5</sup> u³ du = [<span class="fr"><span class="n">u⁴</span><span class="d">4</span></span>]<sub>1</sub><sup>5</sup> = <span class="fr"><span class="n">625</span><span class="d">4</span></span> − <span class="fr"><span class="n">1</span><span class="d">4</span></span> = <strong><span class="fr"><span class="n">624</span><span class="d">4</span></span> = 156</strong></div><div class="gs-why">→ No back-substitution needed. The bounds are already in u.</div></div></div>
+        </div>
+        <div class="pane" id="defn-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>π/4</sup> sin(2x) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Let u = 2x. Find du and dx.</div><input class="s-input" type="text" placeholder="du = ... → dx = du/(?)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Change the bounds. When x = 0: u = ? When x = π/4: u = ?</div><input class="s-input" type="text" placeholder="New lower bound: u = ... , New upper bound: u = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Write and evaluate ∫ sin(u) · du/2 from new bounds</div><input class="s-input" type="text" placeholder="= (1/2)[-cos u] from ... to ... = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = 2x &nbsp;|&nbsp; du = 2 dx &nbsp;→&nbsp; dx = du/2<br>Bounds: x=0 → u=0; x=π/4 → u=π/2<br><br>(1/2) ∫<sub>0</sub><sup>π/2</sup> sin u du = (1/2)[−cos u]<sub>0</sub><sup>π/2</sup><br>= (1/2)(−cos(π/2) + cos(0)) = (1/2)(0 + 1) = <strong>1/2</strong></div>
+        </div>
+        <div class="pane" id="defn-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>1</sub><sup>e</sup> <span class="fr"><span class="n">ln x</span><span class="d">x</span></span> dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">u = ln x &nbsp;|&nbsp; du = (1/x) dx &nbsp;→&nbsp; (ln x / x) dx = u du<br>Bounds: x=1 → u=ln 1=0; x=e → u=ln e=1<br><br>∫<sub>0</sub><sup>1</sup> u du = [u²/2]<sub>0</sub><sup>1</sup> = 1/2 − 0 = <strong>1/2</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       7.7 · WHEN U-SUB FAILS
+  ══════════════════════════ -->
+  <div class="topic" id="t7">
+    <div class="topic-header">
+      <span class="topic-num">7.7</span>
+      <h2 class="topic-title">When U-Sub Fails — and What to Try Instead</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Signs That U-Sub Won't Work</div>
+      <table class="dtable">
+        <thead><tr><th>Integral</th><th>Why u-sub fails</th><th>What to try</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="morange">∫ x · e^x dx</td>
+            <td style="color:var(--tx2);font-weight:300;">u = x → du = dx, but e^x isn't eliminated. u = e^x → du = e^x dx, but x isn't eliminated.</td>
+            <td style="color:var(--green);font-weight:300;">Integration by parts (BC topic)</td>
+          </tr>
+          <tr>
+            <td class="morange">∫ x² sin x dx</td>
+            <td style="color:var(--tx2);font-weight:300;">No choice of u eliminates all x variables.</td>
+            <td style="color:var(--green);font-weight:300;">Integration by parts</td>
+          </tr>
+          <tr>
+            <td class="morange">∫ e^(x²) dx</td>
+            <td style="color:var(--tx2);font-weight:300;">u = x², du = 2x dx — but there's no x in the integrand to supply the x in du.</td>
+            <td style="color:var(--green);font-weight:300;">No closed form. Numerical methods only.</td>
+          </tr>
+          <tr>
+            <td class="morange">∫ sin²x dx</td>
+            <td style="color:var(--tx2);font-weight:300;">No product structure — nothing to substitute. cos x not present.</td>
+            <td style="color:var(--green);font-weight:300;">Trig identity: sin²x = (1−cos 2x)/2 → integrate directly.</td>
+          </tr>
+          <tr>
+            <td class="morange">∫ sec x dx</td>
+            <td style="color:var(--tx2);font-weight:300;">No obvious inner/outer structure.</td>
+            <td style="color:var(--green);font-weight:300;">Multiply by (sec x + tan x)/(sec x + tan x). Result: ln|sec x + tan x| + C</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>The most common u-sub mistake:</strong> Choosing u and then having leftover x terms that can't be expressed in terms of u. This is the signal to try a different u or a different technique entirely.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · U-Substitution Patterns</div>
+    <table class="dtable">
+      <thead><tr><th>Integral Form</th><th>Choose u =</th><th>Result Pattern</th></tr></thead>
+      <tbody>
+        <tr><td class="morange">∫ [g(x)]ⁿ · g′(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">[g(x)]ⁿ⁺¹ / (n+1) + C</td></tr>
+        <tr><td class="morange">∫ e^(g(x)) · g′(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">e^(g(x)) + C</td></tr>
+        <tr><td class="morange">∫ g′(x)/g(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">ln|g(x)| + C</td></tr>
+        <tr><td class="morange">∫ sin(g(x)) · g′(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">−cos(g(x)) + C</td></tr>
+        <tr><td class="morange">∫ cos(g(x)) · g′(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">sin(g(x)) + C</td></tr>
+        <tr><td class="morange">∫ sec²(g(x)) · g′(x) dx</td><td style="color:var(--tx2);font-weight:300;">g(x)</td><td style="color:var(--green);font-weight:300;">tan(g(x)) + C</td></tr>
+        <tr><td class="morange">∫ sinⁿx · cos x dx</td><td style="color:var(--tx2);font-weight:300;">sin x</td><td style="color:var(--green);font-weight:300;">sinⁿ⁺¹x / (n+1) + C</td></tr>
+        <tr><td class="morange">∫ cosⁿx · (−sin x) dx</td><td style="color:var(--tx2);font-weight:300;">cos x</td><td style="color:var(--green);font-weight:300;">cosⁿ⁺¹x / (n+1) + C</td></tr>
+        <tr><td class="morange">∫ tanⁿx · sec²x dx</td><td style="color:var(--tx2);font-weight:300;">tan x</td><td style="color:var(--green);font-weight:300;">tanⁿ⁺¹x / (n+1) + C</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:12px 14px;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:8px;font-size:12px;color:var(--tx2);font-weight:300;line-height:1.75;">
+      <strong style="color:var(--orange)">Definite integrals:</strong> After substituting, change bounds using u = g(x) at x = a and x = b. Evaluate the u-integral at the new bounds without back-substituting.
+    </div>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s07-usubstitution.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

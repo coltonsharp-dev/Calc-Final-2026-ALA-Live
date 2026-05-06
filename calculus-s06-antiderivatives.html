@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 06 · Antiderivatives & Integrals</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828; --d3:#161e30;
+    --glass:rgba(255,255,255,0.044); --gb:rgba(255,255,255,0.08);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#f87171;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(248,113,113,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at center,rgba(248,113,113,0.055) 0%,rgba(245,200,66,0.025) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  /* NAV */
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.28);color:var(--red);}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  /* HEADER */
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--red),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  /* TOPIC */
+  .topic{margin-bottom:60px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;text-align:right;}
+
+  /* CONCEPT */
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  /* FORMULA BOX */
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.1;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.teal{border-left-color:var(--teal);}
+
+  /* BIG RULE CARD */
+  .rule-card{background:var(--d1);border:1px solid var(--b2);border-radius:14px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
+  .rule-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--tx);margin-bottom:10px;}
+  .rule-formula{font-size:15px;font-weight:400;color:var(--gold);padding:12px 16px;background:rgba(245,200,66,0.06);border-radius:8px;border:1px solid rgba(245,200,66,0.15);line-height:2.2;margin:10px 0;}
+  .rule-note{font-size:11px;font-weight:300;color:var(--tx3);margin-top:8px;line-height:1.65;}
+
+  /* TRIG ANTI TABLE */
+  .trig-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+  .trig-cell{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:14px 16px;}
+  .trig-cell .tc-int{font-size:12px;font-weight:400;color:var(--tx2);margin-bottom:6px;}
+  .trig-cell .tc-result{font-size:13px;font-weight:500;color:var(--gold);line-height:1.8;}
+  .trig-cell .tc-mem{font-size:11px;color:var(--tx3);margin-top:5px;font-style:italic;}
+  .trig-cell.neg{border-left:2px solid rgba(248,113,113,0.5);}
+  .trig-cell.neg .tc-result{color:var(--red);}
+
+  /* CALLOUT */
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* STEPS */
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.22);color:var(--red);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* COMPARE */
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+  .cmp-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:16px;}
+  .cmp-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+  .cmp-body{font-size:12px;font-weight:300;color:var(--tx2);line-height:1.85;}
+  .cmp-body strong{color:var(--tx);font-weight:500;}
+
+  /* TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  /* MATH */
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  /* GUIDED STEPS */
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  /* PRACTICE */
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);color:var(--red);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(248,113,113,0.16);border-color:var(--red);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  /* INVERSE TABLE — derivative ↔ antiderivative */
+  .inv-table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .inv-table th{background:var(--d2);padding:10px 14px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .inv-table td{padding:10px 14px;border-bottom:1px solid var(--b);vertical-align:middle;}
+  .inv-table .arrow-col{text-align:center;color:var(--tx3);font-size:16px;padding:0 8px;}
+  .inv-table tr:hover td{background:var(--glass);}
+  .d-col{color:var(--blue);font-weight:400;}
+  .a-col{color:var(--red);font-weight:400;}
+
+  /* C BADGE */
+  .c-badge{display:inline-block;background:rgba(248,113,113,0.15);border:1px solid rgba(248,113,113,0.35);color:var(--red);font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;margin-left:4px;letter-spacing:0.05em;}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--red),var(--orange));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .trig-grid,.compare-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 06</span>
+  <span class="nav-badge">Antiderivatives &amp; Integrals</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 06 · AP Calculus AB</div>
+    <h1 class="sec-title">Antiderivatives<br><span>&amp; Integrals</span></h1>
+    <p class="sec-desc">The full antiderivative rule table, trig antiderivatives with a memory system, the +C rule and exactly when it applies, indefinite vs definite integrals, and step-by-step solving with every rule annotated.</p>
+  </div>
+
+
+  <!-- ══════════════════════════
+       6.1 · WHAT AN ANTIDERIVATIVE IS
+  ══════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">6.1</span>
+      <h2 class="topic-title">What an Antiderivative Is</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Core Idea</div>
+      <p>Differentiation asks: <strong>"What is the rate of change of f?"</strong> — gives you f′.</p>
+      <p>Antidifferentiation asks: <strong>"What function has this as its derivative?"</strong> — reverses the process.</p>
+      <p>F(x) is an antiderivative of f(x) if <span class="mgreen">F′(x) = f(x)</span>. The process of finding F is called <strong>integration</strong>, and f(x) is called the <strong>integrand</strong>.</p>
+      <div class="fbox">
+        <div class="flabel">Notation</div>
+        ∫ f(x) dx = F(x) + C<br><br>
+        <span style="font-size:11px;color:var(--tx3)">
+          ∫ = integral sign &nbsp;|&nbsp; f(x) = integrand &nbsp;|&nbsp; dx = variable of integration &nbsp;|&nbsp; F(x) = antiderivative &nbsp;|&nbsp; C = constant of integration
+        </span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Differentiation and Antidifferentiation Are Inverses</div>
+      <p>They undo each other — with one catch. Differentiation destroys constant information. Antidifferentiation has to account for any constant that could have been there.</p>
+      <div class="compare-row">
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--blue)">Differentiation</div>
+          <div class="cmp-body">
+            f(x) = x³ + 7<br>
+            f′(x) = <strong>3x²</strong><br><br>
+            f(x) = x³ − 4<br>
+            f′(x) = <strong>3x²</strong><br><br>
+            <em>Both give the same derivative. The constant is lost.</em>
+          </div>
+        </div>
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--red)">Antidifferentiation</div>
+          <div class="cmp-body">
+            ∫ 3x² dx = <strong>x³ + C</strong><br><br>
+            C represents any constant that could have been there — +7, −4, 0, or anything else.<br><br>
+            <em>We can't know the constant without more info (initial condition).</em>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <span><strong>Family of antiderivatives:</strong> ∫ 3x² dx = x³ + C represents an entire family of functions — one for every value of C. The + C is not optional. It is part of the answer.</span>
+      </div>
+    </div>
+
+    <!-- Derivative ↔ Antiderivative table -->
+    <div class="concept">
+      <div class="concept-title">How To Read The Inverse Relationship</div>
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Derivative (→)</th>
+            <th class="arrow-col"></th>
+            <th>Antiderivative (←)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="d-col">d/dx [x⁴] = 4x³</td><td class="arrow-col">⟷</td><td class="a-col">∫ 4x³ dx = x⁴ + C</td></tr>
+          <tr><td class="d-col">d/dx [sin x] = cos x</td><td class="arrow-col">⟷</td><td class="a-col">∫ cos x dx = sin x + C</td></tr>
+          <tr><td class="d-col">d/dx [e^x] = e^x</td><td class="arrow-col">⟷</td><td class="a-col">∫ e^x dx = e^x + C</td></tr>
+          <tr><td class="d-col">d/dx [ln x] = 1/x</td><td class="arrow-col">⟷</td><td class="a-col">∫ 1/x dx = ln|x| + C</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       6.2 · THE +C RULE
+  ══════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">6.2</span>
+      <h2 class="topic-title">The +C Rule</h2>
+      <span class="topic-sub">Most dropped point on the AP exam</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Exactly When to Write +C and When Not To</div>
+      <div class="compare-row">
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--red)">ALWAYS write +C</div>
+          <div class="cmp-body">
+            <strong>Indefinite integrals</strong> — no bounds on the integral sign.<br><br>
+            ∫ x² dx = <strong>x³/3 + C</strong><br>
+            ∫ cos x dx = <strong>sin x + C</strong><br><br>
+            If +C is missing on an indefinite integral, it is <em>wrong</em> — graders deduct.
+          </div>
+        </div>
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--green)">NEVER write +C</div>
+          <div class="cmp-body">
+            <strong>Definite integrals</strong> — bounds are given.<br><br>
+            ∫₀² x² dx = [x³/3]₀² = 8/3 − 0 = <strong>8/3</strong><br><br>
+            The +C cancels when you subtract F(a) from F(b), so it's never in the final answer.
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Single most penalized mistake on FRQs:</strong> Omitting +C on an indefinite integral. Build the habit — every indefinite integral answer ends with <span class="c-badge">+ C</span></span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Finding a Specific Antiderivative Using an Initial Condition</div>
+      <p>When you're given a point (initial condition), you can solve for C and get the <strong>particular antiderivative</strong> — the one specific function in the family.</p>
+      <div class="fbox gold">
+        <div class="flabel">Method</div>
+        Given: f′(x) = 2x and f(3) = 10. Find f(x).<br><br>
+        Step 1: Integrate → f(x) = x² + C<br>
+        Step 2: Apply initial condition → f(3) = 9 + C = 10 → <strong>C = 1</strong><br>
+        Step 3: Particular solution → <strong>f(x) = x² + 1</strong>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       6.3 · BASIC ANTIDERIVATIVE RULES
+  ══════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">6.3</span>
+      <h2 class="topic-title">Basic Antiderivative Rules</h2>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Power Rule for Integrals</div>
+      <div class="rule-formula">∫ x<sup>n</sup> dx = <span class="fr"><span class="n">x<sup>n+1</sup></span><span class="d">n+1</span></span> + C &nbsp;&nbsp;&nbsp; (n ≠ −1)</div>
+      <div class="rule-note">Add 1 to the exponent, then divide by the new exponent. The reverse of multiplying by n and subtracting 1.</div>
+      <div class="fbox" style="margin-top:12px">
+        <div class="flabel">Examples</div>
+        ∫ x⁵ dx = <span class="mgreen">x⁶/6 + C</span> &nbsp;|&nbsp;
+        ∫ x<sup>−2</sup> dx = <span class="mgreen">x<sup>−1</sup>/(−1) + C = −1/x + C</span><br>
+        ∫ x<sup>1/2</sup> dx = <span class="mgreen">x<sup>3/2</sup>/(3/2) + C = (2/3)x<sup>3/2</sup> + C</span><br>
+        ∫ √x dx = <span class="mgreen">(2/3)x<sup>3/2</sup> + C</span> &nbsp;|&nbsp;
+        ∫ 1 dx = <span class="mgreen">x + C</span>
+      </div>
+      <div class="callout callout-err" style="margin-top:10px">
+        <span class="callout-icon">❌</span>
+        <span><strong>Cannot use when n = −1.</strong> ∫ x<sup>−1</sup> dx = ∫ 1/x dx = <strong>ln|x| + C</strong>, not x⁰/0 (division by zero). This is a separate rule.</span>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Constant &amp; Constant Multiple Rules</div>
+      <div class="rule-formula">
+        ∫ k dx = <span class="mgreen">kx + C</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        ∫ k·f(x) dx = <span class="mgreen">k · ∫ f(x) dx</span>
+      </div>
+      <div class="rule-note">Constants factor out of integrals. The integral of a constant k is kx, not just k.</div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Sum / Difference Rule</div>
+      <div class="rule-formula">∫ [f(x) ± g(x)] dx = <span class="mgreen">∫ f(x) dx ± ∫ g(x) dx</span></div>
+      <div class="rule-note">Integrate term by term. Just like differentiation.</div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Exponential &amp; Log Rules</div>
+      <div class="rule-formula">
+        ∫ e<sup>x</sup> dx = <span class="mgreen">e<sup>x</sup> + C</span><br>
+        ∫ <span class="fr"><span class="n">1</span><span class="d">x</span></span> dx = <span class="mgreen">ln|x| + C</span><br>
+        ∫ a<sup>x</sup> dx = <span class="mgreen"><span class="fr"><span class="n">a<sup>x</sup></span><span class="d">ln a</span></span> + C</span>
+      </div>
+      <div class="rule-note">e^x is its own antiderivative. 1/x integrates to ln|x| — the absolute value matters when x could be negative.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Basic Antiderivative Rules</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'basic','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="basic-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (4x³ − <span class="fr"><span class="n">3</span><span class="d">x²</span></span> + 5√x + 2) dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Rewrite everything as powers of x</div><div class="gs-content">= ∫ (4x³ − <strong>3x<sup>−2</sup></strong> + <strong>5x<sup>1/2</sup></strong> + 2) dx</div><div class="gs-why">→ Same rule as differentiation — convert roots and fractions to exponent form before applying the power rule.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Integrate term by term using power rule</div><div class="gs-content">
+            4x³ → 4 · <span class="fr"><span class="n">x⁴</span><span class="d">4</span></span> = <strong>x⁴</strong><br>
+            −3x<sup>−2</sup> → −3 · <span class="fr"><span class="n">x<sup>−1</sup></span><span class="d">−1</span></span> = <strong>3x<sup>−1</sup></strong><br>
+            5x<sup>1/2</sup> → 5 · <span class="fr"><span class="n">x<sup>3/2</sup></span><span class="d">3/2</span></span> = 5 · <span class="fr"><span class="n">2</span><span class="d">3</span></span>x<sup>3/2</sup> = <strong><span class="fr"><span class="n">10</span><span class="d">3</span></span>x<sup>3/2</sup></strong><br>
+            2 → <strong>2x</strong>
+          </div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Assemble with +C, convert notation</div><div class="gs-content">= <strong>x⁴ + <span class="fr"><span class="n">3</span><span class="d">x</span></span> + <span class="fr"><span class="n">10</span><span class="d">3</span></span>x<sup>3/2</sup> + 2x + C</strong></div><div class="gs-why">→ 3x⁻¹ = 3/x. The +C is mandatory — this is an indefinite integral.</div></div></div>
+        </div>
+        <div class="pane" id="basic-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (6x² + <span class="fr"><span class="n">4</span><span class="d">x³</span></span> − 3e^x) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Rewrite fractions as negative exponents</div><input class="s-input" type="text" placeholder="4/x³ = 4x^(?)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Apply power rule to each polynomial term. What do 6x² and 4x⁻³ become?</div><input class="s-input" type="text" placeholder="∫6x² dx = ... , ∫4x⁻³ dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Integrate −3e^x and assemble the full answer with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            4/x³ = 4x⁻³<br><br>
+            ∫ 6x² dx = 2x³<br>
+            ∫ 4x⁻³ dx = 4 · x⁻²/(−2) = −2x⁻² = −2/x²<br>
+            ∫ −3e^x dx = −3e^x<br><br>
+            <strong>Answer: 2x³ − 2/x² − 3e^x + C</strong>
+          </div>
+        </div>
+        <div class="pane" id="basic-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (5x⁴ − <span class="fr"><span class="n">2</span><span class="d">x</span></span> + 7e^x − 4x<sup>1/3</sup>) dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            ∫ 5x⁴ dx = x⁵<br>
+            ∫ −2/x dx = −2 ln|x|<br>
+            ∫ 7e^x dx = 7e^x<br>
+            ∫ −4x<sup>1/3</sup> dx = −4 · x<sup>4/3</sup>/(4/3) = −3x<sup>4/3</sup><br><br>
+            <strong>Answer: x⁵ − 2ln|x| + 7e^x − 3x<sup>4/3</sup> + C</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       6.4 · TRIG ANTIDERIVATIVES
+  ══════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">6.4</span>
+      <h2 class="topic-title">Trig Antiderivatives</h2>
+      <span class="topic-sub">Full table + memory system</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Full Table — All 6 Functions</div>
+      <div class="trig-grid">
+        <div class="trig-cell">
+          <div class="tc-int">∫ sin x dx</div>
+          <div class="tc-result">= −cos x + C</div>
+          <div class="tc-mem">sin integrates to −cos (gets negative)</div>
+        </div>
+        <div class="trig-cell">
+          <div class="tc-int">∫ cos x dx</div>
+          <div class="tc-result">= sin x + C</div>
+          <div class="tc-mem">cos integrates to +sin (no negative)</div>
+        </div>
+        <div class="trig-cell neg">
+          <div class="tc-int">∫ sec²x dx</div>
+          <div class="tc-result">= tan x + C</div>
+          <div class="tc-mem">sec² → tan (undo the derivative of tan)</div>
+        </div>
+        <div class="trig-cell neg">
+          <div class="tc-int">∫ csc²x dx</div>
+          <div class="tc-result">= −cot x + C</div>
+          <div class="tc-mem">csc² → −cot (negative for co-function)</div>
+        </div>
+        <div class="trig-cell">
+          <div class="tc-int">∫ sec x tan x dx</div>
+          <div class="tc-result">= sec x + C</div>
+          <div class="tc-mem">sec·tan → sec (undo d/dx[sec x])</div>
+        </div>
+        <div class="trig-cell">
+          <div class="tc-int">∫ csc x cot x dx</div>
+          <div class="tc-result">= −csc x + C</div>
+          <div class="tc-mem">csc·cot → −csc (negative for co-)</div>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Memory system — read the derivative table backwards:</strong> Every trig antiderivative is exactly the reverse of the corresponding trig derivative. If d/dx[sin x] = cos x, then ∫ cos x dx = sin x. If d/dx[−cos x] = sin x, then ∫ sin x dx = −cos x. You already know these — just read the derivative table in reverse.</span>
+      </div>
+
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Most common trig antiderivative error:</strong> Writing ∫ sin x dx = +cos x (missing the negative). The negative comes from reversing d/dx[cos x] = −sin x. When you flip that: ∫ sin x dx = −cos x + C.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Trig Antiderivatives</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'trig','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="trig-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (3 sin x − 5 sec²x + 2 cos x) dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Integrate term by term</div><div class="gs-content">
+            ∫ 3 sin x dx = 3 · (−cos x) = <strong>−3 cos x</strong><br>
+            ∫ −5 sec²x dx = −5 · (tan x) = <strong>−5 tan x</strong><br>
+            ∫ 2 cos x dx = 2 · (sin x) = <strong>2 sin x</strong>
+          </div><div class="gs-why">→ Each term uses its trig antiderivative. Scalar multiples factor out and survive.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Assemble with +C</div><div class="gs-content"><strong>= −3 cos x − 5 tan x + 2 sin x + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="trig-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (4 cos x + 2 csc²x − sec x tan x) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">What is the antiderivative of each term separately?</div><input class="s-input" type="text" placeholder="∫4cos x dx = ... , ∫2csc²x dx = ... , ∫−sec x tan x dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Assemble the full answer with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            ∫ 4 cos x dx = 4 sin x<br>
+            ∫ 2 csc²x dx = −2 cot x<br>
+            ∫ −sec x tan x dx = −sec x<br><br>
+            <strong>Answer: 4 sin x − 2 cot x − sec x + C</strong>
+          </div>
+        </div>
+        <div class="pane" id="trig-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ (6 sin x − 4 csc x cot x + 3 sec²x) dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            ∫ 6 sin x dx = −6 cos x<br>
+            ∫ −4 csc x cot x dx = 4 csc x &nbsp;(since ∫ csc x cot x dx = −csc x, times −4 gives +4 csc x)<br>
+            ∫ 3 sec²x dx = 3 tan x<br><br>
+            <strong>Answer: −6 cos x + 4 csc x + 3 tan x + C</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       6.5 · INDEFINITE vs DEFINITE
+  ══════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">6.5</span>
+      <h2 class="topic-title">Indefinite vs Definite Integrals</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Difference</div>
+      <div class="compare-row">
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--red)">Indefinite Integral</div>
+          <div class="cmp-body">
+            ∫ f(x) dx<br><br>
+            <strong>No bounds.</strong> Answer is a <em>function</em> — the family of all antiderivatives.<br><br>
+            Result: F(x) + C<br><br>
+            Always ends with <strong>+ C</strong>.
+          </div>
+        </div>
+        <div class="cmp-card">
+          <div class="cmp-title" style="color:var(--green)">Definite Integral</div>
+          <div class="cmp-body">
+            ∫<sub>a</sub><sup>b</sup> f(x) dx<br><br>
+            <strong>Has bounds a and b.</strong> Answer is a <em>number</em> — the net area under f from a to b.<br><br>
+            Result: F(b) − F(a)<br><br>
+            Never ends with + C.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Evaluating Definite Integrals — Step by Step</div>
+      <ol class="steps">
+        <li><strong>Find the antiderivative F(x).</strong><span class="why">→ Do not write +C here — it cancels anyway and clutters the work.</span></li>
+        <li><strong>Write [F(x)]<sub>a</sub><sup>b</sup> using bracket notation.</strong><span class="why">→ This notation means "evaluate F from a to b."</span></li>
+        <li><strong>Compute F(b) − F(a).</strong><span class="why">→ Substitute the upper bound first, then subtract the lower bound value.</span></li>
+        <li><strong>Simplify to a single number.</strong></li>
+      </ol>
+      <div class="fbox green">
+        <div class="flabel">Fully Worked Example</div>
+        ∫<sub>1</sub><sup>3</sup> (x² + 2) dx<br><br>
+        = [<span class="fr"><span class="n">x³</span><span class="d">3</span></span> + 2x]<sub>1</sub><sup>3</sup><br><br>
+        = (<span class="fr"><span class="n">27</span><span class="d">3</span></span> + 6) − (<span class="fr"><span class="n">1</span><span class="d">3</span></span> + 2)<br><br>
+        = (9 + 6) − (<span class="fr"><span class="n">1</span><span class="d">3</span></span> + 2)<br><br>
+        = 15 − <span class="fr"><span class="n">7</span><span class="d">3</span></span> = <span class="mgreen"><span class="fr"><span class="n">38</span><span class="d">3</span></span></span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Properties of Definite Integrals — Know These for FRQs</div>
+      <table class="dtable">
+        <thead><tr><th>Property</th><th>Rule</th><th>What It Means</th></tr></thead>
+        <tbody>
+          <tr><td class="m">Flip bounds</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>b</sup> f = −∫<sub>b</sub><sup>a</sup> f</td><td style="color:var(--tx3);font-weight:300;">Swapping bounds negates the integral</td></tr>
+          <tr><td class="m">Same bounds</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>a</sup> f = 0</td><td style="color:var(--tx3);font-weight:300;">No width → no area</td></tr>
+          <tr><td class="m">Split interval</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>b</sup> f = ∫<sub>a</sub><sup>c</sup> f + ∫<sub>c</sub><sup>b</sup> f</td><td style="color:var(--tx3);font-weight:300;">Can break any interval at any point c</td></tr>
+          <tr><td class="m">Scalar multiple</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>b</sup> k·f = k·∫<sub>a</sub><sup>b</sup> f</td><td style="color:var(--tx3);font-weight:300;">Constants factor out</td></tr>
+          <tr><td class="m">Sum/Difference</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>b</sup> [f±g] = ∫f ± ∫g</td><td style="color:var(--tx3);font-weight:300;">Split across addition and subtraction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Definite Integrals</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'def','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'def','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'def','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="def-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>π/2</sup> (cos x + 2) dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find the antiderivative (no +C for definite integrals)</div><div class="gs-content">∫ (cos x + 2) dx = <strong>sin x + 2x</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Write bracket notation</div><div class="gs-content">[sin x + 2x]<sub>0</sub><sup>π/2</sup></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Evaluate at upper bound (π/2), then lower bound (0)</div><div class="gs-content">
+            F(π/2) = sin(π/2) + 2(π/2) = 1 + π<br>
+            F(0) = sin(0) + 2(0) = 0
+          </div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Subtract: F(b) − F(a)</div><div class="gs-content">(1 + π) − 0 = <strong>1 + π</strong></div></div></div>
+        </div>
+        <div class="pane" id="def-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>1</sub><sup>4</sup> (<span class="fr"><span class="n">3</span><span class="d">x</span></span> + 2x) dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Find the antiderivative of each term</div><input class="s-input" type="text" placeholder="∫ 3/x dx = ... , ∫ 2x dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write the antiderivative in bracket notation from 1 to 4</div><input class="s-input" type="text" placeholder="[...]₁⁴"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Evaluate at x = 4, then x = 1. Subtract.</div><input class="s-input" type="text" placeholder="F(4) = ... , F(1) = ... , Answer = F(4) − F(1) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            ∫ 3/x dx = 3 ln|x| &nbsp;|&nbsp; ∫ 2x dx = x²<br>
+            Antiderivative: 3 ln|x| + x²<br><br>
+            F(4) = 3 ln 4 + 16<br>
+            F(1) = 3 ln 1 + 1 = 0 + 1 = 1<br><br>
+            <strong>Answer: 3 ln 4 + 16 − 1 = 3 ln 4 + 15 ≈ 19.16</strong>
+          </div>
+        </div>
+        <div class="pane" id="def-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>π</sup> sin x dx &nbsp; — then interpret the result geometrically.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            ∫ sin x dx = −cos x<br>
+            [−cos x]<sub>0</sub><sup>π</sup> = (−cos π) − (−cos 0) = (−(−1)) − (−1) = 1 + 1 = <strong>2</strong><br><br>
+            <strong>Geometric meaning:</strong> The area under one arch of the sine curve from 0 to π equals exactly 2 square units. Since sin x ≥ 0 on [0, π], this is purely area — no negative cancellation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       6.6 · STEP-BY-STEP SOLVING
+  ══════════════════════════ -->
+  <div class="topic" id="t6">
+    <div class="topic-header">
+      <span class="topic-num">6.6</span>
+      <h2 class="topic-title">Step-by-Step Integral Solving</h2>
+      <span class="topic-sub">Decision process for any integral</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Decision Tree — What to Try First</div>
+      <ol class="steps">
+        <li><strong>Can I rewrite the integrand?</strong><span class="why">→ Expand products, split fractions, convert roots to exponents. Many integrals simplify before any rule is needed.</span></li>
+        <li><strong>Do I recognize a basic rule?</strong><span class="why">→ Power rule, trig, e^x, 1/x — check the reference table first.</span></li>
+        <li><strong>Is there a composite function with its inner derivative present?</strong><span class="why">→ If yes → u-substitution (Section 07). The inner function becomes u, its derivative becomes du.</span></li>
+        <li><strong>Is it a product of two unrelated functions?</strong><span class="why">→ Integration by parts (not tested on AB, but good to know the pattern fails here).</span></li>
+      </ol>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Common Rewriting Moves Before Integrating</div>
+      <div class="fbox blue">
+        <div class="flabel">Expand before integrating</div>
+        ∫ x(x² + 3) dx → expand first → ∫ (x³ + 3x) dx = <span class="mgreen">x⁴/4 + 3x²/2 + C</span><br><br>
+        ∫ (x+1)² dx → expand → ∫ (x²+2x+1) dx = <span class="mgreen">x³/3 + x² + x + C</span>
+      </div>
+      <div class="fbox purple" style="margin-top:8px">
+        <div class="flabel">Split a fraction before integrating</div>
+        ∫ <span class="fr"><span class="n">x³ + 5x</span><span class="d">x</span></span> dx → split → ∫ (x² + 5) dx = <span class="mgreen">x³/3 + 5x + C</span><br><br>
+        ∫ <span class="fr"><span class="n">3x² − 2x</span><span class="d">x²</span></span> dx → split → ∫ (3 − 2x<sup>−1</sup>) dx = <span class="mgreen">3x − 2 ln|x| + C</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>You can only split fractions where the denominator is a single term.</strong> ∫ 1/(x²+1) dx cannot be split this way — that requires a different technique. Only split when the denominator divides into every numerator term.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Rewrite &amp; Integrate</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'rw','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'rw','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'rw','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="rw-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ <span class="fr"><span class="n">x⁴ − 3x² + 2</span><span class="d">x²</span></span> dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Split the fraction — divide each numerator term by x²</div><div class="gs-content">= ∫ (<span class="fr"><span class="n">x⁴</span><span class="d">x²</span></span> − <span class="fr"><span class="n">3x²</span><span class="d">x²</span></span> + <span class="fr"><span class="n">2</span><span class="d">x²</span></span>) dx = ∫ (<strong>x² − 3 + 2x<sup>−2</sup></strong>) dx</div><div class="gs-why">→ Each term is divided separately. The denominator must be a monomial for this to work.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Integrate term by term</div><div class="gs-content">
+            x² → <strong>x³/3</strong><br>
+            −3 → <strong>−3x</strong><br>
+            2x<sup>−2</sup> → 2 · x<sup>−1</sup>/(−1) = <strong>−2/x</strong>
+          </div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write final answer with +C</div><div class="gs-content"><strong><span class="fr"><span class="n">x³</span><span class="d">3</span></span> − 3x − <span class="fr"><span class="n">2</span><span class="d">x</span></span> + C</strong></div></div></div>
+        </div>
+        <div class="pane" id="rw-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫ x(3x − 2)² dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Expand (3x−2)² first</div><input class="s-input" type="text" placeholder="(3x−2)² = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Multiply by x to get the full integrand</div><input class="s-input" type="text" placeholder="x · (...) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Integrate term by term with +C</div><input class="s-input" type="text" placeholder="Answer = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            (3x−2)² = 9x² − 12x + 4<br>
+            x(9x² − 12x + 4) = 9x³ − 12x² + 4x<br><br>
+            ∫ (9x³ − 12x² + 4x) dx<br>
+            = 9x⁴/4 − 4x³ + 2x²<br><br>
+            <strong>Answer: (9/4)x⁴ − 4x³ + 2x² + C</strong>
+          </div>
+        </div>
+        <div class="pane" id="rw-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>1</sub><sup>4</sup> <span class="fr"><span class="n">√x (x + 2)</span><span class="d">1</span></span> dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Expand: √x(x+2) = x<sup>3/2</sup> + 2x<sup>1/2</sup><br><br>
+            ∫ (x<sup>3/2</sup> + 2x<sup>1/2</sup>) dx = x<sup>5/2</sup>/(5/2) + 2x<sup>3/2</sup>/(3/2)<br>
+            = (2/5)x<sup>5/2</sup> + (4/3)x<sup>3/2</sup><br><br>
+            Evaluate 1 to 4:<br>
+            F(4) = (2/5)(32) + (4/3)(8) = 64/5 + 32/3 = 192/15 + 160/15 = 352/15<br>
+            F(1) = 2/5 + 4/3 = 6/15 + 20/15 = 26/15<br><br>
+            <strong>Answer: 352/15 − 26/15 = 326/15 ≈ 21.73</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · All Antiderivative Rules</div>
+    <table class="dtable">
+      <thead><tr><th>Integral</th><th>Result</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="m">∫ xⁿ dx</td><td style="color:var(--green);font-weight:300;">xⁿ⁺¹/(n+1) + C</td><td style="color:var(--tx3);font-weight:300;">n ≠ −1</td></tr>
+        <tr><td class="m">∫ 1/x dx</td><td style="color:var(--green);font-weight:300;">ln|x| + C</td><td style="color:var(--tx3);font-weight:300;">Absolute value required</td></tr>
+        <tr><td class="m">∫ e^x dx</td><td style="color:var(--green);font-weight:300;">e^x + C</td><td style="color:var(--tx3);font-weight:300;">Self-antiderivative</td></tr>
+        <tr><td class="m">∫ a^x dx</td><td style="color:var(--green);font-weight:300;">a^x / ln a + C</td><td style="color:var(--tx3);font-weight:300;">a > 0, a ≠ 1</td></tr>
+        <tr><td class="m">∫ sin x dx</td><td style="color:var(--red);font-weight:300;">−cos x + C</td><td style="color:var(--tx3);font-weight:300;">Negative sign — most dropped</td></tr>
+        <tr><td class="m">∫ cos x dx</td><td style="color:var(--green);font-weight:300;">sin x + C</td><td style="color:var(--tx3);font-weight:300;">No negative</td></tr>
+        <tr><td class="m">∫ sec²x dx</td><td style="color:var(--green);font-weight:300;">tan x + C</td><td style="color:var(--tx3);font-weight:300;">Reverse of d/dx[tan x]</td></tr>
+        <tr><td class="m">∫ csc²x dx</td><td style="color:var(--red);font-weight:300;">−cot x + C</td><td style="color:var(--tx3);font-weight:300;">Negative for co-</td></tr>
+        <tr><td class="m">∫ sec x tan x dx</td><td style="color:var(--green);font-weight:300;">sec x + C</td><td style="color:var(--tx3);font-weight:300;">—</td></tr>
+        <tr><td class="m">∫ csc x cot x dx</td><td style="color:var(--red);font-weight:300;">−csc x + C</td><td style="color:var(--tx3);font-weight:300;">Negative for co-</td></tr>
+        <tr><td colspan="3" style="padding:10px 14px;color:var(--tx3);font-size:11px;border-bottom:none;">+C on every indefinite integral. Never on definite integrals. F(b) − F(a) for definite evaluation.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s06-antiderivatives.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

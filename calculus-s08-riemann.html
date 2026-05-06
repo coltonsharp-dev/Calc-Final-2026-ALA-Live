@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 08 · Riemann Sums</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828; --d3:#161e30;
+    --glass:rgba(255,255,255,0.044); --gb:rgba(255,255,255,0.08);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#38bdf8;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at center,rgba(56,189,248,0.06) 0%,rgba(0,229,255,0.025) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.28);color:var(--blue);}
+
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  .topic{margin-bottom:60px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;text-align:right;}
+
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.1;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.teal{border-left-color:var(--teal);}
+  .fbox.cyan{border-left-color:var(--cyan);}
+
+  /* RIEMANN METHOD CARD */
+  .method-card{background:var(--d1);border:1px solid var(--b2);border-radius:14px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .method-card.left-card::before{background:linear-gradient(90deg,var(--blue),transparent);}
+  .method-card.right-card::before{background:linear-gradient(90deg,var(--green),transparent);}
+  .method-card.mid-card::before{background:linear-gradient(90deg,var(--purple),transparent);}
+  .method-card.trap-card::before{background:linear-gradient(90deg,var(--gold),transparent);}
+  .method-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px;}
+  .method-formula{font-size:13px;font-weight:400;padding:12px 16px;border-radius:8px;border:1px solid;line-height:2.0;margin:12px 0;}
+  .left-card .method-name,.left-card .method-formula{color:var(--blue);}
+  .left-card .method-formula{background:rgba(56,189,248,0.05);border-color:rgba(56,189,248,0.2);}
+  .right-card .method-name,.right-card .method-formula{color:var(--green);}
+  .right-card .method-formula{background:rgba(62,255,160,0.05);border-color:rgba(62,255,160,0.2);}
+  .mid-card .method-name,.mid-card .method-formula{color:var(--purple);}
+  .mid-card .method-formula{background:rgba(192,132,252,0.05);border-color:rgba(192,132,252,0.2);}
+  .trap-card .method-name,.trap-card .method-formula{color:var(--gold);}
+  .trap-card .method-formula{background:rgba(245,200,66,0.05);border-color:rgba(245,200,66,0.2);}
+  .method-note{font-size:12px;font-weight:300;color:var(--tx3);line-height:1.7;margin-top:8px;}
+  .overunder{font-size:11px;font-weight:500;padding:3px 9px;border-radius:100px;display:inline-block;margin-top:6px;}
+  .over{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.25);color:var(--red);}
+  .under{background:rgba(62,255,160,0.1);border:1px solid rgba(62,255,160,0.22);color:var(--green);}
+  .depends{background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.22);color:var(--gold);}
+
+  /* FRQ TABLE */
+  .frq-table-wrap{background:var(--d1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;margin:12px 0;}
+  .frq-table-header{background:var(--d2);padding:12px 20px;border-bottom:1px solid var(--b);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);}
+  .frq-table-body{padding:0;}
+  .frq-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .frq-table th{padding:10px 16px;background:var(--d2);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);text-align:center;}
+  .frq-table th:first-child{text-align:left;}
+  .frq-table td{padding:11px 16px;border-bottom:1px solid var(--b);color:var(--tx);font-weight:400;text-align:center;}
+  .frq-table td:first-child{text-align:left;color:var(--tx2);font-weight:300;}
+  .frq-table tr:last-child td{border-bottom:none;}
+  .frq-table tr:hover td{background:var(--glass);}
+
+  /* SIGMA NOTATION */
+  .sigma-display{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--d2);border:1px solid var(--b2);border-radius:10px;margin:12px 0;flex-wrap:wrap;}
+  .sigma-sym{font-size:32px;color:var(--blue);line-height:1;}
+  .sigma-bounds{display:flex;flex-direction:column;font-size:11px;color:var(--tx3);margin-left:-8px;}
+  .sigma-expr{font-size:14px;color:var(--gold);font-weight:400;}
+  .sigma-label{font-size:11px;color:var(--tx3);flex:1;min-width:200px;}
+
+  /* CALLOUT */
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.22);color:var(--blue);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* OVER/UNDER TABLE */
+  .over-under-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+  .ou-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:14px 16px;}
+  .ou-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+  .ou-body{font-size:12px;font-weight:300;color:var(--tx2);line-height:1.8;}
+  .ou-body strong{color:var(--tx);font-weight:500;}
+
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);color:var(--blue);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);color:var(--blue);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(56,189,248,0.16);border-color:var(--blue);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  /* SVG DIAGRAM */
+  .diagram-wrap{background:var(--d1);border:1px solid var(--b);border-radius:12px;padding:20px;margin:14px 0;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .diagram-wrap svg{max-width:100%;}
+  .diagram-caption{font-size:11px;color:var(--tx3);text-align:center;}
+
+  /* DTABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--blue),var(--cyan));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .over-under-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 08</span>
+  <span class="nav-badge">Riemann Sums</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 08 · AP Calculus AB</div>
+    <h1 class="sec-title">Riemann<br><span>Sums</span></h1>
+    <p class="sec-desc">Left, right, midpoint, and trapezoidal — every formula built from scratch, over vs under estimate logic, sigma notation, reading FRQ tables, and the limit definition connecting Riemann sums to the definite integral.</p>
+  </div>
+
+
+  <!-- ══════════════════════════
+       8.1 · WHAT A RIEMANN SUM IS
+  ══════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">8.1</span>
+      <h2 class="topic-title">What a Riemann Sum Is</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Core Idea</div>
+      <p>A Riemann sum approximates the area under a curve by filling the region with <strong>rectangles</strong> (or trapezoids). Each rectangle has a width of Δx and a height determined by the function value at a chosen point in the subinterval.</p>
+      <p>The approximation gets more accurate as the number of rectangles increases. In the limit as n → ∞, the Riemann sum becomes the exact definite integral.</p>
+      <div class="fbox">
+        <div class="flabel">The Setup</div>
+        Divide [a, b] into n equal subintervals, each of width:<br><br>
+        <span class="mblue">Δx = <span class="fr"><span class="n">b − a</span><span class="d">n</span></span></span><br><br>
+        The partition points are: <span class="m">x₀ = a, x₁ = a + Δx, x₂ = a + 2Δx, …, xₙ = b</span><br><br>
+        Each subinterval is <span class="m">[xᵢ₋₁, xᵢ]</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Sigma Notation — Reading the Sum</div>
+      <div class="sigma-display">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="font-size:11px;color:var(--tx3);">n</div>
+          <div style="font-size:28px;color:var(--blue);">Σ</div>
+          <div style="font-size:11px;color:var(--tx3);">i=1</div>
+        </div>
+        <span class="sigma-expr">f(xᵢ*) · Δx</span>
+        <div class="sigma-label">
+          <span style="color:var(--tx3);font-size:12px;">
+            Σ = sum &nbsp;|&nbsp; i = index &nbsp;|&nbsp; xᵢ* = chosen point in each subinterval &nbsp;|&nbsp; Δx = width of each rectangle<br>
+            The choice of xᵢ* (left endpoint, right endpoint, midpoint) determines the type of sum.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.2 · LEFT RIEMANN SUM
+  ══════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">8.2</span>
+      <h2 class="topic-title">Left Riemann Sum</h2>
+    </div>
+
+    <div class="method-card left-card">
+      <div class="method-name">Left Riemann Sum (LRS)</div>
+      <div class="method-formula">
+        L = Δx · [f(x₀) + f(x₁) + f(x₂) + ··· + f(xₙ₋₁)]<br><br>
+        Use the <strong>left endpoint</strong> of each subinterval as the rectangle height.<br>
+        Last point used: xₙ₋₁ = b − Δx &nbsp; (NOT b itself)
+      </div>
+      <div class="method-note">The left endpoint is the start of each subinterval. For n subintervals you use n function values: x₀ through xₙ₋₁.</div>
+      <div style="margin-top:10px;">
+        <span class="overunder over">Overestimates</span>&nbsp; when f is increasing (↗)
+        <span class="overunder under" style="margin-left:8px;">Underestimates</span>&nbsp; when f is decreasing (↘)
+      </div>
+    </div>
+
+    <!-- SVG: Left Riemann sum diagram -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono,monospace">
+        <!-- axes -->
+        <line x1="40" y1="170" x2="380" y2="170" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="40" y1="20" x2="40" y2="175" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- LEFT rectangles under an increasing curve — use LEFT endpoint heights -->
+        <!-- 4 rectangles, Δx=70, from x=60 to x=340 -->
+        <!-- curve: y = 170 - (x-40)^1.2 * 0.08 approx -->
+        <!-- rect1: x=60, h=110, left endpoint height ~110 -->
+        <rect x="60" y="100" width="70" height="70" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.5)" stroke-width="1"/>
+        <!-- rect2: left endpoint y at x=130 -->
+        <rect x="130" y="80" width="70" height="90" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.5)" stroke-width="1"/>
+        <!-- rect3: left endpoint y at x=200 -->
+        <rect x="200" y="62" width="70" height="108" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.5)" stroke-width="1"/>
+        <!-- rect4: left endpoint y at x=270 -->
+        <rect x="270" y="48" width="70" height="122" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.5)" stroke-width="1"/>
+        <!-- actual curve (increasing) -->
+        <path d="M60,100 C90,92 130,80 200,62 C260,47 310,38 340,30" fill="none" stroke="rgba(56,189,248,0.9)" stroke-width="2"/>
+        <!-- x labels -->
+        <text x="55" y="186" fill="rgba(255,255,255,0.3)" font-size="10">x₀</text>
+        <text x="125" y="186" fill="rgba(255,255,255,0.3)" font-size="10">x₁</text>
+        <text x="195" y="186" fill="rgba(255,255,255,0.3)" font-size="10">x₂</text>
+        <text x="265" y="186" fill="rgba(255,255,255,0.3)" font-size="10">x₃</text>
+        <text x="335" y="186" fill="rgba(255,255,255,0.3)" font-size="10">x₄</text>
+        <!-- label -->
+        <text x="50" y="15" fill="rgba(56,189,248,0.7)" font-size="10">Left Riemann Sum — rectangles miss the top (underestimate on increasing f)</text>
+      </svg>
+      <div class="diagram-caption">Blue rectangles use left endpoint heights. On an increasing function, they fall short of the curve → underestimate.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Left Riemann Sum</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'lrs','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'lrs','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'lrs','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="lrs-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Approximate ∫₁⁵ f(x) dx using a Left Riemann Sum with n = 4 subintervals, given the table:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;">
+              <table class="frq-table">
+                <thead><tr><th>x</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+                <tbody><tr><td>f(x)</td><td>3</td><td>5</td><td>4</td><td>7</td><td>2</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find Δx</div><div class="gs-content">Δx = <span class="fr"><span class="n">b − a</span><span class="d">n</span></span> = <span class="fr"><span class="n">5 − 1</span><span class="d">4</span></span> = <strong>1</strong></div><div class="gs-why">→ Each subinterval is 1 unit wide.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Identify left endpoints</div><div class="gs-content">Left endpoints: <strong>x = 1, 2, 3, 4</strong> (stop at xₙ₋₁ = x₃ = 4, not x₄ = 5)</div><div class="gs-why">→ Left sum uses the start of each interval. The last subinterval is [4,5], whose left endpoint is 4.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Read function values at left endpoints</div><div class="gs-content">f(1) = 3, f(2) = 5, f(3) = 4, f(4) = 7</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Apply formula: L = Δx · [sum of values]</div><div class="gs-content">L = 1 · (3 + 5 + 4 + 7) = <strong>19</strong></div></div></div>
+        </div>
+        <div class="pane" id="lrs-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Use a Left Riemann Sum with n = 4 to approximate ∫₀⁴ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>f(x)</td><td>6</td><td>4</td><td>7</td><td>3</td><td>5</td></tr></tbody></table></div>
+          </div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Calculate Δx</div><input class="s-input" type="text" placeholder="Δx = (b−a)/n = ( − )/ = "/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — List the left endpoints (stop one short of b)</div><input class="s-input" type="text" placeholder="Left endpoints: x = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Read f values at those endpoints</div><input class="s-input" type="text" placeholder="f values: ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Compute L = Δx × (sum)</div><input class="s-input" type="text" placeholder="L = ... × ( ... ) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Δx = (4−0)/4 = 1<br>Left endpoints: x = 0, 1, 2, 3<br>f(0)+f(1)+f(2)+f(3) = 6+4+7+3 = 20<br><strong>L = 1 × 20 = 20</strong></div>
+        </div>
+        <div class="pane" id="lrs-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Approximate ∫₂⁶ f(x) dx using a Left Riemann Sum with n = 4:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody><tr><td>f(x)</td><td>8</td><td>5</td><td>9</td><td>2</td><td>6</td></tr></tbody></table></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Δx = (6−2)/4 = 1<br>Left endpoints: x = 2, 3, 4, 5<br>f(2)+f(3)+f(4)+f(5) = 8+5+9+2 = 24<br><strong>L = 1 × 24 = 24</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.3 · RIGHT RIEMANN SUM
+  ══════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">8.3</span>
+      <h2 class="topic-title">Right Riemann Sum</h2>
+    </div>
+
+    <div class="method-card right-card">
+      <div class="method-name">Right Riemann Sum (RRS)</div>
+      <div class="method-formula">
+        R = Δx · [f(x₁) + f(x₂) + f(x₃) + ··· + f(xₙ)]<br><br>
+        Use the <strong>right endpoint</strong> of each subinterval as the rectangle height.<br>
+        First point used: x₁ = a + Δx &nbsp; Last point used: xₙ = b
+      </div>
+      <div class="method-note">The right endpoint is the end of each subinterval. For n subintervals you use n function values: x₁ through xₙ.</div>
+      <div style="margin-top:10px;">
+        <span class="overunder over">Overestimates</span>&nbsp; when f is decreasing (↘)
+        <span class="overunder under" style="margin-left:8px;">Underestimates</span>&nbsp; when f is increasing (↗)
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">💡</span>
+      <span><strong>Left vs Right pattern:</strong> Left sum = skip the last x value (xₙ). Right sum = skip the first x value (x₀). Everything else is the same formula structure.</span>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Right Riemann Sum</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'rrs','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'rrs','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'rrs','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="rrs-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Approximate ∫₁⁵ f(x) dx using a Right Riemann Sum with n = 4, same table as before:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>f(x)</td><td>3</td><td>5</td><td>4</td><td>7</td><td>2</td></tr></tbody></table></div>
+          </div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Δx = 1 (same as before)</div><div class="gs-content">Δx = (5−1)/4 = 1</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Right endpoints: x₁ through xₙ</div><div class="gs-content">Right endpoints: <strong>x = 2, 3, 4, 5</strong> (start at x₁ = 2, end at xₙ = 5 = b)</div><div class="gs-why">→ Compare to Left: Left used {1,2,3,4}, Right uses {2,3,4,5}. Shifted one step forward.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Read values and compute</div><div class="gs-content">f(2) + f(3) + f(4) + f(5) = 5 + 4 + 7 + 2 = 18<br>R = 1 · 18 = <strong>18</strong></div></div></div>
+        </div>
+        <div class="pane" id="rrs-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Use a Right Riemann Sum with n = 4 to approximate ∫₀⁴ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>f(x)</td><td>6</td><td>4</td><td>7</td><td>3</td><td>5</td></tr></tbody></table></div>
+          </div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — List the right endpoints (start at x₁, end at b)</div><input class="s-input" type="text" placeholder="Right endpoints: x = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Read f values and sum them</div><input class="s-input" type="text" placeholder="f values: ... , Sum = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Multiply by Δx</div><input class="s-input" type="text" placeholder="R = Δx × sum = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Right endpoints: x = 1, 2, 3, 4<br>f(1)+f(2)+f(3)+f(4) = 4+7+3+5 = 19<br><strong>R = 1 × 19 = 19</strong></div>
+        </div>
+        <div class="pane" id="rrs-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Approximate ∫₂⁶ f(x) dx using a Right Riemann Sum with n = 4:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody><tr><td>f(x)</td><td>8</td><td>5</td><td>9</td><td>2</td><td>6</td></tr></tbody></table></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Right endpoints: x = 3, 4, 5, 6<br>f(3)+f(4)+f(5)+f(6) = 5+9+2+6 = 22<br><strong>R = 1 × 22 = 22</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.4 · MIDPOINT RIEMANN SUM
+  ══════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">8.4</span>
+      <h2 class="topic-title">Midpoint Riemann Sum</h2>
+    </div>
+
+    <div class="method-card mid-card">
+      <div class="method-name">Midpoint Riemann Sum (MRS)</div>
+      <div class="method-formula">
+        M = Δx · [f(m₁) + f(m₂) + ··· + f(mₙ)]<br><br>
+        where each midpoint: <strong>mᵢ = <span class="fr"><span class="n">xᵢ₋₁ + xᵢ</span><span class="d">2</span></span></strong> (average of left and right endpoints of each subinterval)
+      </div>
+      <div class="method-note">Generally the most accurate of the three rectangle-based methods. The midpoint height balances the overcount on one side with the undercount on the other.</div>
+      <div style="margin-top:10px;">
+        <span class="depends">Accuracy depends on concavity</span>
+        <span style="font-size:11px;color:var(--tx3);margin-left:8px;">Overestimates on concave down (∩), underestimates on concave up (∪)</span>
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <span><strong>Midpoints may not appear in the table.</strong> On FRQs, if the table gives only left/right endpoints of subintervals, you may need to average two adjacent x-values to find the midpoint. If midpoint values aren't given, the midpoint sum can't be computed from that table — use left or right instead.</span>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Midpoint Riemann Sum</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'mrs','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'mrs','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'mrs','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="mrs-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Approximate ∫₀⁴ f(x) dx using a Midpoint Riemann Sum with n = 2, given:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>f(x)</td><td>1</td><td>4</td><td>3</td><td>6</td><td>2</td></tr></tbody></table></div>
+          </div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find Δx and identify the two subintervals</div><div class="gs-content">Δx = (4−0)/2 = <strong>2</strong><br>Subintervals: [0, 2] and [2, 4]</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find midpoints of each subinterval</div><div class="gs-content">m₁ = (0+2)/2 = <strong>1</strong><br>m₂ = (2+4)/2 = <strong>3</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Read f at midpoints and compute</div><div class="gs-content">f(1) = 4, f(3) = 6<br>M = 2 · (4 + 6) = <strong>20</strong></div></div></div>
+        </div>
+        <div class="pane" id="mrs-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Use a Midpoint Riemann Sum with n = 2 to approximate ∫₁⁵ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>f(x)</td><td>2</td><td>6</td><td>3</td><td>8</td><td>1</td></tr></tbody></table></div>
+          </div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Δx = ? and list the two subintervals</div><input class="s-input" type="text" placeholder="Δx = ... , Subintervals: [ , ] and [ , ]"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find midpoints of each subinterval</div><input class="s-input" type="text" placeholder="m₁ = ... , m₂ = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Read f at midpoints and compute M</div><input class="s-input" type="text" placeholder="M = Δx × (f(m₁) + f(m₂)) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Δx = (5−1)/2 = 2 &nbsp;|&nbsp; Subintervals: [1,3] and [3,5]<br>m₁ = (1+3)/2 = 2 &nbsp;|&nbsp; m₂ = (3+5)/2 = 4<br>f(2) = 6, f(4) = 8<br><strong>M = 2 × (6+8) = 28</strong></div>
+        </div>
+        <div class="pane" id="mrs-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Use a Midpoint Riemann Sum with n = 2 to approximate ∫₀⁸ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>0</th><th>2</th><th>4</th><th>6</th><th>8</th></tr></thead><tbody><tr><td>f(x)</td><td>5</td><td>3</td><td>9</td><td>4</td><td>7</td></tr></tbody></table></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Δx = (8−0)/2 = 4 &nbsp;|&nbsp; Subintervals: [0,4] and [4,8]<br>m₁ = (0+4)/2 = 2 &nbsp;|&nbsp; m₂ = (4+8)/2 = 6<br>f(2) = 3, f(6) = 4<br><strong>M = 4 × (3+4) = 28</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.5 · TRAPEZOIDAL RULE
+  ══════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">8.5</span>
+      <h2 class="topic-title">Trapezoidal Rule</h2>
+    </div>
+
+    <div class="method-card trap-card">
+      <div class="method-name">Trapezoidal Rule (Not a True Riemann Sum)</div>
+      <div class="method-formula">
+        T = <span class="fr"><span class="n">Δx</span><span class="d">2</span></span> · [f(x₀) + 2f(x₁) + 2f(x₂) + ··· + 2f(xₙ₋₁) + f(xₙ)]<br><br>
+        Shortcut: <strong>T = <span class="fr"><span class="n">L + R</span><span class="d">2</span></span></strong> (average of Left and Right Riemann sums)
+      </div>
+      <div class="method-note">Uses trapezoids instead of rectangles. The top of each trapezoid connects two adjacent function values with a straight line. Better accuracy than either Left or Right alone.</div>
+      <div style="margin-top:10px;">
+        <span class="overunder over">Overestimates</span>&nbsp; on concave up (∪)
+        <span class="overunder under" style="margin-left:8px;">Underestimates</span>&nbsp; on concave down (∩)
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Why the Trapezoidal Rule Is Not a True Riemann Sum</div>
+      <p>A Riemann sum always uses rectangles — a single function value multiplied by the width. The trapezoidal rule uses trapezoids, averaging two function values at each step. This makes it more accurate but technically a different approximation method. On the AP exam, this distinction is tested — be ready to state it.</p>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <span><strong>The L + R shortcut:</strong> T = (L + R)/2 works perfectly when the subintervals are equal width. This is the fastest way to compute the trapezoid approximation if you've already found L and R.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Trapezoidal Rule</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'trap','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'trap','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'trap','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="trap-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Use the Trapezoidal Rule with n = 4 to approximate ∫₁⁵ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>f(x)</td><td>3</td><td>5</td><td>4</td><td>7</td><td>2</td></tr></tbody></table></div>
+          </div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Method A: Use the full formula directly</div><div class="gs-content">T = <span class="fr"><span class="n">Δx</span><span class="d">2</span></span>[f(x₀) + 2f(x₁) + 2f(x₂) + 2f(x₃) + f(x₄)]<br>= <span class="fr"><span class="n">1</span><span class="d">2</span></span>[3 + 2(5) + 2(4) + 2(7) + 2] = <span class="fr"><span class="n">1</span><span class="d">2</span></span>[3 + 10 + 8 + 14 + 2] = <span class="fr"><span class="n">37</span><span class="d">2</span></span> = <strong>18.5</strong></div><div class="gs-why">→ First and last terms appear once. All interior terms are doubled.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Method B: Use L + R shortcut</div><div class="gs-content">From earlier: L = 19, R = 18<br>T = (19 + 18)/2 = 37/2 = <strong>18.5 ✓</strong></div><div class="gs-why">→ Same answer, faster computation if you already have L and R.</div></div></div>
+        </div>
+        <div class="pane" id="trap-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Use the Trapezoidal Rule with n = 4 for ∫₀⁴ f(x) dx:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>f(x)</td><td>6</td><td>4</td><td>7</td><td>3</td><td>5</td></tr></tbody></table></div>
+          </div>
+          <div class="scaffold-step"><div class="s-prompt">Method A: Apply the trapezoidal formula. First + last once, all others doubled.</div><input class="s-input" type="text" placeholder="T = (Δx/2)[f(0) + 2f(1) + 2f(2) + 2f(3) + f(4)] = (1/2)[...] = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Method B: You computed L = 20 and R = 19 earlier. Use T = (L+R)/2.</div><input class="s-input" type="text" placeholder="T = ( + )/2 = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Method A: T = (1/2)[6 + 2(4) + 2(7) + 2(3) + 5] = (1/2)[6+8+14+6+5] = (1/2)(39) = <strong>19.5</strong><br><br>Method B: L=20, R=19 → T = (20+19)/2 = <strong>19.5 ✓</strong></div>
+        </div>
+        <div class="pane" id="trap-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Use the Trapezoidal Rule with n = 4 for ∫₂⁶ f(x) dx. Also compare to L and R from earlier and explain which is most accurate:<br><br>
+            <div class="frq-table-wrap" style="margin:10px 0;"><table class="frq-table"><thead><tr><th>x</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody><tr><td>f(x)</td><td>8</td><td>5</td><td>9</td><td>2</td><td>6</td></tr></tbody></table></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Method B: L = 24 (from 8.2), R = 22 (from 8.3)<br>T = (24+22)/2 = <strong>23</strong><br><br>Method A check: (1/2)[8+2(5)+2(9)+2(2)+6] = (1/2)[8+10+18+4+6] = (1/2)(46) = 23 ✓<br><br>Comparison: L = 24, T = 23, R = 22. The trapezoidal rule (23) lies between L and R and generally offers better accuracy than either alone.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.6 · OVER vs UNDER — MASTER TABLE
+  ══════════════════════════ -->
+  <div class="topic" id="t6">
+    <div class="topic-header">
+      <span class="topic-num">8.6</span>
+      <h2 class="topic-title">Over vs Underestimate — Master Logic</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Complete Decision Table</div>
+      <table class="dtable">
+        <thead>
+          <tr><th>Method</th><th>f increasing (↗)</th><th>f decreasing (↘)</th><th>f concave up (∪)</th><th>f concave down (∩)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mblue">Left (L)</td>
+            <td style="color:var(--green);font-weight:300;">Underestimate</td>
+            <td style="color:var(--red);font-weight:300;">Overestimate</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+          </tr>
+          <tr>
+            <td class="mgreen">Right (R)</td>
+            <td style="color:var(--red);font-weight:300;">Overestimate</td>
+            <td style="color:var(--green);font-weight:300;">Underestimate</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+          </tr>
+          <tr>
+            <td class="mpurple">Midpoint (M)</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--green);font-weight:300;">Underestimate</td>
+            <td style="color:var(--red);font-weight:300;">Overestimate</td>
+          </tr>
+          <tr>
+            <td class="m">Trapezoid (T)</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--tx3);font-weight:300;">—</td>
+            <td style="color:var(--red);font-weight:300;">Overestimate</td>
+            <td style="color:var(--green);font-weight:300;">Underestimate</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Memory shortcut for Left/Right:</strong> The LEFT sum "falls behind" on an increasing function (it uses old, smaller values) → underestimate. On a decreasing function it "sticks above" → overestimate. RIGHT is the opposite in every case.</span>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Memory shortcut for Trap/Midpoint:</strong> On concave up (∪), the trapezoid lies ABOVE the curve (overestimate). The midpoint tangent lies BELOW the curve (underestimate). On concave down (∩): flip both. Trap and midpoint are always opposite each other.</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       8.7 · LIMIT DEFINITION OF THE INTEGRAL
+  ══════════════════════════ -->
+  <div class="topic" id="t7">
+    <div class="topic-header">
+      <span class="topic-num">8.7</span>
+      <h2 class="topic-title">Riemann Sum as the Definition of the Definite Integral</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Limit Connection</div>
+      <p>As the number of subintervals n → ∞ (and Δx → 0), the Riemann sum becomes exact. This is the formal definition of the definite integral:</p>
+      <div class="fbox green">
+        <div class="flabel">Formal Definition</div>
+        ∫<sub>a</sub><sup>b</sup> f(x) dx = lim<sub>n→∞</sub> <span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1;margin:0 2px;"><span style="font-size:14px;color:var(--blue)">n</span><span style="font-size:22px;color:var(--blue)">Σ</span><span style="font-size:12px;color:var(--blue)">i=1</span></span> f(xᵢ*) · Δx<br><br>
+        where <span class="mblue">Δx = <span class="fr"><span class="n">b−a</span><span class="d">n</span></span></span> and xᵢ* is any point in the i-th subinterval
+      </div>
+      <p>This is why numerical approximations (Riemann sums) get better with more rectangles — they're approaching the true value of the definite integral from below, above, or alternating sides depending on the choice of endpoint.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Reading a Riemann Sum in Sigma Notation — FRQ Skill</div>
+      <div class="fbox cyan">
+        <div class="flabel">Identify what integral this sum approaches</div>
+        lim<sub>n→∞</sub> <span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.8em;line-height:1;margin:0 2px;"><span style="font-size:12px;color:var(--blue)">n</span><span style="font-size:18px;color:var(--blue)">Σ</span><span style="font-size:11px;color:var(--blue)">i=1</span></span> <span class="fr"><span class="n">i</span><span class="d">n</span></span> · <span class="fr"><span class="n">1</span><span class="d">n</span></span><br><br>
+        Identify: Δx = 1/n → b−a = 1, so [0,1]<br>
+        xᵢ = i/n (right endpoints of [0,1] with n subintervals)<br>
+        f(xᵢ) = xᵢ = i/n → f(x) = x<br><br>
+        <span class="mgreen">= ∫₀¹ x dx = [x²/2]₀¹ = 1/2</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>FRQ skill:</strong> Recognizing that a given sigma notation sum equals a specific definite integral is tested directly. The key is identifying Δx (the 1/n factor) and xᵢ (the i/n expression) to reconstruct f(x) and the bounds.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · All 4 Methods + Limit Definition</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'all4','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'all4','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'all4','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="all4-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>For f(x) = x² on [0, 4] with n = 4: (a) compute all four approximations. (b) Which overestimates? f is increasing and concave up on this interval.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Setup: Δx = 1. Partition: 0, 1, 2, 3, 4. Function values:</div><div class="gs-content">f(0)=0, f(1)=1, f(2)=4, f(3)=9, f(4)=16</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Left: use x = 0,1,2,3</div><div class="gs-content">L = 1·(0+1+4+9) = <strong>14</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Right: use x = 1,2,3,4</div><div class="gs-content">R = 1·(1+4+9+16) = <strong>30</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Midpoint: use x = 0.5, 1.5, 2.5, 3.5</div><div class="gs-content">f(0.5)=0.25, f(1.5)=2.25, f(2.5)=6.25, f(3.5)=12.25<br>M = 1·(0.25+2.25+6.25+12.25) = <strong>21</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">5</div><div class="gs-body"><div class="gs-label">Trapezoid: T = (L+R)/2</div><div class="gs-content">T = (14+30)/2 = <strong>22</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">6</div><div class="gs-body"><div class="gs-label">True value and over/under analysis</div><div class="gs-content">∫₀⁴ x² dx = [x³/3]₀⁴ = 64/3 ≈ 21.33<br><br>L = 14 → <span class="mgreen">underestimate</span> (f increasing)<br>R = 30 → <span class="mred">overestimate</span> (f increasing)<br>M = 21 → <span class="mgreen">underestimate</span> (f concave up)<br>T = 22 → <span class="mred">overestimate</span> (f concave up)</div></div></div>
+        </div>
+        <div class="pane" id="all4-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>The function g is continuous and strictly decreasing on [0,4]. A table gives g(0)=10, g(1)=8, g(2)=5, g(3)=3, g(4)=1. Compute L, R, and T with n=4. Which overestimates the integral?</div>
+          <div class="scaffold-step"><div class="s-prompt">Compute Left Riemann Sum (endpoints: 0,1,2,3)</div><input class="s-input" type="text" placeholder="L = 1 × ( + + + ) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Compute Right Riemann Sum (endpoints: 1,2,3,4)</div><input class="s-input" type="text" placeholder="R = 1 × ( + + + ) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Compute Trapezoidal approximation</div><input class="s-input" type="text" placeholder="T = (L+R)/2 = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Since g is decreasing, which method overestimates?</div><input class="s-input" type="text" placeholder="On decreasing functions, the ___ sum overestimates because ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">L = 1×(10+8+5+3) = <strong>26</strong><br>R = 1×(8+5+3+1) = <strong>17</strong><br>T = (26+17)/2 = <strong>21.5</strong><br><br><strong>Left sum overestimates</strong> on a decreasing function — the left endpoint is always higher than the function on that interval, so the rectangle extends above the curve.</div>
+        </div>
+        <div class="pane" id="all4-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Express the following limit as a definite integral:<br><br>lim<sub>n→∞</sub> Σᵢ₌₁ⁿ (3 + i·<span class="fr"><span class="n">4</span><span class="d">n</span></span>)² · <span class="fr"><span class="n">4</span><span class="d">n</span></span></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Identify Δx = 4/n → interval length = 4.<br>Right endpoints: xᵢ = 3 + i·(4/n) → starts at x = 3, ends at x = 3+4 = 7. Interval: [3,7].<br>f(xᵢ) = (3 + i·4/n)² = xᵢ² → f(x) = x²<br><br><strong>= ∫₃⁷ x² dx</strong><br><br>Evaluate: [x³/3]₃⁷ = 343/3 − 27/3 = 316/3 ≈ 105.33</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · All Four Approximation Methods</div>
+    <table class="dtable">
+      <thead><tr><th>Method</th><th>Points Used</th><th>Formula</th><th>Not a Riemann Sum?</th></tr></thead>
+      <tbody>
+        <tr><td class="mblue">Left</td><td style="color:var(--tx2);font-weight:300;">x₀ through xₙ₋₁</td><td style="color:var(--tx2);font-weight:300;">Δx·[f(x₀)+···+f(xₙ₋₁)]</td><td style="color:var(--green);font-weight:300;">No — is a Riemann sum</td></tr>
+        <tr><td class="mgreen">Right</td><td style="color:var(--tx2);font-weight:300;">x₁ through xₙ</td><td style="color:var(--tx2);font-weight:300;">Δx·[f(x₁)+···+f(xₙ)]</td><td style="color:var(--green);font-weight:300;">No — is a Riemann sum</td></tr>
+        <tr><td class="mpurple">Midpoint</td><td style="color:var(--tx2);font-weight:300;">m₁=(x₀+x₁)/2, etc.</td><td style="color:var(--tx2);font-weight:300;">Δx·[f(m₁)+···+f(mₙ)]</td><td style="color:var(--green);font-weight:300;">No — is a Riemann sum</td></tr>
+        <tr><td class="m">Trapezoid</td><td style="color:var(--tx2);font-weight:300;">All x₀ through xₙ</td><td style="color:var(--tx2);font-weight:300;">(Δx/2)·[f(x₀)+2f(x₁)+···+f(xₙ)]</td><td style="color:var(--red);font-weight:300;">YES — not a Riemann sum</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:12px 14px;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.2);border-radius:8px;font-size:12px;color:var(--tx2);font-weight:300;line-height:1.8;">
+      <strong style="color:var(--blue);">Over/Under shortcut:</strong> On ↗ increasing: L under, R over. On ↘ decreasing: L over, R under. On ∪ concave up: M under, T over. On ∩ concave down: M over, T under. Trap and Midpoint always opposite each other.
+    </div>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s08-riemann.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

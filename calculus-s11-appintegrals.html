@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 11 · Applications of Integrals</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828;
+    --glass:rgba(255,255,255,0.044);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#3effa0;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(62,255,160,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(62,255,160,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(62,255,160,0.055) 0%,rgba(56,189,248,0.025) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(62,255,160,0.1);border:1px solid rgba(62,255,160,0.28);color:var(--green);}
+
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--green),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  .topic{margin-bottom:64px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;text-align:right;}
+
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.2;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.teal{border-left-color:var(--teal);}
+  .fbox.cyan{border-left-color:var(--cyan);}
+
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(62,255,160,0.1);border:1px solid rgba(62,255,160,0.22);color:var(--green);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .mcyan{color:var(--cyan);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(62,255,160,0.1);border:1px solid rgba(62,255,160,0.22);color:var(--green);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(62,255,160,0.08);border:1px solid rgba(62,255,160,0.25);color:var(--green);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(62,255,160,0.16);border-color:var(--green);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  /* GRAPH WRAP */
+  .graph-wrap{background:var(--d1);border:1px solid var(--b);border-radius:12px;padding:20px;margin:14px 0;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .graph-wrap svg{max-width:100%;}
+  .graph-caption{font-size:11px;color:var(--tx3);text-align:center;line-height:1.6;max-width:540px;}
+
+  /* METHOD CARDS - disk vs washer */
+  .method-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+  .method-card{background:var(--d1);border:1px solid var(--b2);border-radius:12px;padding:20px;position:relative;overflow:hidden;}
+  .method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .mc-disk::before{background:linear-gradient(90deg,var(--blue),transparent);}
+  .mc-washer::before{background:linear-gradient(90deg,var(--purple),transparent);}
+  .method-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:8px;}
+  .mc-disk .method-card-title{color:var(--blue);}
+  .mc-washer .method-card-title{color:var(--purple);}
+  .method-card-formula{font-size:13px;font-weight:400;padding:10px 14px;border-radius:8px;border:1px solid;line-height:2.0;margin:10px 0;}
+  .mc-disk .method-card-formula{color:var(--blue);background:rgba(56,189,248,0.05);border-color:rgba(56,189,248,0.2);}
+  .mc-washer .method-card-formula{color:var(--purple);background:rgba(192,132,252,0.05);border-color:rgba(192,132,252,0.2);}
+  .method-card-note{font-size:11px;font-weight:300;color:var(--tx3);line-height:1.7;}
+
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--green),var(--teal));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .method-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 11</span>
+  <span class="nav-badge">Applications of Integrals</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 11 · AP Calculus AB</div>
+    <h1 class="sec-title">Applications<br><span>of Integrals</span></h1>
+    <p class="sec-desc">Area between curves, volumes using the disk and washer methods, and accumulation problems. Every formula built from scratch with diagrams, full setup procedures, and FRQ-style practice.</p>
+  </div>
+
+
+  <!-- ══════════════════════════
+       11.1 · AREA BETWEEN TWO CURVES
+  ══════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">11.1</span>
+      <h2 class="topic-title">Area Between Two Curves</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Core Formula</div>
+      <p>The area between two curves f(x) (top) and g(x) (bottom) on an interval [a, b] is found by integrating the <strong>vertical distance between them</strong>:</p>
+      <div class="fbox">
+        <div class="flabel">Area Between Curves — Vertical Slices (functions of x)</div>
+        A = ∫<sub>a</sub><sup>b</sup> [<span class="mgreen">f(x) − g(x)</span>] dx<br><br>
+        where <span class="mgreen">f(x) is the top function</span> and <span class="mred">g(x) is the bottom function</span> on [a, b]
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Critical:</strong> f(x) − g(x) must be ≥ 0 throughout [a,b]. Always subtract bottom from top. If the curves switch which is on top, you must split the integral at the crossing point.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Step-by-Step Setup</div>
+      <ol class="steps">
+        <li><strong>Find the intersection points.</strong><span class="why">→ Set f(x) = g(x) and solve. These are the limits of integration a and b unless the problem gives them.</span></li>
+        <li><strong>Determine which function is on top.</strong><span class="why">→ Pick a test value in [a,b]. Whichever gives the larger output is f(x) = top. The area formula is always top minus bottom.</span></li>
+        <li><strong>Check whether the curves switch.</strong><span class="why">→ If they cross inside [a,b], split the integral at the crossing point. Each piece uses its own top−bottom ordering.</span></li>
+        <li><strong>Set up and evaluate ∫[f−g] dx.</strong></li>
+        <li><strong>State the answer with units² if given context.</strong></li>
+      </ol>
+    </div>
+
+    <!-- Area between curves SVG -->
+    <div class="graph-wrap">
+      <svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono,monospace">
+        <line x1="30" y1="170" x2="420" y2="170" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <line x1="30" y1="10" x2="30" y2="175" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <!-- top curve f(x) — parabola opening down -->
+        <path d="M80,160 Q160,20 280,40 Q360,55 380,100" fill="none" stroke="#3effa0" stroke-width="2.5"/>
+        <!-- bottom curve g(x) — lower parabola -->
+        <path d="M80,160 Q140,130 200,120 Q280,108 380,100" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+        <!-- fill region between -->
+        <path d="M80,160 Q160,20 280,40 Q360,55 380,100 Q280,108 200,120 Q140,130 80,160 Z" fill="rgba(62,255,160,0.12)" stroke="none"/>
+        <!-- intersection dots -->
+        <circle cx="80" cy="160" r="4" fill="white"/>
+        <circle cx="380" cy="100" r="4" fill="white"/>
+        <!-- x labels -->
+        <text x="76" y="183" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">a</text>
+        <text x="376" y="115" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle">b</text>
+        <!-- vertical slice arrow -->
+        <line x1="220" y1="55" x2="220" y2="116" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="228" y="72" fill="rgba(255,255,255,0.5)" font-size="10">f(x) − g(x)</text>
+        <!-- curve labels -->
+        <text x="155" y="30" fill="#3effa0" font-size="11">y = f(x) (top)</text>
+        <text x="290" y="143" fill="#38bdf8" font-size="11">y = g(x) (bottom)</text>
+        <!-- shaded label -->
+        <text x="175" y="108" fill="rgba(62,255,160,0.7)" font-size="10">Area = ∫[f−g]dx</text>
+      </svg>
+      <div class="graph-caption">The shaded region is the area between f (green, top) and g (blue, bottom). Each vertical slice has height f(x)−g(x) and width dx.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Area Between Two Curves</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'abc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'abc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'abc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="abc-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the area between f(x) = x + 2 and g(x) = x² from x = −1 to x = 2.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Determine which is on top — test x = 0</div><div class="gs-content">f(0) = 2, g(0) = 0. Since 2 > 0, <strong>f(x) = x+2 is on top</strong>.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Verify no crossings on (−1, 2)</div><div class="gs-content">Set x+2 = x²: x²−x−2 = (x−2)(x+1) = 0 → x = −1 and x = 2.<br>Crossings are exactly at the endpoints — no crossings inside. ✓</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Set up the integral</div><div class="gs-content">A = ∫<sub>−1</sub><sup>2</sup> [(x+2) − x²] dx = ∫<sub>−1</sub><sup>2</sup> (x + 2 − x²) dx</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Evaluate using FTC Part 2</div><div class="gs-content">= [<span class="fr"><span class="n">x²</span><span class="d">2</span></span> + 2x − <span class="fr"><span class="n">x³</span><span class="d">3</span></span>]<sub>−1</sub><sup>2</sup><br>F(2) = 2 + 4 − 8/3 = 6 − 8/3 = 10/3<br>F(−1) = 1/2 − 2 + 1/3 = −7/6<br>A = 10/3 − (−7/6) = 20/6 + 7/6 = <strong>27/6 = 9/2</strong></div></div></div>
+        </div>
+        <div class="pane" id="abc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the area enclosed by y = 4 − x² and y = x + 2.</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Find intersection points: set 4−x² = x+2</div><input class="s-input" type="text" placeholder="4−x² = x+2 → x² + x − 2 = 0 → x = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Test x=0 to determine which is on top</div><input class="s-input" type="text" placeholder="f(0) = ... , g(0) = ... → top function = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Set up and write the integral (top minus bottom)</div><input class="s-input" type="text" placeholder="A = ∫_( )^( ) [( ) − ( )] dx"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Find the antiderivative and evaluate</div><input class="s-input" type="text" placeholder="A = [...]_a^b = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">4−x² = x+2 → x²+x−2 = 0 → (x+2)(x−1) = 0 → x = −2, 1<br><br>Test x=0: 4−0=4 > 0+2=2 → 4−x² is on top<br><br>A = ∫<sub>−2</sub><sup>1</sup> [(4−x²) − (x+2)] dx = ∫<sub>−2</sub><sup>1</sup> (2−x−x²) dx<br><br>= [2x − x²/2 − x³/3]<sub>−2</sub><sup>1</sup><br>F(1) = 2 − 1/2 − 1/3 = 7/6<br>F(−2) = −4 − 2 + 8/3 = −10/3<br><br><strong>A = 7/6 + 10/3 = 7/6 + 20/6 = 27/6 = 9/2</strong></div>
+        </div>
+        <div class="pane" id="abc-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the total area between y = x³ − x and y = 0 from x = −1 to x = 1. (Hint: the curves cross at x = 0.)</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">x³−x = x(x²−1) = x(x−1)(x+1). On [−1,0]: x³−x ≥ 0 (test x=−0.5: −0.125+0.5>0). On [0,1]: x³−x ≤ 0.<br><br>Split at x=0:<br>A = ∫<sub>−1</sub><sup>0</sup>(x³−x)dx + ∫<sub>0</sub><sup>1</sup>−(x³−x)dx<br><br>∫(x³−x)dx = x⁴/4 − x²/2<br>F(0)−F(−1) = 0 − (1/4−1/2) = 1/4<br>F(1)−F(0) = (1/4−1/2) = −1/4 → absolute value = 1/4<br><br><strong>Total area = 1/4 + 1/4 = 1/2</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       11.2 · VOLUMES — DISK METHOD
+  ══════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">11.2</span>
+      <h2 class="topic-title">Volumes of Revolution — Disk Method</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Idea</div>
+      <p>When a region is rotated around an axis, it sweeps out a 3D solid. The <strong>disk method</strong> computes volume by slicing the solid into thin disks perpendicular to the axis of rotation. Each disk has radius r = f(x) and thickness dx.</p>
+      <p>Area of one disk = πr² = π[f(x)]². Integrate over the interval to get the total volume.</p>
+    </div>
+
+    <div class="method-row">
+      <div class="method-card mc-disk">
+        <div class="method-card-title">Disk Method</div>
+        <div class="method-card-formula">
+          V = π ∫<sub>a</sub><sup>b</sup> [f(x)]² dx
+        </div>
+        <div class="method-card-note">Use when rotating around the x-axis (or a horizontal line) and there is no hole in the solid — the region touches the axis.</div>
+      </div>
+      <div class="method-card mc-washer">
+        <div class="method-card-title">When Rotating Around y-axis</div>
+        <div class="method-card-formula">
+          V = π ∫<sub>c</sub><sup>d</sup> [g(y)]² dy
+        </div>
+        <div class="method-card-note">Rewrite x as a function of y. Integrate with respect to y using y-bounds. Same formula, different variable.</div>
+      </div>
+    </div>
+
+    <!-- Disk diagram -->
+    <div class="graph-wrap">
+      <svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono,monospace">
+        <line x1="30" y1="130" x2="400" y2="130" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <line x1="30" y1="20" x2="30" y2="140" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- curve f(x) = sqrt(x) roughly -->
+        <path d="M60,130 Q120,100 180,80 Q240,62 300,50 Q350,42 380,38" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+        <!-- one thin disk at x~220 -->
+        <ellipse cx="220" cy="95" rx="6" ry="35" fill="rgba(56,189,248,0.25)" stroke="rgba(56,189,248,0.6)" stroke-width="1.5"/>
+        <line x1="214" y1="130" x2="214" y2="60" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="226" y1="130" x2="226" y2="60" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- radius label -->
+        <line x1="220" y1="130" x2="220" y2="60" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <text x="226" y="98" fill="rgba(255,255,255,0.5)" font-size="10">r=f(x)</text>
+        <!-- dx label -->
+        <line x1="214" y1="145" x2="226" y2="145" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <text x="213" y="158" fill="rgba(255,255,255,0.35)" font-size="9">dx</text>
+        <!-- axis label -->
+        <text x="396" y="134" fill="rgba(255,255,255,0.25)" font-size="10">x</text>
+        <!-- formula label -->
+        <text x="45" y="20" fill="rgba(56,189,248,0.7)" font-size="10">Area of one disk = π[f(x)]² &nbsp; Volume = π∫[f(x)]² dx</text>
+        <!-- x tick labels -->
+        <text x="57" y="143" fill="rgba(255,255,255,0.3)" font-size="9">a</text>
+        <text x="376" y="143" fill="rgba(255,255,255,0.3)" font-size="9">b</text>
+      </svg>
+      <div class="graph-caption">Each thin disk has radius f(x) and thickness dx. Integrating π[f(x)]² from a to b gives total volume.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Disk Method</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'disk','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'disk','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'disk','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="disk-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume when y = √x is rotated around the x-axis from x = 0 to x = 4.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify f(x) and the axis</div><div class="gs-content">f(x) = √x. Rotating around the x-axis. Use the disk method: V = π∫[f(x)]² dx.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Square f(x)</div><div class="gs-content">[f(x)]² = (√x)² = <strong>x</strong></div><div class="gs-why">→ Squaring eliminates the square root — a key simplification that often happens with √x.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Set up and evaluate the integral</div><div class="gs-content">V = π∫<sub>0</sub><sup>4</sup> x dx = π[<span class="fr"><span class="n">x²</span><span class="d">2</span></span>]<sub>0</sub><sup>4</sup> = π · <span class="fr"><span class="n">16</span><span class="d">2</span></span> = <strong>8π</strong></div></div></div>
+        </div>
+        <div class="pane" id="disk-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume when y = x² is rotated around the x-axis from x = 0 to x = 3.</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Write the disk method formula with f(x) = x²</div><input class="s-input" type="text" placeholder="V = π ∫_0^3 [ f(x) ]² dx = π ∫_0^3 ( )² dx = π ∫_0^3 ... dx"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Simplify [x²]² and find the antiderivative</div><input class="s-input" type="text" placeholder="[x²]² = x^( ) → antiderivative = x^( )/( )"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Evaluate from 0 to 3</div><input class="s-input" type="text" placeholder="V = π [ ... ]_0^3 = π( ... − ... ) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">V = π∫<sub>0</sub><sup>3</sup> x⁴ dx = π[x⁵/5]<sub>0</sub><sup>3</sup> = π(243/5 − 0) = <strong>243π/5</strong></div>
+        </div>
+        <div class="pane" id="disk-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume when y = 2x is rotated around the x-axis from x = 0 to x = 2.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">V = π∫<sub>0</sub><sup>2</sup> (2x)² dx = π∫<sub>0</sub><sup>2</sup> 4x² dx = π[4x³/3]<sub>0</sub><sup>2</sup> = π(32/3) = <strong>32π/3</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       11.3 · WASHER METHOD
+  ══════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">11.3</span>
+      <h2 class="topic-title">Volumes of Revolution — Washer Method</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When to Use the Washer Method</div>
+      <p>Use the washer method when there is a <strong>hole</strong> in the solid — the region being rotated does not touch the axis of rotation. The cross-sections are washers (annuli), not solid disks.</p>
+      <p>Each washer has an outer radius R (from the axis to the top curve) and inner radius r (from the axis to the bottom curve). The washer area = π(R² − r²).</p>
+      <div class="fbox purple">
+        <div class="flabel">Washer Method — Rotating Around the x-axis</div>
+        V = π ∫<sub>a</sub><sup>b</sup> {[<span class="mpurple">R(x)</span>]² − [<span class="mred">r(x)</span>]²} dx<br><br>
+        <span class="mpurple">R(x)</span> = outer radius = distance from axis to the <strong>top/outer curve</strong><br>
+        <span class="mred">r(x)</span> = inner radius = distance from axis to the <strong>bottom/inner curve</strong>
+      </div>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Do NOT write [R−r]².</strong> The correct formula is [R]² − [r]². Squaring must happen before subtracting. <span class="mred">[R−r]² ≠ R²−r²</span> in general.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Disk vs Washer — How to Decide</div>
+      <div class="method-row">
+        <div class="method-card mc-disk">
+          <div class="method-card-title">Use Disk when:</div>
+          <div class="method-card-note" style="font-size:12px;line-height:1.8;">
+            • The region touches the axis of rotation<br>
+            • Only one boundary function exists<br>
+            • Inner radius = 0<br><br>
+            Formula: V = π∫[f(x)]² dx
+          </div>
+        </div>
+        <div class="method-card mc-washer">
+          <div class="method-card-title">Use Washer when:</div>
+          <div class="method-card-note" style="font-size:12px;line-height:1.8;">
+            • The region has a gap between it and the axis<br>
+            • Two curves bound the region<br>
+            • Inner radius > 0<br><br>
+            Formula: V = π∫([R]²−[r]²) dx
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Washer diagram -->
+    <div class="graph-wrap">
+      <svg viewBox="0 0 420 190" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono,monospace">
+        <line x1="30" y1="95" x2="400" y2="95" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <line x1="30" y1="10" x2="30" y2="175" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- outer curve (top) -->
+        <path d="M70,155 Q180,30 350,45" fill="none" stroke="#c084fc" stroke-width="2.5"/>
+        <!-- inner curve (bottom) -->
+        <path d="M70,135 Q180,70 350,75" fill="none" stroke="#f87171" stroke-width="2"/>
+        <!-- washer at x~210 -->
+        <ellipse cx="210" cy="95" rx="6" ry="50" fill="none" stroke="rgba(192,132,252,0.5)" stroke-width="1.5"/>
+        <ellipse cx="210" cy="95" rx="6" ry="22" fill="rgba(6,8,15,0.9)" stroke="rgba(248,113,113,0.5)" stroke-width="1.5"/>
+        <!-- fill the washer ring -->
+        <path d="M204,45 L204,73 L216,73 L216,45 Z" fill="rgba(192,132,252,0.15)" stroke="none"/>
+        <path d="M204,117 L204,145 L216,145 L216,117 Z" fill="rgba(192,132,252,0.15)" stroke="none"/>
+        <!-- R and r arrows -->
+        <line x1="210" y1="95" x2="210" y2="45" stroke="rgba(192,132,252,0.7)" stroke-width="1.5"/>
+        <text x="215" y="65" fill="rgba(192,132,252,0.8)" font-size="10">R(x)</text>
+        <line x1="210" y1="95" x2="210" y2="73" stroke="rgba(248,113,113,0.7)" stroke-width="1.5"/>
+        <text x="215" y="87" fill="rgba(248,113,113,0.8)" font-size="10">r(x)</text>
+        <!-- x labels -->
+        <text x="396" y="99" fill="rgba(255,255,255,0.25)" font-size="10">x</text>
+        <text x="66" y="108" fill="rgba(255,255,255,0.3)" font-size="9">a</text>
+        <text x="346" y="108" fill="rgba(255,255,255,0.3)" font-size="9">b</text>
+        <!-- formula -->
+        <text x="35" y="15" fill="rgba(192,132,252,0.7)" font-size="9">V = π∫([R(x)]² − [r(x)]²)dx</text>
+        <!-- curve labels -->
+        <text x="355" y="38" fill="#c084fc" font-size="9">outer</text>
+        <text x="355" y="68" fill="#f87171" font-size="9">inner</text>
+      </svg>
+      <div class="graph-caption">R(x) = outer radius (axis to outer curve). r(x) = inner radius (axis to inner curve). Washer area = π(R²−r²). Never write [R−r]².</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Washer Method</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'wash','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'wash','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'wash','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="wash-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume of the solid formed when the region between y = x and y = x² on [0,1] is rotated around the x-axis.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify the outer and inner radius</div><div class="gs-content">On [0,1]: y = x is above y = x² (test x=0.5: 0.5 > 0.25 ✓)<br>Rotating around x-axis → distances are the y-values.<br>Outer radius: <span class="mpurple">R(x) = x</span><br>Inner radius: <span class="mred">r(x) = x²</span></div><div class="gs-why">→ Outer = farther from axis = larger y-value = top curve.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Write the washer formula</div><div class="gs-content">V = π∫<sub>0</sub><sup>1</sup> {[<span class="mpurple">x</span>]² − [<span class="mred">x²</span>]²} dx = π∫<sub>0</sub><sup>1</sup> (x² − x⁴) dx</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Evaluate</div><div class="gs-content">= π[<span class="fr"><span class="n">x³</span><span class="d">3</span></span> − <span class="fr"><span class="n">x⁵</span><span class="d">5</span></span>]<sub>0</sub><sup>1</sup> = π(<span class="fr"><span class="n">1</span><span class="d">3</span></span> − <span class="fr"><span class="n">1</span><span class="d">5</span></span>) = π · <span class="fr"><span class="n">2</span><span class="d">15</span></span> = <strong>2π/15</strong></div></div></div>
+        </div>
+        <div class="pane" id="wash-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume when the region between y = √x and y = x² on [0,1] is rotated around the x-axis.</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Which curve is on top on [0,1]? Test x = 0.5</div><input class="s-input" type="text" placeholder="√(0.5) ≈ ... , (0.5)² = ... → outer = ... , inner = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write the washer integral π∫([R]² − [r]²)dx on [0,1]</div><input class="s-input" type="text" placeholder="V = π ∫_0^1 ([ ]² − [ ]²) dx = π ∫_0^1 ( ... ) dx"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Evaluate and simplify</div><input class="s-input" type="text" placeholder="V = π[ ... ]_0^1 = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">√(0.5) ≈ 0.707 > 0.25 → outer R = √x, inner r = x²<br><br>V = π∫<sub>0</sub><sup>1</sup>[(√x)² − (x²)²]dx = π∫<sub>0</sub><sup>1</sup>(x − x⁴)dx<br>= π[x²/2 − x⁵/5]<sub>0</sub><sup>1</sup> = π(1/2 − 1/5) = π(3/10) = <strong>3π/10</strong></div>
+        </div>
+        <div class="pane" id="wash-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the volume when the region between y = 3 and y = x + 1 on [0,2] is rotated around the x-axis.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">On [0,2]: y=3 is above y=x+1 (at x=0: 3>1, at x=2: 3=3, so y=3 is outer for most of interval; at x=2 they meet).<br>R(x) = 3, r(x) = x+1<br><br>V = π∫<sub>0</sub><sup>2</sup>[9 − (x+1)²]dx = π∫<sub>0</sub><sup>2</sup>[9 − x² − 2x − 1]dx<br>= π∫<sub>0</sub><sup>2</sup>(8 − 2x − x²)dx<br>= π[8x − x² − x³/3]<sub>0</sub><sup>2</sup><br>= π(16 − 4 − 8/3) = π(12 − 8/3) = π(28/3) = <strong>28π/3</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       11.4 · ACCUMULATION / TOTAL CHANGE
+  ══════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">11.4</span>
+      <h2 class="topic-title">Accumulation &amp; Total Change from a Rate</h2>
+      <span class="topic-sub">The most common FRQ application type</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Core Idea</div>
+      <p>If R(t) is the <strong>rate of change</strong> of some quantity Q, then the total change in Q from t = a to t = b is:</p>
+      <div class="fbox teal">
+        <div class="flabel">Total Change from a Rate</div>
+        ∫<sub>a</sub><sup>b</sup> R(t) dt = Q(b) − Q(a) = <span class="mteal">total change in Q</span><br><br>
+        If you also know Q(a), then: &nbsp; Q(b) = Q(a) + ∫<sub>a</sub><sup>b</sup> R(t) dt
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">FRQ Context Language — What These Mean</div>
+      <table class="dtable">
+        <thead><tr><th>FRQ Phrase</th><th>What It's Asking</th><th>How to Compute</th></tr></thead>
+        <tbody>
+          <tr><td class="mgreen">"Total amount that entered from t=a to t=b"</td><td style="color:var(--tx2);font-weight:300;">Net accumulation of inflow</td><td style="color:var(--tx3);font-weight:300;">∫<sub>a</sub><sup>b</sup> R<sub>in</sub>(t) dt</td></tr>
+          <tr><td class="mgreen">"Amount at time t=b"</td><td style="color:var(--tx2);font-weight:300;">Initial + change</td><td style="color:var(--tx3);font-weight:300;">Q(a) + ∫<sub>a</sub><sup>b</sup> R(t) dt</td></tr>
+          <tr><td class="mgreen">"Is the amount increasing or decreasing at t=c?"</td><td style="color:var(--tx2);font-weight:300;">Sign of R(c)</td><td style="color:var(--tx3);font-weight:300;">If R(c) > 0 → increasing; R(c) < 0 → decreasing</td></tr>
+          <tr><td class="mgreen">"Net change in position"</td><td style="color:var(--tx2);font-weight:300;">Displacement</td><td style="color:var(--tx3);font-weight:300;">∫<sub>a</sub><sup>b</sup> v(t) dt</td></tr>
+          <tr><td class="mgreen">"Total distance traveled"</td><td style="color:var(--tx2);font-weight:300;">Unsigned total path</td><td style="color:var(--tx3);font-weight:300;">∫<sub>a</sub><sup>b</sup> |v(t)| dt</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Displacement vs Distance:</strong> ∫v(t)dt gives displacement (net, signed). ∫|v(t)|dt gives total distance (always positive, split at zeros of v). This distinction appears on almost every AP exam.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Accumulation &amp; Total Change</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'acc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'acc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'acc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="acc-v1">
+          <div class="problem-box"><div class="p-label">Problem — FRQ Style</div>Water flows into a tank at rate R(t) = 3t² + 2 gallons per minute. At t=0, the tank contains 10 gallons.<br>(a) How many gallons enter from t=0 to t=4?<br>(b) How many gallons are in the tank at t=4?<br>(c) Is the amount in the tank increasing or decreasing at t=3? Justify.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">(a) Total gallons entering — integrate the rate</div><div class="gs-content">∫<sub>0</sub><sup>4</sup> R(t) dt = ∫<sub>0</sub><sup>4</sup> (3t² + 2) dt<br>= [t³ + 2t]<sub>0</sub><sup>4</sup> = (64 + 8) − 0 = <strong>72 gallons</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">(b) Amount at t=4: initial + total change</div><div class="gs-content">Q(4) = Q(0) + ∫<sub>0</sub><sup>4</sup> R(t) dt = 10 + 72 = <strong>82 gallons</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">(c) Increasing or decreasing at t=3</div><div class="gs-content">R(3) = 3(9) + 2 = 29 > 0.<br><strong>The amount is increasing at t=3</strong> because R(3) > 0 — the rate of flow is positive, so water is still entering.</div></div></div>
+        </div>
+        <div class="pane" id="acc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>A particle moves along a line with velocity v(t) = t² − 4 (m/s). Find: (a) displacement from t=0 to t=3. (b) total distance from t=0 to t=3.</div>
+          <div class="scaffold-step"><div class="s-prompt">(a) Displacement = ∫₀³ v(t) dt. Find the antiderivative and evaluate.</div><input class="s-input" type="text" placeholder="∫(t²−4)dt = ... → [...]₀³ = ... − ... = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">(b) Find where v(t)=0 on [0,3] to split for total distance</div><input class="s-input" type="text" placeholder="v(t)=0 when t=... Check sign: v negative on [0, ] and positive on [ ,3]"/></div>
+          <div class="scaffold-step"><div class="s-prompt">(b) Total distance = ∫₀² |v| dt + ∫₂³ |v| dt = −∫₀² v dt + ∫₂³ v dt</div><input class="s-input" type="text" placeholder="= −( ... ) + ( ... ) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) ∫<sub>0</sub><sup>3</sup>(t²−4)dt = [t³/3−4t]<sub>0</sub><sup>3</sup> = (9−12)−0 = <strong>−3 m</strong> (net displacement)<br><br>(b) v(t) = t²−4 = 0 at t=2. On [0,2]: v<0. On [2,3]: v>0.<br>Total distance = |∫<sub>0</sub><sup>2</sup>(t²−4)dt| + ∫<sub>2</sub><sup>3</sup>(t²−4)dt<br>= |[t³/3−4t]<sub>0</sub><sup>2</sup>| + [t³/3−4t]<sub>2</sub><sup>3</sup><br>= |(8/3−8)| + (9−12−8/3+8) = |−16/3| + (8/3−3) = 16/3 + (−1/3) = <strong>15/3 = 5 m</strong></div>
+        </div>
+        <div class="pane" id="acc-v3">
+          <div class="problem-box"><div class="p-label">Problem — FRQ Style</div>People enter a store at rate E(t) = 40 + 2t and leave at rate L(t) = 10 + 5t (people/hour). At t=0, there are 50 people in the store.<br>(a) How many people enter from t=0 to t=6?<br>(b) How many people are in the store at t=6?<br>(c) At what rate is the number changing at t=3? Is it increasing or decreasing?</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) ∫<sub>0</sub><sup>6</sup> E(t) dt = ∫<sub>0</sub><sup>6</sup>(40+2t)dt = [40t+t²]<sub>0</sub><sup>6</sup> = 240+36 = <strong>276 people entered</strong><br><br>(b) Net rate = E(t)−L(t) = (40+2t)−(10+5t) = 30−3t<br>∫<sub>0</sub><sup>6</sup>(30−3t)dt = [30t−3t²/2]<sub>0</sub><sup>6</sup> = 180−54 = 126<br>People at t=6: 50+126 = <strong>176 people</strong><br><br>(c) Net rate at t=3: E(3)−L(3) = (46)−(25) = <strong>21 people/hour</strong>. <strong>Increasing</strong> because E(3)−L(3) > 0.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       11.5 · AVERAGE VALUE
+  ══════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">11.5</span>
+      <h2 class="topic-title">Average Value of a Function</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Formula</div>
+      <p>The average value of f(x) on [a, b] is the single number that, if you extended it as a horizontal line, would create the same area under f as the actual function does:</p>
+      <div class="fbox gold">
+        <div class="flabel">Average Value</div>
+        f<sub>avg</sub> = <span class="fr"><span class="n">1</span><span class="d">b − a</span></span> ∫<sub>a</sub><sup>b</sup> f(x) dx<br><br>
+        <span style="font-size:11px;color:var(--tx3)">This is the Mean Value Theorem for Integrals: there exists c ∈ (a,b) where f(c) = f<sub>avg</sub>.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Average Value</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'avg','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'avg','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'avg','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="avg-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the average value of f(x) = x² on [1, 4].</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Apply the average value formula</div><div class="gs-content">f<sub>avg</sub> = <span class="fr"><span class="n">1</span><span class="d">4−1</span></span> ∫<sub>1</sub><sup>4</sup> x² dx = <span class="fr"><span class="n">1</span><span class="d">3</span></span> [<span class="fr"><span class="n">x³</span><span class="d">3</span></span>]<sub>1</sub><sup>4</sup></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Evaluate the integral</div><div class="gs-content"><span class="fr"><span class="n">1</span><span class="d">3</span></span> · [<span class="fr"><span class="n">64</span><span class="d">3</span></span> − <span class="fr"><span class="n">1</span><span class="d">3</span></span>] = <span class="fr"><span class="n">1</span><span class="d">3</span></span> · <span class="fr"><span class="n">63</span><span class="d">3</span></span> = <span class="fr"><span class="n">63</span><span class="d">9</span></span> = <strong>7</strong></div></div></div>
+        </div>
+        <div class="pane" id="avg-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the average value of g(x) = sin x on [0, π].</div>
+          <div class="scaffold-step"><div class="s-prompt">Write the average value formula with a=0, b=π</div><input class="s-input" type="text" placeholder="f_avg = 1/(π−0) × ∫_0^π sin x dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Evaluate ∫₀^π sin x dx</div><input class="s-input" type="text" placeholder="[−cos x]_0^π = ... − ... = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Multiply by 1/(b−a) to get the average</div><input class="s-input" type="text" placeholder="f_avg = (1/π) × ( ) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f<sub>avg</sub> = (1/π)∫<sub>0</sub><sup>π</sup> sin x dx = (1/π)[−cos x]<sub>0</sub><sup>π</sup><br>= (1/π)(−cos π + cos 0) = (1/π)(1+1) = <strong>2/π</strong></div>
+        </div>
+        <div class="pane" id="avg-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>The temperature in a room (°F) over 6 hours is modeled by T(t) = 70 + 4t − t². Find the average temperature from t=0 to t=6.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">T<sub>avg</sub> = (1/6)∫<sub>0</sub><sup>6</sup>(70+4t−t²)dt<br>= (1/6)[70t+2t²−t³/3]<sub>0</sub><sup>6</sup><br>= (1/6)(420+72−72) = (1/6)(420) = <strong>70°F</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · Applications of Integrals</div>
+    <table class="dtable">
+      <thead><tr><th>Application</th><th>Formula</th><th>Key Warning</th></tr></thead>
+      <tbody>
+        <tr><td class="mgreen">Area between curves</td><td style="color:var(--tx2);font-weight:300;">∫[top − bottom]dx</td><td style="color:var(--tx3);font-weight:300;">Split if curves cross. Always top minus bottom.</td></tr>
+        <tr><td class="mblue">Disk method</td><td style="color:var(--tx2);font-weight:300;">V = π∫[f(x)]² dx</td><td style="color:var(--tx3);font-weight:300;">Region must touch axis. No hole.</td></tr>
+        <tr><td class="mpurple">Washer method</td><td style="color:var(--tx2);font-weight:300;">V = π∫([R]²−[r]²) dx</td><td style="color:var(--tx3);font-weight:300;">R²−r², NEVER (R−r)². R=outer, r=inner.</td></tr>
+        <tr><td class="mteal">Total change</td><td style="color:var(--tx2);font-weight:300;">Q(b) = Q(a) + ∫R(t)dt</td><td style="color:var(--tx3);font-weight:300;">Displacement ≠ distance. Use |v(t)| for total distance.</td></tr>
+        <tr><td class="m">Average value</td><td style="color:var(--tx2);font-weight:300;">f_avg = [1/(b−a)] ∫f dx</td><td style="color:var(--tx3);font-weight:300;">Don't forget the 1/(b−a) factor.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s11-appintegrals.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

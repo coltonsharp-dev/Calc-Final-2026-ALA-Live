@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 01 · Foundations & Prerequisites</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:   #06080f;
+    --d1:     #0b0f1e;
+    --d2:     #111828;
+    --d3:     #161e30;
+    --glass:  rgba(255,255,255,0.044);
+    --gb:     rgba(255,255,255,0.08);
+    --shine:  rgba(255,255,255,0.13);
+    --b:      rgba(255,255,255,0.07);
+    --b2:     rgba(255,255,255,0.12);
+    --green:  #3effa0;
+    --gold:   #f5c842;
+    --red:    #f87171;
+    --blue:   #38bdf8;
+    --purple: #c084fc;
+    --cyan:   #00e5ff;
+    --orange: #fb923c;
+    --tx:     #dde6f5;
+    --tx2:    #8898b8;
+    --tx3:    #4a5570;
+    --accent: #38bdf8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--tx);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAV ── */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(6,8,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--b);
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--tx2); text-decoration: none;
+    padding: 8px 16px; border-radius: 100px;
+    border: 1px solid var(--b);
+    background: var(--glass);
+    transition: all 0.2s;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .nav-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--tx3); }
+  .nav-badge {
+    font-size:11px; font-weight:500; letter-spacing:0.1em;
+    padding:4px 12px; border-radius:100px;
+    background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.25);
+    color:var(--blue);
+  }
+
+  /* ── LAYOUT ── */
+  .page { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:48px 32px 100px; }
+
+  /* ── SECTION HEADER ── */
+  .section-header { margin-bottom: 56px; }
+  .sec-label { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--blue); margin-bottom:12px; }
+  .sec-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(32px,5vw,52px); line-height:1.0; letter-spacing:-0.02em; margin-bottom:16px; }
+  .sec-title span { background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .sec-desc { font-size:13px; font-weight:300; color:var(--tx2); max-width:620px; line-height:1.8; }
+
+  /* ── TOPIC BLOCK ── */
+  .topic { margin-bottom: 64px; }
+  .topic-header {
+    display:flex; align-items:center; gap:16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--b);
+  }
+  .topic-num {
+    font-size:11px; font-weight:500; letter-spacing:0.15em;
+    color:var(--accent); min-width:36px;
+  }
+  .topic-title { font-family:'Syne',sans-serif; font-weight:700; font-size:22px; color:var(--tx); }
+
+  /* ── CONCEPT CARD ── */
+  .concept {
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .concept-title {
+    font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px;
+  }
+  .concept p { font-size:13px; font-weight:300; color:var(--tx2); line-height:1.85; margin-bottom:12px; }
+  .concept p:last-child { margin-bottom:0; }
+  .concept strong { color:var(--tx); font-weight:500; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--d2);
+    border: 1px solid var(--b2);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tx);
+    line-height: 1.9;
+  }
+  .formula-box .label {
+    font-size:10px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--tx3); margin-bottom:8px;
+  }
+
+  /* ── MATH INLINE ── */
+  .m { color:var(--gold); font-weight:500; }
+  .mblue { color:var(--blue); font-weight:500; }
+  .mgreen { color:var(--green); font-weight:500; }
+  .mred { color:var(--red); font-weight:500; }
+  .mpurple { color:var(--purple); font-weight:500; }
+  .morange { color:var(--orange); font-weight:500; }
+
+  /* fraction */
+  .fr { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; font-size:0.88em; line-height:1.15; margin:0 2px; }
+  .fr .n { border-bottom:1px solid currentColor; padding:0 3px 1px; }
+  .fr .d { padding:1px 3px 0; }
+
+  /* sqrt */
+  .rt { display:inline; border-top:1px solid currentColor; padding:0 2px; }
+
+  /* ── UNIT CIRCLE SVG container ── */
+  .uc-wrap {
+    background: var(--d1);
+    border: 1px solid var(--b);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .uc-wrap svg { max-width: 480px; width: 100%; }
+
+  /* ── MEMORY TRICK ── */
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .mg-cell {
+    background: var(--d2);
+    border: 1px solid var(--b);
+    border-radius: 8px;
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .mg-cell .angle { font-size:10px; color:var(--tx3); margin-bottom:4px; }
+  .mg-cell .val { color:var(--gold); font-weight:500; font-size:13px; }
+
+  /* ── TABLE ── */
+  .data-table {
+    width:100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 14px 0;
+  }
+  .data-table th {
+    background: var(--d2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    border-bottom: 1px solid var(--b2);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--b);
+    color: var(--tx2);
+    font-weight: 300;
+    vertical-align: middle;
+  }
+  .data-table tr:hover td { background: var(--glass); }
+  .data-table .hl { color: var(--gold); font-weight: 500; }
+  .data-table .hl2 { color: var(--blue); font-weight: 500; }
+  .data-table .hl3 { color: var(--green); font-weight: 500; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display:flex; gap:12px; align-items:flex-start;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin: 14px 0;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .callout-warn { background:rgba(245,200,66,0.07); border:1px solid rgba(245,200,66,0.2); color:var(--tx2); }
+  .callout-tip  { background:rgba(62,255,160,0.06); border:1px solid rgba(62,255,160,0.18); color:var(--tx2); }
+  .callout-err  { background:rgba(248,113,113,0.07); border:1px solid rgba(248,113,113,0.2); color:var(--tx2); }
+  .callout-info { background:rgba(56,189,248,0.07);  border:1px solid rgba(56,189,248,0.2);  color:var(--tx2); }
+  .callout-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+  .callout strong { font-weight:500; color:var(--tx); }
+
+  /* ── LIST ── */
+  .clist { list-style:none; padding:0; margin:10px 0; }
+  .clist li {
+    padding: 8px 0 8px 20px;
+    position: relative;
+    font-size: 13px; font-weight:300; color:var(--tx2);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    line-height: 1.75;
+  }
+  .clist li::before {
+    content:''; position:absolute; left:0; top:18px;
+    width:8px; height:1px; background:var(--accent);
+  }
+  .clist li strong { color:var(--tx); font-weight:500; }
+  .clist li .sub { font-size:11px; color:var(--tx3); display:block; margin-top:2px; }
+
+  /* ── STEP LIST ── */
+  .steps { counter-reset:step; list-style:none; padding:0; margin:10px 0; }
+  .steps li {
+    counter-increment:step;
+    padding: 12px 0 12px 48px;
+    position:relative;
+    font-size:13px; font-weight:300; color:var(--tx2);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    line-height:1.75;
+  }
+  .steps li::before {
+    content:counter(step);
+    position:absolute; left:0; top:12px;
+    width:28px; height:28px; border-radius:50%;
+    background:rgba(56,189,248,0.12);
+    border:1px solid rgba(56,189,248,0.25);
+    color:var(--blue); font-size:11px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .steps li strong { color:var(--tx); font-weight:500; }
+  .steps li .why {
+    display:block; margin-top:4px;
+    font-size:11px; color:var(--tx3);
+    font-style:italic;
+  }
+
+  /* ── PRACTICE SECTION ── */
+  .practice-section {
+    margin-top: 32px;
+    border: 1px solid var(--b2);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .practice-header {
+    background: var(--d2);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--b);
+  }
+  .practice-header-title {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--tx);
+  }
+  .practice-tabs {
+    display:flex; gap:4px;
+  }
+  .ptab {
+    font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+    padding:5px 12px; border-radius:6px; cursor:pointer;
+    border:1px solid transparent;
+    color:var(--tx3);
+    transition: all 0.2s;
+    background:transparent;
+  }
+  .ptab.active { background:var(--glass); border-color:var(--accent); color:var(--accent); }
+  .ptab:hover:not(.active) { color:var(--tx2); }
+
+  .practice-body { padding: 24px; }
+  .pane { display:none; }
+  .pane.active { display:block; }
+
+  .problem-box {
+    background: var(--d1);
+    border: 1px solid var(--b);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: var(--tx);
+    line-height: 1.8;
+  }
+  .problem-box .p-label {
+    font-size:10px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--tx3); margin-bottom:8px;
+  }
+
+  /* guided steps */
+  .guided-step {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:14px;
+    padding:14px;
+    background:var(--glass);
+    border:1px solid var(--b);
+    border-radius:10px;
+  }
+  .gs-num {
+    flex-shrink:0;
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(56,189,248,0.15);
+    border:1px solid rgba(56,189,248,0.3);
+    color:var(--blue); font-size:11px; font-weight:500;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gs-body { flex:1; }
+  .gs-label { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--tx3); margin-bottom:4px; }
+  .gs-content { font-size:13px; font-weight:300; color:var(--tx2); line-height:1.75; }
+  .gs-content strong { color:var(--tx); font-weight:500; }
+  .gs-why { font-size:11px; color:var(--tx3); font-style:italic; margin-top:4px; }
+
+  /* scaffold */
+  .scaffold-step {
+    padding:12px 16px; margin-bottom:10px;
+    border:1px dashed rgba(255,255,255,0.1);
+    border-radius:8px;
+  }
+  .scaffold-step .s-prompt { font-size:12px; color:var(--tx3); margin-bottom:8px; }
+  .scaffold-step .s-input {
+    background:var(--d2); border:1px solid var(--b2);
+    border-radius:6px; padding:8px 12px;
+    font-family:'DM Mono',monospace; font-size:13px;
+    color:var(--tx); width:100%; outline:none;
+    transition:border-color 0.2s;
+  }
+  .scaffold-step .s-input:focus { border-color:var(--accent); }
+
+  /* reveal answer */
+  .reveal-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:500; letter-spacing:0.08em;
+    padding:9px 20px; border-radius:8px; cursor:pointer;
+    background:rgba(56,189,248,0.1);
+    border:1px solid rgba(56,189,248,0.25);
+    color:var(--blue);
+    transition:all 0.2s; margin-top:14px;
+  }
+  .reveal-btn:hover { background:rgba(56,189,248,0.18); border-color:var(--blue); }
+  .answer-box {
+    display:none;
+    margin-top:14px;
+    padding:16px 20px;
+    background:rgba(62,255,160,0.05);
+    border:1px solid rgba(62,255,160,0.2);
+    border-radius:10px;
+    font-size:13px; font-weight:300; color:var(--tx2); line-height:1.85;
+  }
+  .answer-box strong { color:var(--green); font-weight:500; }
+  .answer-box.shown { display:block; }
+
+  .check-icon { font-size:15px; }
+
+  /* ── DIVIDER ── */
+  .div-line {
+    border:none; border-top:1px solid var(--b);
+    margin: 40px 0;
+  }
+
+  /* ── SCROLL TOP ── */
+  .scroll-top {
+    position:fixed; bottom:32px; right:32px; z-index:50;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--d2); border:1px solid var(--b2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--tx3);
+    transition:all 0.2s;
+    opacity:0; pointer-events:none;
+  }
+  .scroll-top.visible { opacity:1; pointer-events:auto; }
+  .scroll-top:hover { border-color:var(--accent); color:var(--accent); }
+  .scroll-top svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position:fixed; top:0; left:0; right:0; height:2px; z-index:200;
+    background:linear-gradient(90deg, var(--blue), var(--cyan));
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+  }
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .memory-grid{grid-template-columns:repeat(3,1fr);}
+    .practice-tabs{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 01</span>
+  <span class="nav-badge">Foundations</span>
+</nav>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="section-header">
+    <div class="sec-label">Section 01 · AP Calculus AB</div>
+    <h1 class="sec-title">Foundations &amp;<br><span>Prerequisites</span></h1>
+    <p class="sec-desc">The unit circle, trig identities, limits, and continuity — everything that every other section in this guide builds on. If these are shaky, the rest won't stick.</p>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       TOPIC 1.1 · UNIT CIRCLE
+  ════════════════════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">1.1</span>
+      <h2 class="topic-title">The Unit Circle</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">What It Is</div>
+      <p>The unit circle is a circle of radius <strong>1</strong> centered at the origin. Every point on it has coordinates <strong>(cos θ, sin θ)</strong> where θ is the angle measured counterclockwise from the positive x-axis.</p>
+      <p>You need to know the <strong>exact values</strong> — not decimals — at 16 standard angles. These values appear constantly in derivatives, integrals, and limit problems.</p>
+      <div class="formula-box">
+        <div class="label">Core Identity</div>
+        For any angle θ on the unit circle:<br>
+        <span class="mblue">x = cos θ</span> &nbsp;·&nbsp; <span class="m">y = sin θ</span> &nbsp;·&nbsp; <span class="mgreen">tan θ = sin θ / cos θ</span><br><br>
+        And always: &nbsp;<span class="mpurple">sin²θ + cos²θ = 1</span>
+      </div>
+    </div>
+
+    <!-- Memory Method -->
+    <div class="concept">
+      <div class="concept-title">Memory Method — The √ Pattern</div>
+      <p>For the first quadrant (0° to 90°), <strong>sin values follow this pattern</strong> as the angle goes from 0° → 30° → 45° → 60° → 90°:</p>
+      <div class="formula-box">
+        sin: &nbsp;
+        <span class="m">
+          <span class="fr"><span class="n">√0</span><span class="d">2</span></span>&nbsp;,&nbsp;
+          <span class="fr"><span class="n">√1</span><span class="d">2</span></span>&nbsp;,&nbsp;
+          <span class="fr"><span class="n">√2</span><span class="d">2</span></span>&nbsp;,&nbsp;
+          <span class="fr"><span class="n">√3</span><span class="d">2</span></span>&nbsp;,&nbsp;
+          <span class="fr"><span class="n">√4</span><span class="d">2</span></span>
+        </span>
+        &nbsp;= &nbsp;
+        <span class="mblue">0 , <span class="fr"><span class="n">1</span><span class="d">2</span></span> , <span class="fr"><span class="n">√2</span><span class="d">2</span></span> , <span class="fr"><span class="n">√3</span><span class="d">2</span></span> , 1</span><br><br>
+        cos: <strong>same values, reversed order</strong><br><br>
+        cos: &nbsp;
+        <span class="mgreen">1 , <span class="fr"><span class="n">√3</span><span class="d">2</span></span> , <span class="fr"><span class="n">√2</span><span class="d">2</span></span> , <span class="fr"><span class="n">1</span><span class="d">2</span></span> , 0</span>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>The trick:</strong> Count up under the radical for sin (√0, √1, √2, √3, √4), count down for cos. Then simplify. That's the entire first quadrant.</span>
+      </div>
+      <p>For <strong>other quadrants</strong>, the magnitude stays the same — only the signs change based on where you are:</p>
+      <div class="formula-box">
+        Q1 (+, +) &nbsp;|&nbsp; Q2 (−, +) &nbsp;|&nbsp; Q3 (−, −) &nbsp;|&nbsp; Q4 (+, −)<br>
+        <span style="font-size:11px;color:var(--tx3)">(cos sign, sin sign)</span>
+      </div>
+    </div>
+
+    <!-- Unit Circle SVG -->
+    <div class="uc-wrap">
+      <div class="concept-title" style="color:var(--tx3);font-size:10px;letter-spacing:0.15em;">UNIT CIRCLE — ALL 16 STANDARD ANGLES</div>
+      <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono, monospace">
+        <defs>
+          <radialGradient id="circleGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(56,189,248,0.06)"/>
+            <stop offset="100%" stop-color="rgba(56,189,248,0.01)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- grid lines -->
+        <line x1="260" y1="20" x2="260" y2="500" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="20" y1="260" x2="500" y2="260" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+        <!-- circle -->
+        <circle cx="260" cy="260" r="180" fill="url(#circleGrad)" stroke="rgba(56,189,248,0.35)" stroke-width="1.5"/>
+
+        <!-- axes -->
+        <line x1="260" y1="60" x2="260" y2="460" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="60" y1="260" x2="460" y2="260" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+        <!-- axis labels -->
+        <text x="468" y="264" fill="rgba(255,255,255,0.3)" font-size="11" font-weight="300">x</text>
+        <text x="256" y="52" fill="rgba(255,255,255,0.3)" font-size="11" font-weight="300">y</text>
+        <text x="262" y="274" fill="rgba(255,255,255,0.2)" font-size="10">(0,0)</text>
+
+        <!-- quadrant labels -->
+        <text x="355" y="140" fill="rgba(56,189,248,0.3)" font-size="11" font-weight="300">Q1 (+,+)</text>
+        <text x="135" y="140" fill="rgba(56,189,248,0.3)" font-size="11" font-weight="300">Q2 (-,+)</text>
+        <text x="130" y="395" fill="rgba(56,189,248,0.3)" font-size="11" font-weight="300">Q3 (-,-)</text>
+        <text x="350" y="395" fill="rgba(56,189,248,0.3)" font-size="11" font-weight="300">Q4 (+,-)</text>
+
+        <!-- ── Points with radial lines ── -->
+        <!-- Helper: cx=260+180*cos(θ), cy=260-180*sin(θ) -->
+
+        <!-- 0° -->
+        <line x1="260" y1="260" x2="440" y2="260" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="440" cy="260" r="4" fill="#f5c842"/>
+        <text x="448" y="256" fill="#f5c842" font-size="9.5" font-weight="500">0°/2π</text>
+        <text x="448" y="268" fill="rgba(255,255,255,0.5)" font-size="9">(1, 0)</text>
+
+        <!-- 30° π/6 -->
+        <line x1="260" y1="260" x2="416" y2="170" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="416" cy="170" r="4" fill="#f5c842"/>
+        <text x="422" y="166" fill="#f5c842" font-size="9.5" font-weight="500">30° (π/6)</text>
+        <text x="422" y="178" fill="rgba(255,255,255,0.5)" font-size="9">(√3/2, 1/2)</text>
+
+        <!-- 45° π/4 -->
+        <line x1="260" y1="260" x2="387" y2="133" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="387" cy="133" r="4" fill="#f5c842"/>
+        <text x="392" y="128" fill="#f5c842" font-size="9.5" font-weight="500">45° (π/4)</text>
+        <text x="392" y="140" fill="rgba(255,255,255,0.5)" font-size="9">(√2/2, √2/2)</text>
+
+        <!-- 60° π/3 -->
+        <line x1="260" y1="260" x2="350" y2="104" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="350" cy="104" r="4" fill="#f5c842"/>
+        <text x="354" y="96" fill="#f5c842" font-size="9.5" font-weight="500">60° (π/3)</text>
+        <text x="354" y="108" fill="rgba(255,255,255,0.5)" font-size="9">(1/2, √3/2)</text>
+
+        <!-- 90° π/2 -->
+        <line x1="260" y1="260" x2="260" y2="80" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="260" cy="80" r="4" fill="#f5c842"/>
+        <text x="264" y="72" fill="#f5c842" font-size="9.5" font-weight="500">90° (π/2)</text>
+        <text x="200" y="84" fill="rgba(255,255,255,0.5)" font-size="9">(0, 1)</text>
+
+        <!-- 120° 2π/3 -->
+        <line x1="260" y1="260" x2="170" y2="104" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="170" cy="104" r="4" fill="#f5c842"/>
+        <text x="56" y="96" fill="#f5c842" font-size="9.5" font-weight="500">120° (2π/3)</text>
+        <text x="68" y="108" fill="rgba(255,255,255,0.5)" font-size="9">(-1/2, √3/2)</text>
+
+        <!-- 135° 3π/4 -->
+        <line x1="260" y1="260" x2="133" y2="133" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="133" cy="133" r="4" fill="#f5c842"/>
+        <text x="22" y="126" fill="#f5c842" font-size="9.5" font-weight="500">135° (3π/4)</text>
+        <text x="20" y="138" fill="rgba(255,255,255,0.5)" font-size="9">(-√2/2, √2/2)</text>
+
+        <!-- 150° 5π/6 -->
+        <line x1="260" y1="260" x2="104" y2="170" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="104" cy="170" r="4" fill="#f5c842"/>
+        <text x="4" y="163" fill="#f5c842" font-size="9.5" font-weight="500">150° (5π/6)</text>
+        <text x="10" y="175" fill="rgba(255,255,255,0.5)" font-size="9">(-√3/2, 1/2)</text>
+
+        <!-- 180° π -->
+        <line x1="260" y1="260" x2="80" y2="260" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="80" cy="260" r="4" fill="#f5c842"/>
+        <text x="14" y="255" fill="#f5c842" font-size="9.5" font-weight="500">180° (π)</text>
+        <text x="16" y="267" fill="rgba(255,255,255,0.5)" font-size="9">(-1, 0)</text>
+
+        <!-- 210° 7π/6 -->
+        <line x1="260" y1="260" x2="104" y2="350" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="104" cy="350" r="4" fill="#f5c842"/>
+        <text x="4" y="346" fill="#f5c842" font-size="9.5" font-weight="500">210° (7π/6)</text>
+        <text x="8" y="358" fill="rgba(255,255,255,0.5)" font-size="9">(-√3/2,-1/2)</text>
+
+        <!-- 225° 5π/4 -->
+        <line x1="260" y1="260" x2="133" y2="387" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="133" cy="387" r="4" fill="#f5c842"/>
+        <text x="20" y="384" fill="#f5c842" font-size="9.5" font-weight="500">225° (5π/4)</text>
+        <text x="18" y="396" fill="rgba(255,255,255,0.5)" font-size="9">(-√2/2,-√2/2)</text>
+
+        <!-- 240° 4π/3 -->
+        <line x1="260" y1="260" x2="170" y2="416" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="170" cy="416" r="4" fill="#f5c842"/>
+        <text x="56" y="412" fill="#f5c842" font-size="9.5" font-weight="500">240° (4π/3)</text>
+        <text x="64" y="424" fill="rgba(255,255,255,0.5)" font-size="9">(-1/2,-√3/2)</text>
+
+        <!-- 270° 3π/2 -->
+        <line x1="260" y1="260" x2="260" y2="440" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="260" cy="440" r="4" fill="#f5c842"/>
+        <text x="264" y="455" fill="#f5c842" font-size="9.5" font-weight="500">270° (3π/2)</text>
+        <text x="220" y="468" fill="rgba(255,255,255,0.5)" font-size="9">(0, -1)</text>
+
+        <!-- 300° 5π/3 -->
+        <line x1="260" y1="260" x2="350" y2="416" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="350" cy="416" r="4" fill="#f5c842"/>
+        <text x="354" y="412" fill="#f5c842" font-size="9.5" font-weight="500">300° (5π/3)</text>
+        <text x="354" y="424" fill="rgba(255,255,255,0.5)" font-size="9">(1/2,-√3/2)</text>
+
+        <!-- 315° 7π/4 -->
+        <line x1="260" y1="260" x2="387" y2="387" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="387" cy="387" r="4" fill="#f5c842"/>
+        <text x="392" y="384" fill="#f5c842" font-size="9.5" font-weight="500">315° (7π/4)</text>
+        <text x="392" y="396" fill="rgba(255,255,255,0.5)" font-size="9">(√2/2,-√2/2)</text>
+
+        <!-- 330° 11π/6 -->
+        <line x1="260" y1="260" x2="416" y2="350" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+        <circle cx="416" cy="350" r="4" fill="#f5c842"/>
+        <text x="422" y="346" fill="#f5c842" font-size="9.5" font-weight="500">330° (11π/6)</text>
+        <text x="422" y="358" fill="rgba(255,255,255,0.5)" font-size="9">(√3/2, -1/2)</text>
+      </svg>
+    </div>
+
+    <!-- Trig Reference Table -->
+    <div class="concept">
+      <div class="concept-title">Reciprocal Identities — Know All 6</div>
+      <table class="data-table">
+        <thead><tr><th>Function</th><th>Definition</th><th>In Terms Of sin/cos</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">sin θ</td><td>opp / hyp</td><td>sin θ</td></tr>
+          <tr><td class="hl">cos θ</td><td>adj / hyp</td><td>cos θ</td></tr>
+          <tr><td class="hl2">tan θ</td><td>opp / adj</td><td>sin θ / cos θ</td></tr>
+          <tr><td class="hl3">csc θ</td><td>hyp / opp</td><td>1 / sin θ</td></tr>
+          <tr><td class="hl3">sec θ</td><td>hyp / adj</td><td>1 / cos θ</td></tr>
+          <tr><td class="hl3">cot θ</td><td>adj / opp</td><td>cos θ / sin θ</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Memory hook:</strong> co-functions pair up — (sin,csc), (cos,sec), (tan,cot). Each pair multiplies to 1.</span>
+      </div>
+    </div>
+
+    <!-- Practice 1.1 -->
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Unit Circle Values</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'uc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'uc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'uc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+
+        <!-- V1 GUIDED -->
+        <div class="pane active" id="uc-v1">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Find the exact values of <span class="m">sin(225°)</span>, <span class="mblue">cos(225°)</span>, and <span class="mgreen">tan(225°)</span>.
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <div class="gs-label">Locate the angle</div>
+              <div class="gs-content">225° = 180° + 45°. That puts us in <strong>Quadrant III</strong> — exactly 45° past the negative x-axis.</div>
+              <div class="gs-why">→ In Q3, both sin and cos are negative.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <div class="gs-label">Find the reference angle</div>
+              <div class="gs-content">Reference angle = 225° − 180° = <strong>45°</strong>. This is the acute angle between our terminal side and the x-axis.</div>
+              <div class="gs-why">→ Reference angle tells us the magnitude. The quadrant tells us the sign.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <div class="gs-label">Read values at 45°, apply Q3 signs</div>
+              <div class="gs-content">
+                At 45°: sin = <span class="fr"><span class="n">√2</span><span class="d">2</span></span>, cos = <span class="fr"><span class="n">√2</span><span class="d">2</span></span><br>
+                In Q3 both are negative:<br>
+                <strong>sin(225°) = −<span class="fr"><span class="n">√2</span><span class="d">2</span></span></strong> &nbsp;|&nbsp; <strong>cos(225°) = −<span class="fr"><span class="n">√2</span><span class="d">2</span></span></strong>
+              </div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <div class="gs-label">Find tan</div>
+              <div class="gs-content">
+                tan(225°) = sin/cos = <span class="fr"><span class="n">−√2/2</span><span class="d">−√2/2</span></span> = <strong>1</strong>
+              </div>
+              <div class="gs-why">→ Negative ÷ negative = positive. tan is positive in Q3.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- V2 SCAFFOLDED -->
+        <div class="pane" id="uc-v2">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Find the exact values of <span class="m">sin(330°)</span>, <span class="mblue">cos(330°)</span>, and <span class="mgreen">tan(330°)</span>.
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 1 — What quadrant is 330°?</div>
+            <input class="s-input" type="text" placeholder="Type the quadrant (e.g., Quadrant II)..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 2 — What is the reference angle? (reference angle = 360° − 330°)</div>
+            <input class="s-input" type="text" placeholder="Reference angle = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 3 — What are sin and cos at that reference angle?</div>
+            <input class="s-input" type="text" placeholder="sin = ... , cos = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 4 — Apply the correct signs for Q4, then compute tan.</div>
+            <input class="s-input" type="text" placeholder="sin(330°) = ... , cos(330°) = ... , tan(330°) = ..."/>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            <strong>Q4</strong> → sin negative, cos positive.<br>
+            Reference angle = 30°. At 30°: sin = 1/2, cos = √3/2.<br><br>
+            <strong>sin(330°) = −1/2</strong><br>
+            <strong>cos(330°) = √3/2</strong><br>
+            <strong>tan(330°) = (−1/2) ÷ (√3/2) = −1/√3 = −√3/3</strong>
+          </div>
+        </div>
+
+        <!-- V3 BLIND -->
+        <div class="pane" id="uc-v3">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Find the exact values of <span class="m">sin(120°)</span>, <span class="mblue">cos(120°)</span>, and <span class="mgreen">tan(120°)</span>.
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            120° = 180° − 60° → <strong>Q2</strong> (sin positive, cos negative). Reference angle = 60°.<br><br>
+            At 60°: sin = √3/2, cos = 1/2<br><br>
+            <strong>sin(120°) = √3/2</strong><br>
+            <strong>cos(120°) = −1/2</strong><br>
+            <strong>tan(120°) = (√3/2) ÷ (−1/2) = −√3</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ════════════════════════════════════════
+       TOPIC 1.2 · LIMITS
+  ════════════════════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">1.2</span>
+      <h2 class="topic-title">Limits</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Informal Definition</div>
+      <p>The limit of f(x) as x approaches a is the value that f(x) <strong>gets arbitrarily close to</strong> as x gets close to a — regardless of what f(a) actually equals (or whether it even exists).</p>
+      <div class="formula-box">
+        <div class="label">Notation</div>
+        lim<sub>x→a</sub> f(x) = L<br><br>
+        <span style="color:var(--tx3);font-size:12px">Read: "The limit of f(x) as x approaches a equals L"</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Critical distinction:</strong> The limit asks what f(x) <em>approaches</em> — NOT what it equals at x = a. The function can be undefined at a and the limit can still exist.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">One-Sided Limits</div>
+      <p>You can approach a from the left or from the right separately:</p>
+      <div class="formula-box">
+        <span class="mblue">lim<sub>x→a⁻</sub> f(x)</span> &nbsp;= limit from the <strong>left</strong> (x comes from values less than a)<br><br>
+        <span class="m">lim<sub>x→a⁺</sub> f(x)</span> &nbsp;= limit from the <strong>right</strong> (x comes from values greater than a)<br><br>
+        The two-sided limit exists <span class="mgreen">only when both one-sided limits are equal</span>.
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When a Limit Does NOT Exist — 3 Cases</div>
+      <ul class="clist">
+        <li>
+          <strong>Case 1: Left ≠ Right</strong>
+          <span class="sub">lim<sub>x→a⁻</sub> f(x) ≠ lim<sub>x→a⁺</sub> f(x) → DNE (jump discontinuity)</span>
+        </li>
+        <li>
+          <strong>Case 2: Unbounded behavior</strong>
+          <span class="sub">f(x) → ±∞ as x → a → DNE (vertical asymptote)</span>
+        </li>
+        <li>
+          <strong>Case 3: Oscillation</strong>
+          <span class="sub">f(x) oscillates without settling → DNE (e.g., lim<sub>x→0</sub> sin(1/x))</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Limit Laws — You Can Split Limits Apart</div>
+      <p>If both lim f(x) and lim g(x) exist as x→a, then:</p>
+      <table class="data-table">
+        <thead><tr><th>Law</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">Sum</td><td>lim [f + g] = lim f + lim g</td></tr>
+          <tr><td class="hl">Difference</td><td>lim [f − g] = lim f − lim g</td></tr>
+          <tr><td class="hl">Scalar</td><td>lim [c·f] = c · lim f</td></tr>
+          <tr><td class="hl">Product</td><td>lim [f · g] = lim f · lim g</td></tr>
+          <tr><td class="hl">Quotient</td><td>lim [f / g] = lim f / lim g &nbsp; <em>(if lim g ≠ 0)</em></td></tr>
+          <tr><td class="hl">Power</td><td>lim [f(x)]ⁿ = [lim f(x)]ⁿ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Limits at Infinity — Horizontal Asymptotes</div>
+      <p>When x → ±∞, look at the <strong>degree of numerator vs denominator</strong>:</p>
+      <ul class="clist">
+        <li>
+          <strong>Degree top &lt; bottom:</strong> limit = 0
+          <span class="sub">e.g., lim<sub>x→∞</sub> (3x)/(x² + 1) = 0</span>
+        </li>
+        <li>
+          <strong>Degree top = bottom:</strong> limit = ratio of leading coefficients
+          <span class="sub">e.g., lim<sub>x→∞</sub> (5x²)/(2x²) = 5/2</span>
+        </li>
+        <li>
+          <strong>Degree top &gt; bottom:</strong> limit = ±∞ (DNE)
+          <span class="sub">e.g., lim<sub>x→∞</sub> (x³)/(x) = ∞</span>
+        </li>
+      </ul>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Shortcut:</strong> Divide every term by the highest power of x in the denominator, then apply limit term by term. Each x term → 0, constants survive.</span>
+      </div>
+    </div>
+
+    <!-- Practice 1.2 -->
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Evaluating Limits</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'lim','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'lim','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'lim','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+
+        <!-- V1 -->
+        <div class="pane active" id="lim-v1">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→3</sub> <span class="fr"><span class="n">x² − 9</span><span class="d">x − 3</span></span>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <div class="gs-label">Try direct substitution first</div>
+              <div class="gs-content">Plug x = 3: <span class="fr"><span class="n">9 − 9</span><span class="d">3 − 3</span></span> = <span class="fr"><span class="n">0</span><span class="d">0</span></span> &nbsp;→ <strong>indeterminate form.</strong> Cannot stop here.</div>
+              <div class="gs-why">→ 0/0 means factor and cancel — it does NOT mean the limit is 0 or undefined.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <div class="gs-label">Factor the numerator</div>
+              <div class="gs-content">x² − 9 = <strong>(x − 3)(x + 3)</strong> &nbsp; (difference of squares)</div>
+              <div class="gs-why">→ a² − b² = (a−b)(a+b). Here a = x, b = 3.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <div class="gs-label">Cancel the common factor</div>
+              <div class="gs-content"><span class="fr"><span class="n">(x − 3)(x + 3)</span><span class="d">(x − 3)</span></span> = <strong>(x + 3)</strong> &nbsp; for x ≠ 3</div>
+              <div class="gs-why">→ Valid because the limit approaches x = 3, but never equals it, so we can cancel.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <div class="gs-label">Now substitute</div>
+              <div class="gs-content">lim<sub>x→3</sub> (x + 3) = 3 + 3 = <strong>6</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- V2 -->
+        <div class="pane" id="lim-v2">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→2</sub> <span class="fr"><span class="n">x² − 4</span><span class="d">x − 2</span></span>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 1 — Try direct substitution. What do you get?</div>
+            <input class="s-input" type="text" placeholder="Plug in x = 2 ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 2 — Factor the numerator x² − 4 (difference of squares)</div>
+            <input class="s-input" type="text" placeholder="x² − 4 = (  )(  )"/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 3 — Cancel the common factor with the denominator</div>
+            <input class="s-input" type="text" placeholder="Simplified expression = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 4 — Evaluate the simplified expression at x = 2</div>
+            <input class="s-input" type="text" placeholder="Limit = ..."/>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            Direct sub → 0/0 (indeterminate).<br>
+            x² − 4 = (x − 2)(x + 2)<br>
+            Cancel (x − 2): simplified = (x + 2)<br>
+            lim<sub>x→2</sub> (x + 2) = <strong>4</strong>
+          </div>
+        </div>
+
+        <!-- V3 -->
+        <div class="pane" id="lim-v3">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→−1</sub> <span class="fr"><span class="n">x² + 3x + 2</span><span class="d">x + 1</span></span>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            Direct sub → 0/0 (indeterminate).<br>
+            x² + 3x + 2 = (x + 1)(x + 2)<br>
+            Cancel (x + 1): simplified = (x + 2)<br>
+            lim<sub>x→−1</sub> (x + 2) = <strong>1</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Practice 1.2b — Limits at Infinity -->
+    <div class="practice-section" style="margin-top:16px">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Limits at Infinity</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'linf','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'linf','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'linf','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+
+        <div class="pane active" id="linf-v1">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→∞</sub> <span class="fr"><span class="n">4x² − 3x + 1</span><span class="d">2x² + 5</span></span>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <div class="gs-label">Compare degrees</div>
+              <div class="gs-content">Top degree = 2, bottom degree = 2. <strong>Same degree</strong> → limit equals the ratio of leading coefficients.</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <div class="gs-label">Divide everything by x²</div>
+              <div class="gs-content">
+                = lim <span class="fr"><span class="n">4 − 3/x + 1/x²</span><span class="d">2 + 5/x²</span></span>
+              </div>
+              <div class="gs-why">→ As x→∞: 3/x → 0, 1/x² → 0, 5/x² → 0</div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <div class="gs-label">Apply limits</div>
+              <div class="gs-content">= <span class="fr"><span class="n">4 − 0 + 0</span><span class="d">2 + 0</span></span> = <strong>4/2 = 2</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pane" id="linf-v2">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→∞</sub> <span class="fr"><span class="n">6x³ − x</span><span class="d">3x³ + 2x²</span></span>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 1 — What are the degrees of the numerator and denominator?</div>
+            <input class="s-input" type="text" placeholder="Top degree = ... , Bottom degree = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 2 — Divide every term by x³ (the highest power)</div>
+            <input class="s-input" type="text" placeholder="New expression = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Step 3 — Apply the limit (all x terms → 0). What remains?</div>
+            <input class="s-input" type="text" placeholder="Limit = ..."/>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            Both degree 3. Divide by x³:<br>
+            lim (6 − 1/x²) / (3 + 2/x) = (6 − 0)/(3 + 0) = <strong>2</strong>
+          </div>
+        </div>
+
+        <div class="pane" id="linf-v3">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Evaluate: &nbsp; lim<sub>x→∞</sub> <span class="fr"><span class="n">5x + 3</span><span class="d">x² − 1</span></span>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            Top degree (1) &lt; bottom degree (2) → limit = <strong>0</strong><br><br>
+            Verify: divide by x²: (5/x + 3/x²)/(1 − 1/x²) → 0/1 = 0 ✓
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ════════════════════════════════════════
+       TOPIC 1.3 · CONTINUITY
+  ════════════════════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">1.3</span>
+      <h2 class="topic-title">Continuity</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The 3 Conditions for Continuity at x = a</div>
+      <p>A function f is continuous at x = a if and only if <strong>ALL THREE</strong> conditions hold:</p>
+      <ul class="steps">
+        <li>
+          <strong>f(a) is defined</strong>
+          <span class="why">→ The function must actually exist at that point. A hole or asymptote breaks this.</span>
+        </li>
+        <li>
+          <strong>lim<sub>x→a</sub> f(x) exists</strong>
+          <span class="why">→ Left and right limits must both exist and be equal.</span>
+        </li>
+        <li>
+          <strong>lim<sub>x→a</sub> f(x) = f(a)</strong>
+          <span class="why">→ The limit must equal the actual function value. A defined point in the wrong spot breaks this.</span>
+        </li>
+      </ul>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Common mistake:</strong> Only checking that f(a) exists. You need all three. A function can be defined at a point but still not be continuous there if the limit doesn't equal f(a).</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Types of Discontinuities</div>
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>What Happens</th><th>Removable?</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="hl">Removable (Hole)</td>
+            <td>Limit exists but ≠ f(a), or f(a) undefined</td>
+            <td style="color:var(--green)">✓ Yes</td>
+            <td>(x²−4)/(x−2) at x=2</td>
+          </tr>
+          <tr>
+            <td class="hl2">Jump</td>
+            <td>Left limit ≠ right limit</td>
+            <td style="color:var(--red)">✗ No</td>
+            <td>Piecewise with gap</td>
+          </tr>
+          <tr>
+            <td class="mred">Infinite</td>
+            <td>f(x) → ±∞ (vertical asymptote)</td>
+            <td style="color:var(--red)">✗ No</td>
+            <td>1/x at x=0</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Removable</strong> means you <em>could</em> redefine the function at that single point to make it continuous — that's why it's called removable. You're removing the discontinuity by patching the hole.</span>
+      </div>
+    </div>
+
+    <!-- Practice 1.3 -->
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Checking Continuity</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'cont','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'cont','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'cont','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+
+        <div class="pane active" id="cont-v1">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Is the following function continuous at x = 2?<br><br>
+            f(x) = <span class="m">x² − 4</span> / <span class="mblue">(x − 2)</span> &nbsp; when x ≠ 2, &nbsp; and &nbsp; f(2) = <span class="mgreen">5</span>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <div class="gs-label">Check Condition 1 — Is f(2) defined?</div>
+              <div class="gs-content">f(2) = 5 is explicitly given. <strong>✓ Defined.</strong></div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <div class="gs-label">Check Condition 2 — Does lim<sub>x→2</sub> f(x) exist?</div>
+              <div class="gs-content">
+                Factor: (x² − 4)/(x − 2) = (x−2)(x+2)/(x−2) = (x + 2) for x ≠ 2<br>
+                lim<sub>x→2</sub> (x + 2) = <strong>4</strong>. Limit exists ✓
+              </div>
+            </div>
+          </div>
+          <div class="guided-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <div class="gs-label">Check Condition 3 — Does lim = f(2)?</div>
+              <div class="gs-content">lim = 4, but f(2) = 5. <strong>4 ≠ 5.</strong> Condition 3 FAILS.</div>
+              <div class="gs-why">→ The function is NOT continuous at x = 2. It's a removable discontinuity (hole at height 4, but the point is plotted at height 5).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pane" id="cont-v2">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Is g(x) = (x² − 9)/(x − 3), with g(3) = 6, continuous at x = 3?
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Condition 1 — Is g(3) defined?</div>
+            <input class="s-input" type="text" placeholder="g(3) = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Condition 2 — Find lim<sub>x→3</sub> g(x) by factoring the numerator</div>
+            <input class="s-input" type="text" placeholder="Factor, cancel, evaluate: limit = ..."/>
+          </div>
+          <div class="scaffold-step">
+            <div class="s-prompt">Condition 3 — Does the limit equal g(3)?</div>
+            <input class="s-input" type="text" placeholder="Limit = ... , g(3) = ... → Continuous? Yes/No"/>
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            g(3) = 6 ✓ defined<br>
+            x² − 9 = (x−3)(x+3) → cancel → lim<sub>x→3</sub> (x+3) = <strong>6</strong><br>
+            Limit (6) = g(3) (6) ✓<br><br>
+            <strong>Yes, g is continuous at x = 3.</strong>
+          </div>
+        </div>
+
+        <div class="pane" id="cont-v3">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            h(x) = (x + 4) for x &lt; 1, and h(x) = (x² + 2) for x ≥ 1. Is h continuous at x = 1?
+          </div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">
+            <span class="check-icon">✓</span> Reveal Answer
+          </button>
+          <div class="answer-box">
+            h(1) = 1² + 2 = <strong>3</strong> ✓ defined<br><br>
+            Left limit (x→1⁻): h(x) = x + 4 → 1 + 4 = <strong>5</strong><br>
+            Right limit (x→1⁺): h(x) = x² + 2 → 1 + 2 = <strong>3</strong><br><br>
+            Left limit (5) ≠ Right limit (3) → lim DNE<br><br>
+            <strong>h is NOT continuous at x = 1. It's a jump discontinuity.</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- Scroll to top -->
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s01-foundations.html -->
+
+<script>
+  // Tab switching
+  function switchTab(btn, group, version) {
+    const body = btn.closest('.practice-section').querySelector('.practice-body');
+    body.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    btn.closest('.practice-section').querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    body.querySelector('#' + group + '-' + version).classList.add('active');
+  }
+
+  // Reveal answer toggle
+  function toggleAnswer(btn) {
+    const box = btn.nextElementSibling;
+    if (box.classList.contains('shown')) {
+      box.classList.remove('shown');
+      btn.innerHTML = '<span class="check-icon">✓</span> Reveal Answer';
+    } else {
+      box.classList.add('shown');
+      btn.innerHTML = '<span class="check-icon">▲</span> Hide Answer';
+    }
+  }
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? scrolled / total : 0;
+    document.getElementById('progressBar').style.transform = `scaleX(${pct})`;
+
+    const st = document.getElementById('scrollTop');
+    if (scrolled > 300) st.classList.add('visible');
+    else st.classList.remove('visible');
+  });
+</script>
+</body>
+</html>

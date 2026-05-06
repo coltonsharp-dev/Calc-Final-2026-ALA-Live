@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calculus AB — Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:    #06080f;
+    --d1:      #0b0f1e;
+    --d2:      #111828;
+    --d3:      #161e30;
+    --glass:   rgba(255,255,255,0.044);
+    --gb:      rgba(255,255,255,0.08);
+    --shine:   rgba(255,255,255,0.13);
+    --b:       rgba(255,255,255,0.07);
+    --green:   #3effa0;
+    --gold:    #f5c842;
+    --red:     #f87171;
+    --blue:    #38bdf8;
+    --purple:  #c084fc;
+    --cyan:    #00e5ff;
+    --tx:      #dde6f5;
+    --tx2:     #8898b8;
+    --tx3:     #4a5570;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--tx);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND GRID + GLOW ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse at center,
+      rgba(56,189,248,0.07) 0%,
+      rgba(192,132,252,0.04) 40%,
+      transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 64px 32px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.0;
+    color: var(--tx);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .header-title span {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 50%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-sub {
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--tx2);
+    max-width: 560px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.3s forwards;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--tx2);
+  }
+
+  .stat-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION GRID ── */
+  .section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    position: relative;
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    opacity: 0;
+    animation: fadeUp 0.5s forwards;
+  }
+
+  .section-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--card-accent-a, transparent) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 16px;
+  }
+
+  .section-card:hover {
+    border-color: var(--card-accent, var(--blue));
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--card-accent, var(--blue));
+  }
+
+  .section-card:hover::before { opacity: 1; }
+
+  /* accent shimmer line at top */
+  .section-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-accent, var(--blue)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .section-card:hover::after { opacity: 1; }
+
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--card-accent, var(--blue));
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-num::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--card-accent, var(--blue));
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--tx);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--tx2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--tx3);
+  }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gb);
+    border: 1px solid var(--b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  }
+
+  .section-card:hover .card-arrow {
+    background: var(--card-accent, var(--blue));
+    border-color: var(--card-accent, var(--blue));
+    transform: translate(2px, -2px);
+  }
+
+  .card-arrow svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--tx2);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.25s;
+  }
+
+  .section-card:hover .card-arrow svg { stroke: var(--void); }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0 24px;
+    opacity: 0;
+    animation: fadeUp 0.5s forwards;
+  }
+
+  .section-divider span {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    white-space: nowrap;
+  }
+
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--b);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--b);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer span {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--tx3);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-mark {
+    display: grid;
+    grid-template-columns: repeat(3,10px);
+    grid-template-rows: repeat(3,10px);
+    gap: 3px;
+  }
+
+  .footer-mark .sq {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--b);
+  }
+
+  .footer-mark .sq.admin { background: rgba(245,200,66,0.5); }
+  .footer-mark .sq.teacher { background: rgba(0,229,255,0.4); }
+  .footer-mark .sq.student { background: rgba(184,207,255,0.3); }
+  .footer-mark .sq.core { background: rgba(62,255,160,0.7); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* stagger cards */
+  .section-card:nth-child(1)  { animation-delay: 0.05s; }
+  .section-card:nth-child(2)  { animation-delay: 0.10s; }
+  .section-card:nth-child(3)  { animation-delay: 0.15s; }
+  .section-card:nth-child(4)  { animation-delay: 0.20s; }
+  .section-card:nth-child(5)  { animation-delay: 0.25s; }
+  .section-card:nth-child(6)  { animation-delay: 0.30s; }
+  .section-card:nth-child(7)  { animation-delay: 0.35s; }
+  .section-card:nth-child(8)  { animation-delay: 0.40s; }
+  .section-card:nth-child(9)  { animation-delay: 0.45s; }
+  .section-card:nth-child(10) { animation-delay: 0.50s; }
+  .section-card:nth-child(11) { animation-delay: 0.55s; }
+  .section-card:nth-child(12) { animation-delay: 0.60s; }
+
+  .section-divider:nth-of-type(1) { animation-delay: 0.05s; }
+  .section-divider:nth-of-type(2) { animation-delay: 0.32s; }
+  .section-divider:nth-of-type(3) { animation-delay: 0.52s; }
+
+  @media (max-width: 600px) {
+    header { padding: 40px 20px 32px; }
+    .container { padding: 0 16px 60px; }
+    .section-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">AP Calculus AB · Personalized Study System</div>
+  <h1 class="header-title">Close Every Gap.<br><span>Own the Exam.</span></h1>
+  <p class="header-sub">12 sections built around exactly what you said you struggle with. Each section has guided walkthroughs, then practice sets to use on your own.</p>
+
+  <div class="stats-row">
+    <div class="stat-pill"><span class="dot" style="background:var(--blue)"></span>12 Sections</div>
+    <div class="stat-pill"><span class="dot" style="background:var(--green)"></span>85+ Concept Blocks</div>
+    <div class="stat-pill"><span class="dot" style="background:var(--gold)"></span>3-Version Practice Per Topic</div>
+    <div class="stat-pill"><span class="dot" style="background:var(--purple)"></span>FRQ Language Templates</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- GROUP 1: FOUNDATIONS -->
+  <div class="section-divider" style="animation-delay:0.02s"><span>Foundations</span></div>
+  <div class="section-grid" id="group-foundations">
+
+    <a class="section-card" href="calculus-s01-foundations.html" target="_blank"
+       style="--card-accent:#38bdf8; --card-accent-a:rgba(56,189,248,0.06)">
+      <div class="card-num">01</div>
+      <div class="card-title">Foundations &amp; Prerequisites</div>
+      <div class="card-desc">Unit circle from scratch, all trig values, limit laws, continuity, and removable vs non-removable discontinuities.</div>
+      <div class="card-tags">
+        <span class="tag">Unit Circle</span>
+        <span class="tag">Limits</span>
+        <span class="tag">Continuity</span>
+        <span class="tag">Trig Values</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s02-theorems.html" target="_blank"
+       style="--card-accent:#f5c842; --card-accent-a:rgba(245,200,66,0.06)">
+      <div class="card-num">02</div>
+      <div class="card-title">The Theorems</div>
+      <div class="card-desc">IVT, EVT, MVT, Rolle's, Squeeze — every definition, condition, FRQ citation template, and a worked example for each.</div>
+      <div class="card-tags">
+        <span class="tag">MVT</span>
+        <span class="tag">IVT</span>
+        <span class="tag">EVT</span>
+        <span class="tag">Rolle's</span>
+        <span class="tag">FRQ Language</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- GROUP 2: DIFFERENTIATION -->
+  <div class="section-divider" style="animation-delay:0.18s"><span>Differentiation</span></div>
+  <div class="section-grid" id="group-diff">
+
+    <a class="section-card" href="calculus-s03-differentiation.html" target="_blank"
+       style="--card-accent:#c084fc; --card-accent-a:rgba(192,132,252,0.06)">
+      <div class="card-num">03</div>
+      <div class="card-title">Differentiation</div>
+      <div class="card-desc">Every rule: power, product, quotient (with trig and e^x), chain rule, trig derivatives full table, log derivatives, log differentiation method.</div>
+      <div class="card-tags">
+        <span class="tag">Chain Rule</span>
+        <span class="tag">Quotient Rule</span>
+        <span class="tag">Trig Derivatives</span>
+        <span class="tag">Log Diff</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s04-implicit.html" target="_blank"
+       style="--card-accent:#c084fc; --card-accent-a:rgba(192,132,252,0.06)">
+      <div class="card-num">04</div>
+      <div class="card-title">Implicit Differentiation</div>
+      <div class="card-desc">Step-by-step procedure, tricky mixed terms, finding tangent lines implicitly, and second derivatives implicitly.</div>
+      <div class="card-tags">
+        <span class="tag">Implicit</span>
+        <span class="tag">Tangent Lines</span>
+        <span class="tag">Second Derivative</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s05-appderivatives.html" target="_blank"
+       style="--card-accent:#3effa0; --card-accent-a:rgba(62,255,160,0.06)">
+      <div class="card-num">05</div>
+      <div class="card-title">Applications of Derivatives</div>
+      <div class="card-desc">Critical points, first and second derivative tests, concavity, inflection points, optimization, related rates, L'Hôpital's Rule, slope fields.</div>
+      <div class="card-tags">
+        <span class="tag">Optimization</span>
+        <span class="tag">Related Rates</span>
+        <span class="tag">L'Hôpital</span>
+        <span class="tag">Slope Fields</span>
+        <span class="tag">1st/2nd Deriv Test</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- GROUP 3: INTEGRATION -->
+  <div class="section-divider" style="animation-delay:0.38s"><span>Integration</span></div>
+  <div class="section-grid" id="group-int">
+
+    <a class="section-card" href="calculus-s06-antiderivatives.html" target="_blank"
+       style="--card-accent:#f87171; --card-accent-a:rgba(248,113,113,0.06)">
+      <div class="card-num">06</div>
+      <div class="card-title">Antiderivatives &amp; Integrals</div>
+      <div class="card-desc">Full antiderivative rule table, trig antiderivatives with memory system, the +C rule, indefinite vs definite integrals, step-by-step solving.</div>
+      <div class="card-tags">
+        <span class="tag">Power Rule</span>
+        <span class="tag">Trig Anti-D</span>
+        <span class="tag">+C Rule</span>
+        <span class="tag">Indefinite</span>
+        <span class="tag">Definite</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s07-usubstitution.html" target="_blank"
+       style="--card-accent:#f87171; --card-accent-a:rgba(248,113,113,0.06)">
+      <div class="card-num">07</div>
+      <div class="card-title">U-Substitution</div>
+      <div class="card-desc">6-step method, trig with u-sub, e^x with u-sub, ln with u-sub, definite integrals with bound changes, when u-sub fails.</div>
+      <div class="card-tags">
+        <span class="tag">U-Sub Method</span>
+        <span class="tag">Trig</span>
+        <span class="tag">e^x</span>
+        <span class="tag">Bound Changes</span>
+        <span class="tag">Chain Rule Reverse</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s08-riemann.html" target="_blank"
+       style="--card-accent:#f87171; --card-accent-a:rgba(248,113,113,0.06)">
+      <div class="card-num">08</div>
+      <div class="card-title">Riemann Sums</div>
+      <div class="card-desc">Left, right, midpoint, trapezoidal — every formula with diagram. Over vs underestimate logic. Reading FRQ tables. Limit definition of the integral.</div>
+      <div class="card-tags">
+        <span class="tag">Left/Right</span>
+        <span class="tag">Midpoint</span>
+        <span class="tag">Trapezoid</span>
+        <span class="tag">Sigma Notation</span>
+        <span class="tag">FRQ Tables</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s09-graphintegrals.html" target="_blank"
+       style="--card-accent:#00e5ff; --card-accent-a:rgba(0,229,255,0.06)">
+      <div class="card-num">09</div>
+      <div class="card-title">Definite Integrals from Graphs</div>
+      <div class="card-desc">Reading area from piecewise graphs, line segments, semicircles, mixed graphs. Net area vs total area. Integral properties.</div>
+      <div class="card-tags">
+        <span class="tag">Piecewise</span>
+        <span class="tag">Semicircle</span>
+        <span class="tag">Net vs Total Area</span>
+        <span class="tag">Graph Analysis</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s10-ftc.html" target="_blank"
+       style="--card-accent:#00e5ff; --card-accent-a:rgba(0,229,255,0.06)">
+      <div class="card-num">10</div>
+      <div class="card-title">Fundamental Theorem of Calculus</div>
+      <div class="card-desc">FTC Part 1 and Part 2 deep dive. Chain rule inside FTC Part 1. Why differentiation and integration are inverses. Full conceptual bridge.</div>
+      <div class="card-tags">
+        <span class="tag">FTC Part 1</span>
+        <span class="tag">FTC Part 2</span>
+        <span class="tag">Chain Rule + FTC</span>
+        <span class="tag">Inverse Relationship</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s11-appintegrals.html" target="_blank"
+       style="--card-accent:#3effa0; --card-accent-a:rgba(62,255,160,0.06)">
+      <div class="card-num">11</div>
+      <div class="card-title">Applications of Integrals</div>
+      <div class="card-desc">Area between curves, volumes (disk + washer methods), accumulation problems, total change from a rate — FRQ-style setups throughout.</div>
+      <div class="card-tags">
+        <span class="tag">Area Between Curves</span>
+        <span class="tag">Disk Method</span>
+        <span class="tag">Washer Method</span>
+        <span class="tag">Accumulation</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- GROUP 4: EXAM PREP -->
+  <div class="section-divider" style="animation-delay:0.58s"><span>Exam Prep</span></div>
+  <div class="section-grid" id="group-exam">
+
+    <a class="section-card" href="calculus-s12-frq.html" target="_blank"
+       style="--card-accent:#f5c842; --card-accent-a:rgba(245,200,66,0.06)">
+      <div class="card-num">12</div>
+      <div class="card-title">FRQ Language &amp; Structure</div>
+      <div class="card-desc">Exact citation templates for MVT, IVT, EVT. How to explain integrals and derivatives in context. Point-loss checklist. What graders actually look for.</div>
+      <div class="card-tags">
+        <span class="tag">Citation Templates</span>
+        <span class="tag">Scoring Rubric</span>
+        <span class="tag">Point-Loss List</span>
+        <span class="tag">Context Language</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+    <a class="section-card" href="calculus-s13-physics.html" target="_blank"
+       style="--card-accent:#38bdf8; --card-accent-a:rgba(56,189,248,0.06)">
+      <div class="card-num">13</div>
+      <div class="card-title">Physics: Simple Harmonic Motion</div>
+      <div class="card-desc">When to use sin vs cos for position and amplitude. Phase shift and starting conditions. Position, velocity, and acceleration as functions of time.</div>
+      <div class="card-tags">
+        <span class="tag">Sin vs Cos</span>
+        <span class="tag">Amplitude</span>
+        <span class="tag">Phase Shift</span>
+        <span class="tag">SHM</span>
+      </div>
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="5 5 19 5 19 19"/></svg>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>AP Calculus AB · Study System · Built for Room 501 · ALA Queen Creek</span>
+  <div class="footer-mark">
+    <div class="sq admin"></div><div class="sq admin"></div><div class="sq admin"></div>
+    <div class="sq teacher"></div><div class="sq core"></div><div class="sq teacher"></div>
+    <div class="sq student"></div><div class="sq student"></div><div class="sq student"></div>
+  </div>
+  <span>Stratosyn · 2026</span>
+</footer>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-landing.html -->
+
+</body>
+</html>

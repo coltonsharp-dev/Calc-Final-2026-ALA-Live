@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 13 · Physics: Simple Harmonic Motion</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f;--d1:#0b0f1e;--d2:#111828;
+    --glass:rgba(255,255,255,0.044);--b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.12);
+    --green:#3effa0;--gold:#f5c842;--red:#f87171;--blue:#38bdf8;
+    --purple:#c084fc;--cyan:#00e5ff;--orange:#fb923c;--teal:#2dd4bf;--pink:#f472b6;
+    --tx:#dde6f5;--tx2:#8898b8;--tx3:#4a5570;--accent:#38bdf8;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(56,189,248,0.07) 0%,rgba(192,132,252,0.03) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.28);color:var(--blue);}
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+  .topic{margin-bottom:64px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.2;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.teal{border-left-color:var(--teal);}
+  .fbox.pink{border-left-color:var(--pink);}
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* DECISION CARDS - sin vs cos */
+  .decision-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+  .dec-card{border-radius:14px;overflow:hidden;border:1px solid var(--b2);}
+  .dec-cos::before,.dec-sin::before{content:'';display:block;height:3px;}
+  .dec-cos::before{background:linear-gradient(90deg,var(--blue),transparent);}
+  .dec-sin::before{background:linear-gradient(90deg,var(--orange),transparent);}
+  .dec-header{padding:16px 20px 12px;border-bottom:1px solid var(--b);background:var(--d1);}
+  .dec-func{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:4px;}
+  .dec-cos .dec-func{color:var(--blue);}
+  .dec-sin .dec-func{color:var(--orange);}
+  .dec-when{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;}
+  .dec-cos .dec-when{color:var(--blue);}
+  .dec-sin .dec-when{color:var(--orange);}
+  .dec-body{padding:16px 20px;background:var(--d2);display:flex;flex-direction:column;gap:10px;}
+  .dec-condition{font-size:12px;font-weight:300;color:var(--tx2);padding:9px 12px;border-radius:7px;line-height:1.7;}
+  .dec-cos .dec-condition{background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.15);}
+  .dec-sin .dec-condition{background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);}
+  .dec-condition strong{color:var(--tx);font-weight:500;}
+
+  /* GRAPH */
+  .graph-wrap{background:var(--d1);border:1px solid var(--b);border-radius:12px;padding:20px;margin:14px 0;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .graph-wrap svg{max-width:100%;}
+  .graph-caption{font-size:11px;color:var(--tx3);text-align:center;line-height:1.6;max-width:540px;}
+
+  /* FORMULA TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.22);color:var(--blue);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .mpink{color:var(--pink);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);color:var(--blue);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);color:var(--blue);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(56,189,248,0.16);border-color:var(--blue);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--blue),var(--purple));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* COMPLETE GUIDE BADGE */
+  .complete-badge{background:linear-gradient(135deg,rgba(62,255,160,0.1),rgba(56,189,248,0.1));border:1px solid rgba(62,255,160,0.3);border-radius:16px;padding:28px 32px;margin-top:8px;text-align:center;}
+  .cb-icon{font-size:40px;margin-bottom:12px;}
+  .cb-title{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--tx);margin-bottom:8px;}
+  .cb-sub{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.8;}
+
+  @media(max-width:600px){.page{padding:32px 16px 80px;}.topnav{padding:12px 16px;}.decision-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to Guide
+  </a>
+  <span class="nav-title">Section 13</span>
+  <span class="nav-badge">Physics: SHM</span>
+</nav>
+
+<div class="page">
+  <div class="section-header">
+    <div class="sec-label">Section 13 · AP Calculus AB</div>
+    <h1 class="sec-title">Simple<br><span>Harmonic Motion</span></h1>
+    <p class="sec-desc">The one question that shows up every year: when do you use sin vs cos for position? This section answers it completely — with the starting condition logic, the full position-velocity-acceleration chain, phase shifts, and every problem type you'll see.</p>
+  </div>
+
+  <!-- 13.1 WHAT IS SHM -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">13.1</span>
+      <h2 class="topic-title">What Simple Harmonic Motion Is</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Setup</div>
+      <p>Simple harmonic motion (SHM) describes any object that oscillates back and forth around an <strong>equilibrium position</strong> — a spring-mass system, a pendulum (small angles), a buoy bobbing in water. The position repeats in a perfect sine or cosine wave.</p>
+      <p>The general position function is:</p>
+      <div class="fbox">
+        <div class="flabel">General SHM Position Function</div>
+        x(t) = <span class="mblue">A</span> · <span class="morange">trig</span>(ωt + φ)<br><br>
+        <span class="mblue">A</span> = amplitude (maximum displacement from equilibrium)<br>
+        <span class="morange">ω</span> = angular frequency (how fast it oscillates), ω = 2π/T<br>
+        <span class="mpurple">T</span> = period (time for one complete cycle)<br>
+        <span class="m">φ</span> = phase shift (horizontal shift — determined by starting condition)<br>
+        <span class="mgreen">trig</span> = either sin or cos — determined by the initial position
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Key Terms Defined</div>
+      <table class="dtable">
+        <thead><tr><th>Term</th><th>Symbol</th><th>Meaning</th><th>Units</th></tr></thead>
+        <tbody>
+          <tr><td class="mblue">Amplitude</td><td style="color:var(--tx2);font-weight:300;">A</td><td style="color:var(--tx2);font-weight:300;">Maximum distance from equilibrium. Always positive.</td><td style="color:var(--tx3);font-weight:300;">meters, cm, ft</td></tr>
+          <tr><td class="mblue">Period</td><td style="color:var(--tx2);font-weight:300;">T</td><td style="color:var(--tx2);font-weight:300;">Time for one full oscillation back to start</td><td style="color:var(--tx3);font-weight:300;">seconds</td></tr>
+          <tr><td class="mblue">Frequency</td><td style="color:var(--tx2);font-weight:300;">f = 1/T</td><td style="color:var(--tx2);font-weight:300;">Oscillations per second</td><td style="color:var(--tx3);font-weight:300;">Hz (1/s)</td></tr>
+          <tr><td class="mblue">Angular freq.</td><td style="color:var(--tx2);font-weight:300;">ω = 2π/T</td><td style="color:var(--tx2);font-weight:300;">Radians per second — what goes inside trig function</td><td style="color:var(--tx3);font-weight:300;">rad/s</td></tr>
+          <tr><td class="mblue">Equilibrium</td><td style="color:var(--tx2);font-weight:300;">x = 0</td><td style="color:var(--tx2);font-weight:300;">The rest position — center of oscillation</td><td style="color:var(--tx3);font-weight:300;">—</td></tr>
+          <tr><td class="mblue">Phase shift</td><td style="color:var(--tx2);font-weight:300;">φ</td><td style="color:var(--tx2);font-weight:300;">Horizontal shift of the wave — set by initial condition</td><td style="color:var(--tx3);font-weight:300;">radians</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 13.2 SIN vs COS — THE CORE QUESTION -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">13.2</span>
+      <h2 class="topic-title">Sin vs Cos — The Decision You Must Get Right</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Rule — Based on Starting Position</div>
+      <p>The choice between sin and cos depends entirely on <strong>where the object is at t = 0</strong>. This is the initial condition, and it uniquely determines which trig function to use.</p>
+    </div>
+
+    <div class="decision-row">
+      <div class="dec-card dec-cos">
+        <div class="dec-header">
+          <div class="dec-func">x(t) = A cos(ωt)</div>
+          <div class="dec-when">Use Cosine When...</div>
+        </div>
+        <div class="dec-body">
+          <div class="dec-condition"><strong>Object starts at maximum displacement</strong><br>x(0) = A (at the peak, fully stretched/compressed)<br>cos(0) = 1 → x(0) = A ✓</div>
+          <div class="dec-condition"><strong>Examples:</strong><br>Spring stretched to maximum and released. Pendulum released from maximum angle. Object at top of a wave at t=0.</div>
+          <div class="dec-condition"><strong>Velocity at t=0:</strong><br>v(0) = −Aω sin(0) = 0<br>Object is momentarily at rest at maximum displacement. Makes physical sense.</div>
+        </div>
+      </div>
+      <div class="dec-card dec-sin">
+        <div class="dec-header">
+          <div class="dec-func">x(t) = A sin(ωt)</div>
+          <div class="dec-when">Use Sine When...</div>
+        </div>
+        <div class="dec-body">
+          <div class="dec-condition"><strong>Object starts at equilibrium</strong><br>x(0) = 0 (at rest position, moving)<br>sin(0) = 0 → x(0) = 0 ✓</div>
+          <div class="dec-condition"><strong>Examples:</strong><br>Object at rest position pushed into motion. Pendulum released from center. Object at zero displacement moving upward at t=0.</div>
+          <div class="dec-condition"><strong>Velocity at t=0:</strong><br>v(0) = Aω cos(0) = Aω<br>Object has maximum velocity at equilibrium. Makes physical sense.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">💡</span>
+      <span><strong>Memory shortcut:</strong> <strong>C</strong>osine → <strong>C</strong>rest (starts at maximum). <strong>S</strong>ine → <strong>S</strong>tart at zero (starts at equilibrium). Both start with C and S respectively.</span>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <span><strong>What if it starts at a negative displacement?</strong> Use x(t) = −A cos(ωt) if released from the negative maximum. The negative sign flips the starting position. x(0) = −A(1) = −A ✓</span>
+    </div>
+
+    <!-- SHM wave diagram -->
+    <div class="graph-wrap">
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Mono,monospace">
+        <!-- axes -->
+        <line x1="30" y1="100" x2="460" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="30" y1="15" x2="30" y2="185" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- cosine wave: starts at max -->
+        <path d="M30,30 C80,30 100,100 150,100 C200,100 220,170 270,170 C320,170 340,100 390,100 C420,100 440,30 460,30"
+              fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+        <!-- sine wave: starts at zero -->
+        <path d="M30,100 C80,100 100,30 150,30 C200,30 220,100 270,100 C320,100 340,170 390,170 C420,170 440,100 460,100"
+              fill="none" stroke="#fb923c" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <!-- amplitude arrows -->
+        <line x1="18" y1="100" x2="18" y2="30" stroke="rgba(56,189,248,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="4" y="68" fill="rgba(56,189,248,0.7)" font-size="10" transform="rotate(-90,8,68)">A</text>
+        <line x1="18" y1="100" x2="18" y2="170" stroke="rgba(56,189,248,0.5)" stroke-width="1.5"/>
+        <text x="4" y="140" fill="rgba(56,189,248,0.7)" font-size="10" transform="rotate(-90,8,140)">−A</text>
+        <!-- period markers -->
+        <line x1="30" y1="190" x2="270" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <text x="140" y="200" fill="rgba(255,255,255,0.3)" font-size="10" text-anchor="middle">T (one period)</text>
+        <!-- start labels -->
+        <circle cx="30" cy="30" r="4" fill="#38bdf8"/>
+        <text x="35" y="26" fill="#38bdf8" font-size="10">cos: starts at A</text>
+        <circle cx="30" cy="100" r="4" fill="#fb923c"/>
+        <text x="35" y="97" fill="#fb923c" font-size="10">sin: starts at 0</text>
+        <!-- t label -->
+        <text x="455" y="113" fill="rgba(255,255,255,0.25)" font-size="10">t</text>
+        <!-- equilibrium label -->
+        <text x="35" y="108" fill="rgba(255,255,255,0.2)" font-size="9">equilibrium</text>
+      </svg>
+      <div class="graph-caption">Blue solid = cosine (starts at maximum A). Orange dashed = sine (starts at equilibrium 0). Both have the same amplitude and period — only the starting position differs.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Sin vs Cos Decision</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'scdc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'scdc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'scdc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="scdc-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>A spring-mass system oscillates with amplitude 0.3 m and period 2 seconds. At t=0 the mass is at maximum displacement (0.3 m from equilibrium). Write x(t).</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify the starting condition</div><div class="gs-content">At t=0: x(0) = 0.3 m = A (maximum displacement). <strong>→ Use cosine.</strong></div><div class="gs-why">→ cos(0) = 1, so A·cos(0) = A. This gives x(0) = A automatically.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find ω from the period</div><div class="gs-content">ω = 2π/T = 2π/2 = <strong>π rad/s</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write the position function</div><div class="gs-content">x(t) = <strong>0.3 cos(πt)</strong> meters</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Verify: check x(0)</div><div class="gs-content">x(0) = 0.3 cos(0) = 0.3(1) = <strong>0.3 m ✓</strong></div></div></div>
+        </div>
+        <div class="pane" id="scdc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>A pendulum swings with amplitude 0.2 m and period 4 seconds. At t=0 the pendulum is at equilibrium, moving in the positive direction. Write x(t).</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — What is x(0)? Does this suggest sin or cos?</div><input class="s-input" type="text" placeholder="x(0) = ... → use sin/cos because ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find ω from the period T = 4 s</div><input class="s-input" type="text" placeholder="ω = 2π/T = 2π/4 = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Write x(t) and verify x(0)</div><input class="s-input" type="text" placeholder="x(t) = ... , x(0) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">x(0) = 0 (at equilibrium) → <strong>use sine</strong><br>ω = 2π/4 = π/2 rad/s<br><br><strong>x(t) = 0.2 sin(πt/2) meters</strong><br><br>Verify: x(0) = 0.2 sin(0) = 0 ✓<br>v(0) = 0.2·(π/2)·cos(0) = 0.1π > 0 (positive direction) ✓</div>
+        </div>
+        <div class="pane" id="scdc-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>A mass on a spring has amplitude 5 cm, period 3 s. At t=0 the mass is at −5 cm (negative maximum, at rest). Write x(t).</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">x(0) = −5 cm = −A (negative maximum, at rest). <br>Use negative cosine: x(t) = −A cos(ωt) gives x(0) = −A ✓<br>ω = 2π/3 rad/s<br><br><strong>x(t) = −5 cos(2πt/3) cm</strong><br><br>Verify: x(0) = −5 cos(0) = −5 cm ✓<br>v(0) = −5·(2π/3)·(−sin(0)) = 0 ✓ (at rest at maximum)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 13.3 POSITION VELOCITY ACCELERATION CHAIN -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">13.3</span>
+      <h2 class="topic-title">Position → Velocity → Acceleration</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Differentiation Chain</div>
+      <p>In SHM, position x(t), velocity v(t), and acceleration a(t) are all connected by differentiation. Each one is the derivative of the previous.</p>
+      <div class="fbox">
+        <div class="flabel">Starting with x(t) = A cos(ωt)</div>
+        x(t) = <span class="mblue">A cos(ωt)</span> &nbsp;&nbsp;&nbsp;&nbsp;← position<br>
+        v(t) = x′(t) = <span class="morange">−Aω sin(ωt)</span> &nbsp;&nbsp;← velocity (chain rule: multiply by ω)<br>
+        a(t) = v′(t) = <span class="mred">−Aω² cos(ωt)</span> &nbsp;← acceleration<br><br>
+        Notice: <span class="mred">a(t) = −ω² x(t)</span> — acceleration is always proportional to negative position. This is the defining equation of SHM.
+      </div>
+      <div class="fbox orange">
+        <div class="flabel">Starting with x(t) = A sin(ωt)</div>
+        x(t) = <span class="morange">A sin(ωt)</span> &nbsp;&nbsp;&nbsp;&nbsp;← position<br>
+        v(t) = x′(t) = <span class="mgreen">Aω cos(ωt)</span> &nbsp;&nbsp;← velocity<br>
+        a(t) = v′(t) = <span class="mred">−Aω² sin(ωt)</span> &nbsp;← acceleration<br><br>
+        Again: <span class="mred">a(t) = −ω² x(t)</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Maximum Values — When Each Is Greatest</div>
+      <table class="dtable">
+        <thead><tr><th>Quantity</th><th>Maximum Value</th><th>Occurs When</th><th>Physical Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mblue">|x(t)|</td><td style="color:var(--tx2);font-weight:300;">A (amplitude)</td><td style="color:var(--tx3);font-weight:300;">cos or sin = ±1</td><td style="color:var(--tx3);font-weight:300;">At the turning points — max stretch/compression</td></tr>
+          <tr><td class="morange">|v(t)|</td><td style="color:var(--tx2);font-weight:300;">Aω</td><td style="color:var(--tx3);font-weight:300;">At x = 0 (equilibrium)</td><td style="color:var(--tx3);font-weight:300;">Maximum speed occurs as it passes through center</td></tr>
+          <tr><td class="mred">|a(t)|</td><td style="color:var(--tx2);font-weight:300;">Aω²</td><td style="color:var(--tx3);font-weight:300;">At x = ±A (max displacement)</td><td style="color:var(--tx3);font-weight:300;">Maximum restoring force at turning points</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Pattern:</strong> Position and acceleration are maximized at the same time (at the endpoints). Velocity is maximized when position = 0 (at equilibrium). Speed and position trade off — when one is max, the other is zero.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Phase Relationships — How They're Shifted</div>
+      <div class="fbox purple">
+        <div class="flabel">Phase Shift Pattern (starting from cosine)</div>
+        x(t) = A cos(ωt) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← reference<br>
+        v(t) = −Aω sin(ωt) = Aω cos(ωt + π/2) &nbsp;← leads x by π/2<br>
+        a(t) = −Aω² cos(ωt) = Aω² cos(ωt + π) &nbsp;← opposite phase to x<br><br>
+        v is 90° ahead of x. &nbsp; a is 180° ahead of x (exactly opposite).
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Position, Velocity, Acceleration</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'pva','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'pva','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'pva','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="pva-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>A mass oscillates with x(t) = 4 cos(3t) cm. Find v(t), a(t), the maximum speed, and the maximum acceleration.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find v(t) — differentiate x(t)</div><div class="gs-content">v(t) = x′(t) = 4 · (−sin(3t)) · 3 = <strong>−12 sin(3t) cm/s</strong></div><div class="gs-why">→ Chain rule: d/dt[cos(3t)] = −sin(3t) · 3. The 3 (= ω) multiplies in.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find a(t) — differentiate v(t)</div><div class="gs-content">a(t) = v′(t) = −12 · cos(3t) · 3 = <strong>−36 cos(3t) cm/s²</strong></div><div class="gs-why">→ d/dt[−12 sin(3t)] = −12 cos(3t) · 3. Note a(t) = −9 x(t) = −ω² x(t) ✓</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Maximum speed and acceleration</div><div class="gs-content">|v|<sub>max</sub> = Aω = 4(3) = <strong>12 cm/s</strong> (when sin = ±1, i.e., at equilibrium)<br>|a|<sub>max</sub> = Aω² = 4(9) = <strong>36 cm/s²</strong> (when cos = ±1, i.e., at max displacement)</div></div></div>
+        </div>
+        <div class="pane" id="pva-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>x(t) = 0.5 sin(2πt) m. Find v(t), a(t), and the time(s) when the object is moving fastest on [0, 1].</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Find v(t) = x′(t) using chain rule</div><input class="s-input" type="text" placeholder="v(t) = 0.5 · cos(2πt) · (?) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Find a(t) = v′(t)</div><input class="s-input" type="text" placeholder="a(t) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — When is |v(t)| maximum? (when is |cos(2πt)| = 1?)</div><input class="s-input" type="text" placeholder="|v| is max when cos(2πt) = ±1 → 2πt = ... → t = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">v(t) = 0.5 · cos(2πt) · 2π = <strong>π cos(2πt) m/s</strong><br>a(t) = π · (−sin(2πt)) · 2π = <strong>−2π² sin(2πt) m/s²</strong><br><br>Max speed when |cos(2πt)| = 1:<br>2πt = 0, π, 2π → t = 0, 1/2, 1<br><strong>Object moves fastest at t = 0, 1/2, and 1 s</strong> (at equilibrium positions)<br>Maximum speed = π ≈ 3.14 m/s</div>
+        </div>
+        <div class="pane" id="pva-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>A buoy bobs with position x(t) = 2 cos(πt/3) feet (t in seconds). Find: (a) v(t) and a(t). (b) When is the buoy at equilibrium on [0, 6]? (c) What is the maximum speed?</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) v(t) = −2·sin(πt/3)·(π/3) = <strong>−(2π/3)sin(πt/3) ft/s</strong><br>a(t) = −(2π/3)·cos(πt/3)·(π/3) = <strong>−(2π²/9)cos(πt/3) ft/s²</strong><br><br>(b) At equilibrium: x(t) = 0 → cos(πt/3) = 0 → πt/3 = π/2, 3π/2 → t = <strong>3/2, 9/2 seconds</strong><br><br>(c) Max speed = Aω = 2·(π/3) = <strong>2π/3 ≈ 2.09 ft/s</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 13.4 PHASE SHIFTS AND GENERAL FORM -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">13.4</span>
+      <h2 class="topic-title">Phase Shifts &amp; General Form</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When the Initial Condition Is Neither Max Nor Zero</div>
+      <p>If the object starts at a position other than ±A or 0, the general form with a phase shift φ is needed:</p>
+      <div class="fbox blue">
+        <div class="flabel">General Form with Phase Shift</div>
+        x(t) = A cos(ωt + φ)<br><br>
+        To find φ: use x(0) = A cos(φ) and v(0) = −Aω sin(φ)<br><br>
+        Step 1: Solve cos(φ) = x(0)/A<br>
+        Step 2: Check sign of v(0) to determine which quadrant φ is in
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <span><strong>In most AP and physics problems</strong>, the initial condition will be either x(0) = A (use cosine) or x(0) = 0 (use sine), so you rarely need the full phase shift formula. But you should know it exists for the case where neither applies.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Complete Step-by-Step — Given Any Initial Condition</div>
+      <ol class="steps">
+        <li><strong>Read x(0) from the problem.</strong><span class="why">→ This is where the object is when the clock starts.</span></li>
+        <li><strong>Read v(0) from the problem (or infer: at rest = 0, moving = ±value).</strong></li>
+        <li><strong>If x(0) = A and v(0) = 0:</strong> use x(t) = A cos(ωt)<span class="why">→ Starts at max, at rest.</span></li>
+        <li><strong>If x(0) = 0 and v(0) = Aω (positive):</strong> use x(t) = A sin(ωt)<span class="why">→ Starts at equilibrium, moving positive.</span></li>
+        <li><strong>If x(0) = 0 and v(0) = −Aω (negative):</strong> use x(t) = −A sin(ωt)<span class="why">→ Starts at equilibrium, moving negative direction.</span></li>
+        <li><strong>If x(0) = −A and v(0) = 0:</strong> use x(t) = −A cos(ωt)<span class="why">→ Starts at negative max, at rest.</span></li>
+      </ol>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Full SHM Problems</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'full','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'full','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'full','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="full-v1">
+          <div class="problem-box"><div class="p-label">Full SHM Problem</div>A spring-mass system has period T = π seconds and amplitude A = 6 cm. At t = 0 the mass is at the equilibrium position and moving in the negative direction. Find x(t), v(t), and a(t). Then find the first time t > 0 when the mass is at maximum positive displacement.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Determine sin or cos from initial condition</div><div class="gs-content">x(0) = 0 (equilibrium) → use sine.<br>v(0) < 0 (moving negative) → use <strong>−sin</strong>: x(t) = −6 sin(ωt)</div><div class="gs-why">→ x(t) = A sin(ωt) gives v(0) = Aω (positive). We need negative, so negate: x(t) = −6 sin(ωt).</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find ω</div><div class="gs-content">ω = 2π/T = 2π/π = <strong>2 rad/s</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write all three functions</div><div class="gs-content">x(t) = <strong>−6 sin(2t) cm</strong><br>v(t) = −6·2·cos(2t) = <strong>−12 cos(2t) cm/s</strong><br>a(t) = −12·(−2)·sin(2t) = <strong>24 sin(2t) cm/s²</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Find first time at maximum positive displacement (x = +6)</div><div class="gs-content">x(t) = +6 → −6 sin(2t) = 6 → sin(2t) = −1<br>2t = 3π/2 → <strong>t = 3π/4 seconds</strong></div></div></div>
+        </div>
+        <div class="pane" id="full-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>A pendulum oscillates with amplitude 0.4 m and frequency f = 0.5 Hz. At t=0 it is at maximum positive displacement. Write x(t), find v(t) and a(t), and determine when it first reaches equilibrium.</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — x(0) = A (max positive) → sin or cos? Find ω from f.</div><input class="s-input" type="text" placeholder="Use cos. ω = 2πf = 2π(0.5) = ... rad/s"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write x(t), then differentiate to get v(t) and a(t)</div><input class="s-input" type="text" placeholder="x(t) = ... , v(t) = ... , a(t) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Find the first t > 0 when x(t) = 0</div><input class="s-input" type="text" placeholder="cos(πt) = 0 → πt = ... → t = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">x(0) = A → use cosine. ω = 2π(0.5) = π rad/s<br><br><strong>x(t) = 0.4 cos(πt) m</strong><br><strong>v(t) = −0.4π sin(πt) m/s</strong><br><strong>a(t) = −0.4π² cos(πt) m/s²</strong><br><br>x(t) = 0: cos(πt) = 0 → πt = π/2 → <strong>t = 1/2 s</strong></div>
+        </div>
+        <div class="pane" id="full-v3">
+          <div class="problem-box"><div class="p-label">Challenge Problem</div>A mass on a spring has A = 3 cm, T = 2π s. At t = 0 it passes through equilibrium moving in the positive direction. (a) Write x(t). (b) Find the first t > 0 when speed is maximum and state the speed. (c) Find the first t > 0 when acceleration is maximum magnitude and state the acceleration. (d) Show that a(t) = −x(t).</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) x(0) = 0, v(0) > 0 → use sin. ω = 2π/2π = 1 rad/s<br><strong>x(t) = 3 sin(t) cm</strong><br><br>(b) Max speed when |cos(t)| = 1 → t = 0, π, 2π... First t > 0: <strong>t = π s</strong><br>v(t) = 3 cos(t) → max speed = <strong>3 cm/s</strong><br><br>(c) a(t) = −3 sin(t). Max |a| when |sin(t)| = 1 → t = π/2, 3π/2...<br>First t > 0: <strong>t = π/2 s</strong>. Max acceleration = <strong>3 cm/s²</strong><br><br>(d) a(t) = v′(t) = [3cos(t)]′ = −3 sin(t) = −x(t) ✓<br>Since ω = 1: a(t) = −ω²x(t) = −(1)²x(t) = −x(t) ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 13.5 CONNECTING SHM TO CALCULUS -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">13.5</span>
+      <h2 class="topic-title">Connecting SHM Back to Calculus</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Everything in SHM Uses Calculus</div>
+      <p>SHM is a perfect application of everything in this guide:</p>
+      <div class="fbox teal">
+        <div class="flabel">SHM is Calculus</div>
+        <strong>Chain rule:</strong> differentiating A cos(ωt) → −Aω sin(ωt) uses the chain rule (inner = ωt, outer = cos)<br><br>
+        <strong>FTC Part 2:</strong> displacement = ∫<sub>a</sub><sup>b</sup> v(t) dt = x(b) − x(a)<br><br>
+        <strong>Total distance:</strong> ∫<sub>a</sub><sup>b</sup> |v(t)| dt (split at zeros of v)<br><br>
+        <strong>Antidifferentiation:</strong> ∫v(t) dt = x(t) + C (recover position from velocity)<br><br>
+        <strong>Critical points:</strong> speed = 0 when object changes direction → local extrema of x(t)
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Defining Equation of SHM — Why It's Called Harmonic</div>
+      <p>The equation a = −ω²x is what defines simple harmonic motion. It says acceleration is always directed toward equilibrium and proportional to displacement — the restoring force. Substituting x(t) = A cos(ωt) proves it satisfies this equation:</p>
+      <div class="fbox pink">
+        <div class="flabel">SHM Differential Equation</div>
+        x″(t) = −ω² x(t)<br><br>
+        Verify: x(t) = A cos(ωt)<br>
+        x′(t) = −Aω sin(ωt)<br>
+        x″(t) = −Aω² cos(ωt) = −ω² [A cos(ωt)] = −ω² x(t) ✓<br><br>
+        Both A cos(ωt) and A sin(ωt) satisfy this equation. Initial conditions determine which.
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · SHM + Calculus Applications</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'calc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'calc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'calc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="calc-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>A particle moves with v(t) = 4 cos(2t) cm/s and x(0) = 3 cm. Find x(t). Also find the total distance traveled from t = 0 to t = π.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find x(t) by antidifferentiating v(t)</div><div class="gs-content">x(t) = ∫ 4 cos(2t) dt = 4 · <span class="fr"><span class="n">sin(2t)</span><span class="d">2</span></span> + C = 2 sin(2t) + C</div><div class="gs-why">→ u-sub: u = 2t, du = 2dt. ∫cos(u)(du/2) = (1/2)sin(u).</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Apply initial condition x(0) = 3 to find C</div><div class="gs-content">3 = 2 sin(0) + C = 0 + C → C = 3<br><strong>x(t) = 2 sin(2t) + 3 cm</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Total distance — find zeros of v on [0, π]</div><div class="gs-content">v(t) = 0: cos(2t) = 0 → 2t = π/2, 3π/2 → t = π/4, 3π/4<br>On [0, π/4]: v > 0. On [π/4, 3π/4]: v < 0. On [3π/4, π]: v > 0.</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Integrate each piece with absolute value</div><div class="gs-content">Distance = ∫<sub>0</sub><sup>π/4</sup>4cos(2t)dt + |∫<sub>π/4</sub><sup>3π/4</sup>4cos(2t)dt| + ∫<sub>3π/4</sub><sup>π</sup>4cos(2t)dt<br>= [2sin(2t)]<sub>0</sub><sup>π/4</sup> + |[2sin(2t)]<sub>π/4</sub><sup>3π/4</sup>| + [2sin(2t)]<sub>3π/4</sub><sup>π</sup><br>= 2 + |−4| + 2 = <strong>8 cm</strong></div></div></div>
+        </div>
+        <div class="pane" id="calc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>A mass has velocity v(t) = −6 sin(3t) cm/s and starts at x(0) = 2 cm. Find x(t) and verify it represents SHM by showing x″ = −9x.</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Antidifferentiate v(t) = −6 sin(3t) to find x(t) + C</div><input class="s-input" type="text" placeholder="∫−6 sin(3t) dt = −6·(−cos(3t)/3) + C = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Apply x(0) = 2 to find C</div><input class="s-input" type="text" placeholder="2 = 2cos(0) + C = ... → C = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Find x″(t) and verify x″ = −9x</div><input class="s-input" type="text" placeholder="x′(t) = v(t) = ... , x″(t) = ... , −9x(t) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">∫−6sin(3t)dt = −6·(−cos(3t)/3) + C = 2cos(3t) + C<br>x(0) = 2cos(0) + C = 2 + C = 2 → C = 0<br><br><strong>x(t) = 2cos(3t) cm</strong><br><br>x′(t) = −6sin(3t) = v(t) ✓<br>x″(t) = −18cos(3t)<br>−9x(t) = −9(2cos(3t)) = −18cos(3t) = x″(t) ✓</div>
+        </div>
+        <div class="pane" id="calc-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>x(t) = 5 sin(πt) cm. Find: (a) displacement from t=0 to t=2. (b) total distance from t=0 to t=2. (c) average position from t=0 to t=2.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) Displacement = ∫<sub>0</sub><sup>2</sup> v(t) dt = ∫<sub>0</sub><sup>2</sup> 5π cos(πt) dt = [5sin(πt)]<sub>0</sub><sup>2</sup> = 5sin(2π) − 5sin(0) = <strong>0 cm</strong><br>(Returns to starting position after one full period T = 2.)<br><br>(b) v(t) = 5π cos(πt) = 0 at t = 1/2, 3/2. Split:<br>[0, 1/2]: v > 0, [1/2, 3/2]: v < 0, [3/2, 2]: v > 0<br>Each quarter period: distance = 5 cm (amplitude)<br><strong>Total distance = 4 × 5 = 20 cm</strong><br><br>(c) Average position = (1/2)∫<sub>0</sub><sup>2</sup> 5sin(πt) dt = (1/2)[−5cos(πt)/π]<sub>0</sub><sup>2</sup> = (1/2)(−5/π)(cos(2π)−cos(0)) = (1/2)(−5/π)(0) = <strong>0 cm</strong><br>(The average position over a full period is always 0 — symmetric oscillation.)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · Simple Harmonic Motion</div>
+    <table class="dtable">
+      <thead><tr><th>Situation</th><th>Position Function</th><th>Key Check</th></tr></thead>
+      <tbody>
+        <tr><td class="mblue">Starts at +max, at rest</td><td style="color:var(--tx2);font-weight:300;">x(t) = A cos(ωt)</td><td style="color:var(--tx3);font-weight:300;">x(0) = A ✓, v(0) = 0 ✓</td></tr>
+        <tr><td class="mblue">Starts at −max, at rest</td><td style="color:var(--tx2);font-weight:300;">x(t) = −A cos(ωt)</td><td style="color:var(--tx3);font-weight:300;">x(0) = −A ✓, v(0) = 0 ✓</td></tr>
+        <tr><td class="morange">Starts at 0, moving +</td><td style="color:var(--tx2);font-weight:300;">x(t) = A sin(ωt)</td><td style="color:var(--tx3);font-weight:300;">x(0) = 0 ✓, v(0) = Aω > 0 ✓</td></tr>
+        <tr><td class="morange">Starts at 0, moving −</td><td style="color:var(--tx2);font-weight:300;">x(t) = −A sin(ωt)</td><td style="color:var(--tx3);font-weight:300;">x(0) = 0 ✓, v(0) = −Aω < 0 ✓</td></tr>
+        <tr><td class="mgreen">v(t)</td><td style="color:var(--tx2);font-weight:300;">x′(t) — differentiate with chain rule</td><td style="color:var(--tx3);font-weight:300;">ω multiplies in each time</td></tr>
+        <tr><td class="mgreen">a(t)</td><td style="color:var(--tx2);font-weight:300;">v′(t) = −ω²x(t)</td><td style="color:var(--tx3);font-weight:300;">Always −ω² × position</td></tr>
+        <tr><td class="mred">Max speed</td><td style="color:var(--tx2);font-weight:300;">Aω — at equilibrium (x = 0)</td><td style="color:var(--tx3);font-weight:300;">Speed and position trade off</td></tr>
+        <tr><td class="mred">Max acceleration</td><td style="color:var(--tx2);font-weight:300;">Aω² — at max displacement (x = ±A)</td><td style="color:var(--tx3);font-weight:300;">Accel max when position is max</td></tr>
+        <tr><td class="mpurple">ω from T</td><td style="color:var(--tx2);font-weight:300;">ω = 2π/T</td><td style="color:var(--tx3);font-weight:300;">ω = 2πf also works</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMPLETION BADGE -->
+  <div class="complete-badge" style="margin-top:32px;">
+    <div class="cb-icon">🎯</div>
+    <div class="cb-title">Guide Complete — All 13 Sections Done</div>
+    <div class="cb-sub">Every gap identified, every formula explained, every concept walked through with guided, scaffolded, and blind practice. Go earn that 5.</div>
+    <div style="margin-top:16px;">
+      <a href="calculus-landing.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--green);text-decoration:none;padding:10px 20px;border-radius:8px;border:1px solid rgba(62,255,160,0.3);background:rgba(62,255,160,0.06);transition:all 0.2s;" onmouseover="this.style.background='rgba(62,255,160,0.12)'" onmouseout="this.style.background='rgba(62,255,160,0.06)'">
+        ← Back to All Sections
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s13-physics.html -->
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

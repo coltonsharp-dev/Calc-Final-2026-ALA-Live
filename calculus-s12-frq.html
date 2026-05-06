@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 12 · FRQ Language & Structure</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f;--d1:#0b0f1e;--d2:#111828;
+    --glass:rgba(255,255,255,0.044);--b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.12);
+    --green:#3effa0;--gold:#f5c842;--red:#f87171;--blue:#38bdf8;
+    --purple:#c084fc;--cyan:#00e5ff;--orange:#fb923c;--teal:#2dd4bf;
+    --tx:#dde6f5;--tx2:#8898b8;--tx3:#4a5570;--accent:#f5c842;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,200,66,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(245,200,66,0.05) 0%,rgba(251,146,60,0.025) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.3);color:var(--gold);}
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+  .topic{margin-bottom:64px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.1;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+
+  /* CITATION CARD */
+  .citation-card{background:var(--d1);border:1px solid var(--b2);border-radius:14px;overflow:hidden;margin-bottom:16px;position:relative;}
+  .citation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .cc-ivt::before{background:linear-gradient(90deg,var(--blue),transparent);}
+  .cc-evt::before{background:linear-gradient(90deg,var(--green),transparent);}
+  .cc-mvt::before{background:linear-gradient(90deg,var(--gold),transparent);}
+  .cc-rolle::before{background:linear-gradient(90deg,var(--purple),transparent);}
+  .cc-header{padding:18px 24px 14px;border-bottom:1px solid var(--b);}
+  .cc-theorem{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px;}
+  .cc-ivt .cc-theorem{color:var(--blue);}
+  .cc-evt .cc-theorem{color:var(--green);}
+  .cc-mvt .cc-theorem{color:var(--gold);}
+  .cc-rolle .cc-theorem{color:var(--purple);}
+  .cc-subtitle{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--tx);}
+  .cc-body{padding:18px 24px 20px;display:flex;flex-direction:column;gap:14px;}
+  .template-box{border-radius:8px;padding:14px 18px;font-size:13px;font-weight:300;line-height:1.9;}
+  .template-box .tb-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;font-weight:500;display:flex;align-items:center;gap:8px;}
+  .template-box .tb-label::before{content:'';display:block;width:14px;height:2px;border-radius:2px;}
+  .template-box blockquote{font-style:italic;border-left:2px solid;padding-left:14px;line-height:1.9;color:var(--tx);}
+  .cc-ivt .template-box{background:rgba(56,189,248,0.05);border:1px solid rgba(56,189,248,0.2);}
+  .cc-ivt .template-box .tb-label{color:var(--blue);}.cc-ivt .template-box .tb-label::before{background:var(--blue);}
+  .cc-ivt .template-box blockquote{border-color:var(--blue);}
+  .cc-evt .template-box{background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);}
+  .cc-evt .template-box .tb-label{color:var(--green);}.cc-evt .template-box .tb-label::before{background:var(--green);}
+  .cc-evt .template-box blockquote{border-color:var(--green);}
+  .cc-mvt .template-box{background:rgba(245,200,66,0.05);border:1px solid rgba(245,200,66,0.2);}
+  .cc-mvt .template-box .tb-label{color:var(--gold);}.cc-mvt .template-box .tb-label::before{background:var(--gold);}
+  .cc-mvt .template-box blockquote{border-color:var(--gold);}
+  .cc-rolle .template-box{background:rgba(192,132,252,0.05);border:1px solid rgba(192,132,252,0.2);}
+  .cc-rolle .template-box .tb-label{color:var(--purple);}.cc-rolle .template-box .tb-label::before{background:var(--purple);}
+  .cc-rolle .template-box blockquote{border-color:var(--purple);}
+
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* BEFORE/AFTER */
+  .ba-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+  .ba-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;overflow:hidden;}
+  .ba-header{padding:10px 16px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;border-bottom:1px solid var(--b);}
+  .ba-bad .ba-header{background:rgba(248,113,113,0.08);color:var(--red);}
+  .ba-good .ba-header{background:rgba(62,255,160,0.06);color:var(--green);}
+  .ba-body{padding:14px 16px;font-size:12px;font-weight:300;color:var(--tx2);line-height:1.85;}
+  .ba-body strong{color:var(--tx);font-weight:500;}
+
+  /* POINT LOSS CHECKLIST */
+  .loss-list{list-style:none;padding:0;margin:10px 0;display:flex;flex-direction:column;gap:8px;}
+  .loss-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:8px;font-size:12px;font-weight:300;color:var(--tx2);line-height:1.7;}
+  .loss-item.err{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-left:3px solid var(--red);}
+  .loss-item.ok{background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.16);border-left:3px solid var(--green);}
+  .loss-icon{flex-shrink:0;font-size:14px;}
+  .loss-item strong{color:var(--tx);font-weight:500;}
+
+  /* CONTEXT LANGUAGE TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.25);color:var(--gold);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.25);color:var(--gold);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(245,200,66,0.16);border-color:var(--gold);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--gold),var(--orange));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @media(max-width:600px){.page{padding:32px 16px 80px;}.topnav{padding:12px 16px;}.ba-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to Guide
+  </a>
+  <span class="nav-title">Section 12</span>
+  <span class="nav-badge">FRQ Language</span>
+</nav>
+
+<div class="page">
+  <div class="section-header">
+    <div class="sec-label">Section 12 · AP Calculus AB</div>
+    <h1 class="sec-title">FRQ Language<br><span>&amp; Structure</span></h1>
+    <p class="sec-desc">Exact citation templates for every theorem. How to explain integrals and derivatives in context. The complete point-loss checklist. What AP graders are actually looking for — and the specific phrases that earn vs lose points.</p>
+  </div>
+
+  <!-- 12.1 THEOREM CITATION TEMPLATES -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">12.1</span>
+      <h2 class="topic-title">Theorem Citation Templates</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">How Graders Score Theorem Citations</div>
+      <p>When an FRQ asks you to "justify" or "explain" using a theorem, graders look for <strong>three things</strong>: the conditions are stated, the theorem is named, and the conclusion directly addresses the question. Missing any one of these costs the justification point.</p>
+    </div>
+
+    <!-- IVT -->
+    <div class="citation-card cc-ivt">
+      <div class="cc-header">
+        <div class="cc-theorem">Intermediate Value Theorem</div>
+        <div class="cc-subtitle">IVT — Existence of a specific output value</div>
+      </div>
+      <div class="cc-body">
+        <div class="template-box">
+          <div class="tb-label">Full Citation Template</div>
+          <blockquote>Since f is continuous on [a, b] and f(a) = ___ and f(b) = ___, and since k = ___ is between f(a) and f(b), by the Intermediate Value Theorem there exists at least one c in (a, b) such that f(c) = k.</blockquote>
+        </div>
+        <div class="template-box">
+          <div class="tb-label">When the Problem Gives a Table</div>
+          <blockquote>Since f is differentiable (hence continuous) on [a, b], and f(a) = ___ &lt; k &lt; f(b) = ___, by the Intermediate Value Theorem there exists a c in (a, b) such that f(c) = k.</blockquote>
+        </div>
+        <div class="callout callout-err" style="margin:0">
+          <span class="callout-icon">❌</span>
+          <span><strong>Never cite IVT without stating continuity first.</strong> It is a required condition. Graders will not award the justification point if continuity is implied but not written.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVT -->
+    <div class="citation-card cc-evt">
+      <div class="cc-header">
+        <div class="cc-theorem">Extreme Value Theorem</div>
+        <div class="cc-subtitle">EVT — Existence of absolute extrema on a closed interval</div>
+      </div>
+      <div class="cc-body">
+        <div class="template-box">
+          <div class="tb-label">Citation Template</div>
+          <blockquote>Since f is continuous on the closed interval [a, b], by the Extreme Value Theorem f attains both an absolute maximum value and an absolute minimum value on [a, b].</blockquote>
+        </div>
+        <div class="template-box">
+          <div class="tb-label">When Asked to Find the Extrema (Closed Interval Method)</div>
+          <blockquote>Since f is continuous on [a, b], by EVT the absolute extrema exist. Evaluating f at the critical numbers and endpoints: f(c₁) = ___, f(c₂) = ___, f(a) = ___, f(b) = ___. The absolute maximum is ___ at x = ___, and the absolute minimum is ___ at x = ___.</blockquote>
+        </div>
+      </div>
+    </div>
+
+    <!-- MVT -->
+    <div class="citation-card cc-mvt">
+      <div class="cc-header">
+        <div class="cc-theorem">Mean Value Theorem — Most Tested</div>
+        <div class="cc-subtitle">MVT — Existence of a point where instantaneous rate = average rate</div>
+      </div>
+      <div class="cc-body">
+        <div class="template-box">
+          <div class="tb-label">Full Citation Template</div>
+          <blockquote>Since f is differentiable on (a, b) and continuous on [a, b], by the Mean Value Theorem there exists at least one c in (a, b) such that f′(c) = [f(b) − f(a)] / (b − a) = ___.</blockquote>
+        </div>
+        <div class="template-box">
+          <div class="tb-label">Table Version — When Given Values, Not a Formula</div>
+          <blockquote>Since f is differentiable on (a, b) (given), by the Mean Value Theorem there exists a c in (a, b) such that f′(c) = [f(b) − f(a)] / (b − a) = (___ − ___) / (___ − ___) = ___.</blockquote>
+        </div>
+        <div class="callout callout-tip" style="margin:0">
+          <span class="callout-icon">💡</span>
+          <span><strong>AP shortcut:</strong> If the problem says "f is differentiable," you automatically also have continuity (differentiability implies continuity). You still should state both conditions, but differentiable is the stronger one — lead with it.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rolle's -->
+    <div class="citation-card cc-rolle">
+      <div class="cc-header">
+        <div class="cc-theorem">Rolle's Theorem</div>
+        <div class="cc-subtitle">Rolle's — Existence of a horizontal tangent</div>
+      </div>
+      <div class="cc-body">
+        <div class="template-box">
+          <div class="tb-label">Citation Template</div>
+          <blockquote>Since f is continuous on [a, b], differentiable on (a, b), and f(a) = f(b) = ___, by Rolle's Theorem there exists at least one c in (a, b) such that f′(c) = 0.</blockquote>
+        </div>
+        <div class="callout callout-warn" style="margin:0">
+          <span class="callout-icon">⚠️</span>
+          <span><strong>Rolle's requires all three conditions.</strong> Equal endpoint values is the condition that distinguishes Rolle's from MVT. If f(a) ≠ f(b), Rolle's does not apply — use MVT instead.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Writing Theorem Citations</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'cit','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'cit','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'cit','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="cit-v1">
+          <div class="problem-box"><div class="p-label">Problem — MVT FRQ</div>The table shows values of a differentiable function f: f(1) = 4, f(5) = 12. Must there be a value c in (1, 5) where f′(c) = 2? Justify.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">State the conditions</div><div class="gs-content">f is differentiable on (1, 5) — given. Since differentiable implies continuous, f is also continuous on [1, 5]. ✓</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Compute the average rate of change</div><div class="gs-content">[f(5) − f(1)] / (5 − 1) = (12 − 4) / 4 = <strong>2</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Cite MVT with the full template</div><div class="gs-content"><em>"Since f is differentiable on (1, 5) and continuous on [1, 5], by the Mean Value Theorem there exists at least one c in (1, 5) such that f′(c) = [f(5) − f(1)] / (5 − 1) = 2."</em><br><br>Yes — MVT guarantees it.</div></div></div>
+        </div>
+        <div class="pane" id="cit-v2">
+          <div class="problem-box"><div class="p-label">Problem — IVT FRQ</div>f is continuous on [0, 4], f(0) = −3, f(4) = 7. Does f have a zero on (0, 4)? Justify using IVT.</div>
+          <div class="scaffold-step"><div class="s-prompt">State continuity on [0, 4]</div><input class="s-input" type="text" placeholder="f is continuous on [0, 4] because ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Show that k = 0 is between f(0) and f(4)</div><input class="s-input" type="text" placeholder="f(0) = ... and f(4) = ... and 0 is between them because ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Write the IVT conclusion</div><input class="s-input" type="text" placeholder="By IVT, there exists at least one c in (0, 4) such that f(c) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f is continuous on [0, 4] (given). f(0) = −3 &lt; 0 &lt; 7 = f(4), so k = 0 is between f(0) and f(4).<br><br><strong>"Since f is continuous on [0, 4] and f(0) = −3 &lt; 0 &lt; 7 = f(4), by the Intermediate Value Theorem there exists at least one c in (0, 4) such that f(c) = 0."</strong><br><br>Yes — f has a zero on (0, 4).</div>
+        </div>
+        <div class="pane" id="cit-v3">
+          <div class="problem-box"><div class="p-label">Problem — Rolle's FRQ</div>f(x) = x³ − 3x. Verify Rolle's Theorem applies on [0, √3], then find all values of c.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f is a polynomial → continuous on [0, √3] and differentiable on (0, √3). ✓<br>f(0) = 0 and f(√3) = 3√3 − 3√3 = 0. So f(0) = f(√3) = 0. ✓<br><br>All three conditions of Rolle's Theorem are satisfied.<br><br>By Rolle's Theorem, there exists at least one c in (0, √3) such that f′(c) = 0.<br>f′(x) = 3x² − 3 = 0 → x² = 1 → x = 1.<br>c = 1 ∈ (0, √3) ✓<br><br><strong>c = 1</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 12.2 EXPLAINING INTEGRALS IN CONTEXT -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">12.2</span>
+      <h2 class="topic-title">Explaining Integrals &amp; Derivatives in Context</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">What Graders Expect — Context Language</div>
+      <p>When an FRQ asks "what does this integral represent?" or "interpret this value," you must answer in <strong>plain English using the units and context of the problem</strong>. Mathematical notation alone does not earn full credit.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Interpreting a Definite Integral in Context</div>
+      <div class="fbox">
+        <div class="flabel">The Pattern</div>
+        ∫<sub>a</sub><sup>b</sup> R(t) dt = <strong>[context-specific quantity]</strong> from t = a to t = b, in <strong>[units]</strong><br><br>
+        Key words: <span class="mgreen">"total amount"</span>, <span class="mgreen">"net change in"</span>, <span class="mgreen">"accumulated"</span>
+      </div>
+      <div class="ba-row">
+        <div class="ba-card ba-bad">
+          <div class="ba-header">❌ Loses Points</div>
+          <div class="ba-body">"∫₀⁵ R(t) dt is the integral of R from 0 to 5."<br><br><em>This is just restating notation — no context, no units, no meaning stated.</em></div>
+        </div>
+        <div class="ba-card ba-good">
+          <div class="ba-header">✓ Earns Points</div>
+          <div class="ba-body">"∫₀⁵ R(t) dt represents the <strong>total amount of water, in gallons, that flowed into the tank</strong> during the first 5 minutes."<br><br><em>Context + quantity + units = full credit.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Interpreting a Derivative in Context</div>
+      <div class="fbox green">
+        <div class="flabel">The Pattern</div>
+        f′(c) = k means: <strong>[f′ describes]</strong> is changing at a rate of <strong>k [units of f′]</strong> at <strong>[context of c]</strong><br><br>
+        Key words: <span class="mgreen">"rate of change"</span>, <span class="mgreen">"increasing/decreasing at"</span>, <span class="mgreen">"per [time unit]"</span>
+      </div>
+      <div class="ba-row">
+        <div class="ba-card ba-bad">
+          <div class="ba-header">❌ Loses Points</div>
+          <div class="ba-body">"f′(3) = 5 means the derivative is 5 at t = 3."<br><br><em>No context. Doesn't say what quantity or what units.</em></div>
+        </div>
+        <div class="ba-card ba-good">
+          <div class="ba-header">✓ Earns Points</div>
+          <div class="ba-body">"f′(3) = 5 means the <strong>temperature is increasing at a rate of 5 degrees per hour</strong> at time t = 3 hours."<br><br><em>Quantity + direction + rate + units + time.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Context Language Reference — Fill in the Blanks</div>
+      <table class="dtable">
+        <thead><tr><th>Expression</th><th>Sentence Template</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="m">∫<sub>a</sub><sup>b</sup> R(t) dt</td>
+            <td style="color:var(--tx2);font-weight:300;">The total [quantity], in [units], from t = a to t = b.</td>
+          </tr>
+          <tr>
+            <td class="m">Q(a) + ∫<sub>a</sub><sup>b</sup> R(t) dt</td>
+            <td style="color:var(--tx2);font-weight:300;">The total [quantity] at time t = b, starting from [initial amount] at t = a.</td>
+          </tr>
+          <tr>
+            <td class="m">f′(c) = k</td>
+            <td style="color:var(--tx2);font-weight:300;">The [quantity] is [increasing/decreasing] at a rate of k [units] per [time unit] at t = c.</td>
+          </tr>
+          <tr>
+            <td class="m">∫<sub>a</sub><sup>b</sup> |v(t)| dt</td>
+            <td style="color:var(--tx2);font-weight:300;">The total distance traveled, in [units], from t = a to t = b.</td>
+          </tr>
+          <tr>
+            <td class="m">∫<sub>a</sub><sup>b</sup> v(t) dt</td>
+            <td style="color:var(--tx2);font-weight:300;">The displacement (net change in position), in [units], from t = a to t = b.</td>
+          </tr>
+          <tr>
+            <td class="m">(1/(b−a))∫f dx</td>
+            <td style="color:var(--tx2);font-weight:300;">The average value of [quantity] over the interval [a, b].</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Interpretation in Context</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'ctx','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'ctx','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'ctx','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="ctx-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>The number of cars in a parking lot at time t hours is modeled by P(t). P′(2) = −8. Interpret this value in context.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify what P′ measures</div><div class="gs-content">P is the number of cars. P′ is the rate of change of the number of cars with respect to time.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Interpret the sign</div><div class="gs-content">P′(2) = −8 &lt; 0 → the number of cars is <strong>decreasing</strong> at t = 2.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write the complete context sentence</div><div class="gs-content"><em>"At time t = 2 hours, the number of cars in the parking lot is <strong>decreasing at a rate of 8 cars per hour</strong>."</em></div></div></div>
+        </div>
+        <div class="pane" id="ctx-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Oil leaks from a tank at rate L(t) gallons per hour. Write a sentence interpreting ∫₀⁶ L(t) dt = 42.</div>
+          <div class="scaffold-step"><div class="s-prompt">What does an integral of a rate represent?</div><input class="s-input" type="text" placeholder="The integral of a rate gives the total ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Write the full interpretation sentence with quantity, units, and time interval</div><input class="s-input" type="text" placeholder="∫₀⁶ L(t) dt = 42 means ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box"><strong>"∫₀⁶ L(t) dt = 42 represents the total amount of oil, 42 gallons, that leaked from the tank during the first 6 hours."</strong></div>
+        </div>
+        <div class="pane" id="ctx-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>A particle's position is given by x(t). Interpret each: (a) x′(3) = −5. (b) ∫₀⁴ |x′(t)| dt = 18. (c) ∫₀⁴ x′(t) dt = −2.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) <strong>At time t = 3, the particle is moving in the negative direction at a speed of 5 units per second.</strong> (x′ = velocity; negative means leftward/negative direction)<br><br>(b) <strong>The total distance traveled by the particle from t = 0 to t = 4 is 18 units.</strong> (|v(t)| gives speed; integral gives total path length)<br><br>(c) <strong>The net displacement of the particle from t = 0 to t = 4 is −2 units.</strong> (velocity integral = displacement; negative means net leftward motion)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 12.3 POINT LOSS CHECKLIST -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">12.3</span>
+      <h2 class="topic-title">The Complete Point-Loss Checklist</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Most Common FRQ Point Losses — In Order of Frequency</div>
+      <ul class="loss-list">
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Missing +C on indefinite integrals.</strong> Every indefinite integral answer must end with +C. No exceptions. One point deducted per occurrence.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Theorem cited without stating conditions.</strong> Saying "by MVT, f′(c) = 2" without stating differentiability/continuity earns no justification credit.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Interpretation without units or context.</strong> "The integral equals 15" earns nothing. Must say what 15 represents, in what units, over what time.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Not showing setup for area/volume problems.</strong> Writing only the final number without the integral expression loses the setup point.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Washer formula written as [R−r]² instead of [R]²−[r]².</strong> Algebraically different. Always square first, then subtract.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>FTC Part 1 + chain rule: forgetting g′(x).</strong> If upper limit is g(x), multiply by g′(x). Omitting it makes the answer wrong.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Not verifying the inflection point sign change.</strong> Setting f″ = 0 is not enough — must show f″ changes sign. Otherwise it's not an inflection point.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Using Second Derivative Test when f″(c) = 0.</strong> The test is inconclusive. Must use the First Derivative Test in that case.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Plugging values into related rates before differentiating.</strong> Differentiate first. Substitute only after the derivative equation is written.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Confusing displacement and total distance.</strong> ∫v dt = displacement (signed). ∫|v| dt = total distance. Different answers, different integrals.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Not splitting area when curves cross.</strong> If f and g switch which is on top, split the integral at the crossing. Integrating f−g across a crossing gives wrong sign for part of the region.</span></li>
+        <li class="loss-item err"><span class="loss-icon">❌</span><span><strong>Rounding a non-decimal answer.</strong> Unless told to approximate, leave answers in exact form: 9π/2, ln 3, √5, etc.</span></li>
+      </ul>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">What to Always Show — Grader Checklist</div>
+      <ul class="loss-list">
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>Show the integral setup before evaluating.</strong> Write ∫[...] dx before you compute it. The setup is often worth a point on its own.</span></li>
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>Show all antiderivative steps.</strong> Don't skip from ∫ directly to F(b)−F(a) without writing F(x) first.</span></li>
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>Justify sign changes explicitly.</strong> "f′ changes from negative to positive at x = 2, therefore f has a local minimum at x = 2."</span></li>
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>State the conclusion of every theorem clearly.</strong> After citing the theorem, state what c is (or what it guarantees).</span></li>
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>Label your sign chart clearly.</strong> Mark the intervals, the sign of f′ in each, and the conclusion (increasing/decreasing, max/min).</span></li>
+        <li class="loss-item ok"><span class="loss-icon">✓</span><span><strong>Include units in context answers.</strong> Gallons per minute, meters, degrees Fahrenheit — always match the problem's units.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- 12.4 HOW GRADERS SCORE -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">12.4</span>
+      <h2 class="topic-title">How AP Graders Actually Score FRQs</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Rubric Structure</div>
+      <p>Each FRQ part is worth 1–4 points. Points are typically structured as:</p>
+      <table class="dtable">
+        <thead><tr><th>Point Type</th><th>What It Rewards</th><th>How to Earn It</th></tr></thead>
+        <tbody>
+          <tr><td class="m">Setup Point</td><td style="color:var(--tx2);font-weight:300;">Writing the correct integral or expression before evaluating</td><td style="color:var(--tx3);font-weight:300;">Always write the expression first. Never jump to the answer.</td></tr>
+          <tr><td class="m">Antiderivative Point</td><td style="color:var(--tx2);font-weight:300;">Finding the correct antiderivative</td><td style="color:var(--tx3);font-weight:300;">Earned even if the final arithmetic is wrong — show your work.</td></tr>
+          <tr><td class="m">Answer Point</td><td style="color:var(--tx2);font-weight:300;">Correct final numerical value</td><td style="color:var(--tx3);font-weight:300;">Follow-through credit — wrong start can still earn this if process is right.</td></tr>
+          <tr><td class="m">Justification Point</td><td style="color:var(--tx2);font-weight:300;">Logical reasoning or theorem citation that answers "why"</td><td style="color:var(--tx3);font-weight:300;">Use theorem templates. State conditions. Name the theorem. State the conclusion.</td></tr>
+          <tr><td class="m">Interpretation Point</td><td style="color:var(--tx2);font-weight:300;">Contextual explanation of a mathematical result</td><td style="color:var(--tx3);font-weight:300;">Full sentence with quantity + units + time interval. No math notation alone.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Follow-through credit:</strong> If you make an error in part (a) but carry that value correctly through parts (b) and (c), you can still earn the answer points in (b) and (c). Show all your work and don't leave parts blank.</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Crossed out work is not graded.</strong> If you cross something out and write a replacement, only the replacement is scored. Be deliberate about what you cross out.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The 4 FRQ Question Types and What to Expect</div>
+      <table class="dtable">
+        <thead><tr><th>Question Type</th><th>What's Typically Asked</th><th>Key Technique</th></tr></thead>
+        <tbody>
+          <tr><td class="mgreen">Rate/Accumulation</td><td style="color:var(--tx2);font-weight:300;">Interpret ∫R dt, find Q(b), rate at a point, increasing/decreasing</td><td style="color:var(--tx3);font-weight:300;">Q(b) = Q(a) + ∫R; interpretation with units; sign of rate</td></tr>
+          <tr><td class="mblue">Graph Analysis</td><td style="color:var(--tx2);font-weight:300;">Where is f increasing, decreasing, concave up/down, local extrema, inflection points</td><td style="color:var(--tx3);font-weight:300;">Sign charts of f′ and f″; FDT and SDT language</td></tr>
+          <tr><td class="mpurple">Table Problems</td><td style="color:var(--tx2);font-weight:300;">Riemann sum, MVT application, slope of tangent, approximate f(b)</td><td style="color:var(--tx3);font-weight:300;">Left/Right/Trap from table; MVT with given values</td></tr>
+          <tr><td class="morange">Differential Equations</td><td style="color:var(--tx2);font-weight:300;">Slope field sketch, separation of variables, particular solution</td><td style="color:var(--tx3);font-weight:300;">Separate, integrate both sides, solve for C using initial condition</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Full FRQ Part — Put It All Together</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'full','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'full','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'full','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="full-v1">
+          <div class="problem-box"><div class="p-label">Full FRQ Part — Rate Problem</div>Water drains from a pool at rate D(t) = 50 − 2t gallons per hour (0 ≤ t ≤ 10). At t=0 the pool has 400 gallons.<br>(a) Find the amount drained from t=2 to t=8.<br>(b) How many gallons are in the pool at t=8?<br>(c) At what rate is the pool draining at t=6? Is the draining rate increasing or decreasing? Justify.</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">(a) Total drained = ∫₂⁸ D(t) dt</div><div class="gs-content">= ∫<sub>2</sub><sup>8</sup> (50−2t) dt = [50t − t²]<sub>2</sub><sup>8</sup><br>= (400−64) − (100−4) = 336 − 96 = <strong>240 gallons</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">(b) Amount at t=8 = Q(0) − ∫₀⁸ D(t) dt</div><div class="gs-content">∫<sub>0</sub><sup>8</sup>(50−2t)dt = [50t−t²]<sub>0</sub><sup>8</sup> = 400−64 = 336<br>Q(8) = 400 − 336 = <strong>64 gallons</strong></div><div class="gs-why">→ We subtract because water is draining out, reducing the total.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">(c) Rate and justification</div><div class="gs-content">D(6) = 50 − 12 = <strong>38 gallons per hour</strong>.<br><br>D′(t) = −2 &lt; 0 for all t. So D′(6) = −2 &lt; 0.<br><em>"The draining rate is <strong>decreasing</strong> at t = 6 because D′(6) = −2 &lt; 0, which means D is a decreasing function."</em></div></div></div>
+        </div>
+        <div class="pane" id="full-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>A differentiable function f has the values: f(0)=3, f(2)=9, f(4)=5, f(6)=11.<br>(a) Use a Right Riemann Sum with n=3 to approximate ∫₀⁶ f(x) dx.<br>(b) Must there be a c in (0,6) where f′(c) = (f(6)−f(0))/(6−0)? Justify with the name of the theorem and both conditions.</div>
+          <div class="scaffold-step"><div class="s-prompt">(a) Δx = 2, right endpoints = x=2,4,6. Compute the sum.</div><input class="s-input" type="text" placeholder="R = Δx × (f(2) + f(4) + f(6)) = 2 × ( + + ) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">(b) State both conditions of MVT for f on [0,6]</div><input class="s-input" type="text" placeholder="f is ... on (0,6) and ... on [0,6] because ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">(b) Compute the average rate of change, then write the MVT conclusion</div><input class="s-input" type="text" placeholder="AROC = (f(6)−f(0))/(6−0) = ... → By MVT, ∃ c ∈ (0,6) such that f′(c) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) R = 2×(f(2)+f(4)+f(6)) = 2×(9+5+11) = 2×25 = <strong>50</strong><br><br>(b) f is differentiable on (0,6) (given). Since differentiable implies continuous, f is continuous on [0,6]. Both conditions of MVT are met. ✓<br><br>AROC = (11−3)/(6−0) = 8/6 = 4/3<br><br><strong>"Since f is differentiable on (0,6) and continuous on [0,6], by the Mean Value Theorem there exists at least one c in (0,6) such that f′(c) = 4/3."</strong><br><br>Yes, there must be such a c.</div>
+        </div>
+        <div class="pane" id="full-v3">
+          <div class="problem-box"><div class="p-label">Full Multi-Part — Graph Analysis FRQ</div>The graph of f′ is given (you must reason from it). f is differentiable everywhere. f′ > 0 on (0,3), f′ < 0 on (3,7), f′ changes sign from − to + at x=7, f′(3) = 0.<br><br>(a) Find all x in (0,8) where f has a local minimum. Justify.<br>(b) Find all x in (0,8) where f has a local maximum. Justify.<br>(c) On what interval is f concave up? Justify using f″.</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) f has a local minimum at <strong>x = 7</strong>. Justification: f′ changes from negative to positive at x = 7, so by the First Derivative Test, f has a local minimum at x = 7.<br><br>(b) f has a local maximum at <strong>x = 3</strong>. Justification: f′ changes from positive to negative at x = 3, so by the First Derivative Test, f has a local maximum at x = 3.<br><br>(c) f is concave up where f″ > 0, which is where f′ is <strong>increasing</strong>. From the graph of f′: f′ is increasing on the intervals where the graph of f′ slopes upward. State the specific interval based on the graph. Justify: "f″ = (f′)′ > 0 on (___) because f′ is increasing there."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Pre-Exam Checklist — Review Before Every FRQ</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Never Forget</div>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:6px;">
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:6px;">+C on every indefinite integral</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:6px;">State continuity before citing IVT/EVT/MVT</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:6px;">g′(x) factor in FTC Part 1 with chain rule</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:6px;">Verify sign change for inflection points</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.15);border-radius:6px;">Units and context in interpretation answers</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Always Do</div>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:6px;">
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(62,255,160,0.04);border:1px solid rgba(62,255,160,0.14);border-radius:6px;">Write the integral setup before computing</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(62,255,160,0.04);border:1px solid rgba(62,255,160,0.14);border-radius:6px;">Show F(x) before writing F(b)−F(a)</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(62,255,160,0.04);border:1px solid rgba(62,255,160,0.14);border-radius:6px;">Name the theorem explicitly</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(62,255,160,0.04);border:1px solid rgba(62,255,160,0.14);border-radius:6px;">State the conclusion of the theorem</li>
+          <li style="font-size:12px;color:var(--tx2);padding:7px 12px;background:rgba(62,255,160,0.04);border:1px solid rgba(62,255,160,0.14);border-radius:6px;">Leave non-decimal answers in exact form</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s12-frq.html -->
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 10 · Fundamental Theorem of Calculus</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828;
+    --glass:rgba(255,255,255,0.044);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#00e5ff;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(0,229,255,0.07) 0%,rgba(192,132,252,0.03) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.28);color:var(--cyan);}
+
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  .topic{margin-bottom:64px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;text-align:right;}
+
+  /* BIG THEOREM CARD */
+  .theorem-card{border-radius:16px;border:1px solid var(--b2);overflow:hidden;margin-bottom:20px;position:relative;}
+  .theorem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+  .tc-p1::before{background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));}
+  .tc-p2::before{background:linear-gradient(90deg,var(--gold),var(--orange),var(--green));}
+  .tc-header{padding:24px 28px 20px;border-bottom:1px solid var(--b);}
+  .tc-part{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:6px;}
+  .tc-p1 .tc-part{color:var(--cyan);}
+  .tc-p2 .tc-part{color:var(--gold);}
+  .tc-name{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--tx);}
+  .tc-body{padding:24px 28px;display:flex;flex-direction:column;gap:16px;}
+
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.2;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.teal{border-left-color:var(--teal);}
+
+  /* ANNOTATED TWO COLUMN */
+  .annotated{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--d1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;margin:12px 0;}
+  .ann-col{padding:20px;}
+  .ann-col:first-child{border-right:1px solid var(--b);}
+  .ann-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:14px;}
+  .ann-line{font-size:13px;font-weight:300;color:var(--gold);line-height:2.3;margin-bottom:0;}
+  .ann-note{font-size:12px;font-weight:300;color:var(--tx2);line-height:2.3;margin-bottom:0;}
+
+  /* BRIDGE DIAGRAM */
+  .bridge{display:flex;align-items:center;gap:0;margin:16px 0;background:var(--d1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;}
+  .bridge-node{flex:1;padding:20px 16px;text-align:center;}
+  .bridge-node .bn-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px;}
+  .bridge-node .bn-val{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+  .bridge-arrow{padding:16px 8px;color:var(--tx3);font-size:18px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .bridge-arrow .ba-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tx3);}
+
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.22);color:var(--cyan);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* CHAIN RULE INSIDE FTC — step display */
+  .ftc-chain-display{background:var(--d1);border:1px solid var(--b2);border-radius:12px;padding:22px 24px;margin:12px 0;}
+  .ftc-cd-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;}
+  .ftc-line{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+  .ftc-step-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.22);color:var(--cyan);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .ftc-step-body{flex:1;}
+  .ftc-step-math{font-size:14px;font-weight:400;color:var(--gold);line-height:1.8;}
+  .ftc-step-note{font-size:11px;color:var(--tx3);font-style:italic;margin-top:2px;}
+
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mcyan{color:var(--cyan);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.25);color:var(--cyan);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.25);color:var(--cyan);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(0,229,255,0.14);border-color:var(--cyan);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  /* COMPARISON TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  /* EXAMPLES GRID */
+  .examples-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+  .ex-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:16px;}
+  .ex-problem{font-size:12px;font-weight:400;color:var(--tx2);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--b);}
+  .ex-step{font-size:12px;font-weight:300;color:var(--tx3);line-height:1.8;margin-bottom:4px;}
+  .ex-answer{font-size:13px;font-weight:500;color:var(--green);margin-top:8px;}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--cyan),var(--purple));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .annotated,.examples-grid{grid-template-columns:1fr;}
+    .ann-col:first-child{border-right:none;border-bottom:1px solid var(--b);}
+    .bridge{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 10</span>
+  <span class="nav-badge">Fundamental Theorem</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 10 · AP Calculus AB</div>
+    <h1 class="sec-title">Fundamental<br><span>Theorem of Calculus</span></h1>
+    <p class="sec-desc">Part 1 and Part 2 — every statement, condition, and worked example. The chain rule inside FTC Part 1 fully annotated. Why differentiation and integration are inverses of each other explained from the ground up.</p>
+  </div>
+
+
+  <!-- ══════════════════════════
+       10.1 · THE CONCEPTUAL BRIDGE
+  ══════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">10.1</span>
+      <h2 class="topic-title">Why the FTC Matters — The Conceptual Bridge</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Big Picture</div>
+      <p>Before the FTC, calculating definite integrals required computing the limit of Riemann sums — an extremely tedious process for most functions. The Fundamental Theorem of Calculus is the most important theorem in calculus because it reveals that <strong>differentiation and integration are inverse operations</strong>, and gives us a practical method to evaluate definite integrals exactly.</p>
+      <p>The FTC comes in two parts. <strong>Part 1</strong> says that integrating and then differentiating returns you to where you started. <strong>Part 2</strong> says that definite integrals can be computed using antiderivatives.</p>
+    </div>
+
+    <!-- The bridge diagram -->
+    <div class="bridge">
+      <div class="bridge-node">
+        <div class="bn-label">Start with</div>
+        <div class="bn-val" style="color:var(--blue);">f(x)</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:4px;">integrand</div>
+      </div>
+      <div class="bridge-arrow">
+        <div style="font-size:20px;">→</div>
+        <div class="ba-label">integrate</div>
+      </div>
+      <div class="bridge-node">
+        <div class="bn-label">Get</div>
+        <div class="bn-val" style="color:var(--gold);">F(x)</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:4px;">antiderivative</div>
+      </div>
+      <div class="bridge-arrow">
+        <div style="font-size:20px;">→</div>
+        <div class="ba-label">differentiate</div>
+      </div>
+      <div class="bridge-node">
+        <div class="bn-label">Return to</div>
+        <div class="bn-val" style="color:var(--green);">f(x)</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:4px;">original function</div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Why They're Inverses — The Intuition</div>
+      <p><strong>Differentiation</strong> asks: how fast is this accumulating? It gives the rate of change.</p>
+      <p><strong>Integration</strong> asks: how much has accumulated over this interval? It gives the total change.</p>
+      <p>If you know the rate and integrate it, you get the total. If you take the total and differentiate it, you get back to the rate. They undo each other — with one catch: differentiation loses constant information, which is why antiderivatives always have + C.</p>
+      <div class="fbox green">
+        <div class="flabel">The Inverse Relationship Stated Precisely</div>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[∫<sub>a</sub><sup>x</sup> f(t) dt] = <span class="mgreen">f(x)</span> &nbsp;&nbsp;← FTC Part 1<br><br>
+        ∫<sub>a</sub><sup>b</sup> <span class="mblue">F′(x)</span> dx = <span class="mblue">F(b) − F(a)</span> &nbsp;&nbsp;← FTC Part 2<br><br>
+        <span style="font-size:11px;color:var(--tx3)">Differentiate an integral → get back f. &nbsp; Integrate a derivative → get total change.</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       10.2 · FTC PART 1
+  ══════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">10.2</span>
+      <h2 class="topic-title">FTC Part 1 — Derivative of an Integral</h2>
+    </div>
+
+    <div class="theorem-card tc-p1">
+      <div class="tc-header">
+        <div class="tc-part">FTC · Part 1</div>
+        <div class="tc-name">The Derivative of an Accumulation Function</div>
+      </div>
+      <div class="tc-body">
+
+        <div class="concept">
+          <div class="concept-title">Formal Statement</div>
+          <div class="fbox">
+            <div class="flabel">FTC Part 1</div>
+            If <span class="mcyan">f is continuous on [a, b]</span>, then for every x in (a, b):<br><br>
+            <span class="fr"><span class="n">d</span><span class="d">dx</span></span> <span style="font-size:16px">[∫<sub>a</sub><sup><span class="mcyan">x</span></sup> f(t) dt]</span> = <span class="mgreen">f(x)</span><br><br>
+            <span style="font-size:11px;color:var(--tx3)">The derivative of the integral with variable upper limit x equals the integrand evaluated at x.</span>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">Plain English</div>
+          <p>If you build a function G(x) by integrating f from a to x, then the derivative of G is just f back again. G(x) tracks how much area has accumulated — and its rate of change at any point x is f(x).</p>
+          <div class="fbox teal">
+            <div class="flabel">Think of it this way</div>
+            G(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt &nbsp;← G accumulates area under f up to x<br><br>
+            G′(x) = f(x) &nbsp;← the rate of accumulation at x equals f(x)
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">Simple Examples — Upper Limit Is Just x</div>
+          <div class="examples-grid">
+            <div class="ex-card">
+              <div class="ex-problem"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>1</sub><sup>x</sup> t³ dt</div>
+              <div class="ex-step">Upper limit = x (plain x, no function)</div>
+              <div class="ex-step">Just plug x into the integrand</div>
+              <div class="ex-answer">= x³</div>
+            </div>
+            <div class="ex-card">
+              <div class="ex-problem"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>0</sub><sup>x</sup> sin(t) dt</div>
+              <div class="ex-step">Upper limit = x</div>
+              <div class="ex-step">Plug x into sin(t)</div>
+              <div class="ex-answer">= sin(x)</div>
+            </div>
+            <div class="ex-card">
+              <div class="ex-problem"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>2</sub><sup>x</sup> e<sup>t</sup> dt</div>
+              <div class="ex-step">Upper limit = x</div>
+              <div class="ex-step">Plug x into e^t</div>
+              <div class="ex-answer">= e<sup>x</sup></div>
+            </div>
+            <div class="ex-card">
+              <div class="ex-problem"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>x</sub><sup>5</sup> cos(t) dt</div>
+              <div class="ex-step">Variable is in LOWER limit — flip first</div>
+              <div class="ex-step">= −<span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>5</sub><sup>x</sup> cos(t) dt</div>
+              <div class="ex-answer">= −cos(x)</div>
+            </div>
+          </div>
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <span><strong>Variable in the lower limit:</strong> FTC Part 1 applies only when the variable is in the upper limit. If it's in the lower limit, flip the integral (negate it), then apply FTC normally.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · FTC Part 1 (Basic)</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'ftc1','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'ftc1','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'ftc1','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="ftc1-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>3</sub><sup>x</sup> (t² + 2t) dt</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Check the upper limit</div><div class="gs-content">Upper limit = <strong>x</strong> (just x, no function). FTC Part 1 applies directly.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Apply FTC Part 1 — plug x into the integrand</div><div class="gs-content">The integrand is f(t) = t² + 2t.<br>Replace t with x: f(x) = <strong>x² + 2x</strong></div><div class="gs-why">→ The lower limit (3) plays no role in Part 1. It doesn't affect the derivative.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Final answer</div><div class="gs-content"><strong>= x² + 2x</strong></div></div></div>
+        </div>
+        <div class="pane" id="ftc1-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>x</sub><sup>4</sup> ln(t) dt</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Is the variable in the upper or lower limit?</div><input class="s-input" type="text" placeholder="Variable x is in the ___ limit. I need to flip because ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Flip the integral (apply negative sign)</div><input class="s-input" type="text" placeholder="= −d/dx ∫_( )^( ) ln(t) dt"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Apply FTC Part 1 to the flipped version</div><input class="s-input" type="text" placeholder="= −ln( )"/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">x is in the lower limit → must flip:<br>= −d/dx ∫<sub>4</sub><sup>x</sup> ln(t) dt<br>FTC Part 1: plug x into ln(t)<br><strong>= −ln(x)</strong></div>
+        </div>
+        <div class="pane" id="ftc1-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>−2</sub><sup>x</sup> √(t⁴ + 1) dt</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Upper limit = x → FTC Part 1 applies directly.<br>Plug x into the integrand: √(t⁴+1) → √(x⁴+1)<br><br><strong>= √(x⁴ + 1)</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       10.3 · CHAIN RULE INSIDE FTC PART 1
+  ══════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">10.3</span>
+      <h2 class="topic-title">Chain Rule Inside FTC Part 1</h2>
+      <span class="topic-sub">The most tested FTC application on the AP exam</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When the Upper Limit Is a Function of x</div>
+      <p>FTC Part 1 says d/dx[∫<sub>a</sub><sup>x</sup> f(t) dt] = f(x). But what if the upper limit is <strong>g(x)</strong> — a function of x, not just x itself? Then the chain rule must be applied.</p>
+      <div class="fbox purple">
+        <div class="flabel">FTC Part 1 + Chain Rule</div>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span> [∫<sub>a</sub><sup><span class="mpurple">g(x)</span></sup> f(t) dt] = <span class="mgreen">f(<span class="mpurple">g(x)</span>)</span> · <span class="morange">g′(x)</span><br><br>
+        <span style="font-size:11px;color:var(--tx3)">Step 1: Plug the upper limit g(x) into f. &nbsp; Step 2: Multiply by the derivative of g(x).</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Why the Chain Rule Is Required — Step by Step</div>
+      <p>Think of G(u) = ∫<sub>a</sub><sup>u</sup> f(t) dt. By FTC Part 1, G′(u) = f(u). Now if u = g(x), then by the chain rule:</p>
+      <div class="fbox blue">
+        <div class="flabel">The Chain Rule Derivation</div>
+        G(g(x)) = ∫<sub>a</sub><sup>g(x)</sup> f(t) dt<br><br>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[G(g(x))] = G′(g(x)) · g′(x) &nbsp;← chain rule<br><br>
+        = f(g(x)) · g′(x) &nbsp;← since G′(u) = f(u) by FTC Part 1
+      </div>
+    </div>
+
+    <!-- Full annotated walkthrough -->
+    <div class="ftc-chain-display">
+      <div class="ftc-cd-label">Fully Annotated — Four Examples With Chain Rule</div>
+
+      <div class="ftc-line">
+        <div class="ftc-step-num">1</div>
+        <div class="ftc-step-body">
+          <div class="ftc-step-math"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>0</sub><sup><span style="color:var(--purple)">x³</span></sup> sin(t) dt &nbsp;=&nbsp; <span class="mgreen">sin(<span style="color:var(--purple)">x³</span>)</span> · <span class="morange">3x²</span> &nbsp;=&nbsp; <span class="mgreen">3x² sin(x³)</span></div>
+          <div class="ftc-step-note">g(x) = x³ → plug into sin: sin(x³). Multiply by g′(x) = 3x².</div>
+        </div>
+      </div>
+
+      <div class="ftc-line">
+        <div class="ftc-step-num">2</div>
+        <div class="ftc-step-body">
+          <div class="ftc-step-math"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>1</sub><sup><span style="color:var(--purple)">x²+1</span></sup> e<sup>t</sup> dt &nbsp;=&nbsp; <span class="mgreen">e<sup><span style="color:var(--purple)">x²+1</span></sup></span> · <span class="morange">2x</span></div>
+          <div class="ftc-step-note">g(x) = x²+1 → plug into e^t: e^(x²+1). Multiply by g′(x) = 2x.</div>
+        </div>
+      </div>
+
+      <div class="ftc-line">
+        <div class="ftc-step-num">3</div>
+        <div class="ftc-step-body">
+          <div class="ftc-step-math"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>2</sub><sup><span style="color:var(--purple)">cos x</span></sup> t⁴ dt &nbsp;=&nbsp; <span class="mgreen">(<span style="color:var(--purple)">cos x</span>)⁴</span> · <span class="morange">(−sin x)</span> &nbsp;=&nbsp; <span class="mgreen">−sin(x)cos⁴(x)</span></div>
+          <div class="ftc-step-note">g(x) = cos x → plug into t⁴: cos⁴x. Multiply by g′(x) = −sin x.</div>
+        </div>
+      </div>
+
+      <div class="ftc-line" style="margin-bottom:0">
+        <div class="ftc-step-num">4</div>
+        <div class="ftc-step-body">
+          <div class="ftc-step-math"><span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub><span style="color:var(--purple)">x</span></sup></sup><sup><span style="color:var(--blue)">x²</span></sup> t² dt &nbsp;=&nbsp; <span class="mgreen">(<span style="color:var(--blue)">x²</span>)²·<span style="color:var(--blue)">2x</span></span> − <span class="mred">x²·1</span> &nbsp;=&nbsp; <span class="mgreen">2x⁵ − x²</span></div>
+          <div class="ftc-step-note">Both limits vary: split using FTC. Upper limit contributes +f(x²)·2x. Lower limit contributes −f(x)·1.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-err">
+      <span class="callout-icon">❌</span>
+      <span><strong>Most common FTC chain rule error — and the #1 point lost:</strong> Writing only f(g(x)) without multiplying by g′(x). If the upper limit is anything other than plain x, the chain rule factor <span class="mred">g′(x)</span> is always required. Forgetting it is wrong.</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When Both Limits Are Functions — Split the Integral</div>
+      <p>If both bounds depend on x, use the <strong>split interval property</strong> to break it at a constant:</p>
+      <div class="fbox orange">
+        <div class="flabel">Both Limits Variable</div>
+        ∫<sub>g(x)</sub><sup>h(x)</sup> f(t) dt = ∫<sub>a</sub><sup>h(x)</sup> f(t) dt − ∫<sub>a</sub><sup>g(x)</sup> f(t) dt<br><br>
+        Then apply FTC + chain rule to each piece:<br>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span> = f(h(x))·h′(x) − f(g(x))·g′(x)
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · FTC Part 1 + Chain Rule</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'ftcc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'ftcc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'ftcc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="ftcc-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>1</sub><sup>x⁴</sup> cos(t²) dt</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify g(x) and f(t)</div><div class="gs-content">Upper limit: <span class="mpurple">g(x) = x⁴</span><br>Integrand: f(t) = cos(t²)</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Compute g′(x)</div><div class="gs-content"><span class="morange">g′(x) = 4x³</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Apply FTC Part 1 + chain rule</div><div class="gs-content">= f(<span class="mpurple">g(x)</span>) · <span class="morange">g′(x)</span><br>= cos((<span class="mpurple">x⁴</span>)²) · <span class="morange">4x³</span><br>= cos(x⁸) · 4x³<br><strong>= 4x³ cos(x⁸)</strong></div><div class="gs-why">→ Plug the entire upper limit x⁴ into the integrand's t², which gives (x⁴)² = x⁸. Then multiply by g′ = 4x³.</div></div></div>
+        </div>
+        <div class="pane" id="ftcc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>3</sub><sup>sin x</sup> (t³ + 1) dt</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Identify g(x) = upper limit and f(t) = integrand</div><input class="s-input" type="text" placeholder="g(x) = ... , f(t) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Compute g′(x)</div><input class="s-input" type="text" placeholder="g′(x) = d/dx[sin x] = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Plug g(x) into f(t), then multiply by g′(x)</div><input class="s-input" type="text" placeholder="= f(sin x) · cos x = ( )³ + 1) · ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">g(x) = sin x &nbsp;|&nbsp; f(t) = t³+1 &nbsp;|&nbsp; g′(x) = cos x<br><br>f(sin x) = (sin x)³ + 1 = sin³x + 1<br><br><strong>= (sin³x + 1) · cos x</strong></div>
+        </div>
+        <div class="pane" id="ftcc-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>x</sub><sup>x³</sup> e<sup>t²</sup> dt</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Both limits vary — split at a constant a:<br>= d/dx[∫<sub>a</sub><sup>x³</sup> e^(t²) dt − ∫<sub>a</sub><sup>x</sup> e^(t²) dt]<br><br>Upper: f(x³) · 3x² = e^(x⁶) · 3x²<br>Lower: −f(x) · 1 = −e^(x²)<br><br><strong>= 3x²e^(x⁶) − e^(x²)</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       10.4 · FTC PART 2
+  ══════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">10.4</span>
+      <h2 class="topic-title">FTC Part 2 — The Evaluation Theorem</h2>
+    </div>
+
+    <div class="theorem-card tc-p2">
+      <div class="tc-header">
+        <div class="tc-part">FTC · Part 2</div>
+        <div class="tc-name">Evaluating Definite Integrals with Antiderivatives</div>
+      </div>
+      <div class="tc-body">
+
+        <div class="concept">
+          <div class="concept-title">Formal Statement</div>
+          <div class="fbox gold">
+            <div class="flabel">FTC Part 2</div>
+            If <span class="m">f is continuous on [a, b]</span> and F is any antiderivative of f, then:<br><br>
+            ∫<sub>a</sub><sup>b</sup> f(x) dx = <span class="mgreen">F(b) − F(a)</span><br><br>
+            <span style="font-size:11px;color:var(--tx3)">Written using bracket notation: = [F(x)]<sub>a</sub><sup>b</sup></span>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">Why This Is Revolutionary</div>
+          <p>Before this theorem, the only way to compute ∫<sub>a</sub><sup>b</sup> f(x) dx was to find the limit of Riemann sums — a painful process. FTC Part 2 says you only need to:</p>
+          <ol class="steps">
+            <li><strong>Find any antiderivative F(x) of f(x).</strong><span class="why">→ No need to add +C — it cancels when you subtract F(b) − F(a).</span></li>
+            <li><strong>Evaluate F at the upper bound b.</strong></li>
+            <li><strong>Subtract F evaluated at the lower bound a.</strong></li>
+            <li><strong>The result is the exact definite integral.</strong></li>
+          </ol>
+        </div>
+
+        <!-- Annotated two-column example -->
+        <div class="concept">
+          <div class="concept-title">Fully Annotated Example</div>
+          <div class="annotated">
+            <div class="ann-col">
+              <div class="ann-title">Work</div>
+              <div class="ann-line">∫<sub>1</sub><sup>4</sup> (3x² − 2x) dx</div>
+              <div class="ann-line">= [x³ − x²]<sub>1</sub><sup>4</sup></div>
+              <div class="ann-line">= (64 − 16) − (1 − 1)</div>
+              <div class="ann-line">= 48 − 0</div>
+              <div class="ann-line" style="color:var(--green);font-weight:500;">= 48</div>
+            </div>
+            <div class="ann-col">
+              <div class="ann-title">Why Each Line</div>
+              <div class="ann-note">Original definite integral</div>
+              <div class="ann-note">Antiderivative: ∫3x²=x³, ∫−2x=−x². No +C needed.</div>
+              <div class="ann-note">Evaluate at upper (4), subtract lower (1)</div>
+              <div class="ann-note">Arithmetic: F(4)=48, F(1)=0</div>
+              <div class="ann-note">Final answer — a number, not a function</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · FTC Part 2</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'ftc2','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'ftc2','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'ftc2','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="ftc2-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>π</sup> (2 sin x + 1) dx</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find the antiderivative of each term</div><div class="gs-content">∫ 2 sin x dx = −2 cos x<br>∫ 1 dx = x<br>F(x) = <strong>−2 cos x + x</strong></div><div class="gs-why">→ No +C needed for definite integrals — it cancels in F(b)−F(a).</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Evaluate F(π) and F(0)</div><div class="gs-content">F(π) = −2cos(π) + π = −2(−1) + π = 2 + π<br>F(0) = −2cos(0) + 0 = −2(1) = −2</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Compute F(b) − F(a)</div><div class="gs-content">(2 + π) − (−2) = 2 + π + 2 = <strong>4 + π</strong></div></div></div>
+        </div>
+        <div class="pane" id="ftc2-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>1</sub><sup>e</sup> <span class="fr"><span class="n">3</span><span class="d">x</span></span> dx</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Find the antiderivative of 3/x</div><input class="s-input" type="text" placeholder="∫ 3/x dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write in bracket notation and evaluate at upper (e) and lower (1)</div><input class="s-input" type="text" placeholder="[...]₁ᵉ = F(e) − F(1) = ... − ... = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">∫ 3/x dx = 3 ln|x|<br><br>[3 ln|x|]<sub>1</sub><sup>e</sup> = 3 ln(e) − 3 ln(1) = 3(1) − 3(0) = <strong>3</strong></div>
+        </div>
+        <div class="pane" id="ftc2-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Evaluate: ∫<sub>0</sub><sup>2</sup> (4x³ − 6x + 1) dx</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">F(x) = x⁴ − 3x² + x<br><br>F(2) = 16 − 12 + 2 = 6<br>F(0) = 0<br><br><strong>= 6 − 0 = 6</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       10.5 · FTC APPLIED TO ACCUMULATION
+  ══════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">10.5</span>
+      <h2 class="topic-title">FTC Applied to Accumulation &amp; Total Change</h2>
+      <span class="topic-sub">The most common FRQ application</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Total Change Theorem</div>
+      <p>FTC Part 2 directly tells us: the definite integral of a rate of change gives the <strong>total change</strong> over the interval.</p>
+      <div class="fbox green">
+        <div class="flabel">Total Change Theorem</div>
+        ∫<sub>a</sub><sup>b</sup> f′(x) dx = f(b) − f(a)<br><br>
+        <span style="font-size:12px;color:var(--tx2)">In words: the integral of the rate gives the net change in the quantity.</span><br><br>
+        <strong>FRQ language:</strong> "The total amount of water that flowed in from t=0 to t=5 is ∫<sub>0</sub><sup>5</sup> R(t) dt."
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Accumulation Function — Reading G(x)</div>
+      <p>When G(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt, many FRQ questions ask you to analyze G from a graph of f:</p>
+      <table class="dtable">
+        <thead><tr><th>Question Type</th><th>What to Do</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="mcyan">G(x) increasing</td><td style="color:var(--tx2);font-weight:300;">Where f(x) > 0</td><td style="color:var(--tx3);font-weight:300;">G′ = f, so G increases when f > 0</td></tr>
+          <tr><td class="mcyan">G(x) decreasing</td><td style="color:var(--tx2);font-weight:300;">Where f(x) < 0</td><td style="color:var(--tx3);font-weight:300;">G′ = f, so G decreases when f < 0</td></tr>
+          <tr><td class="mcyan">G has local max</td><td style="color:var(--tx2);font-weight:300;">Where f changes + to −</td><td style="color:var(--tx3);font-weight:300;">G′ = f changes sign</td></tr>
+          <tr><td class="mcyan">G has local min</td><td style="color:var(--tx2);font-weight:300;">Where f changes − to +</td><td style="color:var(--tx3);font-weight:300;">G′ = f changes sign</td></tr>
+          <tr><td class="mcyan">G concave up</td><td style="color:var(--tx2);font-weight:300;">Where f is increasing (f′ > 0)</td><td style="color:var(--tx3);font-weight:300;">G″ = f′ > 0</td></tr>
+          <tr><td class="mcyan">G concave down</td><td style="color:var(--tx2);font-weight:300;">Where f is decreasing (f′ < 0)</td><td style="color:var(--tx3);font-weight:300;">G″ = f′ < 0</td></tr>
+          <tr><td class="mcyan">G(b) value</td><td style="color:var(--tx2);font-weight:300;">G(a) + ∫<sub>a</sub><sup>b</sup> f(t) dt</td><td style="color:var(--tx3);font-weight:300;">Accumulate signed area from a to b</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Key insight:</strong> When the question gives you a graph of f and defines G(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt, every question about G is really a question about f. G′ = f. Treat f as the derivative of G throughout.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · FTC Applied to Accumulation</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'acc','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'acc','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'acc','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="acc-v1">
+          <div class="problem-box"><div class="p-label">Problem — FRQ Style</div>The graph of f consists of two line segments: from (0,0) to (3,6), and from (3,6) to (5,−2). Let G(x) = ∫<sub>0</sub><sup>x</sup> f(t) dt.<br><br>(a) Find G(3). &nbsp; (b) Find G(5). &nbsp; (c) On what interval is G increasing? &nbsp; (d) Where does G have a local maximum?</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">(a) G(3) — compute area under f from 0 to 3</div><div class="gs-content">The segment from (0,0) to (3,6) forms a triangle above the x-axis.<br>Area = ½ × 3 × 6 = 9<br>G(3) = <strong>9</strong></div><div class="gs-why">→ G(x) = ∫₀ˣ f(t) dt. At x=3, that's the area of the triangle from 0 to 3.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">(b) G(5) — add the area from 3 to 5</div><div class="gs-content">Segment from (3,6) to (5,−2): this crosses the x-axis. Find where.<br>Line: slope = (−2−6)/(5−3) = −4. Equation: y−6 = −4(t−3) → y = −4t+18. Zero at t = 4.5.<br><br>Triangle above [3, 4.5]: base = 1.5, height = 6 → area = ½(1.5)(6) = 4.5 → positive<br>Triangle below [4.5, 5]: base = 0.5, height = 2 → area = ½(0.5)(2) = 0.5 → negative<br><br>G(5) = G(3) + 4.5 − 0.5 = 9 + 4 = <strong>13</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">(c) G increasing — where f > 0</div><div class="gs-content">G′ = f. G increases where f > 0.<br>f > 0 on <strong>(0, 4.5)</strong>. &nbsp; f < 0 on (4.5, 5).<br>G is increasing on <strong>(0, 4.5)</strong>.</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">(d) Local maximum of G — where f changes + to −</div><div class="gs-content">f changes from positive to negative at x = 4.5.<br>G has a local maximum at <strong>x = 4.5</strong>.</div></div></div>
+        </div>
+        <div class="pane" id="acc-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Water flows into a tank at rate R(t) gallons/minute. R(0)=5, R(2)=8, R(4)=3. The tank starts with 20 gallons. Use a left Riemann sum with n=2 to approximate the total water after 4 minutes. What does ∫₀⁴ R(t) dt represent?</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — What does ∫₀⁴ R(t) dt represent in context?</div><input class="s-input" type="text" placeholder="It represents the total ... from t=0 to t=4 in units of ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Compute Left Riemann Sum with n=2, Δt=2, using t=0 and t=2</div><input class="s-input" type="text" placeholder="L = Δt × (R(0) + R(2)) = 2 × ( + ) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Add to initial amount to get total gallons at t=4</div><input class="s-input" type="text" placeholder="Total ≈ initial + L = 20 + ... = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">∫₀⁴ R(t) dt represents the <strong>total gallons of water that flowed into the tank</strong> from t=0 to t=4 minutes.<br><br>L = 2×(R(0)+R(2)) = 2×(5+8) = 2×13 = <strong>26 gallons</strong><br><br>Total at t=4 ≈ 20 + 26 = <strong>46 gallons</strong></div>
+        </div>
+        <div class="pane" id="acc-v3">
+          <div class="problem-box"><div class="p-label">Problem — Combining FTC Parts 1 and 2</div>Let G(x) = ∫<sub>2</sub><sup>x²</sup> (t − 3) dt.<br>(a) Find G′(x). &nbsp; (b) Find G(2). &nbsp; (c) Find G(√3).</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">(a) FTC Part 1 + chain rule: g(x) = x², g′(x) = 2x, f(t) = t−3<br>G′(x) = f(x²) · 2x = (x²−3)(2x) = <strong>2x(x²−3) = 2x³−6x</strong><br><br>(b) G(2): upper limit = (2)² = 4<br>G(2) = ∫<sub>2</sub><sup>4</sup>(t−3)dt = [t²/2−3t]<sub>2</sub><sup>4</sup> = (8−12)−(2−6) = −4−(−4) = <strong>0</strong><br><br>(c) G(√3): upper limit = (√3)² = 3<br>G(√3) = ∫<sub>2</sub><sup>3</sup>(t−3)dt = [t²/2−3t]<sub>2</sub><sup>3</sup> = (9/2−9)−(2−6) = −9/2+4 = <strong>−1/2</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════
+       10.6 · FTC PART 1 vs PART 2 — SIDE BY SIDE
+  ══════════════════════════ -->
+  <div class="topic" id="t6">
+    <div class="topic-header">
+      <span class="topic-num">10.6</span>
+      <h2 class="topic-title">FTC Part 1 vs Part 2 — Side by Side</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Complete Comparison</div>
+      <table class="dtable">
+        <thead>
+          <tr><th></th><th style="color:var(--cyan)">FTC Part 1</th><th style="color:var(--gold)">FTC Part 2</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--tx3);font-weight:300;">What it does</td><td style="color:var(--tx2);font-weight:300;">Differentiates an accumulation function</td><td style="color:var(--tx2);font-weight:300;">Evaluates a definite integral using antiderivatives</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">Statement</td><td style="color:var(--tx2);font-weight:300;">d/dx[∫<sub>a</sub><sup>x</sup> f(t)dt] = f(x)</td><td style="color:var(--tx2);font-weight:300;">∫<sub>a</sub><sup>b</sup> f(x)dx = F(b)−F(a)</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">Input</td><td style="color:var(--tx2);font-weight:300;">An integral with variable upper limit</td><td style="color:var(--tx2);font-weight:300;">A definite integral with numerical bounds</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">Output</td><td style="color:var(--tx2);font-weight:300;">A function of x</td><td style="color:var(--tx2);font-weight:300;">A number</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">Chain rule needed?</td><td style="color:var(--tx2);font-weight:300;">Yes, if upper limit ≠ plain x</td><td style="color:var(--tx2);font-weight:300;">No</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">+C needed?</td><td style="color:var(--tx2);font-weight:300;">No (differentiating, not integrating)</td><td style="color:var(--tx2);font-weight:300;">No (cancels in F(b)−F(a))</td></tr>
+          <tr><td style="color:var(--tx3);font-weight:300;">FRQ trigger</td><td style="color:var(--tx2);font-weight:300;">"Find G′(x)" or "differentiate ∫..."</td><td style="color:var(--tx2);font-weight:300;">"Evaluate ∫<sub>a</sub><sup>b</sup>..." or total change problems</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Quick drill examples -->
+    <div class="concept">
+      <div class="concept-title">Fast Identification Drill — Which Part Applies?</div>
+      <div class="examples-grid">
+        <div class="ex-card">
+          <div class="ex-problem">d/dx ∫<sub>0</sub><sup>x</sup> sin(t²) dt</div>
+          <div class="ex-step">Variable upper limit x</div>
+          <div class="ex-step">Differentiating the integral</div>
+          <div class="ex-answer">→ Part 1. Answer: sin(x²)</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-problem">∫<sub>1</sub><sup>3</sup> (x²+1) dx</div>
+          <div class="ex-step">Numerical bounds 1 and 3</div>
+          <div class="ex-step">Evaluating a definite integral</div>
+          <div class="ex-answer">→ Part 2. Answer: [x³/3+x]₁³</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-problem">d/dx ∫<sub>1</sub><sup>x⁴</sup> e^t dt</div>
+          <div class="ex-step">Variable upper limit x⁴</div>
+          <div class="ex-step">Chain rule needed!</div>
+          <div class="ex-answer">→ Part 1 + Chain Rule. Answer: e^(x⁴) · 4x³</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-problem">∫<sub>0</sub><sup>π/2</sup> cos x dx</div>
+          <div class="ex-step">Numerical bounds</div>
+          <div class="ex-step">Evaluate using antiderivative</div>
+          <div class="ex-answer">→ Part 2. Answer: [sin x]₀^(π/2) = 1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · Fundamental Theorem of Calculus</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">FTC Part 1</div>
+        <div style="font-size:13px;color:var(--gold);font-weight:400;line-height:2.0;">
+          d/dx[∫<sub>a</sub><sup>x</sup> f(t)dt] = f(x)<br>
+          d/dx[∫<sub>a</sub><sup>g(x)</sup> f(t)dt] = f(g(x))·g′(x)<br>
+          d/dx[∫<sub>a</sub><sup>g(x)</sup> f] − d/dx[∫<sub>a</sub><sup>h(x)</sup> f]
+        </div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:8px;line-height:1.7;">When both limits vary: f(g(x))g′(x) − f(h(x))h′(x)</div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">FTC Part 2</div>
+        <div style="font-size:13px;color:var(--gold);font-weight:400;line-height:2.0;">
+          ∫<sub>a</sub><sup>b</sup> f(x)dx = F(b) − F(a)<br>
+          = [F(x)]<sub>a</sub><sup>b</sup><br>
+          Total change = ∫<sub>a</sub><sup>b</sup> f′(x)dx
+        </div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:8px;line-height:1.7;">Result is always a number. No +C. Condition: f continuous on [a,b].</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 14px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2);border-radius:8px;font-size:12px;color:var(--tx2);font-weight:300;">
+      <strong style="color:var(--red);">Most common error:</strong> Applying FTC Part 1 with a non-plain-x upper limit and forgetting to multiply by g′(x). If the upper limit is x², x³, sin x, or any function — chain rule factor is always required.
+    </div>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s10-ftc.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

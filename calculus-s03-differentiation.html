@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 03 · Differentiation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828; --d3:#161e30;
+    --glass:rgba(255,255,255,0.044); --gb:rgba(255,255,255,0.08);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#c084fc;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(192,132,252,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at center,rgba(192,132,252,0.06) 0%,rgba(56,189,248,0.03) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  /* NAV */
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(192,132,252,0.12);border:1px solid rgba(192,132,252,0.3);color:var(--purple);}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  /* SECTION HEADER */
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--purple);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  /* TOPIC BLOCK */
+  .topic{margin-bottom:60px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;}
+
+  /* CONCEPT CARD */
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  /* FORMULA BOX */
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.0;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.orange{border-left-color:var(--orange);}
+  .fbox.pink{border-left-color:var(--pink);}
+
+  /* RULE CARD — big rule display */
+  .rule-card{background:var(--d1);border:1px solid var(--b2);border-radius:14px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
+  .rule-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--tx);margin-bottom:4px;}
+  .rule-formula{font-size:15px;font-weight:400;color:var(--gold);margin:12px 0;padding:12px 16px;background:rgba(245,200,66,0.06);border-radius:8px;border:1px solid rgba(245,200,66,0.15);line-height:2.0;}
+  .rule-note{font-size:11px;font-weight:300;color:var(--tx3);margin-top:6px;line-height:1.6;}
+
+  /* TRIG TABLE */
+  .trig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0;}
+  .trig-cell{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:14px 16px;}
+  .trig-cell .tc-func{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px;}
+  .trig-cell .tc-rule{font-size:13px;font-weight:400;color:var(--gold);line-height:1.8;}
+  .trig-cell .tc-mem{font-size:11px;color:var(--tx3);margin-top:4px;font-style:italic;}
+  .trig-cell.co{border-left:2px solid rgba(248,113,113,0.5);}
+  .trig-cell.co .tc-rule{color:var(--red);}
+
+  /* CALLOUT */
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* TABLE */
+  .dtable{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0;}
+  .dtable th{background:var(--d2);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);}
+  .dtable td{padding:10px 14px;border-bottom:1px solid var(--b);color:var(--tx2);font-weight:300;vertical-align:top;line-height:1.7;}
+  .dtable tr:hover td{background:var(--glass);}
+
+  /* STEPS */
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(192,132,252,0.12);border:1px solid rgba(192,132,252,0.25);color:var(--purple);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* MATH */
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mpink{color:var(--pink);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  /* GUIDED STEPS */
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(192,132,252,0.12);border:1px solid rgba(192,132,252,0.3);color:var(--purple);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  /* PRACTICE */
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.25);color:var(--purple);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(192,132,252,0.18);border-color:var(--purple);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+
+  /* PROGRESS + SCROLL TOP */
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--purple),var(--blue));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media(max-width:600px){.page{padding:32px 16px 80px;}.topnav{padding:12px 16px;}.trig-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 03</span>
+  <span class="nav-badge">Differentiation</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 03 · AP Calculus AB</div>
+    <h1 class="sec-title">Differ-<br><span>entiation</span></h1>
+    <p class="sec-desc">Every differentiation rule you need — from the basics through chain rule, quotient rule with trig and e^x, logarithmic differentiation, and the full trig derivative table with a memory system that actually sticks.</p>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       3.1 · THE BASIC RULES
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">3.1</span>
+      <h2 class="topic-title">The Basic Rules</h2>
+      <span class="topic-sub">Power · Constant · Sum/Difference</span>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Power Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span> [x<sup>n</sup>] = <span class="mgreen">n · x<sup>n−1</sup></span>
+      </div>
+      <div class="rule-note">Multiply by the exponent, then subtract 1 from the exponent. Works for any real n — including fractions and negatives.</div>
+      <div class="fbox" style="margin-top:12px">
+        <div class="flabel">Examples</div>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[x⁵] = <span class="mgreen">5x⁴</span> &nbsp;|&nbsp;
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[x<sup>1/2</sup>] = <span class="mgreen"><span class="fr"><span class="n">1</span><span class="d">2</span></span>x<sup>−1/2</sup></span> &nbsp;|&nbsp;
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[x<sup>−3</sup>] = <span class="mgreen">−3x<sup>−4</sup></span> &nbsp;|&nbsp;
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[√x] = <span class="mgreen"><span class="fr"><span class="n">1</span><span class="d">2√x</span></span></span>
+      </div>
+      <div class="callout callout-err" style="margin-top:10px">
+        <span class="callout-icon">❌</span>
+        <span><strong>Common mistake:</strong> Forgetting to rewrite before differentiating. <span class="mred">√x = x<sup>1/2</sup></span> and <span class="mred">1/x³ = x<sup>−3</sup></span> before applying the rule.</span>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Constant Rule &amp; Constant Multiple Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[c] = <span class="mgreen">0</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[c·f(x)] = <span class="mgreen">c · f′(x)</span>
+      </div>
+      <div class="rule-note">Constants vanish. Scalar multipliers survive unchanged through differentiation.</div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Sum / Difference Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[f ± g] = <span class="mgreen">f′(x) ± g′(x)</span>
+      </div>
+      <div class="rule-note">Differentiate term by term. Addition and subtraction survive as-is.</div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Basic Rules</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'basic','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="basic-v1">
+          <div class="problem-box">
+            <div class="p-label">Problem</div>
+            Find f′(x) for f(x) = 4x³ − <span class="fr"><span class="n">2</span><span class="d">x²</span></span> + 5√x − 7
+          </div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Rewrite everything as powers of x</div><div class="gs-content">f(x) = 4x³ − <strong>2x<sup>−2</sup></strong> + <strong>5x<sup>1/2</sup></strong> − 7</div><div class="gs-why">→ Fractions and roots must be converted before the power rule applies.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Apply power rule term by term</div><div class="gs-content">
+            4x³ → <strong>12x²</strong><br>
+            −2x<sup>−2</sup> → −2·(−2)x<sup>−3</sup> = <strong>4x<sup>−3</sup></strong><br>
+            5x<sup>1/2</sup> → 5·(<span class="fr"><span class="n">1</span><span class="d">2</span></span>)x<sup>−1/2</sup> = <strong><span class="fr"><span class="n">5</span><span class="d">2</span></span>x<sup>−1/2</sup></strong><br>
+            −7 → <strong>0</strong>
+          </div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Reassemble and simplify notation</div><div class="gs-content">f′(x) = <strong>12x² + <span class="fr"><span class="n">4</span><span class="d">x³</span></span> + <span class="fr"><span class="n">5</span><span class="d">2√x</span></span></strong></div><div class="gs-why">→ Convert negative exponents back to fraction notation for clean final form.</div></div></div>
+        </div>
+        <div class="pane" id="basic-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find g′(x) for g(x) = 3x⁴ − <span class="fr"><span class="n">6</span><span class="d">x³</span></span> + 8√x + 2</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Rewrite each term as a power of x</div><input class="s-input" type="text" placeholder="g(x) = 3x⁴ − __ x^__ + 8x^__ + 2"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Differentiate each term using the power rule</div><input class="s-input" type="text" placeholder="3x⁴ → ... , −6x⁻³ → ... , 8x^(1/2) → ... , 2 → ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Write the final answer with clean notation</div><input class="s-input" type="text" placeholder="g′(x) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">g(x) = 3x⁴ − 6x<sup>−3</sup> + 8x<sup>1/2</sup> + 2<br><br>g′(x) = 12x³ + 18x<sup>−4</sup> + 4x<sup>−1/2</sup><br><br><strong>g′(x) = 12x³ + <span class="fr" style="display:inline-flex"><span class="n">18</span><span class="d">x⁴</span></span> + <span class="fr" style="display:inline-flex"><span class="n">4</span><span class="d">√x</span></span></strong></div>
+        </div>
+        <div class="pane" id="basic-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find h′(x) for h(x) = 5x⁶ + <span class="fr"><span class="n">4</span><span class="d">x</span></span> − 3x<sup>2/3</sup> + 9</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Rewrite: h(x) = 5x⁶ + 4x<sup>−1</sup> − 3x<sup>2/3</sup> + 9<br><br>5x⁶ → 30x⁵<br>4x<sup>−1</sup> → −4x<sup>−2</sup><br>−3x<sup>2/3</sup> → −2x<sup>−1/3</sup><br>9 → 0<br><br><strong>h′(x) = 30x⁵ − <span class="fr" style="display:inline-flex"><span class="n">4</span><span class="d">x²</span></span> − <span class="fr" style="display:inline-flex"><span class="n">2</span><span class="d">x<sup>1/3</sup></span></span></strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.2 · PRODUCT RULE
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">3.2</span>
+      <h2 class="topic-title">Product Rule</h2>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Product Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[f · g] = <span class="mblue">f′ · g</span> + <span class="mpurple">f · g′</span>
+      </div>
+      <div class="rule-note">Memory: "derivative of first times second, PLUS first times derivative of second." — d/dx[uv] = u′v + uv′</div>
+      <div class="callout callout-err" style="margin-top:12px">
+        <span class="callout-icon">❌</span>
+        <span><strong>Most common mistake:</strong> <span class="mred">d/dx[f·g] ≠ f′·g′</span>. You cannot just differentiate each factor separately. You must use the product rule formula.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Product Rule</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'prod','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'prod','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'prod','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="prod-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = (3x² + 1)(x³ − 5x)</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Label f and g</div><div class="gs-content"><span class="mblue">f = 3x² + 1</span> &nbsp;&nbsp; <span class="mpurple">g = x³ − 5x</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find f′ and g′</div><div class="gs-content"><span class="mblue">f′ = 6x</span> &nbsp;&nbsp; <span class="mpurple">g′ = 3x² − 5</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Apply: f′g + fg′</div><div class="gs-content">= <span class="mblue">(6x)</span><span class="mpurple">(x³ − 5x)</span> + <span class="mblue">(3x² + 1)</span><span class="mpurple">(3x² − 5)</span><br>= 6x⁴ − 30x² + 9x⁴ − 15x² + 3x² − 5<br>= <strong>15x⁴ − 42x² − 5</strong></div><div class="gs-why">→ Expand each product fully, then collect like terms.</div></div></div>
+        </div>
+        <div class="pane" id="prod-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = (x² + 3)(2x − 1)</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Label f and g, then find f′ and g′</div><input class="s-input" type="text" placeholder="f = ... , g = ... , f′ = ... , g′ = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write out f′g + fg′ (don't simplify yet)</div><input class="s-input" type="text" placeholder="y′ = (  )(  ) + (  )(  )"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Expand and collect like terms</div><input class="s-input" type="text" placeholder="y′ = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f = x² + 3, g = 2x − 1, f′ = 2x, g′ = 2<br><br>y′ = (2x)(2x − 1) + (x² + 3)(2)<br>= 4x² − 2x + 2x² + 6<br><strong>= 6x² − 2x + 6</strong></div>
+        </div>
+        <div class="pane" id="prod-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = (4x³ − x)(x² + 2x)</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f = 4x³ − x, g = x² + 2x, f′ = 12x² − 1, g′ = 2x + 2<br><br>y′ = (12x² − 1)(x² + 2x) + (4x³ − x)(2x + 2)<br>= 12x⁴ + 24x³ − x² − 2x + 8x⁴ + 8x³ − 2x² − 2x<br><strong>= 20x⁴ + 32x³ − 3x² − 4x</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.3 · QUOTIENT RULE
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">3.3</span>
+      <h2 class="topic-title">Quotient Rule</h2>
+      <span class="topic-sub">Including trig &amp; e^x cases</span>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Quotient Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span> <span class="fr"><span class="n">f</span><span class="d">g</span></span> = <span class="fr"><span class="n"><span class="mblue">f′</span>·<span class="mpurple">g</span> − <span class="mblue">f</span>·<span class="mpurple">g′</span></span><span class="d">g²</span></span>
+      </div>
+      <div class="rule-note">Memory chant: <strong>"Low d-high minus high d-low, over low-squared we go."</strong> — Low = denominator, High = numerator, d = derivative of.</div>
+      <div class="callout callout-err" style="margin-top:12px">
+        <span class="callout-icon">❌</span>
+        <span><strong>Order matters.</strong> It's f′g − fg′, NOT fg′ − f′g. The numerator derivative goes first. Swapping the order changes the sign of your answer.</span>
+      </div>
+    </div>
+
+    <!-- Quotient + trig -->
+    <div class="concept">
+      <div class="concept-title">Quotient Rule With Trig — Fully Worked</div>
+      <div class="fbox blue">
+        <div class="flabel">Example: Differentiate y = sin(x) / x²</div>
+        f = sin x &nbsp;→&nbsp; f′ = cos x<br>
+        g = x² &nbsp;→&nbsp; g′ = 2x<br><br>
+        y′ = <span class="fr"><span class="n">cos(x)·x² − sin(x)·2x</span><span class="d">(x²)²</span></span> = <span class="fr"><span class="n">x·cos(x) − 2·sin(x)</span><span class="d">x³</span></span>
+      </div>
+      <div class="fbox green" style="margin-top:8px">
+        <div class="flabel">Example: Differentiate y = tan(x) — derive it from sin/cos</div>
+        y = <span class="fr"><span class="n">sin x</span><span class="d">cos x</span></span> &nbsp; f = sin x, f′ = cos x &nbsp;|&nbsp; g = cos x, g′ = −sin x<br><br>
+        y′ = <span class="fr"><span class="n">cos x · cos x − sin x · (−sin x)</span><span class="d">cos²x</span></span> = <span class="fr"><span class="n">cos²x + sin²x</span><span class="d">cos²x</span></span> = <span class="fr"><span class="n">1</span><span class="d">cos²x</span></span> = <span class="mgreen">sec²x</span>
+      </div>
+    </div>
+
+    <!-- Quotient + e^x -->
+    <div class="concept">
+      <div class="concept-title">Quotient Rule With e^x — Fully Worked</div>
+      <div class="fbox orange">
+        <div class="flabel">Example: Differentiate y = e^x / (x² + 1)</div>
+        f = e^x &nbsp;→&nbsp; f′ = e^x &nbsp;(e^x is its own derivative)<br>
+        g = x² + 1 &nbsp;→&nbsp; g′ = 2x<br><br>
+        y′ = <span class="fr"><span class="n"><span class="morange">e^x</span>·(x² + 1) − <span class="morange">e^x</span>·2x</span><span class="d">(x² + 1)²</span></span> = <span class="fr"><span class="n">e^x(x² + 1 − 2x)</span><span class="d">(x² + 1)²</span></span> = <span class="morange"><span class="fr"><span class="n">e^x(x − 1)²</span><span class="d">(x² + 1)²</span></span></span>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>e^x shortcut:</strong> Since (e^x)′ = e^x, every time e^x appears as the numerator, factor it out of the result. This almost always gives a cleaner final form.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Quotient Rule</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'quot','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'quot','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'quot','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="quot-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = <span class="fr"><span class="n">cos x</span><span class="d">x³</span></span></div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Label and differentiate</div><div class="gs-content"><span class="mblue">f = cos x → f′ = −sin x</span><br><span class="mpurple">g = x³ → g′ = 3x²</span></div><div class="gs-why">→ d/dx[cos x] = −sin x. The negative sign is critical — it's the most dropped sign in all of calculus.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Apply f′g − fg′ over g²</div><div class="gs-content">y′ = <span class="fr"><span class="n">(−sin x)(x³) − (cos x)(3x²)</span><span class="d">(x³)²</span></span> = <span class="fr"><span class="n">−x³ sin x − 3x² cos x</span><span class="d">x⁶</span></span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Factor and simplify</div><div class="gs-content">= <span class="fr"><span class="n">x²(−x sin x − 3 cos x)</span><span class="d">x⁶</span></span> = <strong><span class="fr"><span class="n">−x sin x − 3 cos x</span><span class="d">x⁴</span></span></strong></div><div class="gs-why">→ Cancel x² from numerator and denominator.</div></div></div>
+        </div>
+        <div class="pane" id="quot-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = <span class="fr"><span class="n">e^x</span><span class="d">x³ + 1</span></span></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Identify f, g, f′, g′</div><input class="s-input" type="text" placeholder="f = ... , g = ... , f′ = ... , g′ = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write out f′g − fg′ (unsimplified)</div><input class="s-input" type="text" placeholder="y′ = ( )( ) − ( )( ) all over (  )²"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Factor e^x from the numerator and simplify</div><input class="s-input" type="text" placeholder="y′ = e^x( ... ) / ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f = e^x, f′ = e^x &nbsp;|&nbsp; g = x³ + 1, g′ = 3x²<br><br>y′ = <span class="fr" style="display:inline-flex"><span class="n">e^x(x³+1) − e^x(3x²)</span><span class="d">(x³+1)²</span></span><br><br><strong>= <span class="fr" style="display:inline-flex"><span class="n">e^x(x³ − 3x² + 1)</span><span class="d">(x³ + 1)²</span></span></strong></div>
+        </div>
+        <div class="pane" id="quot-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = <span class="fr"><span class="n">sin x</span><span class="d">e^x</span></span></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">f = sin x, f′ = cos x &nbsp;|&nbsp; g = e^x, g′ = e^x<br><br>y′ = <span class="fr" style="display:inline-flex"><span class="n">cos x · e^x − sin x · e^x</span><span class="d">(e^x)²</span></span> = <span class="fr" style="display:inline-flex"><span class="n">e^x(cos x − sin x)</span><span class="d">e^(2x)</span></span><br><br><strong>= <span class="fr" style="display:inline-flex"><span class="n">cos x − sin x</span><span class="d">e^x</span></span></strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.4 · TRIG DERIVATIVES
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">3.4</span>
+      <h2 class="topic-title">Trig Derivatives</h2>
+      <span class="topic-sub">Full table + memory system</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Full Table — 6 Functions</div>
+      <div class="trig-grid">
+        <div class="trig-cell">
+          <div class="tc-func">d/dx [ sin x ]</div>
+          <div class="tc-rule">= cos x</div>
+          <div class="tc-mem">sin → cos (no negative)</div>
+        </div>
+        <div class="trig-cell co">
+          <div class="tc-func">d/dx [ cos x ]</div>
+          <div class="tc-rule">= −sin x</div>
+          <div class="tc-mem">cos → −sin (negative!)</div>
+        </div>
+        <div class="trig-cell">
+          <div class="tc-func">d/dx [ tan x ]</div>
+          <div class="tc-rule">= sec²x</div>
+          <div class="tc-mem">tan → sec² (squared)</div>
+        </div>
+        <div class="trig-cell co">
+          <div class="tc-func">d/dx [ cot x ]</div>
+          <div class="tc-rule">= −csc²x</div>
+          <div class="tc-mem">cot → −csc² (negative + squared)</div>
+        </div>
+        <div class="trig-cell">
+          <div class="tc-func">d/dx [ sec x ]</div>
+          <div class="tc-rule">= sec x · tan x</div>
+          <div class="tc-mem">sec → sec·tan (same function × tan)</div>
+        </div>
+        <div class="trig-cell co">
+          <div class="tc-func">d/dx [ csc x ]</div>
+          <div class="tc-rule">= −csc x · cot x</div>
+          <div class="tc-mem">csc → −csc·cot (negative + same × cot)</div>
+        </div>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Memory system — The co-function rule:</strong> Every "co-" function derivative (cos, cot, csc) gets a <strong>negative sign</strong>. Non-co functions (sin, tan, sec) are positive. Then the pattern inside mirrors: sin↔cos, tan↔sec², sec↔sec·tan.</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>The #1 trig derivative error:</strong> Writing <span class="mred">d/dx[cos x] = sin x</span> (missing the negative). Every exam, every year. The negative on cos x is non-negotiable.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Trig Derivatives</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'trig','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'trig','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="trig-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = x² · tan x &nbsp; (requires product rule + trig derivative)</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify — this is a product</div><div class="gs-content"><span class="mblue">f = x²</span>, &nbsp; <span class="mpurple">g = tan x</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Differentiate each</div><div class="gs-content"><span class="mblue">f′ = 2x</span> &nbsp;|&nbsp; <span class="mpurple">g′ = sec²x</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Apply product rule</div><div class="gs-content">y′ = (2x)(tan x) + (x²)(sec²x)<br>= <strong>2x tan x + x² sec²x</strong></div></div></div>
+        </div>
+        <div class="pane" id="trig-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = 3 sin x − 5 cos x + 2 tan x</div>
+          <div class="scaffold-step"><div class="s-prompt">Differentiate term by term — what is d/dx of each?</div><input class="s-input" type="text" placeholder="d/dx[3 sin x] = ... , d/dx[−5 cos x] = ... , d/dx[2 tan x] = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Write the full answer</div><input class="s-input" type="text" placeholder="y′ = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">d/dx[3 sin x] = 3 cos x<br>d/dx[−5 cos x] = +5 sin x &nbsp;(negative × negative = positive)<br>d/dx[2 tan x] = 2 sec²x<br><br><strong>y′ = 3 cos x + 5 sin x + 2 sec²x</strong></div>
+        </div>
+        <div class="pane" id="trig-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = <span class="fr"><span class="n">sec x</span><span class="d">x² + 1</span></span></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Quotient rule: f = sec x, f′ = sec x tan x &nbsp;|&nbsp; g = x²+1, g′ = 2x<br><br>y′ = <span class="fr" style="display:inline-flex"><span class="n">(sec x tan x)(x²+1) − (sec x)(2x)</span><span class="d">(x²+1)²</span></span><br><br>Factor sec x from numerator:<br><br><strong>y′ = <span class="fr" style="display:inline-flex"><span class="n">sec x [(x²+1) tan x − 2x]</span><span class="d">(x²+1)²</span></span></strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.5 · EXPONENTIAL & LOG DERIVATIVES
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">3.5</span>
+      <h2 class="topic-title">Exponential &amp; Log Derivatives</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Full Table</div>
+      <table class="dtable">
+        <thead><tr><th>Function</th><th>Derivative</th><th>Key Note</th></tr></thead>
+        <tbody>
+          <tr><td class="m">e^x</td><td class="mgreen">e^x</td><td style="color:var(--tx3)">Only function equal to its own derivative</td></tr>
+          <tr><td class="m">e^(f(x))</td><td class="mgreen">e^(f(x)) · f′(x)</td><td style="color:var(--tx3)">Always multiply by chain rule factor</td></tr>
+          <tr><td class="m">a^x</td><td class="mgreen">a^x · ln a</td><td style="color:var(--tx3)">Base a ≠ e requires ln a factor</td></tr>
+          <tr><td class="m">ln x</td><td class="mgreen">1/x</td><td style="color:var(--tx3)">Only valid for x > 0</td></tr>
+          <tr><td class="m">ln |x|</td><td class="mgreen">1/x</td><td style="color:var(--tx3)">Extends to x ≠ 0</td></tr>
+          <tr><td class="m">ln(f(x))</td><td class="mgreen">f′(x) / f(x)</td><td style="color:var(--tx3)">Chain rule applied to ln</td></tr>
+          <tr><td class="m">log_a(x)</td><td class="mgreen">1 / (x ln a)</td><td style="color:var(--tx3)">Change of base: ln a in denominator</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Why e^x is special:</strong> It's the only function where f′ = f. This is why e^x appears constantly in differential equations and growth/decay models — it satisfies dy/dx = y.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Exp &amp; Log Derivatives</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'explog','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'explog','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'explog','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="explog-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = x³ · e^x &nbsp; (product rule + e^x)</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Label the product</div><div class="gs-content"><span class="mblue">f = x³ → f′ = 3x²</span> &nbsp;|&nbsp; <span class="morange">g = e^x → g′ = e^x</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Apply product rule</div><div class="gs-content">y′ = (3x²)(e^x) + (x³)(e^x)</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Factor e^x</div><div class="gs-content">= e^x(3x² + x³) = <strong>x²e^x(3 + x)</strong></div><div class="gs-why">→ Always factor e^x out — it simplifies and earns points on the AP exam.</div></div></div>
+        </div>
+        <div class="pane" id="explog-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = ln(x² + 4)</div>
+          <div class="scaffold-step"><div class="s-prompt">What rule applies? (ln of a function)</div><input class="s-input" type="text" placeholder="d/dx[ln(f(x))] = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Identify f(x) and find f′(x)</div><input class="s-input" type="text" placeholder="f(x) = ... , f′(x) = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Write the final answer</div><input class="s-input" type="text" placeholder="y′ = f′(x)/f(x) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">d/dx[ln(f(x))] = f′(x)/f(x)<br>f(x) = x²+4, f′(x) = 2x<br><br><strong>y′ = <span class="fr" style="display:inline-flex"><span class="n">2x</span><span class="d">x² + 4</span></span></strong></div>
+        </div>
+        <div class="pane" id="explog-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = e^(3x) · ln(x)</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">Product rule: f = e^(3x), g = ln x<br>f′ = 3e^(3x) &nbsp;(chain rule: multiply by derivative of 3x = 3)<br>g′ = 1/x<br><br>y′ = 3e^(3x)·ln x + e^(3x)·<span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">x</span></span><br><br><strong>y′ = e^(3x)(3 ln x + <span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">x</span></span>)</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.6 · CHAIN RULE
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t6">
+    <div class="topic-header">
+      <span class="topic-num">3.6</span>
+      <h2 class="topic-title">Chain Rule</h2>
+      <span class="topic-sub">Most used rule on the AP exam</span>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-name">Chain Rule</div>
+      <div class="rule-formula">
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[f(g(x))] = <span class="mblue">f′(g(x))</span> · <span class="mgreen">g′(x)</span>
+      </div>
+      <div class="rule-note">Memory: "derivative of the outside (leaving the inside alone) times derivative of the inside." — d/dx[outer(inner)] = outer′(inner) · inner′</div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Step-by-Step Procedure</div>
+      <ol class="steps">
+        <li><strong>Identify the outer and inner functions.</strong><span class="why">→ Outer = the outermost operation. Inner = what's plugged into it.</span></li>
+        <li><strong>Differentiate the outer function, leave the inner function alone.</strong><span class="why">→ Treat the inner function as a single unit at this step.</span></li>
+        <li><strong>Multiply by the derivative of the inner function.</strong><span class="why">→ This is the "chain" — the inner function's rate of change multiplies through.</span></li>
+      </ol>
+      <div class="fbox">
+        <div class="flabel">Worked Examples</div>
+        y = (3x + 1)⁵ &nbsp;→&nbsp; outer = u⁵, inner = 3x+1 &nbsp;→&nbsp; <span class="mgreen">y′ = 5(3x+1)⁴ · 3 = 15(3x+1)⁴</span><br><br>
+        y = sin(x²) &nbsp;→&nbsp; outer = sin(u), inner = x² &nbsp;→&nbsp; <span class="mgreen">y′ = cos(x²) · 2x = 2x cos(x²)</span><br><br>
+        y = e^(sin x) &nbsp;→&nbsp; outer = e^u, inner = sin x &nbsp;→&nbsp; <span class="mgreen">y′ = e^(sin x) · cos x</span><br><br>
+        y = ln(5x² − 1) &nbsp;→&nbsp; outer = ln(u), inner = 5x²−1 &nbsp;→&nbsp; <span class="mgreen">y′ = <span class="fr"><span class="n">10x</span><span class="d">5x²−1</span></span></span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Chain Rule Inside FTC Part 1 — Critical AP Topic</div>
+      <p>When the upper limit of an integral is a <strong>function of x</strong> (not just x itself), the chain rule must be applied when differentiating:</p>
+      <div class="fbox gold">
+        <div class="flabel">FTC Part 1 + Chain Rule</div>
+        <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>a</sub><sup><span class="m">g(x)</span></sup> f(t) dt = <span class="mgreen">f(g(x)) · g′(x)</span><br><br>
+        Example: &nbsp; <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>1</sub><sup>x³</sup> sin(t) dt = sin(x³) · 3x² = <span class="mgreen">3x² sin(x³)</span>
+      </div>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Most common FTC Part 1 error:</strong> Writing only f(g(x)) and forgetting to multiply by g′(x). The chain rule factor is always required when the upper limit is not just x.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Chain Rule in Reverse — Preview of U-Substitution</div>
+      <p>Every time you write <strong>f(g(x)) · g′(x)</strong> as a derivative, you're looking at the antiderivative pattern for u-substitution. This is exactly why u-sub works:</p>
+      <div class="fbox pink">
+        <div class="flabel">Chain Rule → U-Sub Connection</div>
+        If &nbsp; <span class="fr"><span class="n">d</span><span class="d">dx</span></span>[F(g(x))] = F′(g(x)) · g′(x) = <span class="mpink">f(g(x)) · g′(x)</span><br><br>
+        Then: &nbsp; ∫ <span class="mpink">f(g(x)) · g′(x)</span> dx = F(g(x)) + C<br><br>
+        ← This is the integral pattern that u-sub exploits. When you see a composite function multiplied by the derivative of its inner function, u-sub will solve it.
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Chain Rule</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'chain','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'chain','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'chain','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="chain-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = cos³(x) &nbsp; [read as (cos x)³]</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Identify outer and inner</div><div class="gs-content">y = <span class="mblue">[cos x]</span><sup>3</sup> &nbsp;→&nbsp; <span class="mblue">outer = u³</span>, &nbsp; <span class="mgreen">inner = cos x</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Differentiate outer, leave inner alone</div><div class="gs-content">outer′ = 3[cos x]² = <strong>3cos²x</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Multiply by inner′</div><div class="gs-content">inner′ = d/dx[cos x] = −sin x<br><br>y′ = 3cos²x · (−sin x) = <strong>−3cos²x sin x</strong></div><div class="gs-why">→ The negative comes from the derivative of cos x — it's required.</div></div></div>
+        </div>
+        <div class="pane" id="chain-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = e^(x² + 3)</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Identify outer and inner functions</div><input class="s-input" type="text" placeholder="outer = ... , inner = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Differentiate the outer (leave inner alone), then find inner′</div><input class="s-input" type="text" placeholder="outer′(inner) = ... , inner′ = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Multiply them together</div><input class="s-input" type="text" placeholder="y′ = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">outer = e^u, inner = x²+3<br>outer′(inner) = e^(x²+3)<br>inner′ = 2x<br><br><strong>y′ = e^(x²+3) · 2x = 2xe^(x²+3)</strong></div>
+        </div>
+        <div class="pane" id="chain-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find: <span class="fr"><span class="n">d</span><span class="d">dx</span></span> ∫<sub>0</sub><sup>x⁴</sup> cos(t²) dt</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">FTC Part 1 + Chain Rule:<br>Upper limit g(x) = x⁴ → g′(x) = 4x³<br>f(t) = cos(t²) → plug in upper limit: f(x⁴) = cos((x⁴)²) = cos(x⁸)<br><br><strong>Answer = cos(x⁸) · 4x³ = 4x³ cos(x⁸)</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════════
+       3.7 · LOGARITHMIC DIFFERENTIATION
+  ══════════════════════════════════════ -->
+  <div class="topic" id="t7">
+    <div class="topic-header">
+      <span class="topic-num">3.7</span>
+      <h2 class="topic-title">Logarithmic Differentiation</h2>
+      <span class="topic-sub">Variable exponents · Large products</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">When to Use It</div>
+      <p>Use logarithmic differentiation when a function has:</p>
+      <ul style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:6px;">
+        <li style="padding:8px 14px;background:var(--d2);border:1px solid var(--b);border-radius:8px;font-size:13px;color:var(--tx2);font-weight:300;"><span class="m">①</span> &nbsp; A <strong>variable in the exponent</strong> — like y = x^(sin x) or y = (2x+1)^(x²)</li>
+        <li style="padding:8px 14px;background:var(--d2);border:1px solid var(--b);border-radius:8px;font-size:13px;color:var(--tx2);font-weight:300;"><span class="m">②</span> &nbsp; A large <strong>product or quotient of many terms</strong> — taking ln simplifies the structure dramatically</li>
+      </ul>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The 5-Step Method</div>
+      <ol class="steps">
+        <li><strong>Take ln of both sides:</strong> ln y = ln[f(x)]<span class="why">→ ln converts exponents to multipliers, products to sums, quotients to differences.</span></li>
+        <li><strong>Simplify using log properties</strong> (ln(ab) = ln a + ln b, ln(a^n) = n·ln a)<span class="why">→ This is why we took ln — it makes the expression differentiable.</span></li>
+        <li><strong>Differentiate both sides with respect to x.</strong><span class="why">→ Left side: d/dx[ln y] = y′/y (chain rule). Right side: normal differentiation.</span></li>
+        <li><strong>Solve for y′:</strong> multiply both sides by y.<span class="why">→ y′ = y · (right side result)</span></li>
+        <li><strong>Substitute back:</strong> replace y with the original function.<span class="why">→ Final answer is in terms of x only.</span></li>
+      </ol>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Logarithmic Differentiation</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'logd','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'logd','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'logd','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="logd-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = x^x</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Why regular rules fail</div><div class="gs-content">x^x has <strong>a variable in both base and exponent</strong>. Power rule needs a constant exponent. Exponential rule needs a constant base. Neither applies — use log diff.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Take ln of both sides</div><div class="gs-content">ln y = ln(x^x) = <strong>x · ln x</strong></div><div class="gs-why">→ ln(a^n) = n·ln a brings the exponent down as a multiplier.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Differentiate both sides (implicit on left)</div><div class="gs-content"><span class="fr"><span class="n">y′</span><span class="d">y</span></span> = (1)·ln x + x·<span class="fr"><span class="n">1</span><span class="d">x</span></span> = ln x + 1</div><div class="gs-why">→ Left: d/dx[ln y] = y′/y by chain rule. Right: product rule on x·ln x.</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Solve for y′, substitute back</div><div class="gs-content">y′ = y(ln x + 1) = <strong>x^x (ln x + 1)</strong></div></div></div>
+        </div>
+        <div class="pane" id="logd-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = (sin x)^x</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Take ln of both sides and simplify</div><input class="s-input" type="text" placeholder="ln y = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Differentiate both sides (product rule on the right, y′/y on the left)</div><input class="s-input" type="text" placeholder="y′/y = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Multiply both sides by y, substitute back</div><input class="s-input" type="text" placeholder="y′ = y · ( ... ) = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">ln y = x · ln(sin x)<br><br>y′/y = (1)·ln(sin x) + x · <span class="fr" style="display:inline-flex"><span class="n">cos x</span><span class="d">sin x</span></span> = ln(sin x) + x·cot x<br><br>y′ = y[ln(sin x) + x cot x]<br><br><strong>y′ = (sin x)^x [ln(sin x) + x cot x]</strong></div>
+        </div>
+        <div class="pane" id="logd-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Differentiate: y = <span class="fr"><span class="n">(x²+1)³</span><span class="d">√(x+5)</span></span> using logarithmic differentiation</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">ln y = 3·ln(x²+1) − <span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">2</span></span>·ln(x+5)<br><br><span class="fr" style="display:inline-flex"><span class="n">y′</span><span class="d">y</span></span> = <span class="fr" style="display:inline-flex"><span class="n">6x</span><span class="d">x²+1</span></span> − <span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">2(x+5)</span></span><br><br>y′ = y · [<span class="fr" style="display:inline-flex"><span class="n">6x</span><span class="d">x²+1</span></span> − <span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">2(x+5)</span></span>]<br><br><strong>y′ = <span class="fr" style="display:inline-flex"><span class="n">(x²+1)³</span><span class="d">√(x+5)</span></span> · [<span class="fr" style="display:inline-flex"><span class="n">6x</span><span class="d">x²+1</span></span> − <span class="fr" style="display:inline-flex"><span class="n">1</span><span class="d">2(x+5)</span></span>]</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · All Differentiation Rules</div>
+    <table class="dtable">
+      <thead><tr><th>Rule</th><th>Formula</th><th>Trigger</th></tr></thead>
+      <tbody>
+        <tr><td class="m">Power</td><td>d/dx[xⁿ] = nxⁿ⁻¹</td><td style="color:var(--tx3)">Any power of x</td></tr>
+        <tr><td class="m">Product</td><td>f′g + fg′</td><td style="color:var(--tx3)">Two functions multiplied</td></tr>
+        <tr><td class="m">Quotient</td><td>(f′g − fg′) / g²</td><td style="color:var(--tx3)">One function over another</td></tr>
+        <tr><td class="m">Chain</td><td>f′(g(x)) · g′(x)</td><td style="color:var(--tx3)">Composed function (inside/outside)</td></tr>
+        <tr><td class="mblue">d/dx[sin x]</td><td>cos x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="mred">d/dx[cos x]</td><td>−sin x</td><td style="color:var(--tx3)">Note the negative</td></tr>
+        <tr><td class="mblue">d/dx[tan x]</td><td>sec²x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="mred">d/dx[cot x]</td><td>−csc²x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="mblue">d/dx[sec x]</td><td>sec x tan x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="mred">d/dx[csc x]</td><td>−csc x cot x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="morange">d/dx[e^x]</td><td>e^x</td><td style="color:var(--tx3)">Own derivative</td></tr>
+        <tr><td class="morange">d/dx[ln x]</td><td>1/x</td><td style="color:var(--tx3)">—</td></tr>
+        <tr><td class="mpurple">Log Diff</td><td>ln y → y′/y → y′ = y·(rhs)</td><td style="color:var(--tx3)">Variable exponent or large product</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end .page -->
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s03-differentiation.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>

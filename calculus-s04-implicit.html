@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 04 · Implicit Differentiation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void:#06080f; --d1:#0b0f1e; --d2:#111828; --d3:#161e30;
+    --glass:rgba(255,255,255,0.044); --gb:rgba(255,255,255,0.08);
+    --b:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.12);
+    --green:#3effa0; --gold:#f5c842; --red:#f87171;
+    --blue:#38bdf8; --purple:#c084fc; --cyan:#00e5ff;
+    --orange:#fb923c; --pink:#f472b6; --teal:#2dd4bf;
+    --tx:#dde6f5; --tx2:#8898b8; --tx3:#4a5570;
+    --accent:#2dd4bf;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--tx);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(45,212,191,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at center,rgba(45,212,191,0.06) 0%,rgba(56,189,248,0.03) 45%,transparent 70%);pointer-events:none;z-index:0;}
+
+  /* NAV */
+  .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(6,8,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);}
+  .back-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;color:var(--tx2);text-decoration:none;padding:8px 16px;border-radius:100px;border:1px solid var(--b);background:var(--glass);transition:all 0.2s;}
+  .back-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx3);}
+  .nav-badge{font-size:11px;font-weight:500;letter-spacing:0.1em;padding:4px 12px;border-radius:100px;background:rgba(45,212,191,0.12);border:1px solid rgba(45,212,191,0.3);color:var(--teal);}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 32px 100px;}
+
+  /* SECTION HEADER */
+  .section-header{margin-bottom:52px;}
+  .sec-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,5vw,52px);line-height:1.0;letter-spacing:-0.02em;margin-bottom:16px;}
+  .sec-title span{background:linear-gradient(135deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .sec-desc{font-size:13px;font-weight:300;color:var(--tx2);max-width:620px;line-height:1.8;}
+
+  /* TOPIC */
+  .topic{margin-bottom:60px;}
+  .topic-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--b);}
+  .topic-num{font-size:11px;font-weight:500;letter-spacing:0.15em;color:var(--accent);min-width:36px;}
+  .topic-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--tx);}
+  .topic-sub{font-size:12px;color:var(--tx3);font-weight:300;margin-left:auto;}
+
+  /* CONCEPT CARD */
+  .concept{background:var(--glass);border:1px solid var(--b);border-radius:12px;padding:22px 24px;margin-bottom:14px;}
+  .concept-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .concept p{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.85;margin-bottom:10px;}
+  .concept p:last-child{margin-bottom:0;}
+  .concept strong{color:var(--tx);font-weight:500;}
+
+  /* FORMULA BOX */
+  .fbox{background:var(--d2);border:1px solid var(--b2);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:12px 0;font-size:13px;font-weight:400;color:var(--tx);line-height:2.1;}
+  .fbox .flabel{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+  .fbox.gold{border-left-color:var(--gold);}
+  .fbox.blue{border-left-color:var(--blue);}
+  .fbox.green{border-left-color:var(--green);}
+  .fbox.red{border-left-color:var(--red);}
+  .fbox.purple{border-left-color:var(--purple);}
+  .fbox.orange{border-left-color:var(--orange);}
+
+  /* CALLOUT */
+  .callout{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;border-radius:10px;font-size:12px;font-weight:300;line-height:1.75;margin:10px 0;}
+  .callout-warn{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);color:var(--tx2);}
+  .callout-tip{background:rgba(62,255,160,0.06);border:1px solid rgba(62,255,160,0.18);color:var(--tx2);}
+  .callout-err{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.2);color:var(--tx2);}
+  .callout-info{background:rgba(45,212,191,0.07);border:1px solid rgba(45,212,191,0.2);color:var(--tx2);}
+  .callout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .callout strong{font-weight:500;color:var(--tx);}
+
+  /* STEPS */
+  .steps{counter-reset:step;list-style:none;padding:0;margin:10px 0;}
+  .steps li{counter-increment:step;padding:12px 0 12px 48px;position:relative;font-size:13px;font-weight:300;color:var(--tx2);border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.75;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.25);color:var(--teal);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{color:var(--tx);font-weight:500;}
+  .steps li .why{display:block;margin-top:4px;font-size:11px;color:var(--tx3);font-style:italic;}
+
+  /* TRICKY CASES GRID */
+  .cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+  .case-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:16px;}
+  .case-card .cc-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+  .case-card .cc-expr{font-size:13px;color:var(--tx2);font-weight:300;line-height:1.9;}
+  .case-card .cc-expr strong{color:var(--tx);font-weight:500;}
+  .case-card .cc-result{font-size:13px;font-weight:500;margin-top:8px;padding:8px 12px;border-radius:6px;background:rgba(255,255,255,0.03);}
+
+  /* ANNOTATION BLOCK — side by side equation with notes */
+  .annotated{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:12px 0;background:var(--d1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;}
+  .ann-col{padding:20px;}
+  .ann-col:first-child{border-right:1px solid var(--b);}
+  .ann-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:14px;}
+  .ann-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:12px;font-weight:300;line-height:1.7;}
+  .ann-line .step-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.2);color:var(--teal);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .ann-line .math{color:var(--gold);font-weight:400;}
+  .ann-line .note{color:var(--tx3);font-size:11px;font-style:italic;}
+
+  /* TANGENT LINE BOX */
+  .tl-box{background:var(--d1);border:1px solid var(--b2);border-radius:12px;overflow:hidden;margin:12px 0;}
+  .tl-header{background:var(--d2);padding:12px 20px;border-bottom:1px solid var(--b);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);}
+  .tl-body{padding:18px 20px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .tl-body strong{color:var(--tx);font-weight:500;}
+
+  /* MATH */
+  .m{color:var(--gold);font-weight:500;}
+  .mblue{color:var(--blue);font-weight:500;}
+  .mgreen{color:var(--green);font-weight:500;}
+  .mred{color:var(--red);font-weight:500;}
+  .mpurple{color:var(--purple);font-weight:500;}
+  .morange{color:var(--orange);font-weight:500;}
+  .mteal{color:var(--teal);font-weight:500;}
+  .mpink{color:var(--pink);font-weight:500;}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;margin:0 2px;}
+  .fr .n{border-bottom:1px solid currentColor;padding:0 3px 1px;}
+  .fr .d{padding:1px 3px 0;}
+
+  /* GUIDED STEPS */
+  .guided-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;padding:14px;background:var(--glass);border:1px solid var(--b);border-radius:10px;}
+  .gs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.25);color:var(--teal);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;}
+  .gs-body{flex:1;}
+  .gs-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+  .gs-content{font-size:13px;font-weight:300;color:var(--tx2);line-height:1.75;}
+  .gs-content strong{color:var(--tx);font-weight:500;}
+  .gs-why{font-size:11px;color:var(--tx3);font-style:italic;margin-top:4px;}
+
+  /* PRACTICE */
+  .practice-section{margin-top:24px;border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+  .practice-header{background:var(--d2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b);}
+  .practice-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--tx);}
+  .practice-tabs{display:flex;gap:4px;}
+  .ptab{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid transparent;color:var(--tx3);transition:all 0.2s;background:transparent;}
+  .ptab.active{background:var(--glass);border-color:var(--accent);color:var(--accent);}
+  .ptab:hover:not(.active){color:var(--tx2);}
+  .practice-body{padding:24px;}
+  .pane{display:none;}
+  .pane.active{display:block;}
+
+  .problem-box{background:var(--d1);border:1px solid var(--b);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;color:var(--tx);line-height:1.8;}
+  .problem-box .p-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;}
+
+  .scaffold-step{padding:12px 16px;margin-bottom:10px;border:1px dashed rgba(255,255,255,0.1);border-radius:8px;}
+  .scaffold-step .s-prompt{font-size:12px;color:var(--tx3);margin-bottom:8px;}
+  .scaffold-step .s-input{background:var(--d2);border:1px solid var(--b2);border-radius:6px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);width:100%;outline:none;transition:border-color 0.2s;}
+  .scaffold-step .s-input:focus{border-color:var(--accent);}
+
+  .reveal-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:9px 20px;border-radius:8px;cursor:pointer;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.25);color:var(--teal);transition:all 0.2s;margin-top:14px;}
+  .reveal-btn:hover{background:rgba(45,212,191,0.18);border-color:var(--teal);}
+  .answer-box{display:none;margin-top:14px;padding:16px 20px;background:rgba(62,255,160,0.05);border:1px solid rgba(62,255,160,0.2);border-radius:10px;font-size:13px;font-weight:300;color:var(--tx2);line-height:1.9;}
+  .answer-box strong{color:var(--green);font-weight:500;}
+  .answer-box.shown{display:block;}
+
+  .div-line{border:none;border-top:1px solid var(--b);margin:48px 0 0;}
+
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--teal),var(--blue));transform-origin:left;transform:scaleX(0);transition:transform 0.1s;}
+  .scroll-top{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:var(--d2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);transition:all 0.2s;opacity:0;pointer-events:none;}
+  .scroll-top.visible{opacity:1;pointer-events:auto;}
+  .scroll-top:hover{border-color:var(--accent);color:var(--accent);}
+  .scroll-top svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* COMPARISON */
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+  .compare-card{background:var(--d2);border:1px solid var(--b);border-radius:10px;padding:16px;}
+  .compare-card .cc-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+  .compare-card .cc-body{font-size:12px;font-weight:300;color:var(--tx2);line-height:1.8;}
+  .compare-card .cc-body strong{color:var(--tx);font-weight:500;}
+
+  @media(max-width:600px){
+    .page{padding:32px 16px 80px;}
+    .topnav{padding:12px 16px;}
+    .cases-grid,.annotated,.compare-row{grid-template-columns:1fr;}
+    .ann-col:first-child{border-right:none;border-bottom:1px solid var(--b);}
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Guide
+  </a>
+  <span class="nav-title">Section 04</span>
+  <span class="nav-badge">Implicit Differentiation</span>
+</nav>
+
+<div class="page">
+
+  <div class="section-header">
+    <div class="sec-label">Section 04 · AP Calculus AB</div>
+    <h1 class="sec-title">Implicit<br><span>Differentiation</span></h1>
+    <p class="sec-desc">How to differentiate equations where y can't easily be isolated — including tricky mixed terms, products of x and y, tangent lines, and second derivatives. Every step annotated so you see exactly where dy/dx comes from.</p>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       4.1 · WHAT IT IS AND WHY
+  ══════════════════════════════════ -->
+  <div class="topic" id="t1">
+    <div class="topic-header">
+      <span class="topic-num">4.1</span>
+      <h2 class="topic-title">What It Is &amp; When To Use It</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Problem</div>
+      <p>Explicit differentiation works when you have <strong>y = f(x)</strong> — y is alone on one side. But some equations mix x and y together in ways that can't easily be untangled:</p>
+      <div class="fbox">
+        <div class="flabel">Examples Where You Cannot Isolate y Cleanly</div>
+        x² + y² = 25 &nbsp;(circle) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        x³ + y³ = 6xy &nbsp;(folium of Descartes)<br>
+        sin(y) + x²y = 4 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        e^y + xy² = 8
+      </div>
+      <p>For these, we differentiate <strong>both sides with respect to x</strong>, treating y as a function of x. Every time we differentiate a term with y, we apply the <strong>chain rule</strong> — which introduces <span class="mteal">dy/dx</span>.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Explicit vs Implicit — Side by Side</div>
+      <div class="compare-row">
+        <div class="compare-card">
+          <div class="cc-title" style="color:var(--blue)">Explicit</div>
+          <div class="cc-body">
+            y = x³ + 2x<br><br>
+            <strong>d/dx[y] = d/dx[x³ + 2x]</strong><br><br>
+            dy/dx = 3x² + 2
+          </div>
+        </div>
+        <div class="compare-card">
+          <div class="cc-title" style="color:var(--teal)">Implicit</div>
+          <div class="cc-body">
+            x³ + y³ = 5<br><br>
+            <strong>d/dx[x³] + d/dx[y³] = d/dx[5]</strong><br><br>
+            3x² + 3y²·<span style="color:var(--teal)">dy/dx</span> = 0
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <span><strong>Why does dy/dx appear?</strong> Because d/dx[y³] uses the chain rule: the outer function is u³, the inner function is y. So it becomes 3y² · (dy/dx). The chain rule always introduces dy/dx when differentiating any term containing y.</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════
+       4.2 · THE PROCEDURE
+  ══════════════════════════════════ -->
+  <div class="topic" id="t2">
+    <div class="topic-header">
+      <span class="topic-num">4.2</span>
+      <h2 class="topic-title">The Step-by-Step Procedure</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The 4-Step Method</div>
+      <ol class="steps">
+        <li>
+          <strong>Differentiate both sides of the equation with respect to x.</strong>
+          <span class="why">→ Every term gets differentiated. Left side = right side at every step — never drop one side.</span>
+        </li>
+        <li>
+          <strong>Every time you differentiate a y-term, attach · dy/dx (chain rule).</strong>
+          <span class="why">→ This is the entire mechanic of implicit differentiation. y is a function of x, so chain rule always applies to it.</span>
+        </li>
+        <li>
+          <strong>Collect all dy/dx terms on one side, all other terms on the other side.</strong>
+          <span class="why">→ Move every term with dy/dx to the left, everything else to the right (or vice versa).</span>
+        </li>
+        <li>
+          <strong>Factor out dy/dx, then divide to isolate it.</strong>
+          <span class="why">→ If multiple terms have dy/dx, factor it out first: dy/dx·(___) = ___, then divide.</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Annotated walkthrough -->
+    <div class="concept">
+      <div class="concept-title">Annotated Walkthrough — x² + y² = 25</div>
+      <div class="annotated">
+        <div class="ann-col">
+          <div class="ann-title">The Work</div>
+          <div class="ann-line"><div class="step-num">1</div><span class="math">x² + y² = 25</span></div>
+          <div class="ann-line"><div class="step-num">2</div><span class="math">2x + 2y·<span style="color:var(--teal)">dy/dx</span> = 0</span></div>
+          <div class="ann-line"><div class="step-num">3</div><span class="math">2y·<span style="color:var(--teal)">dy/dx</span> = −2x</span></div>
+          <div class="ann-line"><div class="step-num">4</div><span class="math"><span style="color:var(--teal)">dy/dx</span> = −<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:0.88em;line-height:1.15;"><span style="border-bottom:1px solid currentColor;padding:0 3px 1px;">x</span><span style="padding:1px 3px 0;">y</span></span></span></div>
+        </div>
+        <div class="ann-col">
+          <div class="ann-title">Why Each Step</div>
+          <div class="ann-line"><div class="step-num">1</div><span class="note">Original equation</span></div>
+          <div class="ann-line"><div class="step-num">2</div><span class="note">d/dx[x²] = 2x. d/dx[y²] = 2y·dy/dx (chain rule). d/dx[25] = 0.</span></div>
+          <div class="ann-line"><div class="step-num">3</div><span class="note">Move 2x to the right side.</span></div>
+          <div class="ann-line"><div class="step-num">4</div><span class="note">Divide both sides by 2y. The 2s cancel.</span></div>
+        </div>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Key insight:</strong> dy/dx = −x/y means the slope of the tangent at any point (x, y) on the circle is −x/y. To get a number, you plug in the specific point. The answer staying in terms of both x and y is <em>normal and expected</em>.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Basic Implicit Differentiation</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'basic','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'basic','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="basic-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; x³ + y³ = 6xy</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Differentiate both sides with respect to x</div><div class="gs-content">Left side has two terms. Right side is a <strong>product of 6, x, and y</strong> — needs product rule.<br><br>d/dx[x³] + d/dx[y³] = d/dx[6xy]</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Differentiate each piece</div><div class="gs-content">
+            d/dx[x³] = <strong>3x²</strong><br>
+            d/dx[y³] = <strong>3y²·<span class="mteal">dy/dx</span></strong> &nbsp;(chain rule)<br>
+            d/dx[6xy] = 6[1·y + x·<span class="mteal">dy/dx</span>] = <strong>6y + 6x·<span class="mteal">dy/dx</span></strong> &nbsp;(product rule on x·y)
+          </div><div class="gs-why">→ 6xy is a product: f = x, g = y. Product rule: f′g + fg′ = (1)y + x·(dy/dx).</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Write the full differentiated equation</div><div class="gs-content">3x² + 3y²·<span class="mteal">dy/dx</span> = 6y + 6x·<span class="mteal">dy/dx</span></div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Collect dy/dx terms on one side</div><div class="gs-content">3y²·<span class="mteal">dy/dx</span> − 6x·<span class="mteal">dy/dx</span> = 6y − 3x²<br><span class="mteal">dy/dx</span>(3y² − 6x) = 6y − 3x²</div></div></div>
+          <div class="guided-step"><div class="gs-num">5</div><div class="gs-body"><div class="gs-label">Divide to isolate dy/dx</div><div class="gs-content"><span class="mteal">dy/dx</span> = <span class="fr"><span class="n">6y − 3x²</span><span class="d">3y² − 6x</span></span> = <strong><span class="fr"><span class="n">2y − x²</span><span class="d">y² − 2x</span></span></strong></div><div class="gs-why">→ Factor 3 from numerator and denominator to simplify.</div></div></div>
+        </div>
+
+        <div class="pane" id="basic-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; x² + 3y² = 10</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Differentiate both sides with respect to x</div><input class="s-input" type="text" placeholder="d/dx[x²] + d/dx[3y²] = d/dx[10] → ... + ... = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Remember: d/dx[3y²] needs the chain rule. What do you get?</div><input class="s-input" type="text" placeholder="d/dx[3y²] = 6y · ( ? )"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Move terms without dy/dx to the right side</div><input class="s-input" type="text" placeholder="6y · dy/dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Divide to isolate dy/dx</div><input class="s-input" type="text" placeholder="dy/dx = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            d/dx[x²] = 2x &nbsp;|&nbsp; d/dx[3y²] = 6y·dy/dx &nbsp;|&nbsp; d/dx[10] = 0<br><br>
+            2x + 6y·dy/dx = 0<br>
+            6y·dy/dx = −2x<br><br>
+            <strong>dy/dx = −x / (3y)</strong>
+          </div>
+        </div>
+
+        <div class="pane" id="basic-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; 4x² − y² = 16</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Differentiate: 8x − 2y·dy/dx = 0<br>
+            −2y·dy/dx = −8x<br><br>
+            <strong>dy/dx = 4x / y</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════
+       4.3 · TRICKY CASES
+  ══════════════════════════════════ -->
+  <div class="topic" id="t3">
+    <div class="topic-header">
+      <span class="topic-num">4.3</span>
+      <h2 class="topic-title">Tricky Cases</h2>
+      <span class="topic-sub">Products · Trig · e^y · Higher powers</span>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Case 1 — Product of x and y (Most Common Trap)</div>
+      <p>When a term contains both x and y multiplied together, you must use the <strong>product rule</strong> AND attach dy/dx to the y part.</p>
+      <div class="fbox gold">
+        <div class="flabel">Pattern: d/dx[ x · y ]</div>
+        d/dx[x · y] = (1)·y + x·<span class="mteal">dy/dx</span> = <span class="mgreen">y + x·dy/dx</span><br><br>
+        d/dx[x² · y] = 2x·y + x²·<span class="mteal">dy/dx</span><br><br>
+        d/dx[x · y³] = (1)·y³ + x·3y²·<span class="mteal">dy/dx</span> = <span class="mgreen">y³ + 3xy²·dy/dx</span>
+      </div>
+      <div class="callout callout-err">
+        <span class="callout-icon">❌</span>
+        <span><strong>Most missed step:</strong> Students differentiate x·y as just y or just x·dy/dx — both wrong. It's a product. Both f′g and fg′ terms must appear.</span>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Case 2 — Trig Functions of y</div>
+      <div class="fbox blue">
+        <div class="flabel">Pattern: d/dx[ trig(y) ]</div>
+        d/dx[sin y] = <span class="mgreen">cos y · dy/dx</span><br>
+        d/dx[cos y] = <span class="mgreen">−sin y · dy/dx</span><br>
+        d/dx[tan y] = <span class="mgreen">sec²y · dy/dx</span><br><br>
+        Rule: differentiate the trig function normally, then multiply by dy/dx (chain rule on y).
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Case 3 — e^y and ln(y)</div>
+      <div class="fbox orange">
+        <div class="flabel">Pattern: d/dx[ e^y ] and d/dx[ ln y ]</div>
+        d/dx[e^y] = <span class="mgreen">e^y · dy/dx</span> &nbsp;&nbsp;&nbsp;(chain rule: outer = e^u, inner = y)<br><br>
+        d/dx[ln y] = <span class="mgreen"><span class="fr"><span class="n">1</span><span class="d">y</span></span> · dy/dx</span> &nbsp;&nbsp;&nbsp;(chain rule: outer = ln u, inner = y)
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Full Tricky Case Reference</div>
+      <div class="cases-grid">
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--gold)">d/dx [ y² ]</div>
+          <div class="cc-expr">Chain rule: outer = u², inner = y</div>
+          <div class="cc-result" style="color:var(--green)">= 2y · dy/dx</div>
+        </div>
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--gold)">d/dx [ y⁴ ]</div>
+          <div class="cc-expr">Chain rule: outer = u⁴, inner = y</div>
+          <div class="cc-result" style="color:var(--green)">= 4y³ · dy/dx</div>
+        </div>
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--blue)">d/dx [ x·y² ]</div>
+          <div class="cc-expr">Product rule: f = x, g = y²<br>f′ = 1, g′ = 2y·dy/dx</div>
+          <div class="cc-result" style="color:var(--green)">= y² + 2xy · dy/dx</div>
+        </div>
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--blue)">d/dx [ x³y ]</div>
+          <div class="cc-expr">Product rule: f = x³, g = y<br>f′ = 3x², g′ = dy/dx</div>
+          <div class="cc-result" style="color:var(--green)">= 3x²y + x³ · dy/dx</div>
+        </div>
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--orange)">d/dx [ e^(xy) ]</div>
+          <div class="cc-expr">Chain rule: outer = e^u, inner = xy<br>d/dx[xy] = y + x·dy/dx</div>
+          <div class="cc-result" style="color:var(--green)">= e^(xy) · (y + x·dy/dx)</div>
+        </div>
+        <div class="case-card">
+          <div class="cc-label" style="color:var(--purple)">d/dx [ sin(xy) ]</div>
+          <div class="cc-expr">Chain rule: outer = sin(u), inner = xy<br>d/dx[xy] = y + x·dy/dx</div>
+          <div class="cc-result" style="color:var(--green)">= cos(xy) · (y + x·dy/dx)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Tricky Cases</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'tricky','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'tricky','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'tricky','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="tricky-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; x²y + y³ = 5</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Differentiate the left side — two separate terms</div><div class="gs-content">
+            Term 1: d/dx[x²y] — this is a <strong>product</strong> (f = x², g = y)<br>
+            = 2x·y + x²·<span class="mteal">dy/dx</span><br><br>
+            Term 2: d/dx[y³] — chain rule on y<br>
+            = 3y²·<span class="mteal">dy/dx</span>
+          </div><div class="gs-why">→ x²y needs product rule first, then dy/dx on the y part. y³ only needs chain rule.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Differentiate the right side, write full equation</div><div class="gs-content">d/dx[5] = 0<br><br>2xy + x²·<span class="mteal">dy/dx</span> + 3y²·<span class="mteal">dy/dx</span> = 0</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Collect dy/dx terms, factor</div><div class="gs-content"><span class="mteal">dy/dx</span>(x² + 3y²) = −2xy</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Isolate dy/dx</div><div class="gs-content"><strong><span class="mteal">dy/dx</span> = <span class="fr"><span class="n">−2xy</span><span class="d">x² + 3y²</span></span></strong></div></div></div>
+        </div>
+
+        <div class="pane" id="tricky-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; sin(x) + cos(y) = 1</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Differentiate both sides. What does d/dx[cos(y)] require?</div><input class="s-input" type="text" placeholder="d/dx[sin x] = ... , d/dx[cos y] = ... (chain rule!)"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Write the full differentiated equation</div><input class="s-input" type="text" placeholder="... + ... = 0"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Isolate dy/dx</div><input class="s-input" type="text" placeholder="dy/dx = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            d/dx[sin x] = cos x<br>
+            d/dx[cos y] = −sin y · dy/dx &nbsp;(chain rule on y)<br><br>
+            cos x + (−sin y · dy/dx) = 0<br>
+            −sin y · dy/dx = −cos x<br><br>
+            <strong>dy/dx = cos x / sin y = cot x · csc y</strong> &nbsp; (or simply cos x / sin y)
+          </div>
+        </div>
+
+        <div class="pane" id="tricky-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find dy/dx for: &nbsp; e^(xy) = x + y</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Left: d/dx[e^(xy)] = e^(xy) · d/dx[xy] = e^(xy) · (y + x·dy/dx)<br>
+            Right: d/dx[x + y] = 1 + dy/dx<br><br>
+            Full equation: e^(xy)(y + x·dy/dx) = 1 + dy/dx<br><br>
+            Expand: ye^(xy) + xe^(xy)·dy/dx = 1 + dy/dx<br><br>
+            Collect dy/dx: xe^(xy)·dy/dx − dy/dx = 1 − ye^(xy)<br>
+            dy/dx(xe^(xy) − 1) = 1 − ye^(xy)<br><br>
+            <strong>dy/dx = (1 − ye^(xy)) / (xe^(xy) − 1)</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════
+       4.4 · TANGENT LINES IMPLICITLY
+  ══════════════════════════════════ -->
+  <div class="topic" id="t4">
+    <div class="topic-header">
+      <span class="topic-num">4.4</span>
+      <h2 class="topic-title">Tangent Lines Using Implicit Differentiation</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Procedure</div>
+      <p>Finding a tangent line always uses <strong>point-slope form: y − y₁ = m(x − x₁)</strong>. The only new step is finding the slope m using implicit differentiation, then substituting the specific point.</p>
+      <ol class="steps">
+        <li><strong>Implicitly differentiate the equation to find dy/dx.</strong><span class="why">→ Your answer will be in terms of both x and y.</span></li>
+        <li><strong>Plug in the given point (x₁, y₁) to get a numerical slope.</strong><span class="why">→ Substitute x = x₁ and y = y₁ into your dy/dx expression.</span></li>
+        <li><strong>Write the tangent line using point-slope form.</strong><span class="why">→ y − y₁ = m(x − x₁). Simplify to slope-intercept if the problem asks.</span></li>
+      </ol>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Verify the point is on the curve first.</strong> Before finding the tangent line, confirm the given point actually satisfies the original equation. Plugging a point that's not on the curve gives a meaningless answer.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Tangent Lines Implicitly</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'tan','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'tan','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'tan','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="tan-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the equation of the tangent line to &nbsp; x² + y² = 25 &nbsp; at the point (3, 4).</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Verify the point is on the curve</div><div class="gs-content">3² + 4² = 9 + 16 = 25 ✓ &nbsp; The point (3, 4) is on x² + y² = 25.</div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Find dy/dx (we already did this in 4.2)</div><div class="gs-content">Differentiating x² + y² = 25:<br>2x + 2y·<span class="mteal">dy/dx</span> = 0 &nbsp;→&nbsp; <span class="mteal">dy/dx</span> = −x/y</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute the point to get slope m</div><div class="gs-content">At (3, 4): &nbsp; m = −3/4</div></div></div>
+          <div class="guided-step"><div class="gs-num">4</div><div class="gs-body"><div class="gs-label">Write tangent line in point-slope form</div><div class="gs-content">y − 4 = −<span class="fr"><span class="n">3</span><span class="d">4</span></span>(x − 3)<br><br>Simplify: y = −<span class="fr"><span class="n">3</span><span class="d">4</span></span>x + <span class="fr"><span class="n">9</span><span class="d">4</span></span> + 4 = <strong>−<span class="fr"><span class="n">3</span><span class="d">4</span></span>x + <span class="fr"><span class="n">25</span><span class="d">4</span></span></strong></div><div class="gs-why">→ This is the tangent to the circle at (3,4) — perpendicular to the radius at that point, as expected.</div></div></div>
+        </div>
+
+        <div class="pane" id="tan-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the tangent line to &nbsp; x²y + y² = 6 &nbsp; at the point (1, 2).</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Verify (1, 2) is on the curve: plug in and check</div><input class="s-input" type="text" placeholder="(1)²(2) + (2)² = ... = 6 ?"/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Implicitly differentiate x²y + y² = 6 (product rule on x²y)</div><input class="s-input" type="text" placeholder="d/dx[x²y] = ... + ... , d/dx[y²] = ... → equation: ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Collect dy/dx terms and solve for dy/dx</div><input class="s-input" type="text" placeholder="dy/dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Plug in (1, 2) to find m, then write the tangent line</div><input class="s-input" type="text" placeholder="m = ... → y − 2 = m(x − 1) → y = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Verify: (1)²(2) + (2)² = 2 + 4 = 6 ✓<br><br>
+            d/dx[x²y] = 2xy + x²·dy/dx &nbsp;|&nbsp; d/dx[y²] = 2y·dy/dx<br><br>
+            2xy + x²·dy/dx + 2y·dy/dx = 0<br>
+            dy/dx(x² + 2y) = −2xy<br>
+            dy/dx = −2xy / (x² + 2y)<br><br>
+            At (1,2): m = −2(1)(2) / (1 + 4) = −4/5<br><br>
+            <strong>y − 2 = −(4/5)(x − 1) &nbsp;→&nbsp; y = −(4/5)x + 14/5</strong>
+          </div>
+        </div>
+
+        <div class="pane" id="tan-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find the tangent line to &nbsp; x³ + y³ = 9 &nbsp; at the point (1, 2).</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Verify: 1 + 8 = 9 ✓<br><br>
+            Differentiate: 3x² + 3y²·dy/dx = 0<br>
+            dy/dx = −x²/y²<br><br>
+            At (1, 2): m = −1/4<br><br>
+            <strong>y − 2 = −(1/4)(x − 1) &nbsp;→&nbsp; y = −(1/4)x + 9/4</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-line">
+
+  <!-- ══════════════════════════════════
+       4.5 · SECOND DERIVATIVES IMPLICITLY
+  ══════════════════════════════════ -->
+  <div class="topic" id="t5">
+    <div class="topic-header">
+      <span class="topic-num">4.5</span>
+      <h2 class="topic-title">Second Derivatives Implicitly</h2>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">The Procedure</div>
+      <p>To find d²y/dx², you differentiate dy/dx again with respect to x. Since dy/dx contains y (which is a function of x), you will need implicit differentiation <strong>a second time</strong>.</p>
+      <ol class="steps">
+        <li><strong>Find dy/dx using implicit differentiation.</strong><span class="why">→ Complete the first differentiation fully before starting the second.</span></li>
+        <li><strong>Differentiate dy/dx with respect to x to get d²y/dx².</strong><span class="why">→ Treat dy/dx as a quotient or expression. Every y term gets dy/dx attached again (chain rule still applies).</span></li>
+        <li><strong>Substitute the expression for dy/dx wherever it appears in your result.</strong><span class="why">→ This eliminates dy/dx from d²y/dx² and gives a cleaner final form.</span></li>
+        <li><strong>Simplify — the answer will be in terms of x and y.</strong><span class="why">→ This is expected and correct for implicit d²y/dx².</span></li>
+      </ol>
+    </div>
+
+    <div class="concept">
+      <div class="concept-title">Fully Worked Example — x² + y² = 25</div>
+      <div class="fbox">
+        <div class="flabel">Step 1 — First derivative (already found)</div>
+        dy/dx = <span class="mteal">−x/y</span>
+      </div>
+      <div class="fbox blue" style="margin-top:8px">
+        <div class="flabel">Step 2 — Differentiate −x/y with respect to x (quotient rule)</div>
+        d²y/dx² = d/dx[−x/y]<br><br>
+        = <span class="fr"><span class="n">(−1)·y − (−x)·<span class="mteal">dy/dx</span></span><span class="d">y²</span></span> = <span class="fr"><span class="n">−y + x·<span class="mteal">dy/dx</span></span><span class="d">y²</span></span>
+      </div>
+      <div class="fbox green" style="margin-top:8px">
+        <div class="flabel">Step 3 — Substitute dy/dx = −x/y</div>
+        = <span class="fr"><span class="n">−y + x · (−x/y)</span><span class="d">y²</span></span> = <span class="fr"><span class="n">−y − x²/y</span><span class="d">y²</span></span> = <span class="fr"><span class="n">−y² − x²</span><span class="d">y³</span></span><br><br>
+        Since x² + y² = 25: &nbsp;&nbsp; <strong>d²y/dx² = <span class="fr"><span class="n">−25</span><span class="d">y³</span></span></strong>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Clean-up trick:</strong> After substituting dy/dx, look for opportunities to use the original equation. Here x² + y² = 25 let us replace x² + y² and collapse the answer dramatically.</span>
+      </div>
+    </div>
+
+    <div class="practice-section">
+      <div class="practice-header">
+        <span class="practice-header-title">Practice · Second Derivatives Implicitly</span>
+        <div class="practice-tabs">
+          <button class="ptab active" onclick="switchTab(this,'sec','v1')">Guided</button>
+          <button class="ptab" onclick="switchTab(this,'sec','v2')">Scaffolded</button>
+          <button class="ptab" onclick="switchTab(this,'sec','v3')">Blind</button>
+        </div>
+      </div>
+      <div class="practice-body">
+        <div class="pane active" id="sec-v1">
+          <div class="problem-box"><div class="p-label">Problem</div>Find d²y/dx² for: &nbsp; xy = 4</div>
+          <div class="guided-step"><div class="gs-num">1</div><div class="gs-body"><div class="gs-label">Find dy/dx — differentiate xy = 4</div><div class="gs-content">Product rule: y + x·<span class="mteal">dy/dx</span> = 0<br>x·dy/dx = −y<br><strong>dy/dx = −y/x</strong></div></div></div>
+          <div class="guided-step"><div class="gs-num">2</div><div class="gs-body"><div class="gs-label">Differentiate −y/x with respect to x (quotient rule)</div><div class="gs-content">
+            d²y/dx² = d/dx[−y/x]<br><br>
+            = <span class="fr"><span class="n">−<span class="mteal">dy/dx</span>·x − (−y)·1</span><span class="d">x²</span></span> = <span class="fr"><span class="n">−x·<span class="mteal">dy/dx</span> + y</span><span class="d">x²</span></span>
+          </div><div class="gs-why">→ Quotient rule: f = −y, g = x, f′ = −dy/dx, g′ = 1.</div></div></div>
+          <div class="guided-step"><div class="gs-num">3</div><div class="gs-body"><div class="gs-label">Substitute dy/dx = −y/x</div><div class="gs-content">= <span class="fr"><span class="n">−x·(−y/x) + y</span><span class="d">x²</span></span> = <span class="fr"><span class="n">y + y</span><span class="d">x²</span></span> = <span class="fr"><span class="n">2y</span><span class="d">x²</span></span><br><br><strong>d²y/dx² = 2y/x²</strong></div><div class="gs-why">→ Since xy = 4, y = 4/x, so we could also write d²y/dx² = 8/x³. Both correct.</div></div></div>
+        </div>
+
+        <div class="pane" id="sec-v2">
+          <div class="problem-box"><div class="p-label">Problem</div>Find d²y/dx² for: &nbsp; x² − y² = 1</div>
+          <div class="scaffold-step"><div class="s-prompt">Step 1 — Differentiate implicitly to find dy/dx</div><input class="s-input" type="text" placeholder="2x − 2y·dy/dx = 0 → dy/dx = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 2 — Differentiate dy/dx = x/y with respect to x (quotient rule)</div><input class="s-input" type="text" placeholder="d²y/dx² = (y·1 − x·dy/dx) / y² = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 3 — Substitute dy/dx = x/y into the result</div><input class="s-input" type="text" placeholder="= (y − x·(x/y)) / y² = ..."/></div>
+          <div class="scaffold-step"><div class="s-prompt">Step 4 — Simplify (look for the original equation x² − y² = 1)</div><input class="s-input" type="text" placeholder="d²y/dx² = ..."/></div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            dy/dx = x/y<br><br>
+            d²y/dx² = (y·1 − x·dy/dx) / y² = (y − x·(x/y)) / y²<br><br>
+            = (y² − x²) / y³<br><br>
+            Since x² − y² = 1 → y² − x² = −1:<br><br>
+            <strong>d²y/dx² = −1/y³</strong>
+          </div>
+        </div>
+
+        <div class="pane" id="sec-v3">
+          <div class="problem-box"><div class="p-label">Problem</div>Find d²y/dx² for: &nbsp; y² = 4x. Then evaluate at the point (1, 2).</div>
+          <button class="reveal-btn" onclick="toggleAnswer(this)">✓ Reveal Answer</button>
+          <div class="answer-box">
+            Differentiate: 2y·dy/dx = 4 → dy/dx = 2/y<br><br>
+            Differentiate again: d²y/dx² = d/dx[2/y] = d/dx[2y⁻¹]<br>
+            = −2y⁻² · dy/dx = −2/y² · (2/y) = −4/y³<br><br>
+            <strong>d²y/dx² = −4/y³</strong><br><br>
+            At (1, 2): d²y/dx² = −4/8 = <strong>−1/2</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div style="background:var(--d2);border:1px solid var(--b2);border-radius:12px;padding:20px 24px;margin-top:8px;">
+    <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px;">Quick Reference · Implicit Differentiation Patterns</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="background:var(--d1);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);">Expression</th>
+        <th style="background:var(--d1);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);">d/dx Result</th>
+        <th style="background:var(--d1);padding:10px 14px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--b2);">Rule Used</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">y</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Chain rule (y is a function of x)</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">y²</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">2y · dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Chain rule</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">yⁿ</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">n·yⁿ⁻¹ · dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Chain rule</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">x·y</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">y + x·dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Product rule</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">x²·y</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">2xy + x²·dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Product rule</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">sin(y)</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">cos(y) · dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Chain rule</td></tr>
+        <tr><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--gold);font-weight:500;">e^y</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--green);font-weight:300;">e^y · dy/dx</td><td style="padding:9px 14px;border-bottom:1px solid var(--b);color:var(--tx3);font-weight:300;">Chain rule</td></tr>
+        <tr><td style="padding:9px 14px;color:var(--gold);font-weight:500;">ln(y)</td><td style="padding:9px 14px;color:var(--green);font-weight:300;">(1/y) · dy/dx</td><td style="padding:9px 14px;color:var(--tx3);font-weight:300;">Chain rule</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<!-- iframe embed: file:////Volumes/DevDrive/Portable_Python/LifeOS/ObsidianPortableRoot/Debello Master Link/DebelloAI/libraries/projects/Stratosyn/Approved/calculus-s04-implicit.html -->
+
+<script>
+  function switchTab(btn,group,version){
+    const sec=btn.closest('.practice-section');
+    sec.querySelector('.practice-body').querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    sec.querySelector('#'+group+'-'+version).classList.add('active');
+  }
+  function toggleAnswer(btn){
+    const box=btn.nextElementSibling;
+    box.classList.contains('shown')?(box.classList.remove('shown'),btn.innerHTML='✓ Reveal Answer'):(box.classList.add('shown'),btn.innerHTML='▲ Hide Answer');
+  }
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);
+    document.getElementById('progressBar').style.transform=`scaleX(${pct})`;
+    document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+  });
+</script>
+</body>
+</html>
