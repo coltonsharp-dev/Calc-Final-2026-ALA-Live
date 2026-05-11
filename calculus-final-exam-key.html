@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calculus AB — Final Exam · Answer Key</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --void:   #06080f;
+    --d1:     #0b0f1e;
+    --d2:     #111828;
+    --d3:     #161e30;
+    --glass:  rgba(255,255,255,0.044);
+    --gb:     rgba(255,255,255,0.08);
+    --shine:  rgba(255,255,255,0.13);
+    --b:      rgba(255,255,255,0.07);
+    --b2:     rgba(255,255,255,0.12);
+    --green:  #3effa0;
+    --gold:   #f5c842;
+    --red:    #f87171;
+    --blue:   #38bdf8;
+    --purple: #c084fc;
+    --cyan:   #00e5ff;
+    --orange: #fb923c;
+    --tx:     #dde6f5;
+    --tx2:    #8898b8;
+    --tx3:    #4a5570;
+    --accent: #38bdf8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--tx);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse at center,
+      rgba(56,189,248,0.07) 0%,
+      rgba(192,132,252,0.04) 40%,
+      transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position:fixed; top:0; left:0; right:0; height:3px; z-index:200;
+    background:linear-gradient(90deg, var(--blue), var(--cyan), var(--purple));
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+    box-shadow: 0 0 12px rgba(56,189,248,0.5);
+  }
+
+  /* ── NAV ── */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(6,8,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--b);
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--tx2); text-decoration: none;
+    padding: 8px 16px; border-radius: 100px;
+    border: 1px solid var(--b);
+    background: var(--glass);
+    transition: all 0.2s;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .nav-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--tx3); }
+  .nav-badge {
+    font-size:11px; font-weight:500; letter-spacing:0.1em;
+    padding:4px 12px; border-radius:100px;
+    background:rgba(245,200,66,0.12); border:1px solid rgba(245,200,66,0.25);
+    color:var(--gold);
+  }
+
+  /* ── SCORE TRACKER ── */
+  .score-tracker {
+    position: sticky;
+    top: 60px;
+    z-index: 90;
+    margin: 0 auto;
+    max-width: 920px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 24px;
+    background: rgba(6,8,15,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--b2);
+    border-radius: 14px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .score-label {
+    font-size:10px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--tx3);
+  }
+  .score-value {
+    font-family:'Syne',sans-serif;
+    font-weight:800;
+    font-size:22px;
+    color:var(--tx);
+    margin-top:2px;
+  }
+  .score-value .pct {
+    font-size:14px;
+    color:var(--blue);
+    margin-left:6px;
+  }
+  .score-stat {
+    display:flex; flex-direction:column;
+    flex:1; min-width:120px;
+  }
+  .score-bar-wrap {
+    flex: 2;
+    min-width: 200px;
+    height: 8px;
+    background: var(--d2);
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid var(--b);
+  }
+  .score-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green));
+    transition: width 0.5s ease;
+  }
+
+  /* ── LAYOUT ── */
+  .page { position:relative; z-index:1; max-width:920px; margin:0 auto; padding:32px 32px 100px; }
+
+  /* ── SECTION HEADER ── */
+  .exam-header { margin-bottom: 40px; text-align:center; }
+  .sec-label { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+  .sec-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(36px,6vw,64px); line-height:1.0; letter-spacing:-0.02em; margin-bottom:18px; }
+  .sec-title span { background:linear-gradient(135deg,var(--gold),var(--orange),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .sec-desc { font-size:13px; font-weight:300; color:var(--tx2); max-width:620px; margin:0 auto; line-height:1.8; }
+
+  /* ── INFO PILLS ── */
+  .pill-row {
+    display:flex; gap:10px; justify-content:center;
+    margin-top: 28px; flex-wrap: wrap;
+  }
+  .pill {
+    display:flex; align-items:center; gap:8px;
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--tx2);
+  }
+  .pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 56px 0 28px;
+  }
+  .section-divider span {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    white-space: nowrap;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--b2), transparent);
+  }
+
+  /* ── QUESTION CARD ── */
+  .question {
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 18px;
+    transition: border-color 0.3s;
+  }
+  .question.answered.correct { border-color: rgba(62,255,160,0.35); }
+  .question.answered.incorrect { border-color: rgba(248,113,113,0.35); }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--b);
+  }
+  .q-num {
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size: 18px;
+    color: var(--blue);
+    letter-spacing: -0.01em;
+  }
+  .q-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--d2);
+    border: 1px solid var(--b);
+    color: var(--tx3);
+  }
+  .q-prompt {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tx);
+    line-height: 1.85;
+    margin-bottom: 20px;
+  }
+  .q-prompt p { margin-bottom: 8px; }
+
+  /* ── MATH NOTATION ── */
+  .m { color:var(--gold); font-weight:500; }
+  .mblue { color:var(--blue); font-weight:500; }
+  .mgreen { color:var(--green); font-weight:500; }
+  .mred { color:var(--red); font-weight:500; }
+  .mpurple { color:var(--purple); font-weight:500; }
+  .morange { color:var(--orange); font-weight:500; }
+
+  .fr { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; font-size:0.88em; line-height:1.15; margin:0 2px; }
+  .fr .n { border-bottom:1px solid currentColor; padding:0 4px 1px; }
+  .fr .d { padding:1px 4px 0; }
+  .rt { display:inline-block; border-top:1px solid currentColor; padding: 0 2px; }
+
+  .formula-line {
+    background: var(--d1);
+    border: 1px solid var(--b);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin: 12px 0;
+    font-size: 14px;
+    color: var(--tx);
+    font-weight: 400;
+  }
+
+  /* ── DATA TABLE inline ── */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12px;
+  }
+  .mini-table th {
+    background: var(--d2);
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    border-bottom: 1px solid var(--b2);
+    font-weight: 500;
+  }
+  .mini-table td {
+    padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--b);
+    color: var(--tx);
+    font-weight: 400;
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+
+  /* ── OPTIONS ── */
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--d1);
+    border: 1px solid var(--b);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+    color: var(--tx);
+    line-height: 1.5;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+  }
+  .option:hover:not(.locked) {
+    border-color: var(--blue);
+    background: rgba(56,189,248,0.06);
+    transform: translateX(2px);
+  }
+  .option.selected {
+    border-color: var(--blue);
+    background: rgba(56,189,248,0.1);
+  }
+  .option.correct {
+    border-color: var(--green);
+    background: rgba(62,255,160,0.1);
+    color: var(--tx);
+  }
+  .option.incorrect {
+    border-color: var(--red);
+    background: rgba(248,113,113,0.1);
+    color: var(--tx);
+  }
+  .option.locked { cursor: default; }
+  .option.locked:not(.correct):not(.incorrect) { opacity: 0.5; }
+
+  .opt-letter {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--d2);
+    border: 1px solid var(--b2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--tx2);
+    transition: all 0.2s;
+  }
+  .option:hover:not(.locked) .opt-letter {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .option.selected .opt-letter {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--void);
+  }
+  .option.correct .opt-letter {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--void);
+  }
+  .option.incorrect .opt-letter {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--void);
+  }
+  .opt-text { flex: 1; }
+  .opt-icon {
+    flex-shrink: 0;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option.correct .opt-icon { opacity: 1; color: var(--green); }
+  .option.incorrect .opt-icon { opacity: 1; color: var(--red); }
+
+  /* ── FEEDBACK BOX ── */
+  .feedback {
+    display: none;
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--tx);
+  }
+  .feedback.shown { display: block; animation: slideDown 0.3s ease; }
+  .feedback.correct {
+    background: rgba(62,255,160,0.06);
+    border: 1px solid rgba(62,255,160,0.25);
+  }
+  .feedback.incorrect {
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.25);
+  }
+  .feedback-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .feedback.correct .feedback-label { color: var(--green); }
+  .feedback.incorrect .feedback-label { color: var(--red); }
+  .feedback-body { color: var(--tx2); font-weight: 300; }
+  .feedback-body strong { color: var(--tx); font-weight: 500; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MULTI-INPUT (Q30) ── */
+  .multi-input-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .mi-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--d1);
+    border: 1px solid var(--b);
+    border-radius: 10px;
+  }
+  .mi-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--tx);
+    line-height: 1.6;
+  }
+  .mi-prefix {
+    font-size: 11px;
+    color: var(--tx3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .mi-input {
+    flex-shrink: 0;
+    width: 130px;
+    background: var(--d2);
+    border: 1px solid var(--b2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--tx);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .mi-input:focus { border-color: var(--accent); }
+  .mi-input.correct { border-color: var(--green); background: rgba(62,255,160,0.05); }
+  .mi-input.incorrect { border-color: var(--red); background: rgba(248,113,113,0.05); }
+  .mi-status {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .mi-status.shown { opacity: 1; }
+  .mi-status.ok { color: var(--green); }
+  .mi-status.err { color: var(--red); }
+
+  /* ── BUTTONS ── */
+  .check-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 11px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(56,189,248,0.12);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--blue);
+    transition: all 0.2s;
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+  }
+  .check-btn:hover {
+    background: rgba(56,189,248,0.2);
+    border-color: var(--blue);
+    transform: translateY(-1px);
+  }
+  .check-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .reveal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(192,132,252,0.1);
+    border: 1px solid rgba(192,132,252,0.3);
+    color: var(--purple);
+    transition: all 0.2s;
+    margin-top: 14px;
+    font-family: 'DM Mono', monospace;
+  }
+  .reveal-btn:hover {
+    background: rgba(192,132,252,0.2);
+    border-color: var(--purple);
+  }
+
+  /* ── FRQ ANSWER BOX ── */
+  .frq-answer {
+    display: none;
+    margin-top: 14px;
+    padding: 18px 22px;
+    background: rgba(192,132,252,0.05);
+    border: 1px solid rgba(192,132,252,0.25);
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--tx2);
+    font-weight: 300;
+  }
+  .frq-answer.shown { display: block; animation: slideDown 0.3s ease; }
+  .frq-answer strong { color: var(--tx); font-weight: 500; }
+  .frq-answer .frq-part {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--b);
+  }
+  .frq-answer .frq-part:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .frq-answer .frq-part-label {
+    color: var(--purple);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ── FRQ INPUT AREA ── */
+  .frq-work {
+    margin-top: 14px;
+  }
+  .frq-textarea {
+    width: 100%;
+    min-height: 100px;
+    background: var(--d2);
+    border: 1px dashed rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--tx);
+    line-height: 1.7;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .frq-textarea:focus {
+    border-color: var(--purple);
+    border-style: solid;
+  }
+  .frq-textarea::placeholder { color: var(--tx3); font-style: italic; }
+
+  /* ── FINAL RESULTS ── */
+  .final-results {
+    display: none;
+    margin-top: 56px;
+    padding: 48px 32px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.05), rgba(192,132,252,0.05));
+    border: 1px solid var(--b2);
+    border-radius: 18px;
+    text-align: center;
+  }
+  .final-results.shown { display: block; animation: fadeUp 0.5s ease; }
+  .fr-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .fr-score {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 8vw, 80px);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--blue), var(--cyan), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .fr-fraction {
+    font-size: 16px;
+    color: var(--tx2);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+  .fr-message {
+    font-size: 14px;
+    color: var(--tx);
+    max-width: 480px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+  }
+  .fr-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    max-width: 720px;
+    margin: 24px auto 0;
+  }
+  .fr-stat {
+    background: var(--glass);
+    border: 1px solid var(--b);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .fr-stat-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    margin-bottom: 4px;
+  }
+  .fr-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--tx);
+  }
+
+  .submit-final {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    padding: 16px 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    border: none;
+    color: var(--void);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    box-shadow: 0 8px 24px rgba(56,189,248,0.25);
+  }
+  .submit-final:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(56,189,248,0.35);
+  }
+
+  /* ── SCROLL TOP ── */
+  .scroll-top {
+    position:fixed; bottom:32px; right:32px; z-index:50;
+    width:42px; height:42px; border-radius:50%;
+    background:var(--d2); border:1px solid var(--b2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--tx3);
+    transition:all 0.2s;
+    opacity:0; pointer-events:none;
+  }
+  .scroll-top.visible { opacity:1; pointer-events:auto; }
+  .scroll-top:hover { border-color:var(--accent); color:var(--accent); }
+  .scroll-top svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--b);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer span {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--tx3);
+    letter-spacing: 0.08em;
+  }
+  .footer-mark {
+    display: grid;
+    grid-template-columns: repeat(3,10px);
+    grid-template-rows: repeat(3,10px);
+    gap: 3px;
+  }
+  .footer-mark .sq { width: 10px; height: 10px; border-radius: 2px; background: var(--b); }
+  .footer-mark .sq.admin { background: rgba(245,200,66,0.5); }
+  .footer-mark .sq.teacher { background: rgba(0,229,255,0.4); }
+  .footer-mark .sq.student { background: rgba(184,207,255,0.3); }
+  .footer-mark .sq.core { background: rgba(62,255,160,0.7); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    .page { padding: 24px 16px 80px; }
+    .topnav { padding: 12px 16px; }
+    .options { grid-template-columns: 1fr; }
+    .question { padding: 22px; }
+    .score-tracker { flex-direction: column; align-items: stretch; gap: 14px; padding: 14px 18px; }
+    .mi-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .mi-input { width: 100%; }
+  }
+
+
+  /* ── KEY: highlight correct option ── */
+  .option.is-answer {
+    background: linear-gradient(135deg, rgba(62,255,160,0.14), rgba(0,229,255,0.06));
+    border-color: var(--green);
+    color: var(--tx);
+    cursor: default;
+  }
+  .option.is-answer .opt-letter {
+    background: var(--green);
+    color: var(--void);
+    border-color: var(--green);
+  }
+  .option.is-answer::after {
+    content: '✓ ANSWER';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    color: var(--green);
+  }
+  .option.is-answer { position: relative; }
+  .option:not(.is-answer) {
+    cursor: default;
+    opacity: 0.55;
+  }
+  .option:not(.is-answer):hover {
+    background: var(--glass);
+    border-color: var(--b);
+    transform: none;
+  }
+
+  /* KEY: feedback always visible */
+  .feedback { max-height: none !important; padding: 16px 20px !important; opacity: 1 !important; margin-top: 14px !important; }
+  .feedback-label { color: var(--green) !important; }
+
+  /* KEY: FRQ answer always visible, hide textarea + reveal button */
+  .frq-work, .reveal-btn, .check-btn, .submit-final, .final-results, .score-tracker, .multi-input-grid input { display: none !important; }
+  .frq-answer { max-height: none !important; padding: 22px 24px !important; opacity: 1 !important; }
+
+  /* KEY: numerical answer pills for Q30 */
+  .key-numerical-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .key-num-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(62,255,160,0.05);
+    border: 1px solid rgba(62,255,160,0.2);
+    border-radius: 12px;
+  }
+  .key-num-label { font-size: 13px; color: var(--tx2); }
+  .key-num-label strong { color: var(--tx); }
+  .key-num-answer {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--green);
+    padding: 6px 14px;
+    background: rgba(62,255,160,0.1);
+    border: 1px solid rgba(62,255,160,0.3);
+    border-radius: 8px;
+  }
+
+  /* KEY badge instead of student badge */
+  .nav-badge.key-badge {
+    background: rgba(62,255,160,0.12);
+    border-color: rgba(62,255,160,0.25);
+    color: var(--green);
+  }
+
+  /* TOC for the answer key */
+  .key-toc {
+    margin: 32px 0;
+    padding: 24px 28px;
+    background: var(--glass);
+    border: 1px solid var(--b2);
+    border-radius: 18px;
+  }
+  .key-toc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--tx3);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .key-toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 8px;
+  }
+  .key-toc-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 6px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--b);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--tx2);
+    transition: all 0.15s;
+  }
+  .key-toc-item:hover {
+    border-color: var(--green);
+    color: var(--green);
+    transform: translateY(-1px);
+  }
+  .key-toc-num { font-size: 10px; color: var(--tx3); letter-spacing: 0.05em; }
+  .key-toc-ans { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; color: var(--green); }
+
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calculus-final-exam.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Exam
+  </a>
+  <span class="nav-title">Answer Key</span>
+  <span class="nav-badge key-badge">Instructor Use</span>
+</nav>
+
+<div class="page">
+
+  <div class="exam-header">
+    <div class="sec-label" style="color: var(--green);">Answer Key · AP Calculus AB</div>
+    <h1 class="sec-title">Final Exam<br><span>Solutions</span></h1>
+    <p class="sec-desc">Complete answer key with worked solutions for all 35 questions. Section A multiple choice answers are highlighted in green; Section B numerical answers and Section C free-response models are shown in full beneath each prompt.</p>
+
+    <div class="pill-row">
+      <div class="pill"><span class="dot" style="background:var(--green)"></span>29 MC Answers</div>
+      <div class="pill"><span class="dot" style="background:var(--gold)"></span>4 Numerical Solutions</div>
+      <div class="pill"><span class="dot" style="background:var(--purple)"></span>5 FRQ Worked Solutions</div>
+    </div>
+  </div>
+
+  <!-- ANSWER KEY TOC -->
+  <div class="key-toc">
+    <div class="key-toc-title">Quick Reference · Multiple Choice Answers</div>
+    <div class="key-toc-grid">
+      <a class="key-toc-item" href="#q1"><span class="key-toc-num">Q1</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q2"><span class="key-toc-num">Q2</span><span class="key-toc-ans">A</span></a>
+      <a class="key-toc-item" href="#q3"><span class="key-toc-num">Q3</span><span class="key-toc-ans">E</span></a>
+      <a class="key-toc-item" href="#q4"><span class="key-toc-num">Q4</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q5"><span class="key-toc-num">Q5</span><span class="key-toc-ans">B</span></a>
+      <a class="key-toc-item" href="#q6"><span class="key-toc-num">Q6</span><span class="key-toc-ans">E</span></a>
+      <a class="key-toc-item" href="#q7"><span class="key-toc-num">Q7</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q8"><span class="key-toc-num">Q8</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q9"><span class="key-toc-num">Q9</span><span class="key-toc-ans">A</span></a>
+      <a class="key-toc-item" href="#q10"><span class="key-toc-num">Q10</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q11"><span class="key-toc-num">Q11</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q12"><span class="key-toc-num">Q12</span><span class="key-toc-ans">B</span></a>
+      <a class="key-toc-item" href="#q13"><span class="key-toc-num">Q13</span><span class="key-toc-ans">C</span></a>
+      <a class="key-toc-item" href="#q14"><span class="key-toc-num">Q14</span><span class="key-toc-ans">E</span></a>
+      <a class="key-toc-item" href="#q15"><span class="key-toc-num">Q15</span><span class="key-toc-ans">B</span></a>
+      <a class="key-toc-item" href="#q16"><span class="key-toc-num">Q16</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q17"><span class="key-toc-num">Q17</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q18"><span class="key-toc-num">Q18</span><span class="key-toc-ans">A</span></a>
+      <a class="key-toc-item" href="#q19"><span class="key-toc-num">Q19</span><span class="key-toc-ans">E</span></a>
+      <a class="key-toc-item" href="#q20"><span class="key-toc-num">Q20</span><span class="key-toc-ans">C</span></a>
+      <a class="key-toc-item" href="#q21"><span class="key-toc-num">Q21</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q22"><span class="key-toc-num">Q22</span><span class="key-toc-ans">A</span></a>
+      <a class="key-toc-item" href="#q23"><span class="key-toc-num">Q23</span><span class="key-toc-ans">E</span></a>
+      <a class="key-toc-item" href="#q24"><span class="key-toc-num">Q24</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q25"><span class="key-toc-num">Q25</span><span class="key-toc-ans">B</span></a>
+      <a class="key-toc-item" href="#q26"><span class="key-toc-num">Q26</span><span class="key-toc-ans">F</span></a>
+      <a class="key-toc-item" href="#q27"><span class="key-toc-num">Q27</span><span class="key-toc-ans">C</span></a>
+      <a class="key-toc-item" href="#q28"><span class="key-toc-num">Q28</span><span class="key-toc-ans">D</span></a>
+      <a class="key-toc-item" href="#q29"><span class="key-toc-num">Q29</span><span class="key-toc-ans">E</span></a>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>Section A · Multiple Choice (1–29)</span></div>
+
+  <div class="question" id="q1" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 1</span>
+      <span class="q-tag">Foundations · Limits</span>
+    </div>
+    <div class="q-prompt">
+      Evaluate: &nbsp; <span class="m">lim<sub>x→3</sub></span> <span class="fr"><span class="n">x² − 9</span><span class="d">x − 3</span></span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">0</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">3</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">∞</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">6</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">9</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">Does not exist</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Direct sub gives <strong>0/0</strong> (indeterminate). Factor: x² − 9 = (x − 3)(x + 3). Cancel (x − 3): &nbsp; lim<sub>x→3</sub> (x + 3) = <strong class="mgreen">6</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q2" data-correct="A">
+    <div class="q-header">
+      <span class="q-num">Question 2</span>
+      <span class="q-tag">Foundations · Continuity</span>
+    </div>
+    <div class="q-prompt">
+      For <span class="m">f(x) = (x² − 4)/(x − 2)</span>, what type of discontinuity exists at <span class="m">x = 2</span>?
+    </div>
+    <div class="options">
+      <button class="option is-answer" data-letter="A"><span class="opt-letter">A</span><span class="opt-text">Removable (hole)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">Jump</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">Infinite (asymptote)</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">Oscillating</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">f is continuous at x = 2</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">Endpoint discontinuity</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">x² − 4 = (x − 2)(x + 2). The (x − 2) cancels, so the limit at x = 2 exists and equals 4. But f(2) is undefined (denominator = 0). Limit exists but f is undefined → <strong class="mgreen">removable discontinuity (hole)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q3" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 3</span>
+      <span class="q-tag">Foundations · Limits at ∞</span>
+    </div>
+    <div class="q-prompt">
+      Evaluate: &nbsp; <span class="m">lim<sub>x→∞</sub></span> <span class="fr"><span class="n">3x² + 5x − 1</span><span class="d">6x² − 2x + 4</span></span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">0</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">1/3</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">2</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">3</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">1/2</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">∞</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Top degree (2) = bottom degree (2) → limit = ratio of leading coefficients = <strong class="mgreen">3/6 = 1/2</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q4" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 4</span>
+      <span class="q-tag">Foundations · Unit Circle</span>
+    </div>
+    <div class="q-prompt">
+      Find: &nbsp; <span class="m">sin(7π/6)</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">1/2</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">√3/2</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−√3/2</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">√2/2</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">−√2/2</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">−1/2</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">7π/6 is in Quadrant III (where sine is negative). Reference angle = π/6. sin(π/6) = 1/2, so sin(7π/6) = <strong class="mgreen">−1/2</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q5" data-correct="B">
+    <div class="q-header">
+      <span class="q-num">Question 5</span>
+      <span class="q-tag">Theorems · IVT</span>
+    </div>
+    <div class="q-prompt">
+      A function f is continuous on [1, 5] with <span class="m">f(1) = −2</span> and <span class="m">f(5) = 8</span>. By the Intermediate Value Theorem, which value of <span class="m">k</span> is GUARANTEED to have a corresponding c in (1, 5) where <span class="m">f(c) = k</span>?
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">k = −5</span></button>
+      <button class="option is-answer" data-letter="B"><span class="opt-letter">B</span><span class="opt-text">k = 4</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">k = 9</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">k = 12</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">k = −3</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">None of the above</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">IVT requires k to be between f(1) = −2 and f(5) = 8. Only <strong class="mgreen">k = 4</strong> lies strictly between −2 and 8. The others (−5, −3, 9, 12) all fall outside [−2, 8].</div>
+    </div>
+  </div>
+
+  <div class="question" id="q6" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 6</span>
+      <span class="q-tag">Theorems · MVT</span>
+    </div>
+    <div class="q-prompt">
+      A function f is differentiable on [2, 8] with <span class="m">f(2) = 4</span> and <span class="m">f(8) = 22</span>. By the Mean Value Theorem, there exists c in (2, 8) such that <span class="m">f'(c) =</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">1</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">2</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">6</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">9</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">3</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">18</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">MVT guarantees: f'(c) = [f(8) − f(2)] / (8 − 2) = (22 − 4)/6 = 18/6 = <strong class="mgreen">3</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q7" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 7</span>
+      <span class="q-tag">Differentiation · Power Rule</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">f(x) = 4x³ − 2x² + 7x − 5</span>, find <span class="m">f'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">4x² − 2x + 7</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">12x² − 2x + 7</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">12x³ − 4x² + 7x</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">x³ − x² + 7</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">4x² − 4x + 7</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">12x² − 4x + 7</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Power rule term-by-term: 4·3x² − 2·2x + 7 − 0 = <strong class="mgreen">12x² − 4x + 7</strong>. The constant −5 differentiates to 0.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q8" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 8</span>
+      <span class="q-tag">Differentiation · Product Rule</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">f(x) = x²·sin(x)</span>, find <span class="m">f'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">2x cos(x)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">2x cos(x) − x² sin(x)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">2x sin(x) − x² cos(x)</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">2x sin(x) + x² cos(x)</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">x² cos(x)</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">2x² cos(x)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Product rule: (fg)' = f'g + fg'. Here f = x², g = sin(x). So f' = 2x, g' = cos(x). Result: <strong class="mgreen">2x sin(x) + x² cos(x)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q9" data-correct="A">
+    <div class="q-header">
+      <span class="q-num">Question 9</span>
+      <span class="q-tag">Differentiation · Quotient Rule</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">f(x) = (3x + 1)/(x − 2)</span>, find <span class="m">f'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option is-answer" data-letter="A"><span class="opt-letter">A</span><span class="opt-text">−7/(x − 2)²</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">3/(x − 2)²</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">(3x + 1)/(x − 2)²</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">−5/(x − 2)²</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">7/(x − 2)²</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">(6x − 7)/(x − 2)²</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Quotient rule: (low·d-high − high·d-low)/low². Numerator: 3(x − 2) − (3x + 1)(1) = 3x − 6 − 3x − 1 = <strong>−7</strong>. So f'(x) = <strong class="mgreen">−7/(x − 2)²</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q10" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 10</span>
+      <span class="q-tag">Differentiation · Chain Rule</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">f(x) = sin(3x²)</span>, find <span class="m">f'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">cos(3x²)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">cos(6x)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">3x cos(3x²)</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">−6x sin(3x²)</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">6x sin(3x²)</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">6x cos(3x²)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Chain rule: outside derivative · inside derivative. Outside: cos(u). Inside: u = 3x², u' = 6x. Result: <strong class="mgreen">cos(3x²) · 6x = 6x cos(3x²)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q11" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 11</span>
+      <span class="q-tag">Differentiation · Trig</span>
+    </div>
+    <div class="q-prompt">
+      What is the derivative of <span class="m">f(x) = tan(x)</span>?
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">sec(x)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">sec(x) tan(x)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−csc²(x)</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">sec²(x)</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">cot(x)</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">1/cos(x)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Standard trig derivative: <strong class="mgreen">d/dx[tan(x)] = sec²(x)</strong>. Memory: derivatives of "co-" functions get a negative sign — tan does NOT, since it's not a co-function.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q12" data-correct="B">
+    <div class="q-header">
+      <span class="q-num">Question 12</span>
+      <span class="q-tag">Differentiation · Log</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">f(x) = ln(5x² + 1)</span>, find <span class="m">f'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">1/(5x² + 1)</span></button>
+      <button class="option is-answer" data-letter="B"><span class="opt-letter">B</span><span class="opt-text">10x/(5x² + 1)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">(5x² + 1)/(10x)</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">10x</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">1/(10x)</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">5x²/(5x² + 1)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">d/dx[ln(u)] = u'/u (chain rule on ln). Here u = 5x² + 1, u' = 10x. Result: <strong class="mgreen">10x/(5x² + 1)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q13" data-correct="C">
+    <div class="q-header">
+      <span class="q-num">Question 13</span>
+      <span class="q-tag">Implicit Differentiation</span>
+    </div>
+    <div class="q-prompt">
+      For the curve <span class="m">x² + y² = 25</span>, find <span class="m">dy/dx</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">x/y</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">−y/x</span></button>
+      <button class="option is-answer" data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−x/y</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">y/x</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">−2x/y</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">2y/x</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Differentiate both sides w.r.t. x: 2x + 2y(dy/dx) = 0. Solve: dy/dx = −2x/(2y) = <strong class="mgreen">−x/y</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q14" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 14</span>
+      <span class="q-tag">Implicit · Product Term</span>
+    </div>
+    <div class="q-prompt">
+      For the curve <span class="m">xy + y² = 6</span>, find <span class="m">dy/dx</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">y/(x + 2y)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">y/(x − 2y)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−y/(2y)</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">(1 + 2y)/y</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">−y/(x + 2y)</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">1/(x + 2y)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Differentiate using product rule on xy: y + x(dy/dx) + 2y(dy/dx) = 0. Group dy/dx terms: (x + 2y)(dy/dx) = −y. So dy/dx = <strong class="mgreen">−y/(x + 2y)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q15" data-correct="B">
+    <div class="q-header">
+      <span class="q-num">Question 15</span>
+      <span class="q-tag">App. of Derivatives · Extrema</span>
+    </div>
+    <div class="q-prompt">
+      For <span class="m">f(x) = x³ − 3x² − 9x + 5</span>, at which x-value does a <strong>local minimum</strong> occur?
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">x = −3</span></button>
+      <button class="option is-answer" data-letter="B"><span class="opt-letter">B</span><span class="opt-text">x = 3</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">x = −1</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">x = 0</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">x = 1</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">x = 5</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">f'(x) = 3x² − 6x − 9 = 3(x − 3)(x + 1). Critical points: x = −1 and x = 3. Second derivative test: f''(x) = 6x − 6. f''(−1) = −12 &lt; 0 (local max). f''(3) = 12 &gt; 0 (local min). So local min at <strong class="mgreen">x = 3</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q16" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 16</span>
+      <span class="q-tag">App. of Derivatives · L'Hôpital</span>
+    </div>
+    <div class="q-prompt">
+      Evaluate: &nbsp; <span class="m">lim<sub>x→0</sub></span> <span class="fr"><span class="n">sin(2x)</span><span class="d">x</span></span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">0</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">1/2</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">1</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">∞</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">Does not exist</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">2</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Direct sub gives 0/0 → indeterminate. Apply L'Hôpital: lim<sub>x→0</sub> [2cos(2x) / 1] = 2cos(0) = <strong class="mgreen">2</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q17" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 17</span>
+      <span class="q-tag">App. of Derivatives · Related Rates</span>
+    </div>
+    <div class="q-prompt">
+      A spherical balloon's radius is increasing at <span class="m">2 cm/s</span>. When <span class="m">r = 5 cm</span>, how fast is the volume changing? &nbsp;<span class="m">[V = (4/3)πr³]</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">25π cm³/s</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">50π cm³/s</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">100π cm³/s</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">200π cm³/s</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">400π cm³/s</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">500π/3 cm³/s</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Differentiate V w.r.t. t: dV/dt = 4πr² · (dr/dt). Substitute r = 5, dr/dt = 2: dV/dt = 4π(25)(2) = <strong class="mgreen">200π cm³/s</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q18" data-correct="A">
+    <div class="q-header">
+      <span class="q-num">Question 18</span>
+      <span class="q-tag">App. of Derivatives · Concavity</span>
+    </div>
+    <div class="q-prompt">
+      For <span class="m">f(x) = x⁴ − 4x³</span>, on which interval(s) is the graph <strong>concave up</strong>?
+    </div>
+    <div class="options">
+      <button class="option is-answer" data-letter="A"><span class="opt-letter">A</span><span class="opt-text">(−∞, 0) ∪ (2, ∞)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">(0, 2)</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">(−∞, 0) only</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">(2, ∞) only</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">All real numbers</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">(0, ∞)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">f'(x) = 4x³ − 12x², f''(x) = 12x² − 24x = 12x(x − 2). f'' &gt; 0 (concave up) when x &lt; 0 OR x &gt; 2. So concave up on <strong class="mgreen">(−∞, 0) ∪ (2, ∞)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q19" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 19</span>
+      <span class="q-tag">Antiderivatives · +C Rule</span>
+    </div>
+    <div class="q-prompt">
+      Find: &nbsp; <span class="m">∫(6x² − 4x + 3) dx</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">2x³ − 2x² + 3x &nbsp;(no +C)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">12x − 4 + C</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">6x³ − 4x² + 3x + C</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">2x³ + 2x² + 3x + C</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">2x³ − 2x² + 3x + C</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">2x² − 2x + 3 + C</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Reverse power rule term-by-term (add 1 to exponent, divide by new exponent): 6x²→2x³, −4x→−2x², 3→3x. Indefinite integral REQUIRES +C: <strong class="mgreen">2x³ − 2x² + 3x + C</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q20" data-correct="C">
+    <div class="q-header">
+      <span class="q-num">Question 20</span>
+      <span class="q-tag">Antiderivatives · Trig</span>
+    </div>
+    <div class="q-prompt">
+      Find: &nbsp; <span class="m">∫sec²(x) dx</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">sec(x) + C</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">sec(x) tan(x) + C</span></button>
+      <button class="option is-answer" data-letter="C"><span class="opt-letter">C</span><span class="opt-text">tan(x) + C</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">−cot(x) + C</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">−csc²(x) + C</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">ln|sec(x)| + C</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Since d/dx[tan(x)] = sec²(x), the antiderivative is <strong class="mgreen">tan(x) + C</strong>. (Antidifferentiation reverses differentiation.)</div>
+    </div>
+  </div>
+
+  <div class="question" id="q21" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 21</span>
+      <span class="q-tag">U-Substitution</span>
+    </div>
+    <div class="q-prompt">
+      Find: &nbsp; <span class="m">∫2x · cos(x²) dx</span>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">cos(x²) + C</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">2 sin(x²) + C</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−sin(x²) + C</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">sin(x²) + C</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">x² sin(x²) + C</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">sin(x) · cos(x) + C</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Let u = x², du = 2x dx. The integral becomes ∫cos(u) du = sin(u) + C. Replace: <strong class="mgreen">sin(x²) + C</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q22" data-correct="A">
+    <div class="q-header">
+      <span class="q-num">Question 22</span>
+      <span class="q-tag">U-Sub · Definite</span>
+    </div>
+    <div class="q-prompt">
+      Evaluate: &nbsp; <span class="m">∫<sub>0</sub><sup>2</sup> 3x² · e<sup>x³</sup> dx</span>
+    </div>
+    <div class="options">
+      <button class="option is-answer" data-letter="A"><span class="opt-letter">A</span><span class="opt-text">e⁸ − 1</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">e² − 1</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">e⁸</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">e⁸ − e</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">8 − e</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">e³ − 1</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">u = x³, du = 3x² dx. Change bounds: x = 0 → u = 0, &nbsp; x = 2 → u = 8. New integral: ∫<sub>0</sub><sup>8</sup> e<sup>u</sup> du = e⁸ − e⁰ = <strong class="mgreen">e⁸ − 1</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q23" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 23</span>
+      <span class="q-tag">Riemann Sum · Left</span>
+    </div>
+    <div class="q-prompt">
+      Approximate <span class="m">∫<sub>0</sub><sup>4</sup> f(x) dx</span> using a <strong>LEFT Riemann sum</strong> with n = 4 subintervals (Δx = 1) using the table:
+      <table class="mini-table">
+        <tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+        <tr><td style="color:var(--tx3)">f(x)</td><td>5</td><td>7</td><td>8</td><td>10</td><td>12</td></tr>
+      </table>
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">26</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">28</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">32</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">35</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">30</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">37</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Left endpoints: f(0), f(1), f(2), f(3) = 5, 7, 8, 10. Sum = (5 + 7 + 8 + 10)·Δx = 30·1 = <strong class="mgreen">30</strong>. (Skip the rightmost f(4) = 12 — left endpoints don't include the right edge.)</div>
+    </div>
+  </div>
+
+  <div class="question" id="q24" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 24</span>
+      <span class="q-tag">Riemann · Over/Under</span>
+    </div>
+    <div class="q-prompt">
+      For an <strong>increasing</strong> and <strong>concave up</strong> function, a <strong>LEFT</strong> Riemann sum produces an estimate that is:
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">An overestimate</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">Always exact</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">An overestimate if Δx is small</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">Depends on the function</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">Sometimes over, sometimes under</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">An underestimate</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">For an increasing function, left rectangles use the smaller (leftmost) value on each subinterval, so the rectangles sit BELOW the curve. Result: <strong class="mgreen">underestimate</strong>. (Concavity affects trapezoid/midpoint, not left/right for monotonic functions.)</div>
+    </div>
+  </div>
+
+  <div class="question" id="q25" data-correct="B">
+    <div class="q-header">
+      <span class="q-num">Question 25</span>
+      <span class="q-tag">Definite Integrals · Properties</span>
+    </div>
+    <div class="q-prompt">
+      Given that <span class="m">∫<sub>0</sub><sup>3</sup> f(x) dx = 7</span> and <span class="m">∫<sub>3</sub><sup>5</sup> f(x) dx = −2</span>, find <span class="m">∫<sub>0</sub><sup>5</sup> f(x) dx</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">−9</span></button>
+      <button class="option is-answer" data-letter="B"><span class="opt-letter">B</span><span class="opt-text">5</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">−5</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">2</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">9</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">14</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Integral additivity: ∫<sub>0</sub><sup>5</sup> = ∫<sub>0</sub><sup>3</sup> + ∫<sub>3</sub><sup>5</sup> = 7 + (−2) = <strong class="mgreen">5</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q26" data-correct="F">
+    <div class="q-header">
+      <span class="q-num">Question 26</span>
+      <span class="q-tag">Definite Integrals · Graphs</span>
+    </div>
+    <div class="q-prompt">
+      The graph of f consists of a <strong>semicircle</strong> of radius 3 above the x-axis from x = −3 to x = 3, plus a <strong>triangle</strong> below the x-axis with base 4 and height 2 from x = 3 to x = 7. Find <span class="m">∫<sub>−3</sub><sup>7</sup> f(x) dx</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">9π/2 + 4</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">9π − 4</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">9π/2</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">4 − 9π/2</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">9π + 4</span></button>
+      <button class="option is-answer" data-letter="F"><span class="opt-letter">F</span><span class="opt-text">9π/2 − 4</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">Semicircle area: (1/2)π(3)² = 9π/2 (above → POSITIVE). Triangle area: (1/2)(4)(2) = 4 (below → NEGATIVE). Net signed area: <strong class="mgreen">9π/2 − 4</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q27" data-correct="C">
+    <div class="q-header">
+      <span class="q-num">Question 27</span>
+      <span class="q-tag">FTC Part 1 · Chain Rule</span>
+    </div>
+    <div class="q-prompt">
+      If <span class="m">g(x) = ∫<sub>0</sub><sup>x²</sup> sin(t) dt</span>, find <span class="m">g'(x)</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">sin(x²)</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">2x cos(x²)</span></button>
+      <button class="option is-answer" data-letter="C"><span class="opt-letter">C</span><span class="opt-text">2x sin(x²)</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">cos(x²) − 1</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">sin(x²) − sin(0)</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">x² cos(x)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">FTC Part 1 with chain rule: replace t with the upper bound, then multiply by the derivative of the upper bound. g'(x) = sin(x²) · d/dx(x²) = sin(x²) · 2x = <strong class="mgreen">2x sin(x²)</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q28" data-correct="D">
+    <div class="q-header">
+      <span class="q-num">Question 28</span>
+      <span class="q-tag">App. of Integrals · Area</span>
+    </div>
+    <div class="q-prompt">
+      Find the area of the region bounded by <span class="m">y = 2x</span> and <span class="m">y = x²</span> from <span class="m">x = 0</span> to <span class="m">x = 2</span>.
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">2/3</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">1</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">8/3</span></button>
+      <button class="option is-answer" data-letter="D"><span class="opt-letter">D</span><span class="opt-text">4/3</span></button>
+      <button class="option " data-letter="E"><span class="opt-letter">E</span><span class="opt-text">2</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">4</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">On [0, 2]: 2x ≥ x² (test x = 1: 2 ≥ 1 ✓). Area = ∫<sub>0</sub><sup>2</sup>(2x − x²) dx = [x² − x³/3]<sub>0</sub><sup>2</sup> = (4 − 8/3) − 0 = 12/3 − 8/3 = <strong class="mgreen">4/3</strong>.</div>
+    </div>
+  </div>
+
+  <div class="question" id="q29" data-correct="E">
+    <div class="q-header">
+      <span class="q-num">Question 29</span>
+      <span class="q-tag">Physics · SHM</span>
+    </div>
+    <div class="q-prompt">
+      A particle moves along the x-axis with position <span class="m">x(t) = 4cos(2t)</span>. What is its velocity at <span class="m">t = π/4</span>?
+    </div>
+    <div class="options">
+      <button class="option " data-letter="A"><span class="opt-letter">A</span><span class="opt-text">−4</span></button>
+      <button class="option " data-letter="B"><span class="opt-letter">B</span><span class="opt-text">0</span></button>
+      <button class="option " data-letter="C"><span class="opt-letter">C</span><span class="opt-text">4</span></button>
+      <button class="option " data-letter="D"><span class="opt-letter">D</span><span class="opt-text">8</span></button>
+      <button class="option is-answer" data-letter="E"><span class="opt-letter">E</span><span class="opt-text">−8</span></button>
+      <button class="option " data-letter="F"><span class="opt-letter">F</span><span class="opt-text">8 sin(π/2)</span></button>
+    </div>
+    <div class="feedback">
+      <div class="feedback-label">Solution</div>
+      <div class="feedback-body">v(t) = x'(t) = −8 sin(2t) (chain rule: derivative of cos is −sin, times 2). At t = π/4: v(π/4) = −8 sin(π/2) = −8 · 1 = <strong class="mgreen">−8</strong>.</div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>Section B · Multi-Part Numerical (30)</span></div>
+
+  <div class="question" id="q30">
+    <div class="q-header">
+      <span class="q-num">Question 30</span>
+      <span class="q-tag" style="color:var(--gold); border-color:rgba(245,200,66,0.3);">Multi-Part · Particle Motion</span>
+    </div>
+    <div class="q-prompt">
+      A particle moves along the x-axis with velocity <span class="m">v(t) = 3t² − 12t + 9</span> &nbsp;for &nbsp;<span class="m">0 ≤ t ≤ 5</span>.
+      <br><br>Answer all four parts. Enter exact numerical values (no units).
+    </div>
+
+    <div class="key-numerical-grid">
+      <div class="key-num-row">
+        <div class="key-num-label"><span class="mi-prefix">Part (a)</span>
+          The smaller value of <strong>t</strong> at which the particle is at rest:</div>
+        <div class="key-num-answer">1</div>
+      </div>
+      <div class="key-num-row">
+        <div class="key-num-label"><span class="mi-prefix">Part (b)</span>
+          The larger value of <strong>t</strong> at which the particle is at rest:</div>
+        <div class="key-num-answer">3</div>
+      </div>
+      <div class="key-num-row">
+        <div class="key-num-label"><span class="mi-prefix">Part (c)</span>
+          The total <strong>displacement</strong> from t = 0 to t = 5: &nbsp;<span class="m">∫<sub>0</sub><sup>5</sup> v(t) dt</span></div>
+        <div class="key-num-answer">20</div>
+      </div>
+      <div class="key-num-row">
+        <div class="key-num-label"><span class="mi-prefix">Part (d)</span>
+          The <strong>acceleration</strong> at <span class="m">t = 2</span>: &nbsp;<span class="m">a(2)</span></div>
+        <div class="key-num-answer">0</div>
+      </div>
+    </div>
+
+    <div class="feedback">
+      <div class="feedback-label">Worked Solution</div>
+      <div class="feedback-body"><strong>(a) &amp; (b) Particle at rest:</strong> &nbsp;Set v(t) = 0. &nbsp;3t² − 12t + 9 = 3(t² − 4t + 3) = 3(t − 1)(t − 3) = 0. &nbsp;So <strong>t = 1</strong> and <strong>t = 3</strong>.<br><br>
+        <strong>(c) Displacement:</strong> &nbsp;∫<sub>0</sub><sup>5</sup>(3t² − 12t + 9) dt = [t³ − 6t² + 9t]<sub>0</sub><sup>5</sup> = (125 − 150 + 45) − 0 = <strong>20</strong>.<br><br>
+        <strong>(d) Acceleration at t = 2:</strong> &nbsp;a(t) = v'(t) = 6t − 12. &nbsp;a(2) = 12 − 12 = <strong>0</strong>. &nbsp;(Note: this is when the particle's velocity reaches its minimum on the interval.)</div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>Section C · Free Response (31–35)</span></div>
+
+  <div class="question" id="q31">
+    <div class="q-header">
+      <span class="q-num">Question 31</span>
+      <span class="q-tag" style="color:var(--purple); border-color:rgba(192,132,252,0.3);">FRQ · Related Rates</span>
+    </div>
+    <div class="q-prompt">
+      A 13-foot ladder leans against a vertical wall. The bottom of the ladder is sliding away from the wall at a rate of <span class="m">2 ft/s</span>.
+      <br><br><strong>(a)</strong> How fast is the top of the ladder sliding down the wall when the bottom is <span class="m">5 ft</span> from the wall?
+      <br><br><strong>(b)</strong> Justify why your answer to (a) must be negative, in context.
+    </div>
+
+    <div class="frq-answer">
+      <div class="frq-part">
+        <div class="frq-part-label">(a) Setup &amp; Differentiate</div>
+        Let x = horizontal distance from wall, y = height of top, with x² + y² = 13² = 169.<br>
+        Differentiate w.r.t. t: &nbsp;<strong>2x(dx/dt) + 2y(dy/dt) = 0</strong>.<br><br>
+        When x = 5: y² = 169 − 25 = 144, so y = 12.<br>
+        Given dx/dt = 2 ft/s. Solve for dy/dt:<br>
+        2(5)(2) + 2(12)(dy/dt) = 0 → 20 + 24(dy/dt) = 0 → <strong>dy/dt = −5/6 ft/s</strong>.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(b) Justification</div>
+        The top of the ladder is moving DOWN, so its height y is DECREASING. A decreasing y means dy/dt &lt; 0. The negative sign in <strong>−5/6 ft/s</strong> communicates that the height is decreasing at a rate of 5/6 ft per second.
+      </div>
+    </div>
+  </div>
+
+  <div class="question" id="q32">
+    <div class="q-header">
+      <span class="q-num">Question 32</span>
+      <span class="q-tag" style="color:var(--purple); border-color:rgba(192,132,252,0.3);">FRQ · MVT Justification</span>
+    </div>
+    <div class="q-prompt">
+      A function f is continuous on <span class="m">[2, 10]</span> and differentiable on <span class="m">(2, 10)</span>, with the values:
+      <table class="mini-table">
+        <tr><th>t</th><th>2</th><th>4</th><th>7</th><th>10</th></tr>
+        <tr><td style="color:var(--tx3)">f(t)</td><td>5</td><td>9</td><td>14</td><td>21</td></tr>
+      </table>
+      <strong>(a)</strong> Use the Mean Value Theorem to justify why there must exist a value <span class="m">c</span> in <span class="m">(2, 10)</span> such that <span class="m">f'(c) = 2</span>.
+      <br><br><strong>(b)</strong> Use a left Riemann sum with the 3 subintervals shown to approximate <span class="m">∫<sub>2</sub><sup>10</sup> f(t) dt</span>.
+    </div>
+
+    <div class="frq-answer">
+      <div class="frq-part">
+        <div class="frq-part-label">(a) MVT Citation</div>
+        <strong>Average rate of change</strong> on [2, 10]:<br>
+        [f(10) − f(2)] / (10 − 2) = (21 − 5)/8 = 16/8 = <strong>2</strong>.<br><br>
+        <em>"Since f is continuous on [2, 10] and differentiable on (2, 10), by the Mean Value Theorem there exists at least one value c in (2, 10) such that f'(c) = [f(10) − f(2)] / (10 − 2) = 2."</em><br><br>
+        <strong>This is the exact citation template — both conditions stated, full formula written, conclusion in interval notation.</strong>
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(b) Left Riemann Sum</div>
+        Subintervals: [2,4], [4,7], [7,10] with widths 2, 3, 3. Use LEFT endpoints: f(2), f(4), f(7).<br>
+        Sum = 2·f(2) + 3·f(4) + 3·f(7) = 2(5) + 3(9) + 3(14) = 10 + 27 + 42 = <strong>79</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="question" id="q33">
+    <div class="q-header">
+      <span class="q-num">Question 33</span>
+      <span class="q-tag" style="color:var(--purple); border-color:rgba(192,132,252,0.3);">FRQ · Area &amp; Volume</span>
+    </div>
+    <div class="q-prompt">
+      Let R be the region in the first quadrant bounded by <span class="m">y = √x</span> and <span class="m">y = x/2</span>.
+      <br><br><strong>(a)</strong> Find the x-coordinates of the points where the two curves intersect.
+      <br><br><strong>(b)</strong> Find the area of region R.
+      <br><br><strong>(c)</strong> Find the volume of the solid generated when R is rotated about the x-axis.
+    </div>
+
+    <div class="frq-answer">
+      <div class="frq-part">
+        <div class="frq-part-label">(a) Intersection</div>
+        Set √x = x/2. Square: x = x²/4 → 4x = x² → x² − 4x = 0 → x(x − 4) = 0.<br>
+        Intersections at <strong>x = 0 and x = 4</strong>.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(b) Area</div>
+        On [0, 4]: top = √x, bottom = x/2 (test x = 1: √1 = 1, 1/2 = 0.5 ✓).<br>
+        Area = ∫<sub>0</sub><sup>4</sup>(√x − x/2) dx = [⅔x<sup>3/2</sup> − x²/4]<sub>0</sub><sup>4</sup><br>
+        = (⅔·8 − 4) − 0 = 16/3 − 12/3 = <strong>4/3</strong>.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(c) Volume (Washer Method)</div>
+        V = π∫<sub>0</sub><sup>4</sup>[(R<sub>outer</sub>)² − (R<sub>inner</sub>)²] dx = π∫<sub>0</sub><sup>4</sup>[(√x)² − (x/2)²] dx<br>
+        = π∫<sub>0</sub><sup>4</sup>(x − x²/4) dx = π[x²/2 − x³/12]<sub>0</sub><sup>4</sup><br>
+        = π[8 − 64/12] = π[8 − 16/3] = π[24/3 − 16/3] = <strong>8π/3</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="question" id="q34">
+    <div class="q-header">
+      <span class="q-num">Question 34</span>
+      <span class="q-tag" style="color:var(--purple); border-color:rgba(192,132,252,0.3);">FRQ · Graph of f'</span>
+    </div>
+    <div class="q-prompt">
+      The graph of <span class="m">f'(x)</span>, the derivative of f, on <span class="m">[0, 8]</span> consists of two pieces:
+      <ul style="list-style:none; padding-left:0; margin:10px 0; font-size:13px; color:var(--tx2);">
+        <li style="padding:4px 0;">• A <strong>semicircle</strong> of radius 2 above the x-axis from x = 0 to x = 4</li>
+        <li style="padding:4px 0;">• A <strong>line segment</strong> from (4, 0) to (8, −4)</li>
+      </ul>
+      It is given that <span class="m">f(0) = 5</span>.
+      <br><br><strong>(a)</strong> Find all x-values where f has a local maximum on (0, 8). Justify.
+      <br><br><strong>(b)</strong> Find <span class="m">f(4)</span>.
+      <br><br><strong>(c)</strong> On what interval(s) is f concave down on (0, 8)? Justify.
+    </div>
+
+    <div class="frq-answer">
+      <div class="frq-part">
+        <div class="frq-part-label">(a) Local Maximum</div>
+        f has a local max where f' changes from POSITIVE to NEGATIVE.<br>
+        On [0, 4], f' (the semicircle) is positive. At x = 4, f' = 0. After x = 4, f' is negative (line dips below x-axis).<br>
+        f' goes <strong>+ → − at x = 4</strong>. So f has a local maximum at <strong>x = 4</strong>.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(b) f(4)</div>
+        By FTC: &nbsp;f(4) = f(0) + ∫<sub>0</sub><sup>4</sup> f'(x) dx.<br>
+        ∫<sub>0</sub><sup>4</sup> f'(x) dx = area of semicircle = (1/2)π(2)² = <strong>2π</strong>.<br>
+        So f(4) = 5 + 2π.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(c) Concave Down</div>
+        f is concave down where f' is DECREASING.<br>
+        Semicircle: f' increases on (0, 2), decreases on (2, 4).<br>
+        Line from (4, 0) to (8, −4): slope = −1, so f' is decreasing on (4, 8).<br>
+        f is concave down on <strong>(2, 8)</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="question" id="q35">
+    <div class="q-header">
+      <span class="q-num">Question 35</span>
+      <span class="q-tag" style="color:var(--purple); border-color:rgba(192,132,252,0.3);">FRQ · Table &amp; Riemann</span>
+    </div>
+    <div class="q-prompt">
+      The velocity of a car (in ft/s) is recorded at 5-second intervals:
+      <table class="mini-table">
+        <tr><th>t (sec)</th><th>0</th><th>5</th><th>10</th><th>15</th><th>20</th></tr>
+        <tr><td style="color:var(--tx3)">v(t)</td><td>30</td><td>45</td><td>50</td><td>55</td><td>40</td></tr>
+      </table>
+      <strong>(a)</strong> Use a midpoint Riemann sum with <strong>2</strong> equal subintervals to approximate <span class="m">∫<sub>0</sub><sup>20</sup> v(t) dt</span>.
+      <br><br><strong>(b)</strong> Interpret <span class="m">∫<sub>0</sub><sup>20</sup> v(t) dt</span> in context, with units.
+      <br><br><strong>(c)</strong> Use a trapezoidal sum with the <strong>4</strong> subintervals shown to approximate <span class="m">∫<sub>0</sub><sup>20</sup> v(t) dt</span>.
+    </div>
+
+    <div class="frq-answer">
+      <div class="frq-part">
+        <div class="frq-part-label">(a) Midpoint Sum (n = 2)</div>
+        Two equal subintervals: [0, 10] and [10, 20], each of width 10. Midpoints: t = 5 and t = 15.<br>
+        Sum = 10·v(5) + 10·v(15) = 10(45) + 10(55) = 450 + 550 = <strong>1000 ft</strong>.
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(b) Interpretation</div>
+        <em>"∫<sub>0</sub><sup>20</sup> v(t) dt represents the <strong>total distance, in feet</strong>, that the car travels from time t = 0 to t = 20 seconds."</em><br><br>
+        <strong>Required for full credit:</strong> what the integral represents, units (feet), AND the time interval (0 to 20 seconds).
+      </div>
+      <div class="frq-part">
+        <div class="frq-part-label">(c) Trapezoidal Sum (n = 4)</div>
+        Width of each subinterval: Δt = 5.<br>
+        Trap = (Δt/2)[v(0) + 2v(5) + 2v(10) + 2v(15) + v(20)]<br>
+        = (5/2)[30 + 2(45) + 2(50) + 2(55) + 40]<br>
+        = (5/2)[30 + 90 + 100 + 110 + 40]<br>
+        = (5/2)(370) = <strong>925 ft</strong>.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</div>
+
+<script>
+  // Progress bar + scroll-to-top only
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? scrolled / total : 0;
+    document.getElementById('progressBar').style.transform = `scaleX(${pct})`;
+    const st = document.getElementById('scrollTop');
+    if (scrolled > 300) st.classList.add('visible'); else st.classList.remove('visible');
+  });
+</script>
+</body>
+</html>

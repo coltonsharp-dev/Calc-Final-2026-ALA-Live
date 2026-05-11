@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calc AB · Day 2 · Differentiation Rules &amp; Implicit</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">Day 2 · Tue May 12</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Differentiation Rules &amp; Implicit</span>
+  </div>
+  <div class="timer-pill" style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:var(--glass);border:1px solid var(--b);font-size:12px;color:var(--tx2);letter-spacing:0.08em;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>
+    <span id="timerVal" style="font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);font-size:13px;letter-spacing:0.04em;">00:00</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot" style="background:var(--green)"></span>Day 2 of 5 · Tue May 12 · ~40 min</div>
+    <h1 class="day-title">
+      <span class="l1">Differentiation</span>
+      <span class="l2">Rules &amp; Implicit.</span>
+    </h1>
+    <p class="day-sub">Every derivative rule on the AP exam: power, product, quotient, chain, plus memorized trig/log/exp derivatives and implicit differentiation. <strong>14 randomized questions.</strong> The biggest miss reservoir on the exam — most of the MC points live here.</p>
+
+    <div class="meta-row">
+      <div class="meta-pill"><span class="dot" style="background:var(--green)"></span>Differentiation · Implicit</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>7 MC · 4 FIB · 3 Dropdown</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 Quotient rule sign trap</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 Chain "outside · inside"</div>
+    </div>
+
+    <div class="instructions">
+      <div class="ih">📘 How to use this practice</div>
+      <strong>1.</strong> Answer each question — wrong-answer feedback names the specific rule misapplication. <strong>2.</strong> Use <strong>↻ New Numbers</strong> to drill any rule until it's automatic. <strong>3.</strong> Submit via Canvas at the bottom.
+    </div>
+  </div>
+
+  <!-- ─── BASIC RULES ─── -->
+  <div class="section-header" data-color="green"><div class="sh-row">
+    <span class="sh-tag">A</span><span class="sh-title">Power, Product, Quotient</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="1" data-color="green"><div class="q-top"><div class="q-num">01</div><span class="q-tag">Power Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="2" data-color="green"><div class="q-top"><div class="q-num">02</div><span class="q-tag">Power · Evaluate f'(c)</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="3" data-color="green"><div class="q-top"><div class="q-num">03</div><span class="q-tag">Product Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="4" data-color="green"><div class="q-top"><div class="q-num">04</div><span class="q-tag priority">Quotient Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><span class="q-tag hot">🔥 Sign Trap</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <!-- ─── CHAIN RULE ─── -->
+  <div class="section-header" data-color="green"><div class="sh-row">
+    <span class="sh-tag">B</span><span class="sh-title">Chain Rule &amp; Composites</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="5" data-color="green"><div class="q-top"><div class="q-num">05</div><span class="q-tag">Chain · sin(g(x))</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="6" data-color="green"><div class="q-top"><div class="q-num">06</div><span class="q-tag">Chain · Power of Inner</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="7" data-color="green"><div class="q-top"><div class="q-num">07</div><span class="q-tag">Which Rule Applies?</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <!-- ─── TRIG / LOG / EXP ─── -->
+  <div class="section-header" data-color="green"><div class="sh-row">
+    <span class="sh-tag">C</span><span class="sh-title">Trig · Log · Exponential Derivatives</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="8" data-color="green"><div class="q-top"><div class="q-num">08</div><span class="q-tag">Memorized Trig Derivative</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="9" data-color="green"><div class="q-top"><div class="q-num">09</div><span class="q-tag">ln(u) Derivative</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="10" data-color="green"><div class="q-top"><div class="q-num">10</div><span class="q-tag">e^u Derivative</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <!-- ─── IMPLICIT ─── -->
+  <div class="section-header" data-color="green"><div class="sh-row">
+    <span class="sh-tag">D</span><span class="sh-title">Implicit Differentiation</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="11" data-color="green"><div class="q-top"><div class="q-num">11</div><span class="q-tag">Implicit · Circle</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="12" data-color="green"><div class="q-top"><div class="q-num">12</div><span class="q-tag">Implicit · Product Term</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="13" data-color="green"><div class="q-top"><div class="q-num">13</div><span class="q-tag">Tangent Line at a Point</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="14" data-color="green"><div class="q-top"><div class="q-num">14</div><span class="q-tag">Derivative Identify · Match Formula</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="submit-area">
+    <div class="submit-eyebrow"><span class="dot"></span>End of Day 2 · Submit via Canvas</div>
+    <div class="name-row"><label class="name-label" for="studentName">Your full name</label><input type="text" id="studentName" class="name-input" placeholder="First Last" autocomplete="name"></div>
+    <div class="submit-progress"><span class="prog-num" id="progNum">0</span><span class="prog-sep">/</span><span class="prog-total">14</span><span class="prog-label">answered</span></div>
+    <div class="submit-meter"><div class="submit-meter-fill" id="submitMeterFill"></div></div>
+    <div class="score-strip">
+      <div class="score-pill correct">✓ Correct <span class="num" id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">✗ Wrong <span class="num" id="scoreWrong">0</span></div>
+      <div class="score-pill unanswered">— Unanswered <span class="num" id="scoreUnanswered">14</span></div>
+    </div>
+    <div class="submit-row">
+      <button class="submit-btn" id="copyBtn"><span class="sb-icon">⎘</span><span class="sb-text">Copy for Canvas</span></button>
+      <button class="email-btn" id="emailBtn"><span class="sb-icon">✉</span><span class="sb-text">Email to Teacher</span></button>
+      <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    <div class="submit-foot"><strong>Submission flow:</strong> 1. Type your name. 2. Click <strong>Copy for Canvas</strong>. 3. Paste into the Day 2 classwork and submit.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultsModal"><div class="modal">
+  <div class="modal-head">
+    <div class="modal-eyebrow ok"><span class="dot"></span>Copied to Clipboard</div>
+    <div class="submit-success"><div class="ss-check">✓</div><div class="ss-title">Submission Ready</div><div class="ss-sub">Your Day 2 results are on your clipboard. Open the Canvas assignment, paste, and submit there.</div></div>
+  </div>
+  <div class="canvas-steps">
+    <div class="cs-row"><span class="cs-num">1</span><span class="cs-text">Open the Canvas assignment for <strong>Day 2 Classwork</strong>.</span></div>
+    <div class="cs-row"><span class="cs-num">2</span><span class="cs-text">Click into the text-entry box, then paste with <strong>Ctrl+V</strong> (Windows) or <strong>Cmd+V</strong> (Mac).</span></div>
+    <div class="cs-row"><span class="cs-num">3</span><span class="cs-text">Click <strong>Submit</strong> on Canvas. Done.</span></div>
+  </div>
+  <div class="preview-head"><div class="ph-label">Preview · what was copied</div><button class="ph-recopy" id="recopyBtn">Copy Again</button></div>
+  <pre class="preview-text" id="previewText"></pre>
+  <div class="modal-actions">
+    <button class="modal-btn" id="modalEmail">Email to Teacher Instead</button>
+    <button class="modal-btn primary" id="modalClose">Close</button>
+  </div>
+</div></div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark">
+    <div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div>
+    <div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div>
+    <div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div>
+  </div>
+  <span>Day 2 · Differentiation Rules &amp; Implicit</span>
+</footer>
+
+<script src="calc-week.js"></script>
+<script>
+/* ──────────────────────────────────────────────────────────────────
+   DAY 2 · Differentiation Rules + Implicit
+   ────────────────────────────────────────────────────────────────── */
+
+const DAY2_QUESTIONS = [
+
+  /* Q1 · MC · Power rule on polynomial */
+  {
+    id: 1, type: "mc", tag: "Power Rule", color: "green",
+    generate(){
+      const a = R.int(2, 6), b = R.int(2, 5), c = R.int(3, 9), d = R.int(2, 12);
+      const stem = `If <span class="mono">f(x) = ${a}x³ − ${b}x² + ${c}x − ${d}</span>, find <span class="mono">f'(x)</span>.`;
+      const correctStr = `${3*a}x² − ${2*b}x + ${c}`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correctStr, correct: true },
+          { html: `${a}x² − ${b}x + ${c}`, correct: false, misconception: `You forgot to multiply by the original exponent. Power rule: d/dx[x^n] = n·x^(n-1). So 3x³ becomes 3·${a}·x² = ${3*a}x², not just ${a}x².` },
+          { html: `${3*a}x² − ${b}x + ${c}`, correct: false, misconception: `Power rule applied to first term but not second. Each term: multiply coefficient by exponent, then drop exponent by 1. −${b}x² becomes −${2*b}x.` },
+          { html: `${3*a}x³ − ${2*b}x² + ${c}x`, correct: false, misconception: `You multiplied by the exponent but didn't reduce the power. d/dx[x³] = 3x² (exponent drops from 3 to 2), not 3x³.` },
+          { html: `x² − x + ${c}`, correct: false, misconception: `You dropped exponents correctly but forgot to multiply each term's coefficient by its original exponent.` },
+          { html: `${3*a}x² − ${2*b}x + ${c} − 0`, correct: false, misconception: `Almost — but constants differentiate to 0 (not written explicitly). The "− 0" is redundant. The answer is ${3*a}x² − ${2*b}x + ${c}.` }
+        ]),
+        correctDisplay: `f'(x) = ${correctStr}`,
+        workedSolution: `Apply power rule term-by-term: ${a}·3·x² − ${b}·2·x + ${c}·1 − 0 = <strong>${3*a}x² − ${2*b}x + ${c}</strong>. (The constant −${d} differentiates to 0.)`
+      };
+    }
+  },
+
+  /* Q2 · FIB · Evaluate f'(c) */
+  {
+    id: 2, type: "fib", tag: "Power · Evaluate at a Point", color: "green",
+    generate(){
+      const a = R.int(2, 4), b = R.int(2, 6), c = R.int(2, 5);
+      const x0 = R.int(1, 4);
+      // f(x) = ax^3 + bx^2 - c → f'(x) = 3ax^2 + 2bx → f'(x0) = 3a*x0^2 + 2b*x0
+      const result = 3*a*x0*x0 + 2*b*x0;
+      return {
+        stem: `If <span class="mono">f(x) = ${a}x³ + ${b}x² − ${c}</span>, find <span class="mono">f'(${x0})</span>. (Type an integer.)`,
+        prefix: `f'(${x0}) =`,
+        placeholder: "integer",
+        accepted: [result.toString()],
+        misconceptions: [
+          { match: [(a*x0*x0*x0 + b*x0*x0 - c).toString()], why: `You evaluated f(${x0}), not f'(${x0}). First differentiate, then plug in ${x0}.` },
+          { match: [(3*a*x0*x0).toString()], why: `You evaluated only the first term of f'. Don't forget the +${2*b}x term: at x = ${x0}, that contributes ${2*b*x0}.` },
+          { match: [(3*a + 2*b).toString()], why: `You forgot to multiply by x² or x. f'(x) = ${3*a}x² + ${2*b}x. At x = ${x0}: ${3*a}·${x0*x0} + ${2*b}·${x0} = ${result}.` }
+        ],
+        correctDisplay: `f'(${x0}) = ${result}`,
+        workedSolution: `Differentiate: f'(x) = ${3*a}x² + ${2*b}x. Evaluate at x = ${x0}: ${3*a}·${x0}² + ${2*b}·${x0} = ${3*a*x0*x0} + ${2*b*x0} = <strong>${result}</strong>.`
+      };
+    }
+  },
+
+  /* Q3 · MC · Product rule */
+  {
+    id: 3, type: "mc", tag: "Product Rule", color: "green",
+    generate(){
+      const n = R.pick([2, 3]);
+      const fn = R.pick(["sin", "cos"]);
+      const dfn = fn === "sin" ? "cos" : "−sin";
+      const stem = `If <span class="mono">f(x) = x<sup>${n}</sup> · ${fn}(x)</span>, find <span class="mono">f'(x)</span>.`;
+      const correct = `${n}x<sup>${n-1}</sup> ${fn}(x) ${fn === "sin" ? "+" : "−"} x<sup>${n}</sup> ${fn === "sin" ? "cos" : "sin"}(x)`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `${n}x<sup>${n-1}</sup> ${dfn === "cos" ? "cos" : "sin"}(x)`, correct: false, misconception: `You differentiated each factor but didn't apply the product rule. Product rule: (fg)' = f'g + fg'. Don't just chain derivatives.` },
+          { html: `${n}x<sup>${n-1}</sup> ${fn}(x) ${fn === "sin" ? "−" : "+"} x<sup>${n}</sup> ${fn === "sin" ? "cos" : "sin"}(x)`, correct: false, misconception: `Sign error on the second term. d/dx[${fn}] = ${dfn}, and product rule ADDS the two terms (positively).` },
+          { html: `x<sup>${n}</sup> ${fn === "sin" ? "cos" : "sin"}(x)`, correct: false, misconception: `You forgot the f'·g term. Product rule has BOTH terms: f'g + fg'.` },
+          { html: `${n}x<sup>${n-1}</sup> · ${dfn === "cos" ? "cos" : "−sin"}(x)`, correct: false, misconception: `You multiplied the derivatives directly. Product rule does NOT multiply f' and g'; it's f'g + fg'.` }
+        ]),
+        correctDisplay: correct.replace(/<\/?sup>/g, "^"),
+        workedSolution: `Product rule: (fg)' = f'g + fg'. Here f = x<sup>${n}</sup>, g = ${fn}(x). So f' = ${n}x<sup>${n-1}</sup>, g' = ${dfn === "−sin" ? "−sin(x)" : "cos(x)"}. Combine: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q4 · MC · Quotient rule (sign trap) */
+  {
+    id: 4, type: "mc", tag: "Quotient Rule", color: "green",
+    generate(){
+      const a = R.int(2, 5), b = R.int(1, 6);  // numerator: ax + b
+      const c = R.int(1, 6);  // denom: x - c
+      // f = (ax+b)/(x-c). f' = [a(x-c) - (ax+b)(1)] / (x-c)^2 = [ax - ac - ax - b] / (x-c)^2 = -(ac+b)/(x-c)^2
+      const numConst = -(a*c + b);
+      const stem = `If <span class="mono">f(x) = (${a}x + ${b}) / (x − ${c})</span>, find <span class="mono">f'(x)</span>.`;
+      const correct = `${numConst} / (x − ${c})²`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `${-numConst} / (x − ${c})²`, correct: false, misconception: `SIGN ERROR. Quotient rule is (LO·dHI − HI·dLO) / LO², not (HI·dLO − LO·dHI). Mnemonic: "LOW d-HIGH minus HIGH d-LOW" — order matters.` },
+          { html: `${a} / (x − ${c})²`, correct: false, misconception: `You wrote the derivative of the numerator alone. Quotient rule: (low·d-high − high·d-low) / low². Don't shortcut.` },
+          { html: `(${a}x + ${b}) / (x − ${c})²`, correct: false, misconception: `That's just f(x) with the denominator squared. Quotient rule simplifies after canceling like terms — compute the full numerator.` },
+          { html: `${a} / (x − ${c})`, correct: false, misconception: `Two errors: (1) denominator should be (x − ${c})², (2) numerator simplification is wrong. Apply quotient rule fully.` },
+          { html: `(${2*a}x + ${a*c + b}) / (x − ${c})²`, correct: false, misconception: `Numerator simplification error. Expand: ${a}(x − ${c}) − (${a}x + ${b}) = ${a}x − ${a*c} − ${a}x − ${b} = ${numConst}. The x terms CANCEL.` }
+        ]),
+        correctDisplay: `f'(x) = ${numConst}/(x − ${c})²`,
+        workedSolution: `Quotient rule: (LO·dHI − HI·dLO) / LO². Numerator: ${a}(x − ${c}) − (${a}x + ${b})(1) = ${a}x − ${a*c} − ${a}x − ${b} = <strong>${numConst}</strong>. Denominator: (x − ${c})². Final: <strong>${numConst}/(x − ${c})²</strong>.`
+      };
+    }
+  },
+
+  /* Q5 · MC · Chain rule sin(g(x)) */
+  {
+    id: 5, type: "mc", tag: "Chain · sin/cos", color: "green",
+    generate(){
+      const a = R.int(2, 5);
+      const k = R.pick([2, 3]);
+      const fn = R.pick(["sin", "cos"]);
+      const dfn = fn === "sin" ? "cos" : "−sin";
+      const stem = `If <span class="mono">f(x) = ${fn}(${a}x<sup>${k}</sup>)</span>, find <span class="mono">f'(x)</span>.`;
+      const correct = `${a*k}x<sup>${k-1}</sup> ${dfn === "−sin" ? "·(−sin" : "· cos"}(${a}x<sup>${k}</sup>)${dfn === "−sin" ? ")" : ""}`;
+      const correctSimple = `${a*k}x<sup>${k-1}</sup> ${dfn === "−sin" ? "·(−sin" : "cos"}(${a}x<sup>${k}</sup>)${dfn === "−sin" ? ")" : ""}`;
+      // simplified correct text
+      const correctText = dfn === "cos"
+        ? `${a*k}x<sup>${k-1}</sup> cos(${a}x<sup>${k}</sup>)`
+        : `−${a*k}x<sup>${k-1}</sup> sin(${a}x<sup>${k}</sup>)`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correctText, correct: true },
+          { html: `${dfn === "cos" ? "cos" : "−sin"}(${a*k}x<sup>${k-1}</sup>)`, correct: false, misconception: `You differentiated the INSIDE only. Chain rule: outer derivative TIMES inner derivative. The inside argument stays the same; you multiply by the inside's derivative.` },
+          { html: `${dfn === "cos" ? "cos" : "−sin"}(${a}x<sup>${k}</sup>)`, correct: false, misconception: `You applied the outer derivative but forgot to multiply by the inner derivative ${a*k}x<sup>${k-1}</sup>.` },
+          { html: `${a*k}x<sup>${k-1}</sup> ${fn}(${a}x<sup>${k}</sup>)`, correct: false, misconception: `You kept the outer function the same instead of differentiating it. d/dx[${fn}] = ${dfn === "cos" ? "cos" : "−sin"}, not ${fn}.` },
+          { html: `${a}x<sup>${k}</sup> · ${dfn === "cos" ? "cos" : "−sin"}(${a}x<sup>${k}</sup>)`, correct: false, misconception: `You used the inside ITSELF as the chain multiplier. You need the DERIVATIVE of the inside: ${a*k}x<sup>${k-1}</sup>, not ${a}x<sup>${k}</sup>.` }
+        ]),
+        correctDisplay: correctText.replace(/<\/?sup>/g, "^"),
+        workedSolution: `Chain rule: <strong>outer'(inside) · inside'</strong>. Outer ${fn}(u) → ${dfn === "cos" ? "cos" : "−sin"}(u). Inside u = ${a}x<sup>${k}</sup>, so u' = ${a*k}x<sup>${k-1}</sup>. Combine: <strong>${correctText.replace(/<\/?sup>/g, "^")}</strong>.`
+      };
+    }
+  },
+
+  /* Q6 · FIB · Chain · power of inner */
+  {
+    id: 6, type: "fib", tag: "Chain · (g(x))^n", color: "green",
+    generate(){
+      const a = R.int(2, 4);
+      const b = R.int(1, 6);
+      const n = R.pick([3, 4, 5]);
+      // f(x) = (ax + b)^n → f'(x) = n*a*(ax+b)^(n-1)
+      const x0 = R.int(0, 3);
+      const innerAtX0 = a*x0 + b;
+      const result = n * a * Math.pow(innerAtX0, n-1);
+      return {
+        stem: `Let <span class="mono">f(x) = (${a}x + ${b})<sup>${n}</sup></span>. Find <span class="mono">f'(${x0})</span>. (Type an integer.)`,
+        prefix: `f'(${x0}) =`,
+        placeholder: "integer",
+        accepted: [result.toString()],
+        misconceptions: [
+          { match: [Math.pow(innerAtX0, n-1).toString()], why: `You computed (${a}·${x0} + ${b})<sup>${n-1}</sup> = ${innerAtX0}<sup>${n-1}</sup> = ${Math.pow(innerAtX0, n-1)} but forgot the chain factor. Multiply by inner derivative ${a} and outer exponent ${n}: ${n} · ${a} · ${Math.pow(innerAtX0, n-1)} = ${result}.` },
+          { match: [(n * Math.pow(innerAtX0, n-1)).toString()], why: `You included ${n} (outer exponent) but forgot ${a} (inner derivative). Chain rule: ${n}·(inside)<sup>${n-1}</sup>·(inside derivative) = ${n}·${innerAtX0}<sup>${n-1}</sup>·${a} = ${result}.` },
+          { match: [(a * Math.pow(innerAtX0, n-1)).toString()], why: `You included the inside derivative ${a} but forgot the outer exponent ${n}. Full chain: ${n}·${a}·${innerAtX0}<sup>${n-1}</sup> = ${result}.` },
+          { match: [Math.pow(innerAtX0, n).toString()], why: `That's f(${x0}) itself, not the derivative. Differentiate FIRST (chain rule), then evaluate.` }
+        ],
+        correctDisplay: `f'(${x0}) = ${result}`,
+        workedSolution: `Chain rule: f'(x) = ${n}·(${a}x + ${b})<sup>${n-1}</sup>·${a} = ${n*a}·(${a}x + ${b})<sup>${n-1}</sup>. At x = ${x0}: ${n*a}·(${innerAtX0})<sup>${n-1}</sup> = ${n*a}·${Math.pow(innerAtX0, n-1)} = <strong>${result}</strong>.`
+      };
+    }
+  },
+
+  /* Q7 · DD · Which rule applies? */
+  {
+    id: 7, type: "dd", tag: "Which Rule?", color: "green",
+    generate(){
+      const which = R.pick(["product", "quotient", "chain", "power"]);
+      let stem, correct;
+      if (which === "power") {
+        const a = R.int(2, 7), n = R.int(3, 6);
+        stem = `Which rule do you apply to differentiate <span class="mono">f(x) = ${a}x<sup>${n}</sup> + 5</span>?`;
+        correct = "Power rule";
+      } else if (which === "product") {
+        stem = `Which rule do you apply to differentiate <span class="mono">f(x) = x² · ln(x)</span>?`;
+        correct = "Product rule";
+      } else if (which === "quotient") {
+        stem = `Which rule do you apply to differentiate <span class="mono">f(x) = (x² + 1) / (x − 2)</span>?`;
+        correct = "Quotient rule";
+      } else {
+        stem = `Which rule do you apply to differentiate <span class="mono">f(x) = sin(x² + 1)</span>?`;
+        correct = "Chain rule";
+      }
+      return {
+        stem,
+        prefix: "Use:",
+        options: R.shuffle([
+          { text: "Power rule", correct: correct === "Power rule", misconception: correct !== "Power rule" ? `Power rule applies to x raised to a constant power (no inner function, no quotient, no product of x-dependent things).` : "" },
+          { text: "Product rule", correct: correct === "Product rule", misconception: correct !== "Product rule" ? `Product rule applies when two functions of x are MULTIPLIED. ${correct === "Quotient rule" ? "Here you have division, not multiplication." : correct === "Chain rule" ? "Here you have a composition, not a product." : "Here it's a single power of x."}` : "" },
+          { text: "Quotient rule", correct: correct === "Quotient rule", misconception: correct !== "Quotient rule" ? `Quotient rule applies to DIVISION of two functions of x. ${correct === "Product rule" ? "Here it's multiplication." : correct === "Chain rule" ? "Here it's composition." : "Here it's a single power."}` : "" },
+          { text: "Chain rule", correct: correct === "Chain rule", misconception: correct !== "Chain rule" ? `Chain rule applies when a function is INSIDE another function (composition). ${correct === "Power rule" ? "Here ${a}x^n is just a single power, no inner function." : correct === "Product rule" ? "Here you have multiplication of two x-dependent functions." : "Here you have division."}` : "" }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>${correct}</strong>: ${correct === "Power rule" ? "single power of x, multiply by exponent and reduce" : correct === "Product rule" ? "two functions of x multiplied → (fg)' = f'g + fg'" : correct === "Quotient rule" ? "division of two functions → (LO·dHI − HI·dLO) / LO²" : "composition → outer'(inside) · inside'"}.`
+      };
+    }
+  },
+
+  /* Q8 · MC · Memorized trig derivative */
+  {
+    id: 8, type: "mc", tag: "Trig Derivative", color: "green",
+    generate(){
+      const fn = R.pick(["tan", "sec", "cot", "csc"]);
+      const derivs = {
+        "tan": "sec²(x)",
+        "sec": "sec(x) tan(x)",
+        "cot": "−csc²(x)",
+        "csc": "−csc(x) cot(x)"
+      };
+      const correct = derivs[fn];
+      const stem = `What is the derivative of <span class="mono">f(x) = ${fn}(x)</span>?`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: "sec²(x)", correct: fn === "tan", misconception: fn !== "tan" ? `sec²(x) is the derivative of <strong>tan(x)</strong>, not ${fn}(x). Different trig function, different derivative.` : "" },
+          { html: "sec(x) tan(x)", correct: fn === "sec", misconception: fn !== "sec" ? `sec(x) tan(x) is the derivative of <strong>sec(x)</strong>, not ${fn}(x).` : "" },
+          { html: "−csc²(x)", correct: fn === "cot", misconception: fn !== "cot" ? `−csc²(x) is the derivative of <strong>cot(x)</strong>, not ${fn}(x). Co-functions have negative derivatives.` : "" },
+          { html: "−csc(x) cot(x)", correct: fn === "csc", misconception: fn !== "csc" ? `−csc(x) cot(x) is the derivative of <strong>csc(x)</strong>, not ${fn}(x).` : "" },
+          { html: "1 / " + fn + "(x)", correct: false, misconception: `Reciprocal is not the derivative. Memorize the trig derivative table — there's no avoiding it.` }
+        ].filter((o, i, arr) => arr.findIndex(x => x.html === o.html) === i)),
+        correctDisplay: `d/dx[${fn}(x)] = ${correct}`,
+        workedSolution: `<strong>Memorized trig derivative table:</strong><br>• d/dx[sin] = cos &nbsp;• d/dx[cos] = −sin<br>• d/dx[tan] = sec² &nbsp;• d/dx[cot] = −csc²<br>• d/dx[sec] = sec·tan &nbsp;• d/dx[csc] = −csc·cot<br>So d/dx[${fn}(x)] = <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q9 · MC · ln(u) derivative */
+  {
+    id: 9, type: "mc", tag: "Log Derivative", color: "green",
+    generate(){
+      const a = R.int(2, 7), b = R.int(1, 9);
+      const k = R.pick([2, 3]);
+      const stem = `If <span class="mono">f(x) = ln(${a}x<sup>${k}</sup> + ${b})</span>, find <span class="mono">f'(x)</span>.`;
+      const correct = `${a*k}x<sup>${k-1}</sup> / (${a}x<sup>${k}</sup> + ${b})`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `1 / (${a}x<sup>${k}</sup> + ${b})`, correct: false, misconception: `You used d/dx[ln(x)] = 1/x without the chain rule. For ln(u), you need <strong>u'/u</strong>, not 1/u. Inner derivative is ${a*k}x<sup>${k-1}</sup>.` },
+          { html: `(${a}x<sup>${k}</sup> + ${b}) / ${a*k}x<sup>${k-1}</sup>`, correct: false, misconception: `Fraction is FLIPPED. Formula is u'/u = (inner derivative)/(inner function), not the reciprocal.` },
+          { html: `${a*k}x<sup>${k-1}</sup>`, correct: false, misconception: `You only computed the inner derivative. Don't forget to divide by the inner function: u'/u.` },
+          { html: `${a*k}x<sup>${k-1}</sup> · ln(${a}x<sup>${k}</sup> + ${b})`, correct: false, misconception: `You multiplied by ln instead of dividing by the argument. d/dx[ln(u)] = u'/u, not u' · ln(u).` }
+        ]),
+        correctDisplay: `f'(x) = ${a*k}x^${k-1} / (${a}x^${k} + ${b})`,
+        workedSolution: `<strong>d/dx[ln(u)] = u'/u</strong>. Here u = ${a}x<sup>${k}</sup> + ${b}, so u' = ${a*k}x<sup>${k-1}</sup>. Final: <strong>${a*k}x<sup>${k-1}</sup> / (${a}x<sup>${k}</sup> + ${b})</strong>.`
+      };
+    }
+  },
+
+  /* Q10 · FIB · e^u derivative */
+  {
+    id: 10, type: "fib", tag: "e^u Derivative", color: "green",
+    generate(){
+      const a = R.int(2, 6), k = R.pick([2, 3]);
+      const x0 = R.int(0, 2);
+      // f(x) = e^(ax^k) → f'(x) = ax^k * derivative? No: f'(x) = e^(ax^k) · (a*k*x^(k-1))
+      // f'(x0) = e^(a*x0^k) · a*k*x0^(k-1)
+      // For clean numerics, fix x0 = 1 sometimes
+      const inner = a * Math.pow(x0, k);
+      const innerDeriv = a * k * Math.pow(x0, k-1);
+      const exprStr = `${innerDeriv} · e^${inner === 0 ? "0" : inner}`;
+      const simpler = innerDeriv === 0 ? "0" : inner === 0 ? innerDeriv.toString() : exprStr;
+      return {
+        stem: `Let <span class="mono">f(x) = e<sup>${a}x<sup>${k}</sup></sup></span>. Find <span class="mono">f'(${x0})</span>. (Type as a product, e.g. <span class="mono">6·e^4</span> or just an integer if it simplifies.)`,
+        prefix: `f'(${x0}) =`,
+        placeholder: "e.g. 6·e^4",
+        accepted: [
+          simpler,
+          simpler.replace("·", "*"),
+          simpler.replace(/\s/g, ""),
+          inner === 0 ? innerDeriv.toString() : `${innerDeriv}e^${inner}`,
+          innerDeriv === 0 ? "0" : "__nope__"
+        ],
+        misconceptions: [
+          { match: [`e^${inner}`, `e${inner}`], why: `You forgot the chain factor. For e<sup>u</sup>, the derivative is e<sup>u</sup>·u'. Here u' = ${a*k}x<sup>${k-1}</sup>. At x = ${x0}, u' = ${innerDeriv}, so f'(${x0}) = ${innerDeriv}·e<sup>${inner}</sup>.` },
+          { match: [`${a}·${x0}^${k}`, `${a}${x0}${k}`, inner.toString()], why: `You evaluated the EXPONENT (${inner}), not the derivative. f'(x) = e<sup>${a}x<sup>${k}</sup></sup> · ${a*k}x<sup>${k-1}</sup>.` },
+          { match: [(a*k).toString()], why: `You computed the chain factor coefficient (${a*k}) but didn't multiply by x<sup>${k-1}</sup> or attach e<sup>u</sup>. Full answer: ${a*k}·x<sup>${k-1}</sup>·e<sup>${a}x<sup>${k}</sup></sup>.` }
+        ],
+        correctDisplay: `f'(${x0}) = ${simpler}`,
+        workedSolution: `d/dx[e<sup>u</sup>] = e<sup>u</sup> · u'. Here u = ${a}x<sup>${k}</sup>, u' = ${a*k}x<sup>${k-1}</sup>. So f'(x) = e<sup>${a}x<sup>${k}</sup></sup> · ${a*k}x<sup>${k-1}</sup>. At x = ${x0}: <strong>${simpler}</strong>.`
+      };
+    }
+  },
+
+  /* Q11 · MC · Implicit · Circle */
+  {
+    id: 11, type: "mc", tag: "Implicit · Circle", color: "green",
+    generate(){
+      const r = R.pick([3, 4, 5, 7, 10]);
+      const stem = `For the curve <span class="mono">x² + y² = ${r*r}</span>, find <span class="mono">dy/dx</span>.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: "−x/y", correct: true },
+          { html: "x/y", correct: false, misconception: `Sign error. Differentiating: 2x + 2y·(dy/dx) = 0 → dy/dx = −2x/(2y) = −x/y. Don't drop the negative.` },
+          { html: "−y/x", correct: false, misconception: `You inverted the fraction. Solve 2x + 2y·(dy/dx) = 0 for dy/dx: dy/dx = −x/y, NOT −y/x.` },
+          { html: "y/x", correct: false, misconception: `Both inverted AND wrong sign. dy/dx = −x/y (negative, x on top).` },
+          { html: "−2x/y", correct: false, misconception: `You didn't divide by 2 after isolating dy/dx. From 2x + 2y·(dy/dx) = 0: dy/dx = −2x / (2y) = −x/y (the 2's cancel).` },
+          { html: "0", correct: false, misconception: `dy/dx is not zero (the curve isn't a horizontal line). Differentiate implicitly to find it.` }
+        ]),
+        correctDisplay: "dy/dx = −x/y",
+        workedSolution: `Differentiate both sides w.r.t. x: 2x + 2y·(dy/dx) = 0. Solve for dy/dx: dy/dx = −2x/(2y) = <strong>−x/y</strong>.`
+      };
+    }
+  },
+
+  /* Q12 · MC · Implicit with product (xy term) */
+  {
+    id: 12, type: "mc", tag: "Implicit · Product Term", color: "green",
+    generate(){
+      const c = R.int(4, 12);
+      const stem = `For the curve <span class="mono">xy + y² = ${c}</span>, find <span class="mono">dy/dx</span>.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: "−y / (x + 2y)", correct: true },
+          { html: "y / (x + 2y)", correct: false, misconception: `Sign error. From y + x(dy/dx) + 2y(dy/dx) = 0: (x + 2y)(dy/dx) = −y, so dy/dx = −y/(x + 2y).` },
+          { html: "−y / (x − 2y)", correct: false, misconception: `Wrong sign in denominator. d/dx[y²] = 2y(dy/dx), giving a +2y in the dy/dx coefficient, not −2y.` },
+          { html: "(1 + 2y) / y", correct: false, misconception: `You forgot to apply the product rule to xy. d/dx[xy] = y + x(dy/dx). The y comes from differentiating the x factor, the x(dy/dx) from differentiating y.` },
+          { html: "−y / 2y", correct: false, misconception: `You dropped the x. d/dx[xy] = y + x(dy/dx) gives an "x + 2y" coefficient for dy/dx, not just 2y.` },
+          { html: "1 / (x + 2y)", correct: false, misconception: `Missing the −y numerator. From y + x(dy/dx) + 2y(dy/dx) = 0, dy/dx = −y/(x + 2y), not 1/(x + 2y).` }
+        ]),
+        correctDisplay: "dy/dx = −y / (x + 2y)",
+        workedSolution: `Apply product rule to xy: d/dx[xy] = y + x(dy/dx). d/dx[y²] = 2y(dy/dx). So: y + x(dy/dx) + 2y(dy/dx) = 0. Group: (x + 2y)(dy/dx) = −y. Solve: <strong>dy/dx = −y/(x + 2y)</strong>.`
+      };
+    }
+  },
+
+  /* Q13 · FIB · Tangent line slope at a point */
+  {
+    id: 13, type: "fib", tag: "Tangent Slope", color: "green",
+    generate(){
+      const a = R.int(2, 4), b = R.int(2, 6);
+      const x0 = R.int(1, 4);
+      // f(x) = ax^2 + bx → f'(x) = 2ax + b → f'(x0) = 2a*x0 + b
+      const slope = 2*a*x0 + b;
+      return {
+        stem: `Find the slope of the tangent line to <span class="mono">f(x) = ${a}x² + ${b}x</span> at <span class="mono">x = ${x0}</span>. (Type an integer.)`,
+        prefix: "Slope =",
+        placeholder: "integer",
+        accepted: [slope.toString()],
+        misconceptions: [
+          { match: [(a*x0*x0 + b*x0).toString()], why: `You evaluated f(${x0}) = ${a*x0*x0 + b*x0} (the y-value), not the slope. Slope = f'(${x0}). Differentiate first: f'(x) = ${2*a}x + ${b}, then plug in.` },
+          { match: [(2*a + b).toString()], why: `You evaluated f'(1) instead of f'(${x0}). At x = ${x0}: f'(${x0}) = ${2*a}·${x0} + ${b} = ${slope}.` },
+          { match: [(2*a*x0).toString()], why: `You forgot the +${b} term from differentiating ${b}x. f'(x) = ${2*a}x + ${b}.` }
+        ],
+        correctDisplay: `Slope = ${slope}`,
+        workedSolution: `Differentiate: f'(x) = ${2*a}x + ${b}. Slope at x = ${x0}: f'(${x0}) = ${2*a}·${x0} + ${b} = <strong>${slope}</strong>.`
+      };
+    }
+  },
+
+  /* Q14 · DD · Match function to its derivative */
+  {
+    id: 14, type: "dd", tag: "Match Derivative", color: "green",
+    generate(){
+      const fns = [
+        { fn: "sin(x)", deriv: "cos(x)" },
+        { fn: "cos(x)", deriv: "−sin(x)" },
+        { fn: "tan(x)", deriv: "sec²(x)" },
+        { fn: "ln(x)", deriv: "1/x" },
+        { fn: "e^x", deriv: "e^x" }
+      ];
+      const pick = R.pick(fns);
+      const distractors = fns.filter(f => f.fn !== pick.fn).map(f => f.deriv);
+      return {
+        stem: `What is the derivative of <span class="mono">${pick.fn}</span>?`,
+        prefix: "Derivative:",
+        options: R.shuffle([
+          { text: pick.deriv, correct: true },
+          ...distractors.slice(0, 3).map(d => ({
+            text: d,
+            correct: false,
+            misconception: `${d} is the derivative of a DIFFERENT function in your memorized table. ${pick.fn} differentiates to ${pick.deriv}. Re-memorize the table.`
+          }))
+        ]),
+        correctDisplay: `d/dx[${pick.fn}] = ${pick.deriv}`,
+        workedSolution: `<strong>Memorize:</strong> d/dx[sin] = cos, d/dx[cos] = −sin, d/dx[tan] = sec², d/dx[ln(x)] = 1/x, d/dx[e<sup>x</sup>] = e<sup>x</sup>. Answer: <strong>d/dx[${pick.fn}] = ${pick.deriv}</strong>.`
+      };
+    }
+  }
+
+];
+
+window.CalcDay.init({
+  dayTitle: "Day 2",
+  dayLabel: "Differentiation Rules & Implicit",
+  questions: DAY2_QUESTIONS
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas Posts · AP Calc AB Finals Review Week</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+<style>
+  /* Canvas posts page additions (same pattern as Pre-Calc) */
+  .canvas-post{
+    background:var(--glass);border:1px solid var(--b);border-radius:14px;
+    padding:24px 26px;margin-bottom:18px;
+    border-left:3px solid var(--purple);
+    opacity:0;animation:fadeUp 0.5s forwards;
+  }
+  .canvas-post[data-color="blue"]   { border-left-color:var(--blue);   }
+  .canvas-post[data-color="green"]  { border-left-color:var(--green);  }
+  .canvas-post[data-color="gold"]   { border-left-color:var(--gold);   }
+  .canvas-post[data-color="purple"] { border-left-color:var(--purple); }
+  .canvas-post[data-color="red"]    { border-left-color:var(--red);    }
+  .canvas-post[data-color="cyan"]   { border-left-color:var(--cyan); border-left-width:4px; }
+  .canvas-post[data-color="cyan"]{background:linear-gradient(135deg,rgba(0,229,255,0.025),rgba(192,132,252,0.025));}
+
+  .cp-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+  .cp-num{
+    font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.02em;
+    padding:6px 14px;border-radius:10px;line-height:1;
+    background:var(--gb);border:1px solid var(--b2);color:var(--tx2);
+  }
+  .canvas-post[data-color="blue"]   .cp-num{color:var(--blue);   background:rgba(56,189,248,0.08); border-color:rgba(56,189,248,0.22);}
+  .canvas-post[data-color="green"]  .cp-num{color:var(--green);  background:rgba(62,255,160,0.06); border-color:rgba(62,255,160,0.2);}
+  .canvas-post[data-color="gold"]   .cp-num{color:var(--gold);   background:rgba(245,200,66,0.06); border-color:rgba(245,200,66,0.2);}
+  .canvas-post[data-color="purple"] .cp-num{color:var(--purple); background:rgba(192,132,252,0.07);border-color:rgba(192,132,252,0.22);}
+  .canvas-post[data-color="red"]    .cp-num{color:var(--red);    background:rgba(248,113,113,0.07);border-color:rgba(248,113,113,0.22);}
+  .canvas-post[data-color="cyan"]   .cp-num{color:var(--cyan);   background:rgba(0,229,255,0.07); border-color:rgba(0,229,255,0.28);}
+
+  .cp-title-block{flex:1;min-width:240px;}
+  .cp-eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--tx3);font-weight:500;margin-bottom:3px;}
+  .cp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--tx);letter-spacing:-0.01em;}
+  .cp-due{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--tx2);padding:5px 12px;border-radius:100px;background:var(--glass);border:1px solid var(--b);}
+
+  .cp-exam-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--cyan);padding:4px 10px;border-radius:100px;
+    background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.28);
+    margin-left:8px;
+  }
+  .cp-exam-badge .dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);}
+
+  .cp-copy-btn{
+    font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    padding:11px 22px;border-radius:100px;cursor:pointer;
+    background:linear-gradient(135deg,var(--purple),var(--blue));border:none;color:var(--void);
+    transition:transform 0.2s,box-shadow 0.2s,opacity 0.2s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .cp-copy-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(192,132,252,0.25);}
+  .cp-copy-btn.done{background:linear-gradient(135deg,var(--green),var(--blue));}
+  .cp-copy-btn .icon{font-size:14px;line-height:1;}
+
+  .cp-preview-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tx3);font-weight:500;margin-bottom:8px;}
+  .cp-preview{
+    background:#ffffff;color:#1f2937;
+    padding:24px 28px;border-radius:10px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:14px;line-height:1.55;
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .cp-preview h2{font-size:22px;font-weight:700;color:#0f172a;margin:0 0 8px 0;line-height:1.25;}
+  .cp-preview h3{font-size:16px;font-weight:600;color:#0f172a;margin:18px 0 8px 0;line-height:1.3;}
+  .cp-preview p{margin:0 0 12px 0;}
+  .cp-preview ol,.cp-preview ul{margin:0 0 12px 0;padding-left:22px;}
+  .cp-preview ol li,.cp-preview ul li{margin-bottom:6px;}
+  .cp-preview a{color:#1d4ed8;text-decoration:underline;font-weight:500;}
+  .cp-preview hr{border:none;border-top:1px solid #e5e7eb;margin:16px 0;}
+  .cp-preview strong{font-weight:700;color:#0f172a;}
+  .cp-preview em{font-style:italic;color:#334155;}
+
+  .cp-url-row{
+    margin-top:14px;padding:10px 14px;border-radius:8px;
+    background:var(--d2);border:1px solid var(--b);
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    font-family:'DM Mono',monospace;font-size:11px;color:var(--tx2);
+  }
+  .cp-url-row .label{color:var(--tx3);letter-spacing:0.1em;text-transform:uppercase;font-size:9px;font-weight:500;}
+  .cp-url-row .url{color:var(--cyan);word-break:break-all;flex:1;}
+
+  .cp-actions{margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+
+  .settings-table{
+    margin-top:24px;background:var(--glass);border:1px solid var(--b);
+    border-radius:14px;padding:24px 28px;border-left:3px solid var(--cyan);
+  }
+  .settings-table h3{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:0.04em;color:var(--cyan);margin-bottom:14px;text-transform:uppercase;}
+  .settings-table table{width:100%;border-collapse:collapse;font-size:12px;}
+  .settings-table th{text-align:left;color:var(--tx2);font-weight:500;letter-spacing:0.06em;padding:8px 14px 8px 0;border-bottom:1px solid var(--b);font-size:11px;text-transform:uppercase;}
+  .settings-table td{color:var(--tx);padding:10px 14px 10px 0;border-bottom:1px solid var(--b);font-weight:300;line-height:1.5;}
+  .settings-table tr:last-child td{border-bottom:none;}
+  .settings-table td strong{color:var(--tx);font-weight:500;}
+  .settings-table .mono{font-family:'DM Mono',monospace;background:var(--d2);padding:1px 6px;border-radius:4px;font-size:11px;}
+
+  .cp-settings-note{
+    margin-top:14px;padding:12px 16px;border-radius:10px;
+    background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.2);
+    font-size:11px;color:var(--tx2);line-height:1.7;font-weight:300;
+  }
+  .cp-settings-note .h{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);font-weight:500;margin-bottom:6px;}
+  .cp-settings-note strong{color:var(--tx);font-weight:500;}
+  .cp-settings-note .mono{font-family:'DM Mono',monospace;background:var(--d2);padding:1px 6px;border-radius:4px;font-size:11px;color:var(--tx);}
+
+  .how-to{
+    margin-top:32px;padding:18px 22px;border-radius:12px;
+    background:rgba(192,132,252,0.05);border:1px solid rgba(192,132,252,0.2);border-left:3px solid var(--purple);
+    font-size:12px;color:var(--tx2);line-height:1.85;font-weight:300;
+  }
+  .how-to .h{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--purple);margin-bottom:8px;font-weight:500;}
+  .how-to ol{margin:8px 0 0 0;padding-left:22px;}
+  .how-to ol li{margin-bottom:6px;}
+  .how-to strong{color:var(--tx);font-weight:500;}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">AP Calc AB · Teacher</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Canvas Assignment Posts</span>
+  </div>
+  <a class="back-btn" href="../calculus-final-exam.html" style="border-color:rgba(192,132,252,0.3);color:var(--purple);">
+    Final Exam<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+</nav>
+
+<div class="page">
+
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot"></span>Teacher Resource · Canvas Setup</div>
+    <h1 class="day-title">
+      <span class="l1">Canvas Posts</span>
+      <span class="l2">For Calc Review.</span>
+    </h1>
+    <p class="day-sub">Six pre-formatted Canvas assignment descriptions — five daily classwork posts (Day 1–5) plus the cumulative <strong>Final Exam</strong> post. Each one has a <strong>Copy HTML for Canvas</strong> button that copies fully-inlined HTML (so Canvas preserves the formatting when you paste).</p>
+  </div>
+
+  <div class="how-to">
+    <div class="h">📘 How to publish each assignment</div>
+    <ol>
+      <li>In Canvas, create a new assignment for the day. Title it as shown below.</li>
+      <li>Apply the settings from the table below (same for all 5 daily classwork; Final has its own settings note).</li>
+      <li>Click <strong>&lt;/&gt; HTML view</strong> in Canvas's editor toolbar.</li>
+      <li>Click <strong>Copy HTML for Canvas</strong> on that day's card → paste into Canvas.</li>
+      <li>Switch to Rich Text view to verify, then save.</li>
+    </ol>
+  </div>
+
+  <div class="settings-table">
+    <h3>Recommended Canvas settings (Day 1–5 daily classwork)</h3>
+    <table>
+      <tr><th style="width:30%;">Setting</th><th>Value</th></tr>
+      <tr><td><strong>Submission Type</strong></td><td>Online → <span class="mono">Text Entry</span></td></tr>
+      <tr><td><strong>Points</strong></td><td>10 each (completion-based — these are practice)</td></tr>
+      <tr><td><strong>Assignment Group</strong></td><td>Create <span class="mono">Finals Review Week</span> and add all 5</td></tr>
+      <tr><td><strong>Display Grade As</strong></td><td>Points</td></tr>
+      <tr><td><strong>Allowed Attempts</strong></td><td>Unlimited (questions are randomized — encourage retries)</td></tr>
+      <tr><td><strong>Available From</strong></td><td>Mon May 11 · 7:00 AM</td></tr>
+      <tr><td><strong>Available Until</strong></td><td>Sat May 16 · 11:59 PM</td></tr>
+      <tr><td><strong>Due Dates</strong></td><td>Day 1: Mon · Day 2: Tue · Day 3: Wed · Day 4: Thu · Day 5: Fri (all 11:59 PM)</td></tr>
+    </table>
+  </div>
+
+  <!-- ──────── DAY 1 ──────── -->
+  <div class="canvas-post" data-color="blue" data-post="1" style="animation-delay:0.05s;">
+    <div class="cp-top">
+      <div class="cp-num">Day 1</div>
+      <div class="cp-title-block">
+        <div class="cp-eyebrow">Assignment Title</div>
+        <div class="cp-title">Day 1 Classwork · Limits, Continuity &amp; Theorems</div>
+      </div>
+      <div class="cp-due">Due Mon May 11 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row">
+      <span class="label">Live URL</span>
+      <span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day1.html</span>
+    </div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>Day 1 · Limits, Continuity &amp; Theorems</h2>
+        <p><strong>Monday, May 11 · ~40 minutes · 13 randomized questions</strong></p>
+        <p>Rebuild the foundation: factoring 0/0 limits, limits at infinity by degree comparison, classifying discontinuities (removable, jump, infinite), exact unit-circle values, and IVT/MVT setups. <strong>Biggest trap:</strong> writing the MVT citation completely — both hypotheses (continuous on [a,b] AND differentiable on (a,b)) AND the conclusion in interval notation.</p>
+        <h3>👉 Open the practice page</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day1.html" target="_blank" rel="noopener"><strong>Open Day 1 Classwork →</strong></a></p>
+        <h3>How to submit</h3>
+        <ol>
+          <li>Answer every question on the page. Wrong answers tell you <em>which misconception</em> you fell into — read those carefully.</li>
+          <li>Use the <strong>↻ New Numbers</strong> button on any card to regenerate with different values and try again.</li>
+          <li>When done, scroll to the bottom, type your full name, click <strong>Copy for Canvas</strong>.</li>
+          <li>Come back here, paste (Cmd+V / Ctrl+V) into the text box below, click Submit.</li>
+        </ol>
+        <h3>If Canvas is down</h3>
+        <p>Use the <strong>Email to Teacher</strong> button on the practice page.</p>
+        <hr>
+        <p><em>Participation-graded. Complete + submit = full credit.</em></p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="1"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+  <!-- ──────── DAY 2 ──────── -->
+  <div class="canvas-post" data-color="green" data-post="2" style="animation-delay:0.10s;">
+    <div class="cp-top">
+      <div class="cp-num">Day 2</div>
+      <div class="cp-title-block"><div class="cp-eyebrow">Assignment Title</div><div class="cp-title">Day 2 Classwork · Differentiation Rules &amp; Implicit</div></div>
+      <div class="cp-due">Due Tue May 12 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row"><span class="label">Live URL</span><span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day2.html</span></div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>Day 2 · Differentiation Rules &amp; Implicit</h2>
+        <p><strong>Tuesday, May 12 · ~40 minutes · 14 randomized questions</strong></p>
+        <p>Every derivative rule on the AP exam: power, product, quotient, chain, plus memorized trig/log/exp derivatives and implicit differentiation. <strong>This is where most of the MC points live.</strong> Watch the quotient-rule sign trap (LO·dHI minus HI·dLO — ORDER matters) and chain rule's "outer derivative TIMES inner derivative" sequencing.</p>
+        <h3>👉 Open the practice page</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day2.html" target="_blank" rel="noopener"><strong>Open Day 2 Classwork →</strong></a></p>
+        <h3>How to submit</h3>
+        <ol>
+          <li>Work each question. Wrong answers name the specific rule you misapplied.</li>
+          <li>Use <strong>↻ New Numbers</strong> to drill any rule until it's automatic.</li>
+          <li>At the bottom: type your name, click <strong>Copy for Canvas</strong>.</li>
+          <li>Paste (Cmd+V / Ctrl+V) into the text box below and Submit.</li>
+        </ol>
+        <h3>If Canvas is down</h3>
+        <p>Use <strong>Email to Teacher</strong>.</p>
+        <hr>
+        <p><em>Participation-graded.</em></p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="2"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+  <!-- ──────── DAY 3 ──────── -->
+  <div class="canvas-post" data-color="gold" data-post="3" style="animation-delay:0.15s;">
+    <div class="cp-top">
+      <div class="cp-num">Day 3</div>
+      <div class="cp-title-block"><div class="cp-eyebrow">Assignment Title</div><div class="cp-title">Day 3 Classwork · Applications of Derivatives</div></div>
+      <div class="cp-due">Due Wed May 13 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row"><span class="label">Live URL</span><span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day3.html</span></div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>Day 3 · Applications of Derivatives</h2>
+        <p><strong>Wednesday, May 13 · ~40 minutes · 13 randomized questions</strong></p>
+        <p>First/second derivative tests for local extrema, L'Hôpital for 0/0 and ∞/∞ limits, related rates problems (ladder, balloon, square area, cone), concavity from f'', and inflection points. <strong>Required prep for tomorrow's FRQ work.</strong> The #1 related-rates trap is forgetting to multiply by dr/dt — the chain rule is what makes related rates "related."</p>
+        <h3>👉 Open the practice page</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day3.html" target="_blank" rel="noopener"><strong>Open Day 3 Classwork →</strong></a></p>
+        <h3>How to submit</h3>
+        <ol>
+          <li>Each question regenerates with <strong>↻ New Numbers</strong>. Drill misses.</li>
+          <li>Type your name, click <strong>Copy for Canvas</strong>.</li>
+          <li>Paste (Cmd+V / Ctrl+V) into the text box and Submit.</li>
+        </ol>
+        <h3>If Canvas is down</h3>
+        <p>Use <strong>Email to Teacher</strong>.</p>
+        <hr>
+        <p><em>Participation-graded.</em></p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="3"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+  <!-- ──────── DAY 4 ──────── -->
+  <div class="canvas-post" data-color="purple" data-post="4" style="animation-delay:0.20s;">
+    <div class="cp-top">
+      <div class="cp-num">Day 4</div>
+      <div class="cp-title-block"><div class="cp-eyebrow">Assignment Title</div><div class="cp-title">Day 4 Classwork · Integration &amp; Applications</div></div>
+      <div class="cp-due">Due Thu May 14 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row"><span class="label">Live URL</span><span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day4.html</span></div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>Day 4 · Integration &amp; Applications</h2>
+        <p><strong>Thursday, May 14 · ~40 minutes · 14 randomized questions</strong></p>
+        <p>Antiderivatives (<strong>don't forget +C</strong>), trig antiderivatives, u-substitution including changing bounds on definite integrals, left/right/trapezoid Riemann sums and their over/under estimate behavior, FTC Part 1 with chain rule, integral additivity, and area between curves. <strong>Two free credit points to claim:</strong> always include +C on indefinite integrals, and always change bounds when u-subbing a definite integral.</p>
+        <h3>👉 Open the practice page</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day4.html" target="_blank" rel="noopener"><strong>Open Day 4 Classwork →</strong></a></p>
+        <h3>How to submit</h3>
+        <ol>
+          <li>Answer each question; read misconception feedback on misses.</li>
+          <li>Use <strong>↻ New Numbers</strong> to retry with fresh values.</li>
+          <li>Type your name, click <strong>Copy for Canvas</strong>.</li>
+          <li>Paste into the Canvas text box and Submit.</li>
+        </ol>
+        <h3>If Canvas is down</h3>
+        <p>Use <strong>Email to Teacher</strong>.</p>
+        <hr>
+        <p><em>Participation-graded.</em></p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="4"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+  <!-- ──────── DAY 5 ──────── -->
+  <div class="canvas-post" data-color="red" data-post="5" style="animation-delay:0.25s;">
+    <div class="cp-top">
+      <div class="cp-num">Day 5</div>
+      <div class="cp-title-block"><div class="cp-eyebrow">Assignment Title</div><div class="cp-title">Day 5 Classwork · Cumulative Mock-Final + FRQ Practice</div></div>
+      <div class="cp-due">Due Fri May 15 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row"><span class="label">Live URL</span><span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day5.html</span></div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>Day 5 · Cumulative Mock-Final + FRQ Practice</h2>
+        <p><strong>Friday, May 15 · ~50 minutes · 10 mixed MC + 7 FRQ sub-parts</strong></p>
+        <p>Final warm-up before Monday's exam. This is shaped like the real test: <strong>10 mixed multiple-choice</strong> drawn from every theme this week, plus <strong>3 free-response problems</strong> (7 sub-parts total) that mirror Q31 (related rates), Q33 (area &amp; volume), and Q34 (graph of f') on the actual final. Treat your first pass as the real exam — no regenerating. Then review misses and drill them.</p>
+        <h3>👉 Open the practice page</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calc-finals-week/calc-day5.html" target="_blank" rel="noopener"><strong>Open Day 5 Classwork →</strong></a></p>
+        <h3>How to submit</h3>
+        <ol>
+          <li>First pass: answer every question without regenerating. Your self-diagnostic.</li>
+          <li>Review misses. For each, use <strong>↻ New Numbers</strong> and drill until the skill is solid.</li>
+          <li>Type your name, click <strong>Copy for Canvas</strong>.</li>
+          <li>Paste into the Canvas text box and Submit.</li>
+        </ol>
+        <h3>If Canvas is down</h3>
+        <p>Use <strong>Email to Teacher</strong>.</p>
+        <hr>
+        <p><strong>Good luck on the final Monday.</strong> Trust your rebuilds, especially the four big ones: <em>MVT citation completeness</em>; <em>quotient-rule sign order</em>; <em>+C on indefinite integrals</em>; <em>chain rule on every related-rates problem</em>.</p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="5"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+  <!-- ──────── FINAL EXAM ──────── -->
+  <div class="canvas-post" data-color="cyan" data-post="final" style="animation-delay:0.30s;">
+    <div class="cp-top">
+      <div class="cp-num">Final</div>
+      <div class="cp-title-block">
+        <div class="cp-eyebrow">Assignment Title</div>
+        <div class="cp-title">AP Calculus AB · Cumulative Final Exam<span class="cp-exam-badge"><span class="dot"></span>Exam · Graded</span></div>
+      </div>
+      <div class="cp-due">Due Mon May 18 · 11:59 PM</div>
+    </div>
+    <div class="cp-url-row"><span class="label">Live URL</span><span class="url">https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calculus-final-exam.html</span></div>
+    <div class="cp-settings-note">
+      <div class="h">⚠ Different settings than the daily classwork — apply these to the final's Canvas assignment</div>
+      <strong>Submission Type:</strong> <span class="mono">Online → Text Entry</span> &nbsp;·&nbsp;
+      <strong>Points:</strong> <span class="mono">100</span> (graded for accuracy, not completion)&nbsp;·&nbsp;
+      <strong>Allowed Attempts:</strong> <span class="mono">1</span> (this is an exam)&nbsp;·&nbsp;
+      <strong>Available From:</strong> exam day, start of class period &nbsp;·&nbsp;
+      <strong>Available Until:</strong> end of exam window&nbsp;·&nbsp;
+      <strong>Display Grade As:</strong> Points or Percentage
+    </div>
+    <div style="margin-top:18px;">
+      <div class="cp-preview-label">Preview · this is what students will see in Canvas</div>
+      <div class="cp-preview">
+        <h2>AP Calculus AB · Cumulative Final Exam</h2>
+        <p><strong>Monday, May 18 · 35 questions · cumulative across all year</strong></p>
+        <p>The final covers <strong>everything</strong>: limits and continuity, the IVT/MVT theorems, all differentiation rules, applications of derivatives (extrema, L'Hôpital, related rates, concavity), antiderivatives and u-substitution, Riemann sums, FTC, and applications of integration (area, displacement, physics). <strong>29 multiple-choice questions</strong> (Q1–Q29), <strong>1 multi-part numerical problem</strong> (Q30 · 4 sub-parts on particle motion), and <strong>5 free-response problems</strong> (Q31–Q35).</p>
+        <h3>👉 Open the final exam</h3>
+        <p><a href="https://coltonsharp-dev.github.io/Calc-Final-2026-ALA-Live/calculus-final-exam.html" target="_blank" rel="noopener"><strong>Open Final Exam →</strong></a></p>
+        <h3>What to expect</h3>
+        <ul>
+          <li>Each multiple-choice question has 6 options (A–F). Pick the single best.</li>
+          <li>Q30 has 4 typed numerical sub-parts (particle motion: t at rest, displacement, acceleration).</li>
+          <li>Q31–Q35 are typed free-response with multiple parts (related rates, MVT, area &amp; volume, graph of f', Riemann/trapezoid sums).</li>
+          <li>Selections highlight but don't lock — you can change any answer before submitting.</li>
+          <li>There's a timer in the top-right nav so you can pace yourself.</li>
+        </ul>
+        <h3>How to submit</h3>
+        <ol>
+          <li>Work all 35 questions on the page.</li>
+          <li>Scroll to the bottom, type your full name and period/date, then click <strong>Copy My Answers</strong>.</li>
+          <li>Come back to this Canvas assignment, paste (Cmd+V / Ctrl+V) into the text box, and Submit.</li>
+        </ol>
+        <h3>Allowed resources</h3>
+        <p>Graphing calculator allowed. One handwritten 3×5 notecard (front and back) of your own notes. <strong>No phones, no shared screens, no AI assistants, no collaboration.</strong></p>
+        <h3>If Canvas is down</h3>
+        <p>Use the <strong>Email to Teacher</strong> path — paste your copied answers into an email instead.</p>
+        <hr>
+        <p><strong>This is the real one.</strong> You've rebuilt the misconceptions all week. Remember the big ones: <em>MVT citation must include BOTH hypotheses</em>; <em>quotient rule is LO·dHI minus HI·dLO (order matters)</em>; <em>chain rule on every related-rates problem</em>; <em>+C on every indefinite integral</em>; <em>change bounds when u-subbing definite integrals</em>; <em>Left Riemann underestimates increasing functions, overestimates decreasing</em>.</p>
+      </div>
+    </div>
+    <div class="cp-actions"><button class="cp-copy-btn" data-target="final"><span class="icon">⎘</span><span class="text">Copy HTML for Canvas</span></button></div>
+  </div>
+
+</div><!-- /.page -->
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark">
+    <div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div>
+    <div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div>
+    <div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div>
+  </div>
+  <span>Teacher resource · Canvas assignment posts</span>
+</footer>
+
+<script>
+function cleanHTML(html){
+  return html
+    .split("\n")
+    .map(line => line.replace(/^\s+/, "").replace(/\s+$/, ""))
+    .filter((line, i, arr) => !(line === "" && arr[i - 1] === ""))
+    .join("\n")
+    .trim();
+}
+
+/* Inline style="..." on every relevant tag so Canvas preserves the formatting */
+function inlineStyles(html){
+  const S = {
+    h2:     'font-size:24px;font-weight:700;color:#1f2937;margin:0 0 12px 0;line-height:1.3;',
+    h3:     'font-size:18px;font-weight:600;color:#1f2937;margin:20px 0 8px 0;line-height:1.3;',
+    p:      'margin:0 0 12px 0;line-height:1.6;color:#374151;',
+    ol:     'margin:0 0 12px 0;padding-left:24px;line-height:1.6;color:#374151;',
+    ul:     'margin:0 0 12px 0;padding-left:24px;line-height:1.6;color:#374151;',
+    li:     'margin-bottom:6px;line-height:1.6;',
+    strong: 'font-weight:700;color:#111827;',
+    em:     'font-style:italic;color:#4b5563;',
+    hr:     'border:none;border-top:1px solid #d1d5db;margin:20px 0;',
+    a:      'color:#1d4ed8;text-decoration:underline;font-weight:500;'
+  };
+  return html
+    .replace(/<h2>/g,     '<h2 style="'     + S.h2     + '">')
+    .replace(/<h3>/g,     '<h3 style="'     + S.h3     + '">')
+    .replace(/<p>/g,      '<p style="'      + S.p      + '">')
+    .replace(/<ol>/g,     '<ol style="'     + S.ol     + '">')
+    .replace(/<ul>/g,     '<ul style="'     + S.ul     + '">')
+    .replace(/<li>/g,     '<li style="'     + S.li     + '">')
+    .replace(/<strong>/g, '<strong style="' + S.strong + '">')
+    .replace(/<em>/g,     '<em style="'     + S.em     + '">')
+    .replace(/<hr>/g,     '<hr style="'     + S.hr     + '">')
+    .replace(/<a /g,      '<a style="'      + S.a      + '" ');
+}
+
+async function copyToClipboard(text){
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch(e){
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e2){ return false; }
+  }
+}
+
+document.querySelectorAll(".cp-copy-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const dayNum = btn.dataset.target;
+    const post = document.querySelector('.canvas-post[data-post="' + dayNum + '"]');
+    const preview = post.querySelector(".cp-preview");
+    const html = inlineStyles(cleanHTML(preview.innerHTML));
+    const ok = await copyToClipboard(html);
+    const textEl = btn.querySelector(".text");
+    const iconEl = btn.querySelector(".icon");
+    if (ok) {
+      btn.classList.add("done");
+      textEl.textContent = "Copied — Paste in Canvas";
+      iconEl.textContent = "✓";
+      setTimeout(() => {
+        btn.classList.remove("done");
+        textEl.textContent = "Copy HTML for Canvas";
+        iconEl.textContent = "⎘";
+      }, 2400);
+    } else {
+      textEl.textContent = "Copy failed — try again";
+      setTimeout(() => { textEl.textContent = "Copy HTML for Canvas"; }, 2400);
+    }
+  });
+});
+
+const progressBar = document.getElementById("progressBar");
+const scrollTopBtn = document.getElementById("scrollTop");
+window.addEventListener("scroll", () => {
+  const h = document.documentElement;
+  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  if (progressBar) progressBar.style.transform = "scaleX(" + scrolled + ")";
+  if (scrollTopBtn) {
+    if (h.scrollTop > 600) scrollTopBtn.classList.add("visible");
+    else                   scrollTopBtn.classList.remove("visible");
+  }
+});
+if (scrollTopBtn) scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+</script>
+
+</body>
+</html>

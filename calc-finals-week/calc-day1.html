@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calc AB · Day 1 · Limits, Continuity &amp; Theorems</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">Day 1 · Mon May 11</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Limits, Continuity &amp; Theorems</span>
+  </div>
+  <div class="timer-pill" style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:var(--glass);border:1px solid var(--b);font-size:12px;color:var(--tx2);letter-spacing:0.08em;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>
+    <span id="timerVal" style="font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);font-size:13px;letter-spacing:0.04em;">00:00</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot" style="background:var(--blue)"></span>Day 1 of 5 · Mon May 11 · ~40 min</div>
+    <h1 class="day-title">
+      <span class="l1">Limits, Continuity</span>
+      <span class="l2">&amp; Theorems.</span>
+    </h1>
+    <p class="day-sub">Rebuild the foundation: factoring 0/0 limits, limits at infinity by degree comparison, classifying discontinuities, exact unit-circle values, and IVT/MVT setups. <strong>13 randomized questions.</strong> Click <strong>↻ New Numbers</strong> on any card to regenerate with fresh values. <em>Biggest trap: writing the MVT citation completely (both hypotheses + conclusion in interval notation).</em></p>
+
+    <div class="meta-row">
+      <div class="meta-pill"><span class="dot" style="background:var(--blue)"></span>Limits · Continuity · Theorems</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>7 MC · 4 FIB · 2 Dropdown</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 MVT vs IVT confusion</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--green)"></span>Submit via Canvas at the end</div>
+    </div>
+
+    <div class="instructions">
+      <div class="ih">📘 How to use this practice</div>
+      <strong>1.</strong> Answer each question — instant feedback shows whether you got it AND <strong>why</strong> any wrong answer is tempting. <strong>2.</strong> Click <strong>↻ New Numbers</strong> on any card to redo it with different values. <strong>3.</strong> When you've worked through everything, type your name at the bottom and click <strong>Copy for Canvas</strong>.
+    </div>
+  </div>
+
+  <!-- ─── LIMITS ─── -->
+  <div class="section-header"><div class="sh-row">
+    <span class="sh-tag">A</span><span class="sh-title">Limits &amp; Asymptotic Behavior</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="1" data-color="blue">
+    <div class="q-top"><div class="q-num">01</div><span class="q-tag">Limits · Factor &amp; Cancel</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="2" data-color="blue">
+    <div class="q-top"><div class="q-num">02</div><span class="q-tag">Limits · At Infinity</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="3" data-color="blue">
+    <div class="q-top"><div class="q-num">03</div><span class="q-tag">Limits · Factor 0/0</span><span class="q-type-tag" data-type="fib">Fill-In</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="4" data-color="blue">
+    <div class="q-top"><div class="q-num">04</div><span class="q-tag">Limits · At Infinity (Numerical)</span><span class="q-type-tag" data-type="fib">Fill-In</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="5" data-color="blue">
+    <div class="q-top"><div class="q-num">05</div><span class="q-tag">Limits · One-Sided</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <!-- ─── CONTINUITY ─── -->
+  <div class="section-header"><div class="sh-row">
+    <span class="sh-tag">B</span><span class="sh-title">Continuity &amp; Discontinuity Types</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="6" data-color="blue">
+    <div class="q-top"><div class="q-num">06</div><span class="q-tag">Discontinuity Classification</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="7" data-color="blue">
+    <div class="q-top"><div class="q-num">07</div><span class="q-tag">Continuity · 3-Part Test</span><span class="q-type-tag" data-type="dd">Dropdown</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <!-- ─── UNIT CIRCLE ─── -->
+  <div class="section-header"><div class="sh-row">
+    <span class="sh-tag">C</span><span class="sh-title">Unit Circle (You'll Need It All Year)</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="8" data-color="blue">
+    <div class="q-top"><div class="q-num">08</div><span class="q-tag">Exact Trig Values</span><span class="q-type-tag" data-type="fib">Fill-In</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <!-- ─── IVT & MVT ─── -->
+  <div class="section-header"><div class="sh-row">
+    <span class="sh-tag">D</span><span class="sh-title">Intermediate &amp; Mean Value Theorems</span><div class="sh-line"></div>
+  </div></div>
+
+  <div class="q-card" data-q="9" data-color="blue">
+    <div class="q-top"><div class="q-num">09</div><span class="q-tag priority">IVT · Which k is Guaranteed?</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><span class="q-tag hot">🔥 Common Trap</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="10" data-color="blue">
+    <div class="q-top"><div class="q-num">10</div><span class="q-tag">MVT · Find Average Rate of Change</span><span class="q-type-tag" data-type="fib">Fill-In</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="11" data-color="blue">
+    <div class="q-top"><div class="q-num">11</div><span class="q-tag">IVT vs MVT vs EVT</span><span class="q-type-tag" data-type="dd">Dropdown</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="12" data-color="blue">
+    <div class="q-top"><div class="q-num">12</div><span class="q-tag">MVT · Prerequisite Check</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <div class="q-card" data-q="13" data-color="blue">
+    <div class="q-top"><div class="q-num">13</div><span class="q-tag">Discontinuity from a Piecewise</span><span class="q-type-tag" data-type="mc">Multiple Choice</span>
+      <div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button>
+    </div>
+    <div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div>
+  </div>
+
+  <!-- ─── SUBMIT AREA ─── -->
+  <div class="submit-area">
+    <div class="submit-eyebrow"><span class="dot"></span>End of Day 1 · Submit via Canvas</div>
+    <div class="name-row">
+      <label class="name-label" for="studentName">Your full name</label>
+      <input type="text" id="studentName" class="name-input" placeholder="First Last" autocomplete="name">
+    </div>
+    <div class="submit-progress"><span class="prog-num" id="progNum">0</span><span class="prog-sep">/</span><span class="prog-total">13</span><span class="prog-label">answered</span></div>
+    <div class="submit-meter"><div class="submit-meter-fill" id="submitMeterFill"></div></div>
+    <div class="score-strip">
+      <div class="score-pill correct">✓ Correct <span class="num" id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">✗ Wrong <span class="num" id="scoreWrong">0</span></div>
+      <div class="score-pill unanswered">— Unanswered <span class="num" id="scoreUnanswered">13</span></div>
+    </div>
+    <div class="submit-row">
+      <button class="submit-btn" id="copyBtn"><span class="sb-icon">⎘</span><span class="sb-text">Copy for Canvas</span></button>
+      <button class="email-btn" id="emailBtn"><span class="sb-icon">✉</span><span class="sb-text">Email to Teacher</span></button>
+      <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    <div class="submit-foot"><strong>Submission flow:</strong> 1. Type your name. 2. Click <strong>Copy for Canvas</strong>. 3. Paste into the Day 1 classwork on Canvas and submit there. If Canvas is down, use <strong>Email to Teacher</strong>.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultsModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-eyebrow ok"><span class="dot"></span>Copied to Clipboard</div>
+      <div class="submit-success"><div class="ss-check">✓</div><div class="ss-title">Submission Ready</div><div class="ss-sub">Your Day 1 results are on your clipboard. Open the Canvas assignment, paste, and submit there.</div></div>
+    </div>
+    <div class="canvas-steps">
+      <div class="cs-row"><span class="cs-num">1</span><span class="cs-text">Open the Canvas assignment for <strong>Day 1 Classwork</strong>.</span></div>
+      <div class="cs-row"><span class="cs-num">2</span><span class="cs-text">Click into the text-entry box, then paste with <strong>Ctrl+V</strong> (Windows) or <strong>Cmd+V</strong> (Mac).</span></div>
+      <div class="cs-row"><span class="cs-num">3</span><span class="cs-text">Click <strong>Submit</strong> on Canvas. Done.</span></div>
+    </div>
+    <div class="preview-head"><div class="ph-label">Preview · what was copied</div><button class="ph-recopy" id="recopyBtn">Copy Again</button></div>
+    <pre class="preview-text" id="previewText"></pre>
+    <div class="modal-actions">
+      <button class="modal-btn" id="modalEmail">Email to Teacher Instead</button>
+      <button class="modal-btn primary" id="modalClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark">
+    <div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div>
+    <div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div>
+    <div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div>
+  </div>
+  <span>Day 1 · Limits, Continuity &amp; Theorems</span>
+</footer>
+
+<script src="calc-week.js"></script>
+<script>
+/* ──────────────────────────────────────────────────────────────────
+   DAY 1 · Limits, Continuity, Theorems (IVT/MVT)
+   ────────────────────────────────────────────────────────────────── */
+
+const DAY1_QUESTIONS = [
+
+  /* Q1 · MC · Factor & cancel 0/0 limit */
+  {
+    id: 1, type: "mc", tag: "Limits · Factor & Cancel", color: "blue",
+    generate(){
+      const a = R.int(2, 7);                        // limit point
+      const correct = 2 * a;                        // since (x²-a²)/(x-a) → x+a, evaluated at a gives 2a
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→${a}</sub> (x² − ${a*a}) / (x − ${a})</span>`,
+        options: R.shuffle([
+          { html: correct.toString(), correct: true },
+          { html: "0", correct: false, misconception: `0/0 is INDETERMINATE — you can't conclude the limit is 0. Factor: x² − ${a*a} = (x − ${a})(x + ${a}). Cancel (x − ${a}): lim → x + ${a} = ${correct}.` },
+          { html: a.toString(), correct: false, misconception: `You stopped at substituting x = ${a} into one factor. After cancellation, the simplified expression is x + ${a}; substituting gives ${a} + ${a} = ${correct}.` },
+          { html: (a * a).toString(), correct: false, misconception: `That's ${a}² (the constant in the numerator). After factoring (x − ${a})(x + ${a}) and canceling, plug ${a} into x + ${a} = ${correct}.` },
+          { html: "Does not exist", correct: false, misconception: `The limit DOES exist — direct sub gives 0/0 (indeterminate), but factoring resolves it. Always try factoring before declaring DNE.` },
+          { html: "∞", correct: false, misconception: `∞ would happen if only the denominator went to 0 (not the numerator). Here BOTH go to 0 — that's indeterminate, fix by factoring.` }
+        ]),
+        correctDisplay: correct.toString(),
+        workedSolution: `Direct sub: (${a}² − ${a*a})/(${a} − ${a}) = <strong>0/0</strong> (indeterminate). Factor: x² − ${a*a} = (x − ${a})(x + ${a}). Cancel (x − ${a}): lim<sub>x→${a}</sub> (x + ${a}) = ${a} + ${a} = <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q2 · MC · Limit at infinity (degree compare) */
+  {
+    id: 2, type: "mc", tag: "Limits · At Infinity", color: "blue",
+    generate(){
+      const scenario = R.pick(["equal", "topBig", "botBig"]);
+      const num = R.int(2, 9), den = R.int(2, 9);
+      let stem, correct, correctTxt, traps;
+      if (scenario === "equal") {
+        const k = R.int(2, 3);
+        stem = `Evaluate: <span class="mono">lim<sub>x→∞</sub> (${num}x<sup>${k}</sup> + 5x − 1) / (${den}x<sup>${k}</sup> − 2x + 4)</span>`;
+        correctTxt = `${num}/${den}`;
+        correct = num / den;
+        traps = [
+          { html: "0", misconception: `Top and bottom have the SAME degree (${k}). Degree-match → ratio of leading coefficients = ${num}/${den}, not 0.` },
+          { html: "∞", misconception: `Top and bottom both grow at the same rate (same degree ${k}). The ratio stabilizes at ${num}/${den}.` },
+          { html: num.toString(), misconception: `You used just the numerator's lead coefficient. Take the RATIO: ${num}/${den}.` },
+          { html: den.toString(), misconception: `You used the denominator's lead coefficient alone. Take the RATIO: ${num}/${den} (num on top).` },
+          { html: `${den}/${num}`, misconception: `You flipped. Num leading ÷ den leading = ${num}/${den}, not ${den}/${num}.` }
+        ];
+      } else if (scenario === "topBig") {
+        const topK = R.int(3, 4), botK = topK - 1;
+        stem = `Evaluate: <span class="mono">lim<sub>x→∞</sub> (${num}x<sup>${topK}</sup> + 1) / (${den}x<sup>${botK}</sup> + 5)</span>`;
+        correctTxt = "∞";
+        correct = "∞";
+        traps = [
+          { html: `${num}/${den}`, misconception: `The degrees DON'T match (top is ${topK}, bottom is ${botK}). Top grows faster → limit is ∞, not the ratio.` },
+          { html: "0", misconception: `0 happens when BOTTOM has the bigger degree. Here top degree (${topK}) > bottom (${botK}) → numerator wins → ∞.` },
+          { html: num.toString(), misconception: `Lead coefficient alone doesn't apply here. Different degrees → ratio rule doesn't give a finite answer. Top wins → ∞.` },
+          { html: "Does not exist", misconception: `Going to +∞ counts as a (one-sided/infinite) limit description for AP exams. Be specific: ∞.` }
+        ];
+      } else {
+        const botK = R.int(3, 4), topK = botK - 1;
+        stem = `Evaluate: <span class="mono">lim<sub>x→∞</sub> (${num}x<sup>${topK}</sup> + 1) / (${den}x<sup>${botK}</sup> + 5)</span>`;
+        correctTxt = "0";
+        correct = 0;
+        traps = [
+          { html: `${num}/${den}`, misconception: `Degrees DON'T match (top ${topK}, bottom ${botK}). Bottom has bigger degree → denominator grows faster → limit is 0, not the ratio.` },
+          { html: "∞", misconception: `∞ happens when TOP has the bigger degree. Here bottom degree (${botK}) > top (${topK}) → denominator wins → 0.` },
+          { html: num.toString(), misconception: `Bottom dominates the growth. The function goes to 0 as x → ∞.` },
+          { html: "Does not exist", misconception: `The limit DOES exist and equals 0 — bottom grows faster than top, so the ratio shrinks to zero.` }
+        ];
+      }
+      const opts = [{ html: correctTxt, correct: true }, ...traps.map(t => ({...t, correct: false}))];
+      return {
+        stem,
+        options: R.shuffle(opts),
+        correctDisplay: correctTxt,
+        workedSolution: scenario === "equal"
+          ? `Top degree = bottom degree. Limit = <strong>ratio of leading coefficients = ${num}/${den}</strong>.`
+          : scenario === "topBig"
+          ? `Top degree (${num === 1 ? "" : ""}higher than bottom) → numerator wins → <strong>∞</strong>.`
+          : `Bottom degree (higher than top) → denominator wins → <strong>0</strong>.`
+      };
+    }
+  },
+
+  /* Q3 · FIB · Factor 0/0 numeric */
+  {
+    id: 3, type: "fib", tag: "Limits · Factor 0/0", color: "blue",
+    generate(){
+      const a = R.int(2, 6);
+      // lim_{x→a} (x²+bx-c)/(x-a). Want numerator to factor with (x-a). So numerator = (x-a)(x+k) for some k.
+      const k = R.int(2, 8);
+      // x² + (k-a)x - ak. So num = x² + (k-a)x - (a*k)
+      const coef = k - a;
+      const cTerm = a * k;
+      const correct = a + k;
+      const numHTML = `x² ${coef >= 0 ? "+ " + coef : "− " + (-coef)}x ${cTerm > 0 ? "− " + cTerm : "+ " + (-cTerm)}`;
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→${a}</sub> (${numHTML}) / (x − ${a})</span>. (Type an integer.)`,
+        prefix: "Limit =",
+        placeholder: "integer",
+        accepted: [correct.toString()],
+        misconceptions: [
+          { match: ["0"], why: `Direct sub gives 0/0 (indeterminate) — not 0. Factor the numerator: ${numHTML} = (x − ${a})(x + ${k}). Cancel and substitute: x + ${k} at x = ${a} gives ${correct}.` },
+          { match: [a.toString()], why: `That's the limit point ${a}, not the limit value. After factoring and canceling, you plug ${a} into x + ${k} = ${correct}.` },
+          { match: [k.toString()], why: `That's the other factor's constant. After cancellation, evaluate x + ${k} at x = ${a}: ${a} + ${k} = ${correct}.` },
+          { match: ["DNE", "dne", "doesnotexist"], why: `The limit DOES exist. 0/0 is indeterminate — try factoring before concluding DNE.` }
+        ],
+        correctDisplay: `Limit = ${correct}`,
+        workedSolution: `Factor numerator: ${numHTML} = (x − ${a})(x + ${k}). Cancel (x − ${a}): lim → x + ${k}. Substitute: ${a} + ${k} = <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q4 · FIB · Limit at infinity numeric */
+  {
+    id: 4, type: "fib", tag: "Limit at Infinity", color: "blue",
+    generate(){
+      const num = R.int(2, 9), den = R.pick([2, 3, 4]);
+      const k = R.int(2, 3);
+      const correctStr = (Number.isInteger(num / den)) ? (num / den).toString() : `${num}/${den}`;
+      return {
+        stem: `Compute: <span class="mono">lim<sub>x→∞</sub> (${num}x<sup>${k}</sup> − 3x + 1) / (${den}x<sup>${k}</sup> + 7x − 2)</span>. (Type as fraction <span class="mono">${num}/${den}</span> or decimal.)`,
+        prefix: "Limit =",
+        placeholder: "e.g. 3/2",
+        accepted: [
+          `${num}/${den}`,
+          (num / den).toFixed(3),
+          (num / den).toFixed(2),
+          (Number.isInteger(num / den)) ? (num / den).toString() : "__nope__"
+        ],
+        misconceptions: [
+          { match: ["0"], why: `0 only applies when bottom degree > top degree. Here BOTH have degree ${k} (equal), so the limit is the ratio: ${num}/${den}.` },
+          { match: [num.toString()], why: `That's just the numerator's lead coefficient. Take the RATIO with the denominator: ${num}/${den}.` },
+          { match: [den.toString()], why: `That's just the denominator's lead coefficient. Take the RATIO: numerator ÷ denominator = ${num}/${den}.` },
+          { match: [`${den}/${num}`, (den/num).toFixed(2)], why: `Ratio is FLIPPED. Numerator leading ÷ denominator leading = ${num}/${den}, not the reciprocal.` }
+        ],
+        correctDisplay: `Limit = ${correctStr}`,
+        workedSolution: `Top and bottom both have degree ${k} → limit = ratio of leading coefficients = <strong>${num}/${den}${Number.isInteger(num/den) ? " = " + (num/den) : ""}</strong>. Lower-order terms vanish as x → ∞.`
+      };
+    }
+  },
+
+  /* Q5 · MC · One-sided limit */
+  {
+    id: 5, type: "mc", tag: "Limits · One-Sided", color: "blue",
+    generate(){
+      const a = R.int(2, 5);
+      const exists = R.pick([true, false]);
+      const left = R.int(2, 8);
+      const right = exists ? left : R.intExcl(2, 10, [left]);
+      const stem = `For a function f, &nbsp;<span class="mono">lim<sub>x→${a}⁻</sub> f(x) = ${left}</span> &nbsp;and&nbsp; <span class="mono">lim<sub>x→${a}⁺</sub> f(x) = ${right}</span>. What can you conclude about <span class="mono">lim<sub>x→${a}</sub> f(x)</span>?`;
+      const correctText = exists ? `The limit exists and equals ${left}` : "The limit does not exist";
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correctText, correct: true },
+          { html: exists ? "The limit does not exist" : `The limit exists and equals ${left}`, correct: false, misconception: exists ? `When BOTH one-sided limits equal the same value (${left} = ${right}), the two-sided limit DOES exist and equals that common value.` : `Left limit (${left}) ≠ right limit (${right}). The two-sided limit only exists when both one-sided limits agree.` },
+          { html: `The limit exists and equals ${left + right}`, correct: false, misconception: `You added the one-sided limits. That's not how limits combine. The two-sided limit exists ONLY if both sides agree — and equals that common value.` },
+          { html: `The limit exists and equals (${left} + ${right})/2`, correct: false, misconception: `Averaging one-sided limits is not a thing. The two-sided limit exists iff both sides are equal, in which case it equals that shared value.` },
+          { html: "f is continuous at x = " + a, correct: false, misconception: `Continuity at x = ${a} also requires f(${a}) to be defined AND equal to the limit. The one-sided limits alone don't tell us about f(${a}).` }
+        ]),
+        correctDisplay: correctText,
+        workedSolution: exists
+          ? `Both one-sided limits equal <strong>${left}</strong>, so the two-sided limit exists and equals <strong>${left}</strong>.`
+          : `Left limit (${left}) ≠ right limit (${right}). For the two-sided limit to exist, both one-sided limits must be equal. <strong>DNE</strong>.`
+      };
+    }
+  },
+
+  /* Q6 · MC · Discontinuity classification */
+  {
+    id: 6, type: "mc", tag: "Discontinuity Classification", color: "blue",
+    generate(){
+      const scenario = R.pick(["removable", "infinite", "jump"]);
+      const a = R.intExcl(-4, 5, [0]);
+      let stem, correct;
+      if (scenario === "removable") {
+        const other = R.intExcl(-6, 6, [0, a]);
+        const numShared = a >= 0 ? "− " + a : "+ " + (-a);
+        stem = `Classify the discontinuity of <span class="mono">f(x) = (x ${numShared})(x ${other >= 0 ? "− " + other : "+ " + (-other)}) / (x ${numShared})</span> at <span class="mono">x = ${a}</span>.`;
+        correct = "Removable (hole)";
+      } else if (scenario === "infinite") {
+        stem = `Classify the discontinuity of <span class="mono">f(x) = 1 / (x ${a >= 0 ? "− " + a : "+ " + (-a)})</span> at <span class="mono">x = ${a}</span>.`;
+        correct = "Infinite (vertical asymptote)";
+      } else {
+        const v1 = R.int(2, 6), v2 = R.intExcl(2, 8, [v1]);
+        stem = `A piecewise function has <span class="mono">f(x) = ${v1}</span> for x < ${a} and <span class="mono">f(x) = ${v2}</span> for x ≥ ${a}. Classify the discontinuity at <span class="mono">x = ${a}</span>.`;
+        correct = "Jump";
+      }
+      return {
+        stem,
+        options: R.shuffle([
+          { html: "Removable (hole)", correct: correct === "Removable (hole)", misconception: correct !== "Removable (hole)" ? `Removable means a common factor cancels (numerator AND denominator share a zero), creating a single missing point with the limit still existing. ${scenario === "infinite" ? "Here only the denominator is zero — limit goes to ±∞, infinite discontinuity." : "Here the one-sided limits disagree — jump discontinuity."}` : "" },
+          { html: "Jump", correct: correct === "Jump", misconception: correct !== "Jump" ? `Jump means LEFT limit ≠ RIGHT limit (both finite). ${scenario === "removable" ? "Here the factor cancels — same limit from both sides — removable hole." : "Here the function blows up — infinite discontinuity."}` : "" },
+          { html: "Infinite (vertical asymptote)", correct: correct === "Infinite (vertical asymptote)", misconception: correct !== "Infinite (vertical asymptote)" ? `Infinite means f → ±∞ (denominator zero without numerator zero). ${scenario === "removable" ? "Here the shared factor cancels — finite limit exists." : "Here both sides are finite, just different — jump."}` : "" },
+          { html: "Oscillating", correct: false, misconception: `Oscillating discontinuities (like sin(1/x) at 0) are rare — usually only seen in trig pathologies. Don't pick this unless the function is wildly fluctuating.` },
+          { html: "f is continuous at x = " + a, correct: false, misconception: `Continuity requires f(${a}) to be DEFINED. This function has issues at x = ${a} (zero denominator or piecewise mismatch).` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: scenario === "removable"
+          ? `The factor (x − ${a}) cancels in numerator AND denominator. The limit at x = ${a} exists, but f(${a}) is undefined (denominator zero). This is a <strong>removable</strong> discontinuity (hole).`
+          : scenario === "infinite"
+          ? `The denominator (x − ${a}) = 0 at x = ${a} but the numerator (1) is NOT zero. f → ±∞ near x = ${a}. <strong>Infinite</strong> discontinuity.`
+          : `Left-side limit and right-side limit are DIFFERENT finite values (${R.int(2,6)} ≠ another). <strong>Jump</strong> discontinuity.`
+      };
+    }
+  },
+
+  /* Q7 · DD · Continuity 3-part test */
+  {
+    id: 7, type: "dd", tag: "Continuity · 3-Part Test", color: "blue",
+    generate(){
+      const a = R.intExcl(1, 6, [0]);
+      const which = R.pick(["all", "no-f", "no-limit", "f-ne-limit"]);
+      let stem, correct;
+      if (which === "all") {
+        const v = R.int(2, 9);
+        stem = `For a function f, we have <span class="mono">f(${a}) = ${v}</span>, <span class="mono">lim<sub>x→${a}</sub> f(x) = ${v}</span>. Is f continuous at x = ${a}?`;
+        correct = "Yes — all three continuity conditions are met";
+      } else if (which === "no-f") {
+        const limVal = R.int(2, 9);
+        stem = `For a function f, <span class="mono">f(${a})</span> is undefined, but <span class="mono">lim<sub>x→${a}</sub> f(x) = ${limVal}</span>. Is f continuous at x = ${a}?`;
+        correct = `No — f(${a}) must be defined for continuity`;
+      } else if (which === "no-limit") {
+        const v = R.int(2, 9);
+        stem = `For a function f, <span class="mono">f(${a}) = ${v}</span>, but <span class="mono">lim<sub>x→${a}</sub> f(x)</span> does not exist. Is f continuous at x = ${a}?`;
+        correct = `No — the limit must exist for continuity`;
+      } else {
+        const fv = R.int(2, 6), lv = R.intExcl(2, 8, [fv]);
+        stem = `For a function f, <span class="mono">f(${a}) = ${fv}</span> and <span class="mono">lim<sub>x→${a}</sub> f(x) = ${lv}</span>. Is f continuous at x = ${a}?`;
+        correct = `No — f(${a}) must EQUAL the limit for continuity`;
+      }
+      return {
+        stem,
+        prefix: "Conclusion:",
+        options: R.shuffle([
+          { text: "Yes — all three continuity conditions are met", correct: correct.startsWith("Yes"), misconception: !correct.startsWith("Yes") ? `Continuity at x = ${a} requires THREE conditions: (1) f(${a}) defined, (2) limit exists, (3) f(${a}) = limit. Here at least one fails.` : "" },
+          { text: `No — f(${a}) must be defined for continuity`, correct: correct.includes("must be defined"), misconception: !correct.includes("must be defined") ? `That's only one of three failure modes. Check which condition is actually failing in this scenario.` : "" },
+          { text: `No — the limit must exist for continuity`, correct: correct.includes("limit must exist"), misconception: !correct.includes("limit must exist") ? `That's only one of three failure modes. In this scenario the limit IS specified to exist; check whether f(${a}) and the limit AGREE.` : "" },
+          { text: `No — f(${a}) must EQUAL the limit for continuity`, correct: correct.includes("must EQUAL"), misconception: !correct.includes("must EQUAL") ? `The mismatch between f(${a}) and the limit is the issue here. Match what's actually different in the given scenario.` : "" },
+          { text: `Cannot determine without more info`, correct: false, misconception: `The three-condition test is mechanical: check defined, check limit exists, check they're equal. You have all the info you need.` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>Three conditions for continuity at x = ${a}:</strong><br>(1) f(${a}) defined &nbsp;(2) lim<sub>x→${a}</sub> f(x) exists &nbsp;(3) f(${a}) = lim<sub>x→${a}</sub> f(x).<br>Verdict: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q8 · FIB · Exact unit circle value */
+  {
+    id: 8, type: "fib", tag: "Unit Circle · Exact Value", color: "blue",
+    generate(){
+      const table = {
+        "π/6":  { sin: "1/2",    cos: "√3/2"  },
+        "π/4":  { sin: "√2/2",   cos: "√2/2"  },
+        "π/3":  { sin: "√3/2",   cos: "1/2"   },
+        "π/2":  { sin: "1",      cos: "0"     },
+        "2π/3": { sin: "√3/2",   cos: "−1/2"  },
+        "3π/4": { sin: "√2/2",   cos: "−√2/2" },
+        "5π/6": { sin: "1/2",    cos: "−√3/2" },
+        "π":    { sin: "0",      cos: "−1"    },
+        "7π/6": { sin: "−1/2",   cos: "−√3/2" },
+        "5π/4": { sin: "−√2/2",  cos: "−√2/2" },
+        "4π/3": { sin: "−√3/2",  cos: "−1/2"  },
+        "5π/3": { sin: "−√3/2",  cos: "1/2"   },
+        "7π/4": { sin: "−√2/2",  cos: "√2/2"  }
+      };
+      const angle = R.pick(Object.keys(table));
+      const fn = R.pick(["sin", "cos"]);
+      const exact = table[angle][fn];
+      const wrongFn = table[angle][fn === "sin" ? "cos" : "sin"];
+      const flippedSign = exact === "0" ? null : exact.startsWith("−") ? exact.slice(1) : "−" + exact;
+      return {
+        stem: `Find the exact value of <span class="mono">${fn}(${angle})</span>. (Type fractions with √. Examples: <span class="mono">1/2</span>, <span class="mono">−√3/2</span>, <span class="mono">0</span>.)`,
+        prefix: `${fn}(${angle}) =`,
+        placeholder: "exact value",
+        accepted: [
+          exact,
+          exact.replace("√", "sqrt"),
+          exact.replace("−", "-")
+        ],
+        misconceptions: [
+          { match: flippedSign ? [flippedSign, flippedSign.replace("√","sqrt"), flippedSign.replace("−","-")] : ["__nope__"],
+            why: `Sign error — wrong quadrant. Determine which quadrant ${angle} is in, then apply ${fn}'s sign rule (sin: +/+/−/−, cos: +/−/−/+ going I→II→III→IV).` },
+          { match: [wrongFn, wrongFn.replace("√","sqrt"), wrongFn.replace("−","-")],
+            why: `You computed ${fn === "sin" ? "cos" : "sin"}(${angle}) instead of ${fn}(${angle}). At reference angle: sin/cos give DIFFERENT magnitudes (except at π/4).` }
+        ],
+        correctDisplay: `${fn}(${angle}) = ${exact}`,
+        workedSolution: `Identify quadrant of ${angle} → apply sign rule for ${fn} in that quadrant → use reference angle magnitude. Result: <strong>${exact}</strong>.`
+      };
+    }
+  },
+
+  /* Q9 · MC · IVT — which k? */
+  {
+    id: 9, type: "mc", tag: "IVT · Which k?", color: "blue",
+    generate(){
+      const a = R.int(1, 3), b = a + R.int(3, 6);
+      const fa = R.intExcl(-5, 5, [0]);
+      const fb = fa + R.int(8, 14);
+      // k that IS between fa and fb
+      const min = Math.min(fa, fb), max = Math.max(fa, fb);
+      const goodK = R.int(min + 1, max - 1);
+      const badBelow = min - R.int(2, 5);
+      const badAbove = max + R.int(2, 5);
+      return {
+        stem: `A function f is continuous on <span class="mono">[${a}, ${b}]</span> with <span class="mono">f(${a}) = ${fa}</span> and <span class="mono">f(${b}) = ${fb}</span>. By the Intermediate Value Theorem, which value of <span class="mono">k</span> is GUARANTEED to have a corresponding c in (${a}, ${b}) where <span class="mono">f(c) = k</span>?`,
+        options: R.shuffle([
+          { html: `k = ${goodK}`, correct: true },
+          { html: `k = ${badBelow}`, correct: false, misconception: `IVT only guarantees k VALUES BETWEEN f(${a}) = ${fa} and f(${b}) = ${fb}. ${badBelow} is below the range [${min}, ${max}].` },
+          { html: `k = ${badAbove}`, correct: false, misconception: `IVT only guarantees k VALUES BETWEEN f(${a}) = ${fa} and f(${b}) = ${fb}. ${badAbove} is above the range [${min}, ${max}].` },
+          { html: `k = ${max + R.int(5, 10)}`, correct: false, misconception: `Way too far above the endpoint values. IVT range is strictly [${min}, ${max}].` },
+          { html: `k = ${fa}`, correct: false, misconception: `${fa} is f(${a}) — an endpoint value. IVT requires c to be STRICTLY inside (${a}, ${b}), so k must be strictly between f(${a}) and f(${b}).` },
+          { html: "None of the above", correct: false, misconception: `One of the listed k values IS in (${min}, ${max}). Check each value against the IVT range.` }
+        ]),
+        correctDisplay: `k = ${goodK} (between ${min} and ${max})`,
+        workedSolution: `IVT requires k to lie STRICTLY between f(${a}) = ${fa} and f(${b}) = ${fb}, i.e. in <strong>(${min}, ${max})</strong>. Only <strong>k = ${goodK}</strong> qualifies; the others are outside the range.`
+      };
+    }
+  },
+
+  /* Q10 · FIB · MVT slope */
+  {
+    id: 10, type: "fib", tag: "MVT · AROC", color: "blue",
+    generate(){
+      const a = R.int(1, 4), b = a + R.pick([2, 3, 4, 5, 6]);
+      const fa = R.int(2, 10);
+      const slope = R.pick([2, 3, 4, 5, 6]);
+      const fb = fa + slope * (b - a);
+      return {
+        stem: `A function f is differentiable on <span class="mono">[${a}, ${b}]</span> with <span class="mono">f(${a}) = ${fa}</span> and <span class="mono">f(${b}) = ${fb}</span>. By the Mean Value Theorem, there exists c in (${a}, ${b}) such that <span class="mono">f'(c) =</span> ? (Type an integer.)`,
+        prefix: "f'(c) =",
+        placeholder: "integer",
+        accepted: [slope.toString()],
+        misconceptions: [
+          { match: [(fb - fa).toString()], why: `You computed Δy = ${fb - fa} (the rise). MVT gives the SLOPE = Δy/Δx = ${fb - fa} / ${b - a} = ${slope}.` },
+          { match: [(b - a).toString()], why: `That's Δx = ${b - a} (the run). MVT gives Δy/Δx = ${slope}.` },
+          { match: [(slope * 2).toString()], why: `Double the correct slope. Check arithmetic: Δy/Δx = (${fb} − ${fa})/(${b} − ${a}) = ${fb - fa}/${b - a} = ${slope}.` }
+        ],
+        correctDisplay: `f'(c) = ${slope}`,
+        workedSolution: `MVT guarantees f'(c) = [f(${b}) − f(${a})] / (${b} − ${a}) = (${fb} − ${fa})/${b - a} = <strong>${fb - fa}/${b - a} = ${slope}</strong>.`
+      };
+    }
+  },
+
+  /* Q11 · DD · IVT vs MVT vs EVT */
+  {
+    id: 11, type: "dd", tag: "Which Theorem?", color: "blue",
+    generate(){
+      const scenario = R.pick(["ivt", "mvt", "evt"]);
+      let stem, correct;
+      if (scenario === "ivt") {
+        const fa = R.int(-3, 3), fb = fa + R.int(5, 10);
+        stem = `f is continuous on [a, b], f(a) = ${fa}, f(b) = ${fb}. Which theorem guarantees a c in (a, b) with f(c) = some value between ${fa} and ${fb}?`;
+        correct = "Intermediate Value Theorem (IVT)";
+      } else if (scenario === "mvt") {
+        stem = `f is continuous on [a, b] AND differentiable on (a, b). Which theorem guarantees a c in (a, b) where f'(c) equals the average rate of change?`;
+        correct = "Mean Value Theorem (MVT)";
+      } else {
+        stem = `f is continuous on a CLOSED interval [a, b]. Which theorem guarantees f attains both an absolute maximum AND an absolute minimum on [a, b]?`;
+        correct = "Extreme Value Theorem (EVT)";
+      }
+      return {
+        stem,
+        prefix: "Theorem:",
+        options: R.shuffle([
+          { text: "Intermediate Value Theorem (IVT)", correct: correct === "Intermediate Value Theorem (IVT)", misconception: correct !== "Intermediate Value Theorem (IVT)" ? `IVT guarantees an INTERMEDIATE VALUE (output between f(a) and f(b)) is hit. It says nothing about derivatives or extrema.` : "" },
+          { text: "Mean Value Theorem (MVT)", correct: correct === "Mean Value Theorem (MVT)", misconception: correct !== "Mean Value Theorem (MVT)" ? `MVT guarantees a DERIVATIVE value equal to the average rate of change. Requires differentiability — IVT and EVT only need continuity.` : "" },
+          { text: "Extreme Value Theorem (EVT)", correct: correct === "Extreme Value Theorem (EVT)", misconception: correct !== "Extreme Value Theorem (EVT)" ? `EVT guarantees absolute extrema (max AND min) exist on a closed continuous interval. Not about specific output values or derivatives.` : "" },
+          { text: "L'Hôpital's Rule", correct: false, misconception: `L'Hôpital evaluates 0/0 or ∞/∞ limits — not about existence of c values.` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>IVT</strong>: continuous on [a, b] → every intermediate output is hit. <strong>MVT</strong>: continuous on [a, b] AND differentiable on (a, b) → ∃c with f'(c) = AROC. <strong>EVT</strong>: continuous on closed [a, b] → absolute max and min exist. Answer: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q12 · MC · MVT prerequisites */
+  {
+    id: 12, type: "mc", tag: "MVT · Prerequisites", color: "blue",
+    generate(){
+      return {
+        stem: `For the Mean Value Theorem to apply on an interval [a, b], the function f must satisfy:`,
+        options: R.shuffle([
+          { html: "Continuous on [a, b] AND differentiable on (a, b)", correct: true },
+          { html: "Continuous on (a, b) AND differentiable on [a, b]", correct: false, misconception: `Endpoints flipped. Continuity is needed on the CLOSED interval [a, b] (including endpoints). Differentiability is needed on the OPEN interval (a, b) (excluding endpoints — corners are OK there).` },
+          { html: "Differentiable everywhere on [a, b] including endpoints", correct: false, misconception: `MVT doesn't require differentiability at the endpoints. Corner functions still qualify — only the INTERIOR (a, b) must be differentiable.` },
+          { html: "Continuous on [a, b] only", correct: false, misconception: `That's IVT (and EVT), not MVT. MVT also requires differentiability on (a, b) to draw conclusions about f'.` },
+          { html: "Differentiable on (a, b) only", correct: false, misconception: `You forgot continuity. Differentiability on (a, b) alone doesn't guarantee continuity at the endpoints, which MVT also needs.` },
+          { html: "Continuous and differentiable on (a, b) only", correct: false, misconception: `MVT requires continuity on the CLOSED interval (including endpoints). Open-interval continuity isn't enough.` }
+        ]),
+        correctDisplay: "Continuous on [a, b] AND differentiable on (a, b)",
+        workedSolution: `<strong>MVT hypotheses:</strong> (1) f continuous on the CLOSED interval [a, b]. (2) f differentiable on the OPEN interval (a, b). Conclusion: ∃c ∈ (a, b) with f'(c) = [f(b) − f(a)]/(b − a).`
+      };
+    }
+  },
+
+  /* Q13 · MC · Discontinuity from a piecewise */
+  {
+    id: 13, type: "mc", tag: "Piecewise · Continuous?", color: "blue",
+    generate(){
+      const a = R.intExcl(1, 5, [0]);
+      const continuous = R.pick([true, false]);
+      const m = R.int(2, 4);
+      const c = R.int(1, 6);
+      const leftVal = m * a + c;
+      const rightVal = continuous ? leftVal : leftVal + R.int(2, 6);
+      const rightConst = rightVal;
+      return {
+        stem: `A piecewise function is defined as: <span class="mono">f(x) = ${m}x + ${c}</span> for <span class="mono">x < ${a}</span>, and <span class="mono">f(x) = ${rightConst}</span> for <span class="mono">x ≥ ${a}</span>. Is f continuous at <span class="mono">x = ${a}</span>?`,
+        options: R.shuffle([
+          { html: "Yes — both pieces agree at x = " + a, correct: continuous, misconception: !continuous ? `Check the values: left piece at x = ${a} gives ${m}·${a} + ${c} = ${leftVal}. Right piece at x = ${a} gives ${rightConst}. They DISAGREE (${leftVal} ≠ ${rightConst}) → jump discontinuity.` : "" },
+          { html: "No — there's a jump discontinuity at x = " + a, correct: !continuous, misconception: continuous ? `Check the values: left piece at x = ${a} is ${m}·${a} + ${c} = ${leftVal}. Right piece is ${rightConst}. They AGREE (${leftVal} = ${rightConst}) → continuous.` : "" },
+          { html: "No — there's a removable hole at x = " + a, correct: false, misconception: `Piecewise mismatches at a single point produce JUMP discontinuities, not holes. A hole requires a shared cancelable factor.` },
+          { html: "No — there's a vertical asymptote at x = " + a, correct: false, misconception: `Vertical asymptotes require f → ±∞. Here both pieces are finite linear/constant functions — no asymptote.` },
+          { html: "Cannot determine without graphing", correct: false, misconception: `You can determine continuity algebraically. Evaluate each piece at the boundary x = ${a} and check if they match.` }
+        ]),
+        correctDisplay: continuous ? `Continuous: both pieces give ${leftVal} at x = ${a}` : `Jump: left = ${leftVal}, right = ${rightConst}`,
+        workedSolution: `Evaluate at the boundary x = ${a}: left piece ${m}·${a} + ${c} = <strong>${leftVal}</strong>; right piece (constant) = <strong>${rightConst}</strong>. ${continuous ? `Values match → continuous at x = ${a}.` : `Values disagree → JUMP discontinuity at x = ${a}.`}`
+      };
+    }
+  }
+
+];
+
+window.CalcDay.init({
+  dayTitle: "Day 1",
+  dayLabel: "Limits, Continuity & Theorems",
+  questions: DAY1_QUESTIONS
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calc AB · Day 5 · Cumulative Mock + FRQ Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">Day 5 · Fri May 15</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Cumulative · Mock-Final Shape</span>
+  </div>
+  <div class="timer-pill" style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:var(--glass);border:1px solid var(--b);font-size:12px;color:var(--tx2);letter-spacing:0.08em;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>
+    <span id="timerVal" style="font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);font-size:13px;letter-spacing:0.04em;">00:00</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot" style="background:var(--red)"></span>Day 5 of 5 · Fri May 15 · ~50 min · Mock-Final Shape</div>
+    <h1 class="day-title">
+      <span class="l1">Cumulative Practice</span>
+      <span class="l2">+ FRQ Mock.</span>
+    </h1>
+    <p class="day-sub">Final warm-up before Monday's exam. <strong>10 mixed multiple-choice</strong> drawn from every theme this week, plus <strong>3 free-response problems</strong> (7 sub-parts total) modeled on Q31 (related rates), Q33 (area &amp; volume), and Q34 (graph of f') from the actual final. Try the first pass without regenerating — diagnose what's still shaky, then drill it.</p>
+
+    <div class="meta-row">
+      <div class="meta-pill"><span class="dot" style="background:var(--blue)"></span>Limits/Theorems</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--green)"></span>Differentiation</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--gold)"></span>App Derivs</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>Integration</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>FRQ × 3 (7 sub-parts)</div>
+    </div>
+
+    <div class="instructions">
+      <div class="ih">📘 How to use this practice</div>
+      <strong>1.</strong> Treat first pass as the real exam — no <strong>↻ New Numbers</strong>. <strong>2.</strong> Score yourself, then drill any misses with new variants. <strong>3.</strong> Submit to Canvas at the bottom.
+    </div>
+  </div>
+
+  <div class="section-header" data-color="red"><div class="sh-row"><span class="sh-tag">Mixed</span><span class="sh-title">Cumulative Multiple Choice · 10 Questions</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="1" data-color="blue"><div class="q-top"><div class="q-num">01</div><span class="q-tag">Limits · Factor &amp; Cancel</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="2" data-color="blue"><div class="q-top"><div class="q-num">02</div><span class="q-tag">MVT · Find f'(c)</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="3" data-color="green"><div class="q-top"><div class="q-num">03</div><span class="q-tag">Power Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="4" data-color="green"><div class="q-top"><div class="q-num">04</div><span class="q-tag">Implicit Circle</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="5" data-color="gold"><div class="q-top"><div class="q-num">05</div><span class="q-tag">L'Hôpital · sin(kx)/x</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="6" data-color="gold"><div class="q-top"><div class="q-num">06</div><span class="q-tag">Local Min</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="7" data-color="gold"><div class="q-top"><div class="q-num">07</div><span class="q-tag">Related Rates · Sphere</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="8" data-color="purple"><div class="q-top"><div class="q-num">08</div><span class="q-tag">Antiderivative · +C</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="9" data-color="purple"><div class="q-top"><div class="q-num">09</div><span class="q-tag">FTC · Chain Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="10" data-color="purple"><div class="q-top"><div class="q-num">10</div><span class="q-tag">Integral Additivity</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="red"><div class="sh-row"><span class="sh-tag">FRQ-1</span><span class="sh-title">Related Rates · 3 Sub-Parts · Matches Q31 on the Final</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="11" data-color="red"><div class="q-top"><div class="q-num">11</div><span class="q-tag">FRQ-1 (a)</span><span class="q-type-tag" data-type="fib">Fill-In</span><span class="q-tag">Top Height y</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="12" data-color="red"><div class="q-top"><div class="q-num">12</div><span class="q-tag">FRQ-1 (b)</span><span class="q-type-tag" data-type="fib">Fill-In</span><span class="q-tag">dy/dt</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="13" data-color="red"><div class="q-top"><div class="q-num">13</div><span class="q-tag">FRQ-1 (c)</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><span class="q-tag">Sign Justification</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="red"><div class="sh-row"><span class="sh-tag">FRQ-2</span><span class="sh-title">Area &amp; Volume · 2 Sub-Parts · Matches Q33 on the Final</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="14" data-color="red"><div class="q-top"><div class="q-num">14</div><span class="q-tag">FRQ-2 (a)</span><span class="q-type-tag" data-type="fib">Fill-In</span><span class="q-tag">Right Intersection</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="15" data-color="red"><div class="q-top"><div class="q-num">15</div><span class="q-tag">FRQ-2 (b)</span><span class="q-type-tag" data-type="fib">Fill-In</span><span class="q-tag">Area of Region R</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="red"><div class="sh-row"><span class="sh-tag">FRQ-3</span><span class="sh-title">Graph of f' · 2 Sub-Parts · Matches Q34 on the Final</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="16" data-color="red"><div class="q-top"><div class="q-num">16</div><span class="q-tag">FRQ-3 (a)</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><span class="q-tag">Local Max from f'</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="17" data-color="red"><div class="q-top"><div class="q-num">17</div><span class="q-tag">FRQ-3 (b)</span><span class="q-type-tag" data-type="fib">Fill-In</span><span class="q-tag">f(b) via FTC</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="submit-area">
+    <div class="submit-eyebrow"><span class="dot"></span>End of Day 5 · Final Mock · Submit via Canvas</div>
+    <div class="name-row"><label class="name-label" for="studentName">Your full name</label><input type="text" id="studentName" class="name-input" placeholder="First Last" autocomplete="name"></div>
+    <div class="submit-progress"><span class="prog-num" id="progNum">0</span><span class="prog-sep">/</span><span class="prog-total">17</span><span class="prog-label">answered</span></div>
+    <div class="submit-meter"><div class="submit-meter-fill" id="submitMeterFill"></div></div>
+    <div class="score-strip">
+      <div class="score-pill correct">✓ Correct <span class="num" id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">✗ Wrong <span class="num" id="scoreWrong">0</span></div>
+      <div class="score-pill unanswered">— Unanswered <span class="num" id="scoreUnanswered">17</span></div>
+    </div>
+    <div class="submit-row">
+      <button class="submit-btn" id="copyBtn"><span class="sb-icon">⎘</span><span class="sb-text">Copy for Canvas</span></button>
+      <button class="email-btn" id="emailBtn"><span class="sb-icon">✉</span><span class="sb-text">Email to Teacher</span></button>
+      <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    <div class="submit-foot"><strong>Final mock submission:</strong> 1. Type your name. 2. Copy for Canvas. 3. Paste into Day 5 classwork and submit. Good luck on the real exam Monday.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultsModal"><div class="modal">
+  <div class="modal-head"><div class="modal-eyebrow ok"><span class="dot"></span>Copied to Clipboard</div><div class="submit-success"><div class="ss-check">✓</div><div class="ss-title">Submission Ready</div><div class="ss-sub">Your Day 5 mock results are on your clipboard. Paste into Canvas and submit.</div></div></div>
+  <div class="canvas-steps"><div class="cs-row"><span class="cs-num">1</span><span class="cs-text">Open <strong>Day 5 Classwork</strong> on Canvas.</span></div><div class="cs-row"><span class="cs-num">2</span><span class="cs-text">Paste with <strong>Ctrl+V</strong> / <strong>Cmd+V</strong>.</span></div><div class="cs-row"><span class="cs-num">3</span><span class="cs-text">Click <strong>Submit</strong>.</span></div></div>
+  <div class="preview-head"><div class="ph-label">Preview · what was copied</div><button class="ph-recopy" id="recopyBtn">Copy Again</button></div>
+  <pre class="preview-text" id="previewText"></pre>
+  <div class="modal-actions"><button class="modal-btn" id="modalEmail">Email to Teacher Instead</button><button class="modal-btn primary" id="modalClose">Close</button></div>
+</div></div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark"><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div></div>
+  <span>Day 5 · Cumulative + FRQ Mock</span>
+</footer>
+
+<script src="calc-week.js"></script>
+<script>
+const DAY5_QUESTIONS = [
+
+  /* Q1 · Factor 0/0 limit */
+  { id: 1, type: "mc", tag: "Limits · Factor", color: "blue",
+    generate(){
+      const a = R.int(2, 7);
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→${a}</sub> (x² − ${a*a}) / (x − ${a})</span>`,
+        options: R.shuffle([
+          { html: (2*a).toString(), correct: true },
+          { html: "0", correct: false, misconception: `0/0 is indeterminate — factor first. (x − ${a})(x + ${a}) / (x − ${a}) → x + ${a} = ${2*a}.` },
+          { html: a.toString(), correct: false, misconception: `After cancellation, the limit becomes x + ${a}, not just x. At x = ${a}: ${a} + ${a} = ${2*a}.` },
+          { html: "DNE", correct: false, misconception: `Limit exists — factor 0/0 to resolve.` }
+        ]),
+        correctDisplay: (2*a).toString(),
+        workedSolution: `Factor: (x − ${a})(x + ${a})/(x − ${a}) → x + ${a}. At x = ${a}: <strong>${2*a}</strong>.`
+      };
+    }
+  },
+
+  /* Q2 · MVT */
+  { id: 2, type: "mc", tag: "MVT · Slope", color: "blue",
+    generate(){
+      const a = R.int(1, 4), b = a + R.pick([3, 4, 5, 6]);
+      const fa = R.int(2, 10);
+      const slope = R.pick([2, 3, 4]);
+      const fb = fa + slope * (b - a);
+      return {
+        stem: `f is differentiable on [${a}, ${b}], f(${a}) = ${fa}, f(${b}) = ${fb}. By MVT, there's a c with f'(c) =`,
+        options: R.shuffle([
+          { html: slope.toString(), correct: true },
+          { html: (fb - fa).toString(), correct: false, misconception: `That's Δy. MVT gives Δy/Δx = ${fb-fa}/${b-a} = ${slope}.` },
+          { html: (b - a).toString(), correct: false, misconception: `That's Δx. MVT gives Δy/Δx = ${slope}.` },
+          { html: fb.toString(), correct: false, misconception: `That's f(${b}), not a rate.` }
+        ]),
+        correctDisplay: slope.toString(),
+        workedSolution: `MVT: f'(c) = [f(${b}) − f(${a})] / (${b} − ${a}) = ${fb-fa}/${b-a} = <strong>${slope}</strong>.`
+      };
+    }
+  },
+
+  /* Q3 · Power rule */
+  { id: 3, type: "mc", tag: "Power Rule", color: "green",
+    generate(){
+      const a = R.int(2, 5), b = R.int(2, 5), c = R.int(2, 8);
+      return {
+        stem: `If <span class="mono">f(x) = ${a}x³ − ${b}x² + ${c}x − 7</span>, find f'(x).`,
+        options: R.shuffle([
+          { html: `${3*a}x² − ${2*b}x + ${c}`, correct: true },
+          { html: `${a}x² − ${b}x + ${c}`, correct: false, misconception: `Power rule: multiply by exponent. ${a}x³ → 3·${a}x² = ${3*a}x².` },
+          { html: `${3*a}x³ − ${2*b}x² + ${c}x`, correct: false, misconception: `You multiplied by exponent but didn't reduce the power. After d/dx[x³] = 3x² (drops to x²).` },
+          { html: `${3*a}x² − ${2*b}x + ${c} − 7`, correct: false, misconception: `Constant differentiates to 0, not "−7". Drop the −7 entirely.` }
+        ]),
+        correctDisplay: `${3*a}x² − ${2*b}x + ${c}`,
+        workedSolution: `Power rule term-by-term: ${a}·3·x² − ${b}·2·x + ${c} − 0 = <strong>${3*a}x² − ${2*b}x + ${c}</strong>.`
+      };
+    }
+  },
+
+  /* Q4 · Implicit circle */
+  { id: 4, type: "mc", tag: "Implicit", color: "green",
+    generate(){
+      const r = R.pick([3, 4, 5, 7]);
+      return {
+        stem: `For <span class="mono">x² + y² = ${r*r}</span>, find dy/dx.`,
+        options: R.shuffle([
+          { html: "−x/y", correct: true },
+          { html: "x/y", correct: false, misconception: `Sign error. From 2x + 2y(dy/dx) = 0: dy/dx = −x/y.` },
+          { html: "−y/x", correct: false, misconception: `Fraction inverted. dy/dx = −x/y, not −y/x.` },
+          { html: `−${2}x/y`, correct: false, misconception: `2's cancel: dy/dx = −2x/(2y) = −x/y.` }
+        ]),
+        correctDisplay: "−x/y",
+        workedSolution: `2x + 2y·(dy/dx) = 0 → dy/dx = <strong>−x/y</strong>.`
+      };
+    }
+  },
+
+  /* Q5 · L'Hôpital */
+  { id: 5, type: "mc", tag: "L'Hôpital", color: "gold",
+    generate(){
+      const k = R.int(2, 7);
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→0</sub> sin(${k}x) / x</span>`,
+        options: R.shuffle([
+          { html: k.toString(), correct: true },
+          { html: "1", correct: false, misconception: `sin(x)/x → 1, but here it's ${k}x inside. L'Hôpital: ${k}cos(${k}x) at 0 = ${k}.` },
+          { html: "0", correct: false, misconception: `0/0 indeterminate, not 0. Use L'Hôpital.` },
+          { html: `1/${k}`, correct: false, misconception: `Chain pulls ${k} OUT, not divides. Answer ${k}.` }
+        ]),
+        correctDisplay: k.toString(),
+        workedSolution: `L'Hôpital: derivative top is ${k}cos(${k}x). At x = 0: ${k}·1 = <strong>${k}</strong>.`
+      };
+    }
+  },
+
+  /* Q6 · Local min */
+  { id: 6, type: "mc", tag: "Local Min", color: "gold",
+    generate(){
+      const p = R.intExcl(-2, 1, [0]);
+      const q = p + R.int(2, 4);
+      return {
+        stem: `f'(x) = 3(x − ${p})(x − ${q}). At which x is there a local MIN?`,
+        options: R.shuffle([
+          { html: `x = ${q}`, correct: true },
+          { html: `x = ${p}`, correct: false, misconception: `Sign analysis: f' changes + → − at x = ${p} (local MAX). Local min has f' going − → +.` },
+          { html: `Both x = ${p} and x = ${q}`, correct: false, misconception: `Only ONE is a min. Critical points need sign analysis to classify.` },
+          { html: `Neither`, correct: false, misconception: `f' changes signs at both critical points, so both are extrema (one max, one min).` }
+        ]),
+        correctDisplay: `Local min at x = ${q}`,
+        workedSolution: `Sign analysis: f' goes from − to + at x = ${q} → <strong>local min</strong>.`
+      };
+    }
+  },
+
+  /* Q7 · Related Rates sphere */
+  { id: 7, type: "mc", tag: "Related Rates · Sphere", color: "gold",
+    generate(){
+      const r = R.pick([3, 4, 5, 6, 10]);
+      const drdt = R.pick([2, 3]);
+      const dVdt = 4 * r * r * drdt;
+      return {
+        stem: `Balloon radius grows at <span class="mono">${drdt} cm/s</span>. When r = ${r}, dV/dt = ? &nbsp;(V = (4/3)πr³)`,
+        options: R.shuffle([
+          { html: `${dVdt}π cm³/s`, correct: true },
+          { html: `${4 * r * r}π cm³/s`, correct: false, misconception: `Forgot dr/dt = ${drdt}. dV/dt = 4πr²·(dr/dt) = ${dVdt}π.` },
+          { html: `${(4/3) * r * r * r}π cm³/s`, correct: false, misconception: `That's V itself, not dV/dt.` },
+          { html: `${4 * r * drdt}π cm³/s`, correct: false, misconception: `Forgot to SQUARE r. dV/dt = 4πr²·dr/dt.` }
+        ]),
+        correctDisplay: `${dVdt}π cm³/s`,
+        workedSolution: `dV/dt = 4πr²·(dr/dt) = 4π·${r*r}·${drdt} = <strong>${dVdt}π cm³/s</strong>.`
+      };
+    }
+  },
+
+  /* Q8 · Antiderivative with +C */
+  { id: 8, type: "mc", tag: "Antiderivative", color: "purple",
+    generate(){
+      return {
+        stem: `Find: <span class="mono">∫(6x² − 4x + 3) dx</span>`,
+        options: R.shuffle([
+          { html: "2x³ − 2x² + 3x + C", correct: true },
+          { html: "2x³ − 2x² + 3x", correct: false, misconception: `Missing + C. Indefinite integrals ALWAYS require it.` },
+          { html: "6x³ − 4x² + 3x + C", correct: false, misconception: `Divide by new exponent. 6x²→2x³, not 6x³.` },
+          { html: "12x − 4 + C", correct: false, misconception: `That's the DERIVATIVE, not the antiderivative.` }
+        ]),
+        correctDisplay: "2x³ − 2x² + 3x + C",
+        workedSolution: `Reverse power rule: 6x²/3 = 2x³, −4x/2 = −2x², 3·x = 3x. Add <strong>+ C</strong>.`
+      };
+    }
+  },
+
+  /* Q9 · FTC chain */
+  { id: 9, type: "mc", tag: "FTC · Chain", color: "purple",
+    generate(){
+      const fn = R.pick(["sin", "cos"]);
+      return {
+        stem: `If <span class="mono">g(x) = ∫<sub>0</sub><sup>x²</sup> ${fn}(t) dt</span>, find g'(x).`,
+        options: R.shuffle([
+          { html: `2x · ${fn}(x²)`, correct: true },
+          { html: `${fn}(x²)`, correct: false, misconception: `Forgot chain factor. g'(x) = f(upper)·(upper)'. Upper is x², derivative is 2x.` },
+          { html: `${fn}(t)`, correct: false, misconception: `Replace t with upper bound (x²), don't leave as t.` },
+          { html: `2x · ${fn === "sin" ? "cos" : "−sin"}(x²)`, correct: false, misconception: `Don't differentiate ${fn} — just plug the upper bound into the integrand.` }
+        ]),
+        correctDisplay: `2x · ${fn}(x²)`,
+        workedSolution: `FTC + chain: g'(x) = ${fn}(x²) · d/dx[x²] = ${fn}(x²)·2x = <strong>2x ${fn}(x²)</strong>.`
+      };
+    }
+  },
+
+  /* Q10 · Integral additivity */
+  { id: 10, type: "mc", tag: "Additivity", color: "purple",
+    generate(){
+      const i1 = R.intExcl(-8, 12, [0]);
+      const i2 = R.intExcl(-6, 8, [0]);
+      const total = i1 + i2;
+      return {
+        stem: `If <span class="mono">∫<sub>0</sub><sup>3</sup>f = ${i1}</span> and <span class="mono">∫<sub>3</sub><sup>5</sup>f = ${i2}</span>, find <span class="mono">∫<sub>0</sub><sup>5</sup>f</span>.`,
+        options: R.shuffle([
+          { html: total.toString(), correct: true },
+          { html: (i1 - i2).toString(), correct: false, misconception: `Add, don't subtract. Connected intervals: ∫₀³ + ∫₃⁵.` },
+          { html: (i1 * i2).toString(), correct: false, misconception: `Don't multiply. Additivity: just add.` },
+          { html: i1.toString(), correct: false, misconception: `Include both intervals.` }
+        ]),
+        correctDisplay: total.toString(),
+        workedSolution: `Additivity: ${i1} + ${i2} = <strong>${total}</strong>.`
+      };
+    }
+  },
+
+  /* Q11 · FRQ-1(a) Top height y */
+  { id: 11, type: "fib", tag: "FRQ-1 (a)", color: "red",
+    generate(){
+      const L = R.pick([13, 17, 25]);
+      const triples = { 13: [5, 12], 17: [8, 15], 25: [7, 24] };
+      const [x, y] = triples[L];
+      return {
+        stem: `<strong>FRQ-1 · Ladder.</strong> A <span class="mono">${L}-ft</span> ladder leans against a wall. The bottom is currently <span class="mono">${x} ft</span> from the wall. <strong>(a)</strong> How high up the wall is the top? (Type an integer.)`,
+        prefix: "y =",
+        placeholder: "integer (ft)",
+        accepted: [y.toString()],
+        misconceptions: [
+          { match: [(L*L - x*x).toString()], why: `That's y² = ${L*L} − ${x*x} = ${L*L - x*x}. Take the square root: y = √${L*L - x*x} = ${y} ft.` },
+          { match: [L.toString()], why: `That's the ladder LENGTH, not the height. Use Pythagoras: x² + y² = L².` },
+          { match: [(L - x).toString()], why: `Not subtraction. Pythagoras: x² + y² = L² → y = √(L² − x²) = ${y}.` }
+        ],
+        correctDisplay: `y = ${y} ft`,
+        workedSolution: `Pythagoras: x² + y² = L². So y² = ${L}² − ${x}² = ${L*L} − ${x*x} = ${L*L - x*x}. y = √${L*L - x*x} = <strong>${y} ft</strong>.`
+      };
+    }
+  },
+
+  /* Q12 · FRQ-1(b) dy/dt */
+  { id: 12, type: "fib", tag: "FRQ-1 (b)", color: "red",
+    generate(){
+      const L = R.pick([13, 17, 25]);
+      const triples = { 13: [5, 12], 17: [8, 15], 25: [7, 24] };
+      const [x, y] = triples[L];
+      const dxdt = R.pick([2, 3]);
+      // dy/dt = -(x/y)·dx/dt
+      const num = -x * dxdt;
+      const denom = y;
+      const gcd = (a, b) => b === 0 ? Math.abs(a) : gcd(b, a % b);
+      const g = gcd(Math.abs(num), denom);
+      const ansStr = denom/g === 1 ? (num/g).toString() : `${num/g}/${denom/g}`;
+      return {
+        stem: `<strong>FRQ-1 · continued.</strong> Same <span class="mono">${L}-ft</span> ladder. The bottom slides AWAY from the wall at <span class="mono">${dxdt} ft/s</span>. When the bottom is <span class="mono">${x} ft</span> from the wall (top at ${y} ft), find <span class="mono">dy/dt</span>. (Type as fraction or decimal — include the negative sign.)`,
+        prefix: "dy/dt =",
+        placeholder: "negative number",
+        accepted: [
+          ansStr,
+          (num/denom).toFixed(2),
+          (num/denom).toFixed(3)
+        ],
+        misconceptions: [
+          { match: [`${-num/g}/${denom/g}`, (x*dxdt/y).toFixed(2)], why: `SIGN ERROR. Top is moving DOWN, so dy/dt < 0. From 2x(dx/dt) + 2y(dy/dt) = 0: dy/dt = −x·(dx/dt)/y = ${ansStr}.` },
+          { match: [dxdt.toString()], why: `That's dx/dt (given). Differentiate x² + y² = L² implicitly to solve for dy/dt.` }
+        ],
+        correctDisplay: `dy/dt = ${ansStr} ft/s`,
+        workedSolution: `Differentiate x² + y² = L²: 2x(dx/dt) + 2y(dy/dt) = 0 → dy/dt = −x·(dx/dt)/y = −(${x}·${dxdt})/${y} = <strong>${ansStr} ft/s</strong>.`
+      };
+    }
+  },
+
+  /* Q13 · FRQ-1(c) sign justification */
+  { id: 13, type: "mc", tag: "FRQ-1 (c)", color: "red",
+    generate(){
+      return {
+        stem: `<strong>FRQ-1 · continued.</strong> Why must dy/dt be NEGATIVE in this scenario? Choose the best in-context explanation.`,
+        options: R.shuffle([
+          { html: "The top of the ladder is sliding DOWN the wall — its height y is DECREASING. A decreasing quantity has a negative rate, so dy/dt < 0.", correct: true },
+          { html: "Because we used a negative sign in the chain rule", correct: false, misconception: `That's a math-only justification. AP graders want IN-CONTEXT reasoning: explain what's physically happening (top sliding down → height decreasing).` },
+          { html: "Because the ladder's length is constant", correct: false, misconception: `Length being constant just gives us the constraint equation. The sign of dy/dt comes from the DIRECTION the top is moving (down → negative).` },
+          { html: "Because x is increasing", correct: false, misconception: `x increasing means dx/dt > 0 (correct), but doesn't directly explain dy/dt's sign. Connect it: as x grows, y shrinks (geometrically), so dy/dt < 0.` },
+          { html: "Because the problem says so", correct: false, misconception: `AP grading requires justification, not a tautology. Explain in context: top moves DOWN → y decreases → dy/dt < 0.` }
+        ]),
+        correctDisplay: "Top of ladder is moving DOWN → y is DECREASING → dy/dt < 0",
+        workedSolution: `<strong>Required for AP credit:</strong> connect the math to the physical scenario. The top of the ladder is sliding DOWN the wall (the wall doesn't move; the ladder pivots). Therefore the height y is DECREASING over time. A decreasing quantity has a NEGATIVE derivative, so dy/dt < 0. The negative sign communicates the direction of motion.`
+      };
+    }
+  },
+
+  /* Q14 · FRQ-2(a) intersection */
+  { id: 14, type: "fib", tag: "FRQ-2 (a)", color: "red",
+    generate(){
+      // y = sqrt(x), y = x/k. Intersection: sqrt(x) = x/k → k·sqrt(x) = x → k = sqrt(x) → x = k²
+      const k = R.pick([2, 3, 4]);
+      const xIntersect = k * k;
+      return {
+        stem: `<strong>FRQ-2 · Region R.</strong> Let R be the region in the first quadrant bounded by <span class="mono">y = √x</span> and <span class="mono">y = x/${k}</span>. <strong>(a)</strong> Find the larger x-coordinate where the two curves intersect. (Type an integer.)`,
+        prefix: "x =",
+        placeholder: "integer",
+        accepted: [xIntersect.toString()],
+        misconceptions: [
+          { match: ["0"], why: `0 is the OTHER intersection. The question asks for the LARGER value. Solve √x = x/${k}: x = ${k*k} (and x = 0).` },
+          { match: [k.toString()], why: `Set √x = x/${k} and SQUARE: x = x²/${k*k} → ${k*k}x = x² → x(x − ${k*k}) = 0. Larger solution: x = ${k*k}.` },
+          { match: [(k+1).toString(), (k-1).toString()], why: `Square the equation √x = x/${k} to get x = x²/${k*k}, then solve for x = ${k*k}.` }
+        ],
+        correctDisplay: `x = ${xIntersect}`,
+        workedSolution: `Set √x = x/${k}. Square both sides: x = x²/${k*k}. Multiply: ${k*k}x = x² → x² − ${k*k}x = 0 → x(x − ${k*k}) = 0. Solutions: x = 0 and x = ${k*k}. Larger: <strong>x = ${k*k}</strong>.`
+      };
+    }
+  },
+
+  /* Q15 · FRQ-2(b) area */
+  { id: 15, type: "fib", tag: "FRQ-2 (b)", color: "red",
+    generate(){
+      // Area between y=sqrt(x) (top) and y=x/k (bottom) from 0 to k²
+      // = ∫₀^(k²) (sqrt(x) - x/k) dx = (2/3)x^(3/2) - x²/(2k) evaluated from 0 to k²
+      // = (2/3)·k³ - k⁴/(2k) = (2/3)k³ - k³/2 = k³·(4/6 - 3/6) = k³/6
+      const k = R.pick([2, 3, 6]);
+      const area = (k*k*k) / 6;
+      const areaStr = Number.isInteger(area) ? area.toString() : `${k*k*k}/6`;
+      return {
+        stem: `<strong>FRQ-2 · continued.</strong> Region R is bounded by <span class="mono">y = √x</span> (above) and <span class="mono">y = x/${k}</span> (below) on <span class="mono">[0, ${k*k}]</span>. <strong>(b)</strong> Find the area of R. (Type as fraction or integer.)`,
+        prefix: "Area =",
+        placeholder: `e.g. ${k*k*k}/6`,
+        accepted: [
+          areaStr,
+          area.toString(),
+          `${k*k*k}/6`,
+          area.toFixed(3)
+        ],
+        misconceptions: [
+          { match: [((2/3)*Math.pow(k,3)).toString(), `${2*k*k*k}/3`], why: `You only integrated √x. Don't forget to subtract the bottom curve: ∫(√x − x/${k}) dx.` },
+          { match: [(k*k*k/2).toString(), `${k*k*k}/2`], why: `You may have integrated x/${k} incorrectly. ∫x/${k} dx = x²/(${2*k}). Evaluated from 0 to ${k*k}: (${k*k})²/(${2*k}) = ${k*k*k*k}/(${2*k}) = ${k*k*k}/2.` },
+          { match: [(k*k).toString()], why: `That's the upper bound (${k*k}), not the area. Compute the full integral.` }
+        ],
+        correctDisplay: `Area = ${areaStr}`,
+        workedSolution: `Area = ∫₀^${k*k} (√x − x/${k}) dx = [(2/3)x^(3/2) − x²/(${2*k})]₀^${k*k} = (2/3)·${k*k*k} − ${k*k*k}/2 = ${(2*k*k*k)/3} − ${k*k*k/2} = <strong>${areaStr}</strong>.`
+      };
+    }
+  },
+
+  /* Q16 · FRQ-3(a) Local max from f' */
+  { id: 16, type: "mc", tag: "FRQ-3 (a)", color: "red",
+    generate(){
+      return {
+        stem: `<strong>FRQ-3 · Graph of f'.</strong> The graph of <span class="mono">f'(x)</span> on [0, 8] consists of a semicircle of radius 2 ABOVE the x-axis from x = 0 to x = 4, then a line segment from (4, 0) to (8, −4). Given <span class="mono">f(0) = 5</span>. <strong>(a)</strong> Find the x-value where f has a local MAXIMUM on (0, 8).`,
+        options: R.shuffle([
+          { html: "x = 4", correct: true },
+          { html: "x = 2", correct: false, misconception: `f' = peak value (2) at x = 2, but that doesn't make f a max — f is still INCREASING there. Local max is where f' changes from POSITIVE to NEGATIVE.` },
+          { html: "x = 8", correct: false, misconception: `x = 8 is an endpoint where f' = −4 (very negative). f is DECREASING fastest there, not at a max.` },
+          { html: "x = 0", correct: false, misconception: `x = 0 is an endpoint. f' starts at 0 there and increases. f isn't at a max yet.` },
+          { html: "No local max on (0, 8)", correct: false, misconception: `f' changes from + (on (0,4)) to − (on (4,8)) at x = 4. That sign change is a local max.` }
+        ]),
+        correctDisplay: "Local max at x = 4",
+        workedSolution: `<strong>First derivative test:</strong> f has a local max where f' changes from POSITIVE to NEGATIVE. The semicircle is above the x-axis (f' > 0) on (0, 4). The line segment dips below the x-axis (f' < 0) on (4, 8). Sign change at <strong>x = 4</strong> → local max there.`
+      };
+    }
+  },
+
+  /* Q17 · FRQ-3(b) f(b) via FTC */
+  { id: 17, type: "fib", tag: "FRQ-3 (b)", color: "red",
+    generate(){
+      // f(4) = f(0) + ∫₀^4 f'(x) dx = 5 + (semicircle area = (1/2)π·2² = 2π) = 5 + 2π
+      return {
+        stem: `<strong>FRQ-3 · continued.</strong> Same setup: f'(x) is a semicircle of radius 2 above the x-axis on [0, 4], then a line from (4, 0) to (8, −4). f(0) = 5. <strong>(b)</strong> Find f(4). (Type your answer like <span class="mono">5 + 2π</span>.)`,
+        prefix: "f(4) =",
+        placeholder: "e.g. 5 + 2π",
+        accepted: [
+          "5+2π",
+          "5 + 2π",
+          "5+2pi",
+          "5 + 2pi",
+          "2π+5",
+          "2π + 5",
+          (5 + 2*Math.PI).toFixed(2),
+          (5 + 2*Math.PI).toFixed(3)
+        ],
+        misconceptions: [
+          { match: ["5"], why: `That's f(0). You need to add the integral of f' from 0 to 4 (the area under the semicircle). Area = (1/2)π(2)² = 2π. f(4) = 5 + 2π.` },
+          { match: ["2π", "2pi"], why: `That's the integral of f' from 0 to 4, but you forgot to ADD f(0) = 5. By FTC: f(4) = f(0) + ∫f' = 5 + 2π.` },
+          { match: ["5+4π", "5 + 4π", "5+4pi"], why: `Semicircle area is (1/2)πr², not πr². For r = 2: (1/2)π·4 = 2π, not 4π.` },
+          { match: ["5+π", "5 + π"], why: `Semicircle of radius 2 has area (1/2)π·2² = 2π, not π. Don't forget to square the radius.` }
+        ],
+        correctDisplay: "f(4) = 5 + 2π",
+        workedSolution: `FTC: f(4) = f(0) + ∫₀⁴ f'(x) dx. ∫₀⁴ f'(x) dx = area under semicircle = (1/2)·π·(2)² = 2π. So f(4) = 5 + <strong>2π</strong> = <strong>5 + 2π ≈ 11.28</strong>.`
+      };
+    }
+  }
+
+];
+
+window.CalcDay.init({
+  dayTitle: "Day 5",
+  dayLabel: "Cumulative Mock + FRQ",
+  questions: DAY5_QUESTIONS
+});
+</script>
+
+</body>
+</html>

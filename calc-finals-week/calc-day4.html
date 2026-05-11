@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calc AB · Day 4 · Integration &amp; Applications</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">Day 4 · Thu May 14</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Integration &amp; Applications</span>
+  </div>
+  <div class="timer-pill" style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:var(--glass);border:1px solid var(--b);font-size:12px;color:var(--tx2);letter-spacing:0.08em;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>
+    <span id="timerVal" style="font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);font-size:13px;letter-spacing:0.04em;">00:00</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot" style="background:var(--purple)"></span>Day 4 of 5 · Thu May 14 · ~40 min</div>
+    <h1 class="day-title">
+      <span class="l1">Integration</span>
+      <span class="l2">&amp; Applications.</span>
+    </h1>
+    <p class="day-sub">Antiderivatives (don't forget +C), trig antiderivatives, u-substitution including changing bounds, left/right/trapezoid Riemann sums and their over/under behavior, FTC Part 1 with chain rule, integral properties (additivity), and area between curves. <strong>14 randomized questions.</strong></p>
+
+    <div class="meta-row">
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>Antiderivatives · U-Sub · Riemann · FTC · Area</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>7 MC · 4 FIB · 3 Dropdown</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 Don't forget +C on indefinite</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 Change bounds when u-subbing definite</div>
+    </div>
+
+    <div class="instructions">
+      <div class="ih">📘 How to use this practice</div>
+      <strong>1.</strong> Each question regenerates with <strong>↻ New Numbers</strong>. <strong>2.</strong> Wrong answers point to the specific integration error. <strong>3.</strong> Submit at the bottom via Canvas.
+    </div>
+  </div>
+
+  <div class="section-header" data-color="purple"><div class="sh-row"><span class="sh-tag">A</span><span class="sh-title">Antiderivatives</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="1" data-color="purple"><div class="q-top"><div class="q-num">01</div><span class="q-tag">Power Rule · +C</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="2" data-color="purple"><div class="q-top"><div class="q-num">02</div><span class="q-tag">Trig Antiderivative</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="3" data-color="purple"><div class="q-top"><div class="q-num">03</div><span class="q-tag">Definite Integral Evaluate</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="purple"><div class="sh-row"><span class="sh-tag">B</span><span class="sh-title">U-Substitution</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="4" data-color="purple"><div class="q-top"><div class="q-num">04</div><span class="q-tag">U-Sub · Indefinite</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="5" data-color="purple"><div class="q-top"><div class="q-num">05</div><span class="q-tag">U-Sub · Definite (Change Bounds)</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="purple"><div class="sh-row"><span class="sh-tag">C</span><span class="sh-title">Riemann Sums</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="6" data-color="purple"><div class="q-top"><div class="q-num">06</div><span class="q-tag">Left Riemann Sum from Table</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="7" data-color="purple"><div class="q-top"><div class="q-num">07</div><span class="q-tag">Right Riemann Sum</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="8" data-color="purple"><div class="q-top"><div class="q-num">08</div><span class="q-tag">Riemann Over/Under</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="9" data-color="purple"><div class="q-top"><div class="q-num">09</div><span class="q-tag">Trapezoidal Sum</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="purple"><div class="sh-row"><span class="sh-tag">D</span><span class="sh-title">Definite Integrals · FTC · Area</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="10" data-color="purple"><div class="q-top"><div class="q-num">10</div><span class="q-tag">Integral Additivity</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="11" data-color="purple"><div class="q-top"><div class="q-num">11</div><span class="q-tag">Integral from Geometry</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="12" data-color="purple"><div class="q-top"><div class="q-num">12</div><span class="q-tag priority">FTC Part 1 · Chain Rule</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="13" data-color="purple"><div class="q-top"><div class="q-num">13</div><span class="q-tag">Area Between Curves</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="14" data-color="purple"><div class="q-top"><div class="q-num">14</div><span class="q-tag">Match: ∫ ↔ Antiderivative</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="submit-area">
+    <div class="submit-eyebrow"><span class="dot"></span>End of Day 4 · Submit via Canvas</div>
+    <div class="name-row"><label class="name-label" for="studentName">Your full name</label><input type="text" id="studentName" class="name-input" placeholder="First Last" autocomplete="name"></div>
+    <div class="submit-progress"><span class="prog-num" id="progNum">0</span><span class="prog-sep">/</span><span class="prog-total">14</span><span class="prog-label">answered</span></div>
+    <div class="submit-meter"><div class="submit-meter-fill" id="submitMeterFill"></div></div>
+    <div class="score-strip">
+      <div class="score-pill correct">✓ Correct <span class="num" id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">✗ Wrong <span class="num" id="scoreWrong">0</span></div>
+      <div class="score-pill unanswered">— Unanswered <span class="num" id="scoreUnanswered">14</span></div>
+    </div>
+    <div class="submit-row">
+      <button class="submit-btn" id="copyBtn"><span class="sb-icon">⎘</span><span class="sb-text">Copy for Canvas</span></button>
+      <button class="email-btn" id="emailBtn"><span class="sb-icon">✉</span><span class="sb-text">Email to Teacher</span></button>
+      <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    <div class="submit-foot"><strong>Submission flow:</strong> 1. Name. 2. Copy for Canvas. 3. Paste into Day 4 Canvas assignment and submit.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultsModal"><div class="modal">
+  <div class="modal-head"><div class="modal-eyebrow ok"><span class="dot"></span>Copied to Clipboard</div><div class="submit-success"><div class="ss-check">✓</div><div class="ss-title">Submission Ready</div><div class="ss-sub">Your Day 4 results are on your clipboard. Paste into Canvas and submit.</div></div></div>
+  <div class="canvas-steps"><div class="cs-row"><span class="cs-num">1</span><span class="cs-text">Open <strong>Day 4 Classwork</strong> on Canvas.</span></div><div class="cs-row"><span class="cs-num">2</span><span class="cs-text">Paste with <strong>Ctrl+V</strong> / <strong>Cmd+V</strong>.</span></div><div class="cs-row"><span class="cs-num">3</span><span class="cs-text">Click <strong>Submit</strong>.</span></div></div>
+  <div class="preview-head"><div class="ph-label">Preview · what was copied</div><button class="ph-recopy" id="recopyBtn">Copy Again</button></div>
+  <pre class="preview-text" id="previewText"></pre>
+  <div class="modal-actions"><button class="modal-btn" id="modalEmail">Email to Teacher Instead</button><button class="modal-btn primary" id="modalClose">Close</button></div>
+</div></div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark"><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div></div>
+  <span>Day 4 · Integration &amp; Applications</span>
+</footer>
+
+<script src="calc-week.js"></script>
+<script>
+const DAY4_QUESTIONS = [
+
+  /* Q1 · MC · Antiderivative with +C */
+  {
+    id: 1, type: "mc", tag: "Power · +C", color: "purple",
+    generate(){
+      const a = R.int(3, 8), b = R.int(2, 6), c = R.int(2, 9);
+      const stem = `Find: <span class="mono">∫(${a}x² − ${b}x + ${c}) dx</span>`;
+      const correctNum = `${a}/3`;
+      // a/3 * x^3 - b/2 * x^2 + cx + C. To keep things clean, force a divisible by 3 and b even.
+      const a3 = R.pick([3, 6, 9, 12]);
+      const b2 = R.pick([2, 4, 6, 8]);
+      const c2 = R.int(2, 9);
+      const stem2 = `Find: <span class="mono">∫(${a3}x² − ${b2}x + ${c2}) dx</span>`;
+      const correct = `${a3/3}x³ − ${b2/2}x² + ${c2}x + C`;
+      return {
+        stem: stem2,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `${a3/3}x³ − ${b2/2}x² + ${c2}x`, correct: false, misconception: `Missing <strong>+ C</strong>. Indefinite integrals ALWAYS require the constant of integration. This is a standard 1-point deduction on the AP exam.` },
+          { html: `${a3}x³ − ${b2}x² + ${c2}x + C`, correct: false, misconception: `You didn't divide by the new exponent. Reverse power rule: ∫x^n dx = x^(n+1)/(n+1) + C. So ∫${a3}x² dx = ${a3}x³/3 = ${a3/3}x³, not ${a3}x³.` },
+          { html: `${2*a3}x − ${b2} + C`, correct: false, misconception: `That's the DERIVATIVE of the integrand, not its antiderivative. ∫ is the OPPOSITE of d/dx — raise the exponent, divide by new exponent.` },
+          { html: `${a3/3}x³ + ${b2/2}x² + ${c2}x + C`, correct: false, misconception: `Sign error on the middle term. The original integrand has −${b2}x, which antidifferentiates to −${b2/2}x² (still negative).` },
+          { html: `${a3/3}x³ − ${b2}x + ${c2} + C`, correct: false, misconception: `You applied reverse power rule to the first term but not the others. Each term: raise exponent by 1, divide by new exponent.` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `Reverse power rule term-by-term: ∫${a3}x² dx = ${a3}x³/3 = ${a3/3}x³; ∫−${b2}x dx = −${b2}x²/2 = −${b2/2}x²; ∫${c2} dx = ${c2}x. Add <strong>+ C</strong> for indefinite. Final: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q2 · MC · Trig antiderivative */
+  {
+    id: 2, type: "mc", tag: "Trig Antiderivative", color: "purple",
+    generate(){
+      const cases = [
+        { integrand: "sec²(x)", correct: "tan(x) + C" },
+        { integrand: "cos(x)",  correct: "sin(x) + C" },
+        { integrand: "sin(x)",  correct: "−cos(x) + C" },
+        { integrand: "csc²(x)", correct: "−cot(x) + C" }
+      ];
+      const c = R.pick(cases);
+      return {
+        stem: `Find: <span class="mono">∫${c.integrand} dx</span>`,
+        options: R.shuffle([
+          { html: c.correct, correct: true },
+          ...cases.filter(o => o.correct !== c.correct).slice(0, 3).map(o => ({
+            html: o.correct,
+            correct: false,
+            misconception: `That's the antiderivative of a DIFFERENT trig function. ∫${c.integrand} = ${c.correct}. Memorize the table: derivatives in one direction, antiderivatives the other.`
+          })),
+          { html: c.integrand + " + C", correct: false, misconception: `You wrote the integrand again. Antidifferentiate it — find a function whose derivative equals ${c.integrand}.` }
+        ]),
+        correctDisplay: `∫${c.integrand} dx = ${c.correct}`,
+        workedSolution: `Standard trig antiderivative: <strong>∫${c.integrand} dx = ${c.correct}</strong>. Verify by differentiating ${c.correct.replace(" + C","")} — you should get back ${c.integrand}.`
+      };
+    }
+  },
+
+  /* Q3 · FIB · Evaluate definite integral */
+  {
+    id: 3, type: "fib", tag: "Definite · Polynomial", color: "purple",
+    generate(){
+      const a = R.pick([3, 6]), b = R.pick([2, 4]);
+      // ∫_0^c (ax² - bx) dx = [a/3*x³ - b/2*x²] from 0 to c = a/3 * c³ - b/2 * c²
+      const c = R.int(2, 4);
+      const result = (a/3) * c*c*c - (b/2) * c*c;
+      return {
+        stem: `Evaluate: <span class="mono">∫<sub>0</sub><sup>${c}</sup> (${a}x² − ${b}x) dx</span>. (Type an integer.)`,
+        prefix: "Value =",
+        placeholder: "integer",
+        accepted: [result.toString(), Math.round(result).toString()],
+        misconceptions: [
+          { match: [`${a/3}c³ − ${b/2}c²`, "antiderivative"], why: `Don't leave the antiderivative — evaluate at upper bound (${c}) minus lower bound (0): ${a/3}·${c}³ − ${b/2}·${c}² = ${result}.` },
+          { match: [(a*c*c*c - b*c*c).toString()], why: `You forgot to divide by the new exponents. ∫x² → x³/3 (divide by 3); ∫x → x²/2 (divide by 2). Result: ${a/3}·${c}³ − ${b/2}·${c}² = ${result}.` },
+          { match: ["+C", "C"], why: `Definite integrals DON'T need +C — the constants cancel when subtracting evaluations at the endpoints. Type just the number.` }
+        ],
+        correctDisplay: `Value = ${result}`,
+        workedSolution: `Antiderivative: [${a/3}x³ − ${b/2}x²] evaluated from 0 to ${c}. At x = ${c}: ${a/3}·${c*c*c} − ${b/2}·${c*c} = ${(a/3)*c*c*c} − ${(b/2)*c*c} = ${result}. At x = 0: 0. Final: <strong>${result}</strong>.`
+      };
+    }
+  },
+
+  /* Q4 · MC · U-substitution indefinite */
+  {
+    id: 4, type: "mc", tag: "U-Sub · Indefinite", color: "purple",
+    generate(){
+      // ∫2x·cos(x²) dx. u = x². du = 2x dx. ∫cos(u) du = sin(u) + C = sin(x²) + C
+      const fn = R.pick(["cos", "sin"]);
+      const k = R.pick([2, 3]);
+      // ∫kx^(k-1) · fn(x^k) dx. u = x^k. du = k x^(k-1) dx.
+      const stem = `Find: <span class="mono">∫${k}x${k > 2 ? "²" : ""}·${fn}(x${k > 2 ? "³" : "²"}) dx</span>`;
+      const innerStr = k === 2 ? "x²" : "x³";
+      const antider = fn === "cos" ? `sin(${innerStr}) + C` : `−cos(${innerStr}) + C`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: antider, correct: true },
+          { html: `${fn}(${innerStr}) + C`, correct: false, misconception: `You forgot to antidifferentiate the outer function. ∫cos(u) = sin(u), ∫sin(u) = −cos(u). Don't write back the same trig function.` },
+          { html: `${k > 2 ? "x³" : "x²"} · ${fn === "cos" ? "sin" : "−cos"}(${innerStr}) + C`, correct: false, misconception: `You multiplied by the inner function. After u-sub, the integral simplifies to ∫${fn === "cos" ? "cos" : "sin"}(u) du with no x's leftover — they got absorbed into du.` },
+          { html: `${k * (k-1)/2}x² · ${fn}(${innerStr}) + C`, correct: false, misconception: `You added the chain factor as a multiplier. The whole point of u-sub is the chain factor IS the du — they cancel out, not multiply.` },
+          { html: `(1/${k}) ${fn === "cos" ? "sin" : "−cos"}(${innerStr}) + C`, correct: false, misconception: `Extra 1/${k} factor. The ${k}x${k > 2 ? "²" : ""} in the integrand already matches du exactly — no extra factor needed.` }
+        ]),
+        correctDisplay: antider,
+        workedSolution: `u-sub: let u = ${innerStr}, then du = ${k}x${k > 2 ? "²" : ""} dx. The integrand becomes ∫${fn}(u) du = ${fn === "cos" ? "sin(u)" : "−cos(u)"} + C. Replace: <strong>${antider}</strong>.`
+      };
+    }
+  },
+
+  /* Q5 · FIB · U-Sub Definite */
+  {
+    id: 5, type: "fib", tag: "U-Sub · Definite", color: "purple",
+    generate(){
+      // ∫_0^a 3x² e^(x³) dx. u = x³, du = 3x² dx. Bounds: u=0 to u=a³. Result: e^(a³) - 1
+      const a = R.pick([1, 2]);
+      const result = `e^${a*a*a} − 1`;
+      return {
+        stem: `Evaluate: <span class="mono">∫<sub>0</sub><sup>${a}</sup> 3x² · e<sup>x³</sup> dx</span>. (Type your answer like <span class="mono">e^${a*a*a} − 1</span>.)`,
+        prefix: "Value =",
+        placeholder: "e.g. e^8 − 1",
+        accepted: [
+          `e^${a*a*a}-1`,
+          `e^${a*a*a} - 1`,
+          `e^${a*a*a}−1`,
+          `e${a*a*a}-1`,
+          `e^${a*a*a} − 1`,
+          (Math.exp(a*a*a) - 1).toFixed(3)
+        ],
+        misconceptions: [
+          { match: [`e^${a*a*a}`, `e${a*a*a}`], why: `You forgot the "− 1" from the lower bound. After u-sub: ∫₀^{${a*a*a}} e^u du = e^{${a*a*a}} − e⁰ = e^{${a*a*a}} − <strong>1</strong>.` },
+          { match: [`e^${a}-1`, `e^${a} − 1`], why: `You didn't change the upper bound. After u = x³, when x = ${a}, u = ${a}³ = ${a*a*a} (not ${a}). Bounds become 0 to ${a*a*a}.` },
+          { match: [`e^${a*a*a}-e`, `e^${a*a*a} − e`], why: `Lower bound at x = 0: u = 0³ = 0. So e⁰ = 1, not e. Result: e^{${a*a*a}} − 1.` },
+          { match: ["1"], why: `You may have skipped the antidifferentiation. ∫e^u du = e^u, not just 1. Result: e^{${a*a*a}} − 1.` }
+        ],
+        correctDisplay: `Value = e^${a*a*a} − 1`,
+        workedSolution: `u = x³, du = 3x² dx. Bounds: x = 0 → u = 0; x = ${a} → u = ${a}³ = ${a*a*a}. New integral: ∫₀^${a*a*a} e^u du = [e^u]₀^${a*a*a} = e^${a*a*a} − e⁰ = <strong>e^${a*a*a} − 1</strong>.`
+      };
+    }
+  },
+
+  /* Q6 · MC · Left Riemann from table */
+  {
+    id: 6, type: "mc", tag: "Left Riemann", color: "purple",
+    generate(){
+      // Increasing function values f(0), f(1), f(2), f(3), f(4)
+      const base = R.int(3, 7);
+      const incr1 = R.int(2, 4);
+      const incr2 = R.int(2, 4);
+      const incr3 = R.int(2, 4);
+      const incr4 = R.int(2, 4);
+      const v = [base, base+incr1, base+incr1+incr2, base+incr1+incr2+incr3, base+incr1+incr2+incr3+incr4];
+      const leftSum = v[0] + v[1] + v[2] + v[3];  // Δx = 1
+      const rightSum = v[1] + v[2] + v[3] + v[4];
+      const allFive = v.reduce((s, x) => s + x, 0);
+      const stem = `Approximate <span class="mono">∫<sub>0</sub><sup>4</sup> f(x) dx</span> using a LEFT Riemann sum with n = 4 subintervals (Δx = 1). The function values are: f(0) = ${v[0]}, f(1) = ${v[1]}, f(2) = ${v[2]}, f(3) = ${v[3]}, f(4) = ${v[4]}.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: leftSum.toString(), correct: true },
+          { html: rightSum.toString(), correct: false, misconception: `That's the RIGHT Riemann sum (uses f(1), f(2), f(3), f(4)). LEFT uses f(0), f(1), f(2), f(3) — skip the rightmost value.` },
+          { html: allFive.toString(), correct: false, misconception: `You used ALL five values, but with n = 4 subintervals you only use 4 endpoint values (left uses leftmost 4, right uses rightmost 4).` },
+          { html: ((leftSum + rightSum) / 2).toString(), correct: false, misconception: `That's the trapezoidal sum (average of left and right). Left Riemann uses only the LEFT endpoints: ${v[0]} + ${v[1]} + ${v[2]} + ${v[3]}.` },
+          { html: (v[0] + v[1] + v[2]).toString(), correct: false, misconception: `Only 3 values — you need 4 for n = 4 subintervals. Left endpoints: f(0), f(1), f(2), f(3).` },
+          { html: (v[4]).toString(), correct: false, misconception: `That's just f(4), the rightmost value. For Left Riemann, sum f(0) + f(1) + f(2) + f(3) and multiply by Δx = 1.` }
+        ]),
+        correctDisplay: `Left sum = ${leftSum}`,
+        workedSolution: `Left Riemann uses LEFT endpoints: f(0) + f(1) + f(2) + f(3) (skip the rightmost). Sum = ${v[0]} + ${v[1]} + ${v[2]} + ${v[3]} = ${leftSum}. Multiply by Δx = 1: <strong>${leftSum}</strong>.`
+      };
+    }
+  },
+
+  /* Q7 · FIB · Right Riemann */
+  {
+    id: 7, type: "fib", tag: "Right Riemann", color: "purple",
+    generate(){
+      const base = R.int(3, 7);
+      const v = [base, base + R.int(2, 4), base + R.int(5, 9), base + R.int(8, 13), base + R.int(11, 17)];
+      // Right sum (n=4, Δx=1): v[1] + v[2] + v[3] + v[4]
+      const rightSum = v[1] + v[2] + v[3] + v[4];
+      return {
+        stem: `Approximate <span class="mono">∫<sub>0</sub><sup>4</sup> f(x) dx</span> using a RIGHT Riemann sum with n = 4 subintervals (Δx = 1). f(0) = ${v[0]}, f(1) = ${v[1]}, f(2) = ${v[2]}, f(3) = ${v[3]}, f(4) = ${v[4]}. (Type an integer.)`,
+        prefix: "Right sum =",
+        placeholder: "integer",
+        accepted: [rightSum.toString()],
+        misconceptions: [
+          { match: [(v[0] + v[1] + v[2] + v[3]).toString()], why: `That's the LEFT Riemann sum. Right uses RIGHT endpoints (skip the leftmost value f(0) = ${v[0]}): f(1) + f(2) + f(3) + f(4) = ${rightSum}.` },
+          { match: [v.reduce((s,x)=>s+x,0).toString()], why: `You used all 5 values. n = 4 subintervals → use only 4 endpoint values. Right Riemann: f(1) + f(2) + f(3) + f(4) = ${rightSum}.` },
+          { match: [v[4].toString()], why: `That's just f(4), the rightmost value. Sum ALL 4 right endpoints: f(1) + f(2) + f(3) + f(4) = ${rightSum}.` }
+        ],
+        correctDisplay: `Right sum = ${rightSum}`,
+        workedSolution: `Right Riemann uses RIGHT endpoints (skip the leftmost): f(1) + f(2) + f(3) + f(4) = ${v[1]} + ${v[2]} + ${v[3]} + ${v[4]} = ${rightSum}. Multiply by Δx = 1: <strong>${rightSum}</strong>.`
+      };
+    }
+  },
+
+  /* Q8 · DD · Riemann over/under */
+  {
+    id: 8, type: "dd", tag: "Over/Under", color: "purple",
+    generate(){
+      const dir = R.pick(["incLeft", "incRight", "decLeft", "decRight"]);
+      let stem, correct;
+      if (dir === "incLeft") {
+        stem = `For an <strong>increasing</strong> function, a <strong>LEFT</strong> Riemann sum is:`;
+        correct = "An underestimate";
+      } else if (dir === "incRight") {
+        stem = `For an <strong>increasing</strong> function, a <strong>RIGHT</strong> Riemann sum is:`;
+        correct = "An overestimate";
+      } else if (dir === "decLeft") {
+        stem = `For a <strong>decreasing</strong> function, a <strong>LEFT</strong> Riemann sum is:`;
+        correct = "An overestimate";
+      } else {
+        stem = `For a <strong>decreasing</strong> function, a <strong>RIGHT</strong> Riemann sum is:`;
+        correct = "An underestimate";
+      }
+      return {
+        stem,
+        prefix: "Estimate is:",
+        options: R.shuffle([
+          { text: "An underestimate", correct: correct === "An underestimate", misconception: correct !== "An underestimate" ? `For ${dir.includes("inc") ? "INCREASING" : "DECREASING"} functions: LEFT uses smaller values (under) or larger values (over) depending on direction. ${dir === "incRight" ? "Increasing + right = larger values used → overestimate." : "Decreasing + left = larger values used → overestimate."}` : "" },
+          { text: "An overestimate", correct: correct === "An overestimate", misconception: correct !== "An overestimate" ? `${dir === "incLeft" ? "Increasing + left = smaller values used → UNDERestimate." : "Decreasing + right = smaller values used → UNDERestimate."}` : "" },
+          { text: "Always exact", correct: false, misconception: `Riemann sums are approximations — they only become exact in the limit as n → ∞. For finite n, there's always an error.` },
+          { text: "Depends on Δx, not the function", correct: false, misconception: `Δx affects ACCURACY but not the OVER/UNDER classification. The function's monotonicity (increasing vs decreasing) plus left/right determines over vs under.` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>Memory aid:</strong><br>• Increasing + Left = Under (rectangles below curve)<br>• Increasing + Right = Over (rectangles above curve)<br>• Decreasing + Left = Over (rectangles above curve)<br>• Decreasing + Right = Under (rectangles below curve)<br>Verdict: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q9 · FIB · Trapezoidal sum */
+  {
+    id: 9, type: "fib", tag: "Trapezoidal Sum", color: "purple",
+    generate(){
+      const base = R.int(3, 7);
+      const v = [base, base + R.int(2, 5), base + R.int(5, 9), base + R.int(8, 13), base + R.int(11, 17)];
+      const dx = R.pick([1, 2]);  // Δt = dx
+      // Trap = (Δx/2) · [f(0) + 2f(1) + 2f(2) + 2f(3) + f(4)]
+      const trapInner = v[0] + 2*v[1] + 2*v[2] + 2*v[3] + v[4];
+      const trapSum = (dx / 2) * trapInner;
+      const stem = `Approximate <span class="mono">∫ f(t) dt</span> using a trapezoidal sum with the 4 subintervals shown (each Δt = ${dx}). f-values at t = 0, ${dx}, ${2*dx}, ${3*dx}, ${4*dx}: <span class="mono">${v[0]}, ${v[1]}, ${v[2]}, ${v[3]}, ${v[4]}</span>. (Type a number — decimal OK.)`;
+      return {
+        stem,
+        prefix: "Trapezoidal ≈",
+        placeholder: "number",
+        accepted: [
+          trapSum.toString(),
+          trapSum.toFixed(1),
+          Number.isInteger(trapSum) ? trapSum.toString() : "__nope__"
+        ],
+        misconceptions: [
+          { match: [trapInner.toString()], why: `You computed the inner sum f(0) + 2f(1) + 2f(2) + 2f(3) + f(4) = ${trapInner} but forgot to multiply by Δt/2 = ${dx/2}. Final: ${dx/2}·${trapInner} = ${trapSum}.` },
+          { match: [v.reduce((s,x)=>s+x,0).toString()], why: `That's just the sum of all values — you forgot the trapezoid formula. Trap = (Δx/2)·[f₀ + 2f₁ + 2f₂ + 2f₃ + f₄] (endpoint values counted once, interior values counted TWICE).` },
+          { match: [(v[0] + v[4]).toString()], why: `You added only the endpoints. Trap uses ALL function values, with endpoints counted once and interior values DOUBLED.` }
+        ],
+        correctDisplay: `Trapezoidal ≈ ${trapSum}`,
+        workedSolution: `Trapezoid formula: <strong>(Δt/2) · [f(0) + 2f(${dx}) + 2f(${2*dx}) + 2f(${3*dx}) + f(${4*dx})]</strong>. Compute: (${dx}/2)·[${v[0]} + 2(${v[1]}) + 2(${v[2]}) + 2(${v[3]}) + ${v[4]}] = (${dx/2})·${trapInner} = <strong>${trapSum}</strong>.`
+      };
+    }
+  },
+
+  /* Q10 · MC · Integral additivity */
+  {
+    id: 10, type: "mc", tag: "Integral Additivity", color: "purple",
+    generate(){
+      const i1 = R.intExcl(-8, 12, [0]);
+      const i2 = R.intExcl(-6, 8, [0]);
+      const total = i1 + i2;
+      const stem = `Given <span class="mono">∫<sub>0</sub><sup>3</sup> f(x) dx = ${i1}</span> and <span class="mono">∫<sub>3</sub><sup>5</sup> f(x) dx = ${i2}</span>, find <span class="mono">∫<sub>0</sub><sup>5</sup> f(x) dx</span>.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: total.toString(), correct: true },
+          { html: (i1 - i2).toString(), correct: false, misconception: `Sign error. Integrals over CONNECTED intervals ADD: ∫₀⁵ = ∫₀³ + ∫₃⁵ = ${i1} + ${i2} = ${total}. Subtraction would only apply if reversing direction of integration.` },
+          { html: (i1 * i2).toString(), correct: false, misconception: `Integrals don't multiply — they ADD when intervals connect at a shared endpoint. ∫₀⁵ = ∫₀³ + ∫₃⁵ = ${total}.` },
+          { html: i1.toString(), correct: false, misconception: `You only used the first integral. Combine: ∫₀⁵ = ∫₀³ + ∫₃⁵ = ${i1} + ${i2} = ${total}.` },
+          { html: i2.toString(), correct: false, misconception: `You only used the second integral. Add both: ${i1} + ${i2} = ${total}.` },
+          { html: ((i1+i2)/2).toString(), correct: false, misconception: `Averaging integrals isn't a thing. They ADD over connected intervals: ∫₀⁵ = ${i1} + ${i2} = ${total}.` }
+        ]),
+        correctDisplay: total.toString(),
+        workedSolution: `<strong>Additivity property:</strong> ∫₀⁵ = ∫₀³ + ∫₃⁵ = ${i1} + (${i2}) = <strong>${total}</strong>. (Bounds connect at 3, so we just add.)`
+      };
+    }
+  },
+
+  /* Q11 · MC · Integral from geometric area */
+  {
+    id: 11, type: "mc", tag: "Integral from Geometry", color: "purple",
+    generate(){
+      const r = R.pick([2, 3, 4, 5]);
+      const base = R.int(3, 6);
+      const height = R.int(2, 5);
+      // semicircle of radius r ABOVE x-axis (area + (πr²/2)) plus triangle BELOW x-axis (area - (base·height/2))
+      const semicircleArea = (r * r) / 2;  // coefficient on π
+      const triArea = (base * height) / 2;
+      const correct = `${semicircleArea}π − ${triArea}`;
+      const stem = `The graph of f consists of a <strong>semicircle of radius ${r}</strong> above the x-axis from x = −${r} to x = ${r}, plus a <strong>triangle</strong> below the x-axis with base ${base} and height ${height} from x = ${r} to x = ${r + base}. Find <span class="mono">∫<sub>−${r}</sub><sup>${r + base}</sup> f(x) dx</span>.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `${semicircleArea}π + ${triArea}`, correct: false, misconception: `Triangle is BELOW the x-axis → signed area is NEGATIVE. Subtract: ${semicircleArea}π − ${triArea}.` },
+          { html: `${r * r}π − ${triArea}`, correct: false, misconception: `Full circle area is πr², but here it's only a SEMICIRCLE — half: πr²/2 = ${semicircleArea}π.` },
+          { html: `${semicircleArea}π − ${base * height}`, correct: false, misconception: `Triangle area is (1/2)·base·height = ${triArea}, not base·height = ${base * height}.` },
+          { html: `${triArea} − ${semicircleArea}π`, correct: false, misconception: `Signs swapped. The SEMICIRCLE is positive (above x-axis), TRIANGLE is negative (below): ${semicircleArea}π − ${triArea}.` },
+          { html: `${semicircleArea}π`, correct: false, misconception: `You forgot the triangle part. Integral includes both shapes (with appropriate signs): semicircle ABOVE adds, triangle BELOW subtracts.` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `Semicircle area = (1/2)π·r² = (1/2)π·${r*r} = ${semicircleArea}π (ABOVE x-axis → POSITIVE). Triangle area = (1/2)·${base}·${height} = ${triArea} (BELOW x-axis → NEGATIVE). Net signed area: <strong>${semicircleArea}π − ${triArea}</strong>.`
+      };
+    }
+  },
+
+  /* Q12 · MC · FTC Part 1 with chain rule */
+  {
+    id: 12, type: "mc", tag: "FTC Part 1 · Chain", color: "purple",
+    generate(){
+      const fn = R.pick(["sin", "cos"]);
+      const k = R.pick([2, 3]);
+      const innerStr = k === 2 ? "x²" : "x³";
+      const innerDeriv = k === 2 ? "2x" : "3x²";
+      const correct = `${innerDeriv} · ${fn}(${innerStr})`;
+      const stem = `If <span class="mono">g(x) = ∫<sub>0</sub><sup>${innerStr}</sup> ${fn}(t) dt</span>, find <span class="mono">g'(x)</span>.`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: correct, correct: true },
+          { html: `${fn}(${innerStr})`, correct: false, misconception: `You forgot the chain rule factor. FTC Part 1: g'(x) = f(upper bound) · (derivative of upper bound). Here upper bound is ${innerStr}, derivative is ${innerDeriv}. Multiply.` },
+          { html: `${fn}(t)`, correct: false, misconception: `Don't leave t as the variable. After applying FTC, replace t with the upper bound ${innerStr}. Also multiply by the chain factor.` },
+          { html: `${fn === "sin" ? "−cos" : "sin"}(${innerStr}) ${fn === "sin" ? "+" : "−"} ${fn === "sin" ? "1" : "1"}`, correct: false, misconception: `You evaluated the integral (antiderivative + bounds), but FTC Part 1 asks for the DERIVATIVE. Don't compute the integral first — just apply g'(x) = f(upper)·d/dx[upper].` },
+          { html: `${innerDeriv} · ${fn === "sin" ? "cos" : "−sin"}(${innerStr})`, correct: false, misconception: `You differentiated ${fn} as if it were a function output. FTC Part 1 plugs the upper bound into f, doesn't differentiate f. f(t) = ${fn}(t), so f(${innerStr}) = ${fn}(${innerStr}).` },
+          { html: `${innerStr} · ${fn}(${innerStr})`, correct: false, misconception: `You used the upper bound ${innerStr} itself, not its DERIVATIVE ${innerDeriv}. Chain rule: multiply by d/dx[upper bound].` }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>FTC Part 1 with chain rule</strong>: g'(x) = f(upper) · d/dx[upper]. Here f(t) = ${fn}(t), upper = ${innerStr}. So g'(x) = ${fn}(${innerStr}) · ${innerDeriv} = <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q13 · FIB · Area between curves */
+  {
+    id: 13, type: "fib", tag: "Area Between Curves", color: "purple",
+    generate(){
+      // Area between y=ax and y=x² from 0 to a. Intersection: ax = x² → x = 0 or x = a
+      // Area = ∫₀ᵃ (ax − x²) dx = a·x²/2 − x³/3 from 0 to a = a³/2 − a³/3 = a³/6
+      const a = R.pick([2, 3, 6]);
+      const result = (a*a*a) / 6;
+      const resultStr = Number.isInteger(result) ? result.toString() : `${a*a*a}/6`;
+      return {
+        stem: `Find the area between <span class="mono">y = ${a}x</span> and <span class="mono">y = x²</span> on the interval <span class="mono">[0, ${a}]</span>. (Type a fraction <span class="mono">${a*a*a}/6</span> or its integer value.)`,
+        prefix: "Area =",
+        placeholder: `e.g. ${a*a*a}/6`,
+        accepted: [
+          resultStr,
+          result.toString(),
+          result.toFixed(3),
+          `${a*a*a}/6`
+        ],
+        misconceptions: [
+          { match: [(a*a*a / 2).toString(), `${a*a*a}/2`], why: `You only integrated the line ${a}x (got ${a}x²/2 from 0 to ${a} = ${a*a*a}/2 = ${a*a*a/2}). You need (top − bottom): ∫(${a}x − x²) dx, not just ∫${a}x dx.` },
+          { match: [(a*a*a / 3).toString(), `${a*a*a}/3`], why: `You only integrated the parabola x² (got x³/3 from 0 to ${a} = ${a*a*a}/3). You need (top − bottom): ∫(${a}x − x²) dx.` },
+          { match: [(a*a*a).toString()], why: `Forgot the integration step. Area = ∫(${a}x − x²) dx = ${a*a*a/2} − ${a*a*a/3} = ${a*a*a/6}.` },
+          { match: [`${a*a}/6`, (a*a/6).toString()], why: `Check exponents. ∫₀^${a} (${a}x − x²) dx = ${a*a*a}/2 − ${a*a*a}/3 = ${a*a*a}/6.` }
+        ],
+        correctDisplay: `Area = ${resultStr}`,
+        workedSolution: `On [0, ${a}], line ${a}x is ABOVE parabola x² (test x = 1: line = ${a}, parabola = 1). Area = ∫₀^${a} (${a}x − x²) dx = [${a/2 === Math.floor(a/2) ? a/2 : a + "/2"}x² − x³/3]₀^${a} = (${a*a*a/2} − ${a*a*a/3}) − 0 = <strong>${resultStr}</strong>.`
+      };
+    }
+  },
+
+  /* Q14 · DD · Match integral to antiderivative */
+  {
+    id: 14, type: "dd", tag: "Match Antiderivative", color: "purple",
+    generate(){
+      const pairs = [
+        { i: "∫x² dx",         a: "x³/3 + C" },
+        { i: "∫1/x dx",        a: "ln|x| + C" },
+        { i: "∫e^x dx",        a: "e^x + C" },
+        { i: "∫sin(x) dx",     a: "−cos(x) + C" },
+        { i: "∫cos(x) dx",     a: "sin(x) + C" }
+      ];
+      const pick = R.pick(pairs);
+      const distractors = pairs.filter(p => p.i !== pick.i).map(p => p.a);
+      return {
+        stem: `What is the antiderivative <span class="mono">${pick.i}</span>?`,
+        prefix: "= ",
+        options: R.shuffle([
+          { text: pick.a, correct: true },
+          ...distractors.slice(0, 3).map(d => ({
+            text: d,
+            correct: false,
+            misconception: `${d} is the antiderivative of a DIFFERENT function in the table. ${pick.i} = ${pick.a}.`
+          }))
+        ]),
+        correctDisplay: `${pick.i} = ${pick.a}`,
+        workedSolution: `<strong>Memorize these antiderivatives:</strong><br>• ∫x^n dx = x^(n+1)/(n+1) + C (for n ≠ −1)<br>• ∫1/x dx = ln|x| + C<br>• ∫e^x dx = e^x + C<br>• ∫sin = −cos + C &nbsp;• ∫cos = sin + C<br>Answer: <strong>${pick.a}</strong>.`
+      };
+    }
+  }
+
+];
+
+window.CalcDay.init({
+  dayTitle: "Day 4",
+  dayLabel: "Integration & Applications",
+  questions: DAY4_QUESTIONS
+});
+</script>
+
+</body>
+</html>

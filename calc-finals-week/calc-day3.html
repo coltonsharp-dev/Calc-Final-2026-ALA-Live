@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Calc AB · Day 3 · Applications of Derivatives</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="calc-week.css">
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="calc-landing.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Review Week
+  </a>
+  <div class="nav-center">
+    <span class="nav-unit">Day 3 · Wed May 13</span>
+    <span class="nav-sep">·</span>
+    <span class="nav-title">Applications of Derivatives</span>
+  </div>
+  <div class="timer-pill" style="display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:var(--glass);border:1px solid var(--b);font-size:12px;color:var(--tx2);letter-spacing:0.08em;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>
+    <span id="timerVal" style="font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);font-size:13px;letter-spacing:0.04em;">00:00</span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="day-header">
+    <div class="header-eyebrow"><span class="dot" style="background:var(--gold)"></span>Day 3 of 5 · Wed May 13 · ~40 min</div>
+    <h1 class="day-title">
+      <span class="l1">Applications of</span>
+      <span class="l2">Derivatives.</span>
+    </h1>
+    <p class="day-sub">First/second derivative tests for local extrema, L'Hôpital for 0/0 and ∞/∞ limits, related rates problems (ladder, balloon, cone), concavity from f'', and inflection points. <strong>13 randomized questions.</strong> Required prep for the related-rates FRQ.</p>
+
+    <div class="meta-row">
+      <div class="meta-pill"><span class="dot" style="background:var(--gold)"></span>Extrema · L'Hôpital · Related Rates · Concavity</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--purple)"></span>7 MC · 4 FIB · 2 Dropdown</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--red)"></span>🔥 Setup: identify dx/dt vs dy/dt</div>
+    </div>
+
+    <div class="instructions">
+      <div class="ih">📘 How to use this practice</div>
+      <strong>1.</strong> Each question regenerates with <strong>↻ New Numbers</strong>. <strong>2.</strong> Wrong answers tell you which step you skipped (forgetting the chain rule on dr/dt is the #1 related-rates trap). <strong>3.</strong> Submit at the bottom.
+    </div>
+  </div>
+
+  <div class="section-header" data-color="gold"><div class="sh-row"><span class="sh-tag">A</span><span class="sh-title">Extrema &amp; Concavity</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="1" data-color="gold"><div class="q-top"><div class="q-num">01</div><span class="q-tag">Local Minimum</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="2" data-color="gold"><div class="q-top"><div class="q-num">02</div><span class="q-tag">Critical Points · Count</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="3" data-color="gold"><div class="q-top"><div class="q-num">03</div><span class="q-tag">Concavity Intervals</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="4" data-color="gold"><div class="q-top"><div class="q-num">04</div><span class="q-tag">Inflection Point</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="5" data-color="gold"><div class="q-top"><div class="q-num">05</div><span class="q-tag">First Derivative Test</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="6" data-color="gold"><div class="q-top"><div class="q-num">06</div><span class="q-tag">Increasing/Decreasing</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="gold"><div class="sh-row"><span class="sh-tag">B</span><span class="sh-title">L'Hôpital's Rule</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="7" data-color="gold"><div class="q-top"><div class="q-num">07</div><span class="q-tag">L'Hôpital · sin(kx)/x</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="8" data-color="gold"><div class="q-top"><div class="q-num">08</div><span class="q-tag">L'Hôpital · Polynomial</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="9" data-color="gold"><div class="q-top"><div class="q-num">09</div><span class="q-tag">When to Apply L'Hôpital</span><span class="q-type-tag" data-type="dd">Dropdown</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="section-header" data-color="gold"><div class="sh-row"><span class="sh-tag">C</span><span class="sh-title">Related Rates</span><div class="sh-line"></div></div></div>
+
+  <div class="q-card" data-q="10" data-color="gold"><div class="q-top"><div class="q-num">10</div><span class="q-tag priority">Balloon · dV/dt</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><span class="q-tag hot">🔥 Chain Rule on r(t)</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="11" data-color="gold"><div class="q-top"><div class="q-num">11</div><span class="q-tag">Ladder · dy/dt</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="12" data-color="gold"><div class="q-top"><div class="q-num">12</div><span class="q-tag">Square Area Growth</span><span class="q-type-tag" data-type="fib">Fill-In</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="q-card" data-q="13" data-color="gold"><div class="q-top"><div class="q-num">13</div><span class="q-tag">Related Rates Setup</span><span class="q-type-tag" data-type="mc">Multiple Choice</span><div class="q-spacer"></div><span class="q-attempts">Attempt 1</span><button class="q-regen"><span class="icon">↻</span> New Numbers</button></div><div class="q-stem"></div><div class="q-input-area"></div><div class="q-feedback"></div></div>
+
+  <div class="submit-area">
+    <div class="submit-eyebrow"><span class="dot"></span>End of Day 3 · Submit via Canvas</div>
+    <div class="name-row"><label class="name-label" for="studentName">Your full name</label><input type="text" id="studentName" class="name-input" placeholder="First Last" autocomplete="name"></div>
+    <div class="submit-progress"><span class="prog-num" id="progNum">0</span><span class="prog-sep">/</span><span class="prog-total">13</span><span class="prog-label">answered</span></div>
+    <div class="submit-meter"><div class="submit-meter-fill" id="submitMeterFill"></div></div>
+    <div class="score-strip">
+      <div class="score-pill correct">✓ Correct <span class="num" id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">✗ Wrong <span class="num" id="scoreWrong">0</span></div>
+      <div class="score-pill unanswered">— Unanswered <span class="num" id="scoreUnanswered">13</span></div>
+    </div>
+    <div class="submit-row">
+      <button class="submit-btn" id="copyBtn"><span class="sb-icon">⎘</span><span class="sb-text">Copy for Canvas</span></button>
+      <button class="email-btn" id="emailBtn"><span class="sb-icon">✉</span><span class="sb-text">Email to Teacher</span></button>
+      <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    <div class="submit-foot"><strong>Submission flow:</strong> 1. Name. 2. Copy for Canvas. 3. Paste into Day 3 Canvas assignment and submit.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultsModal"><div class="modal">
+  <div class="modal-head">
+    <div class="modal-eyebrow ok"><span class="dot"></span>Copied to Clipboard</div>
+    <div class="submit-success"><div class="ss-check">✓</div><div class="ss-title">Submission Ready</div><div class="ss-sub">Your Day 3 results are on your clipboard. Paste into Canvas and submit.</div></div>
+  </div>
+  <div class="canvas-steps">
+    <div class="cs-row"><span class="cs-num">1</span><span class="cs-text">Open the Canvas assignment for <strong>Day 3 Classwork</strong>.</span></div>
+    <div class="cs-row"><span class="cs-num">2</span><span class="cs-text">Paste with <strong>Ctrl+V</strong> / <strong>Cmd+V</strong>.</span></div>
+    <div class="cs-row"><span class="cs-num">3</span><span class="cs-text">Click <strong>Submit</strong>.</span></div>
+  </div>
+  <div class="preview-head"><div class="ph-label">Preview · what was copied</div><button class="ph-recopy" id="recopyBtn">Copy Again</button></div>
+  <pre class="preview-text" id="previewText"></pre>
+  <div class="modal-actions">
+    <button class="modal-btn" id="modalEmail">Email to Teacher Instead</button>
+    <button class="modal-btn primary" id="modalClose">Close</button>
+  </div>
+</div></div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+
+<footer>
+  <span>Stratosyn · 2026</span>
+  <div class="footer-mark"><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div><div class="sq core"></div><div class="sq teacher"></div><div class="sq student"></div><div class="sq admin"></div></div>
+  <span>Day 3 · Applications of Derivatives</span>
+</footer>
+
+<script src="calc-week.js"></script>
+<script>
+const DAY3_QUESTIONS = [
+
+  /* Q1 · MC · Local min on cubic */
+  {
+    id: 1, type: "mc", tag: "Local Minimum", color: "gold",
+    generate(){
+      // f(x) = x³ - ax² - bx + c. f'(x) = 3x² - 2ax - b. Choose so roots are nice.
+      // Use form f(x) = x^3 - 3·(p+q)/2·x^2 ... too complex. Simpler: choose two critical points p<q, then
+      // f'(x) = 3(x-p)(x-q). Then f''(x) = 6x - 3(p+q). At x=p: f''(p)=6p-3(p+q)=3(p-q)<0 (local max). At x=q: f''(q)=3(q-p)>0 (local min).
+      const p = R.intExcl(-3, 2, [0]);
+      const q = p + R.int(2, 5);
+      const stem = `Consider <span class="mono">f(x) = x³ − ${(3*(p+q)/2 + p+q).toString().includes("/") ? "(invalid)" : ""}${(3*(p+q))}x² ... </span>`;
+      // Better: directly state f'(x) so question is cleaner
+      const cleanStem = `A function f has <span class="mono">f'(x) = ${3}(x − ${p})(x − ${q})</span>. At which x-value does f have a local minimum?`;
+      return {
+        stem: cleanStem,
+        options: R.shuffle([
+          { html: `x = ${q}`, correct: true },
+          { html: `x = ${p}`, correct: false, misconception: `At x = ${p}: f'' = 6·${p} − 3·(${p}+${q}) = ${6*p - 3*(p+q)} < 0, so x = ${p} is a local MAX, not min. Local min has f'' > 0.` },
+          { html: `Both x = ${p} and x = ${q}`, correct: false, misconception: `Critical points aren't automatically minima. Use the second derivative test: f'' > 0 ⇒ min, f'' < 0 ⇒ max.` },
+          { html: `x = ${(p+q)/2}`, correct: false, misconception: `That's the midpoint of critical points (where f' has its local minimum). Not a critical point of f itself.` },
+          { html: `x = 0`, correct: false, misconception: `Critical points are roots of f'(x), which are x = ${p} and x = ${q}. x = 0 isn't a critical point unless ${p} = 0 or ${q} = 0.` },
+          { html: `Neither — f has no local minimum`, correct: false, misconception: `f'(x) = 3(x − ${p})(x − ${q}) changes from positive to negative at x = ${p} (max) and negative to positive at x = ${q} (min). Both extrema exist.` }
+        ]),
+        correctDisplay: `Local minimum at x = ${q}`,
+        workedSolution: `Critical points: f'(x) = 0 → x = ${p} or x = ${q}. <strong>Sign analysis of f'</strong>: f' > 0 for x < ${p} (increasing), f' < 0 for ${p} < x < ${q} (decreasing), f' > 0 for x > ${q} (increasing). f' changes from − to + at x = ${q}, so <strong>local min at x = ${q}</strong>. (Local max is at x = ${p}.)`
+      };
+    }
+  },
+
+  /* Q2 · FIB · Count critical points */
+  {
+    id: 2, type: "fib", tag: "Critical Points", color: "gold",
+    generate(){
+      const a = R.int(2, 5);
+      const b = R.int(2, 8);
+      // f(x) = x³ + ax² - bx → f'(x) = 3x² + 2ax - b → discriminant = 4a² + 12b > 0 always → 2 real roots → 2 critical points
+      // So this always has 2 critical points
+      return {
+        stem: `How many critical points does <span class="mono">f(x) = x³ + ${a}x² − ${b}x + 7</span> have? (Type an integer.)`,
+        prefix: "Count:",
+        placeholder: "integer",
+        accepted: ["2"],
+        misconceptions: [
+          { match: ["3"], why: `A cubic's DERIVATIVE is quadratic (degree 2). A quadratic has at most 2 roots, so the cubic has at most 2 critical points — not 3.` },
+          { match: ["1"], why: `f'(x) = 3x² + ${2*a}x − ${b}. The discriminant is ${(2*a)*(2*a) + 12*b} > 0, so f' has TWO real roots → 2 critical points.` },
+          { match: ["0"], why: `f' is a quadratic with positive discriminant (${(2*a)*(2*a) + 12*b}), so it definitely has real roots. Count: 2.` },
+          { match: ["4"], why: `Critical points come from f'(x) = 0. f' is degree 2 → at most 2 roots. Count: 2.` }
+        ],
+        correctDisplay: "2 critical points",
+        workedSolution: `Critical points are where f'(x) = 0. f'(x) = 3x² + ${2*a}x − ${b}. This quadratic has discriminant b² − 4ac = ${(2*a)*(2*a)} − 4(3)(−${b}) = ${(2*a)*(2*a) + 12*b} > 0, so it has <strong>2 real roots</strong> → 2 critical points.`
+      };
+    }
+  },
+
+  /* Q3 · MC · Concavity intervals */
+  {
+    id: 3, type: "mc", tag: "Concavity Intervals", color: "gold",
+    generate(){
+      // f(x) = x^4 - kx^3. f' = 4x^3 - 3kx^2. f'' = 12x^2 - 6kx = 6x(2x - k). f''=0 at x=0 and x=k/2.
+      // Concave up when 6x(2x-k) > 0, i.e. x<0 or x>k/2.
+      const k = R.int(3, 6);
+      const half = k / 2;
+      const halfStr = Number.isInteger(half) ? half.toString() : `${k}/2`;
+      const stem = `For <span class="mono">f(x) = x⁴ − ${k}x³</span>, on which interval(s) is the graph <strong>concave up</strong>?`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: `(−∞, 0) ∪ (${halfStr}, ∞)`, correct: true },
+          { html: `(0, ${halfStr})`, correct: false, misconception: `That's where f is concave DOWN (f'' < 0). For concave up, f'' > 0, which happens outside the interval (0, ${halfStr}).` },
+          { html: `(−∞, 0) only`, correct: false, misconception: `You missed the second concave-up interval. f'' = 6x(2x − ${k}) > 0 also for x > ${halfStr}, not just x < 0.` },
+          { html: `(${halfStr}, ∞) only`, correct: false, misconception: `You missed the first concave-up interval. f'' > 0 also for x < 0.` },
+          { html: `All real numbers`, correct: false, misconception: `Concavity changes at the inflection points x = 0 and x = ${halfStr}. f isn't concave up everywhere.` },
+          { html: `(0, ∞)`, correct: false, misconception: `Doesn't match the actual sign analysis of f''. Inflection points are at x = 0 AND x = ${halfStr}.` }
+        ]),
+        correctDisplay: `Concave up on (−∞, 0) ∪ (${halfStr}, ∞)`,
+        workedSolution: `f'(x) = 4x³ − ${3*k}x², so f''(x) = 12x² − ${6*k}x = 6x(2x − ${k}). f'' = 0 at x = 0 and x = ${halfStr}. Sign analysis: f'' > 0 (concave UP) when x < 0 OR x > ${halfStr}. <strong>Concave up: (−∞, 0) ∪ (${halfStr}, ∞)</strong>.`
+      };
+    }
+  },
+
+  /* Q4 · FIB · Inflection point */
+  {
+    id: 4, type: "fib", tag: "Inflection Point", color: "gold",
+    generate(){
+      // f(x) = x^3 - ax^2 → f' = 3x^2 - 2ax → f'' = 6x - 2a → f''=0 at x = a/3
+      const a = R.pick([3, 6, 9, 12]);  // so a/3 is integer
+      const inflection = a / 3;
+      return {
+        stem: `Find the x-coordinate of the inflection point of <span class="mono">f(x) = x³ − ${a}x²</span>. (Type an integer.)`,
+        prefix: "x =",
+        placeholder: "integer",
+        accepted: [inflection.toString()],
+        misconceptions: [
+          { match: [a.toString()], why: `That's the coefficient on x², not the inflection point. Set f''(x) = 0 to find inflection: f''(x) = 6x − ${2*a} = 0 → x = ${inflection}.` },
+          { match: ["0"], why: `x = 0 is a critical point (where f' = 0), not the inflection point. Inflection requires f'' = 0 AND a concavity change.` },
+          { match: [(2*a).toString()], why: `You confused f'' with the coefficient. f''(x) = 6x − ${2*a}; setting equal to 0 gives x = ${inflection}.` },
+          { match: [(a*2/3).toString()], why: `Check arithmetic. f'' = 6x − ${2*a} = 0 → 6x = ${2*a} → x = ${2*a}/6 = ${inflection}.` }
+        ],
+        correctDisplay: `Inflection at x = ${inflection}`,
+        workedSolution: `f'(x) = 3x² − ${2*a}x → f''(x) = 6x − ${2*a}. Set f'' = 0: 6x = ${2*a} → x = <strong>${inflection}</strong>. (Verify concavity changes there — it does.)`
+      };
+    }
+  },
+
+  /* Q5 · DD · First derivative test */
+  {
+    id: 5, type: "dd", tag: "First Derivative Test", color: "gold",
+    generate(){
+      const c = R.intExcl(-3, 5, [0]);
+      const sign = R.pick(["+to-", "-to+", "same+", "same-"]);
+      let stem, correct;
+      if (sign === "+to-") {
+        stem = `At <span class="mono">x = ${c}</span>, f'(x) changes from POSITIVE to NEGATIVE. What does the first derivative test say about f at x = ${c}?`;
+        correct = `Local maximum at x = ${c}`;
+      } else if (sign === "-to+") {
+        stem = `At <span class="mono">x = ${c}</span>, f'(x) changes from NEGATIVE to POSITIVE. What does the first derivative test say about f at x = ${c}?`;
+        correct = `Local minimum at x = ${c}`;
+      } else if (sign === "same+") {
+        stem = `At <span class="mono">x = ${c}</span>, f'(x) = 0 but f'(x) is POSITIVE on both sides of ${c}. What does the first derivative test say about f at x = ${c}?`;
+        correct = "Neither — f is increasing through x = " + c;
+      } else {
+        stem = `At <span class="mono">x = ${c}</span>, f'(x) = 0 but f'(x) is NEGATIVE on both sides of ${c}. What does the first derivative test say about f at x = ${c}?`;
+        correct = "Neither — f is decreasing through x = " + c;
+      }
+      return {
+        stem,
+        prefix: "Conclusion:",
+        options: R.shuffle([
+          { text: `Local maximum at x = ${c}`, correct: correct.includes("maximum"), misconception: !correct.includes("maximum") ? `Local max requires f' to change from + to − (increasing, then decreasing). ${sign === "-to+" ? "Here f' goes − to + → local MIN." : "Here f' doesn't change sign → no extremum."}` : "" },
+          { text: `Local minimum at x = ${c}`, correct: correct.includes("minimum"), misconception: !correct.includes("minimum") ? `Local min requires f' to change from − to + (decreasing, then increasing). ${sign === "+to-" ? "Here f' goes + to − → local MAX." : "Here f' doesn't change sign → no extremum."}` : "" },
+          { text: `Neither — f is increasing through x = ${c}`, correct: correct.includes("increasing"), misconception: !correct.includes("increasing") ? `For f to be increasing through, f' must be POSITIVE on both sides. Check the given sign behavior.` : "" },
+          { text: `Neither — f is decreasing through x = ${c}`, correct: correct.includes("decreasing"), misconception: !correct.includes("decreasing") ? `For f to be decreasing through, f' must be NEGATIVE on both sides. Check the given sign behavior.` : "" }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>First derivative test:</strong> f' changes + to − at c → local MAX. f' changes − to + at c → local MIN. f' same sign on both sides → no extremum (just a horizontal tangent in passing). Verdict: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q6 · MC · Increasing/decreasing from f' */
+  {
+    id: 6, type: "mc", tag: "Increasing/Decreasing", color: "gold",
+    generate(){
+      const p = R.intExcl(-3, 2, [0]);
+      const q = p + R.int(2, 5);
+      const stem = `If <span class="mono">f'(x) = (x − ${p})(x − ${q})</span>, on which interval is f <strong>decreasing</strong>?`;
+      return {
+        stem,
+        options: R.shuffle([
+          { html: `(${p}, ${q})`, correct: true },
+          { html: `(−∞, ${p})`, correct: false, misconception: `For x < ${p}: both factors are negative, so f'(x) > 0 → INCREASING, not decreasing.` },
+          { html: `(${q}, ∞)`, correct: false, misconception: `For x > ${q}: both factors are positive, so f'(x) > 0 → INCREASING, not decreasing.` },
+          { html: `(−∞, ${p}) ∪ (${q}, ∞)`, correct: false, misconception: `Both of those intervals have f' > 0 (increasing). Decreasing is where f' < 0, which is between the roots.` },
+          { html: `(${p+q-1}, ${p+q+1})`, correct: false, misconception: `Random interval. Use sign analysis: f' = (x − ${p})(x − ${q}) is negative between the roots, so f decreases on (${p}, ${q}).` },
+          { html: `All real numbers`, correct: false, misconception: `f isn't decreasing everywhere — it's increasing outside (${p}, ${q}) and decreasing only between the roots.` }
+        ]),
+        correctDisplay: `Decreasing on (${p}, ${q})`,
+        workedSolution: `f'(x) = (x − ${p})(x − ${q}). Sign chart: f' > 0 outside the roots, f' < 0 between them. f is <strong>decreasing where f' < 0</strong>, which is <strong>(${p}, ${q})</strong>.`
+      };
+    }
+  },
+
+  /* Q7 · MC · L'Hôpital sin(kx)/x */
+  {
+    id: 7, type: "mc", tag: "L'Hôpital · sin(kx)/x", color: "gold",
+    generate(){
+      const k = R.int(2, 7);
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→0</sub> sin(${k}x) / x</span>`,
+        options: R.shuffle([
+          { html: k.toString(), correct: true },
+          { html: "1", correct: false, misconception: `lim<sub>x→0</sub> sin(x)/x = 1, but here the inside is ${k}x (not x). L'Hôpital: derivative of sin(${k}x) is ${k}cos(${k}x), which equals ${k} at x = 0.` },
+          { html: "0", correct: false, misconception: `Direct sub gives sin(0)/0 = 0/0 (indeterminate). Apply L'Hôpital: ${k}cos(${k}x) / 1 → ${k}·cos(0) = ${k}.` },
+          { html: "∞", correct: false, misconception: `0/0 isn't ∞ — it's indeterminate. Resolve with L'Hôpital: take derivatives of top and bottom separately.` },
+          { html: `1/${k}`, correct: false, misconception: `You divided when you should have multiplied. d/dx[sin(${k}x)] = ${k}cos(${k}x) (chain rule brings the ${k} out as a multiplier).` },
+          { html: "Does not exist", correct: false, misconception: `The limit exists. 0/0 means INDETERMINATE, not nonexistent. L'Hôpital resolves it cleanly: answer is ${k}.` }
+        ]),
+        correctDisplay: `Limit = ${k}`,
+        workedSolution: `Direct sub: sin(0)/0 = 0/0 (indeterminate). L'Hôpital: lim<sub>x→0</sub> [${k}cos(${k}x) / 1] = ${k}·cos(0) = <strong>${k}</strong>.`
+      };
+    }
+  },
+
+  /* Q8 · FIB · L'Hôpital polynomial */
+  {
+    id: 8, type: "fib", tag: "L'Hôpital · Polynomial", color: "gold",
+    generate(){
+      // lim_{x→a} (x^2 - a^2)/(x^k - a^k) where derivative ratio gives nice answer
+      // Use simpler: (x-a)(x+a)/((x-a)(...)) but tricky. Simpler:
+      // lim_{x→0} (e^(ax) - 1)/x = a by L'Hôpital
+      const a = R.int(2, 8);
+      return {
+        stem: `Evaluate: <span class="mono">lim<sub>x→0</sub> (e<sup>${a}x</sup> − 1) / x</span>. (Type an integer.)`,
+        prefix: "Limit =",
+        placeholder: "integer",
+        accepted: [a.toString()],
+        misconceptions: [
+          { match: ["0"], why: `Direct sub: (e⁰ − 1)/0 = 0/0 (indeterminate). Apply L'Hôpital: d/dx[e<sup>${a}x</sup> − 1] = ${a}e<sup>${a}x</sup>, d/dx[x] = 1. At x = 0: ${a}·e⁰/1 = ${a}.` },
+          { match: ["1"], why: `That's lim<sub>x→0</sub> (e<sup>x</sup> − 1)/x. Here the exponent is ${a}x, not x. L'Hôpital pulls out the ${a}: answer is ${a}.` },
+          { match: ["∞", "inf"], why: `0/0 isn't ∞. It's indeterminate — resolve with L'Hôpital.` },
+          { match: [(a-1).toString()], why: `Off-by-one. d/dx[e<sup>${a}x</sup>] = ${a}e<sup>${a}x</sup> (chain rule pulls the ${a}). At x = 0: ${a}·1 = ${a}.` }
+        ],
+        correctDisplay: `Limit = ${a}`,
+        workedSolution: `Direct sub gives 0/0 (indeterminate). L'Hôpital: derivative of numerator is ${a}e<sup>${a}x</sup>, derivative of denominator is 1. Limit = ${a}·e⁰/1 = <strong>${a}</strong>.`
+      };
+    }
+  },
+
+  /* Q9 · DD · When to apply L'Hôpital */
+  {
+    id: 9, type: "dd", tag: "When L'Hôpital", color: "gold",
+    generate(){
+      const which = R.pick(["00", "infinf", "neither", "notapplicable"]);
+      let stem, correct;
+      if (which === "00") {
+        stem = `Direct substitution into <span class="mono">lim<sub>x→2</sub> (x² − 4)/(x − 2)</span> gives <strong>0/0</strong>. Can L'Hôpital be applied?`;
+        correct = "Yes — 0/0 is indeterminate, L'Hôpital applies";
+      } else if (which === "infinf") {
+        stem = `Direct substitution into <span class="mono">lim<sub>x→∞</sub> (3x² + 1)/(x² − 5)</span> gives <strong>∞/∞</strong>. Can L'Hôpital be applied?`;
+        correct = "Yes — ∞/∞ is indeterminate, L'Hôpital applies";
+      } else if (which === "neither") {
+        stem = `Direct substitution into <span class="mono">lim<sub>x→0</sub> (x + 5)/(x − 3)</span> gives <strong>5/(−3) = −5/3</strong>. Can L'Hôpital be applied?`;
+        correct = "No — limit already exists by direct substitution";
+      } else {
+        stem = `Direct substitution into <span class="mono">lim<sub>x→0</sub> 1/x</span> gives <strong>1/0</strong> (not an indeterminate form). Can L'Hôpital be applied?`;
+        correct = "No — 1/0 is not an indeterminate form (limit is ±∞ or DNE)";
+      }
+      return {
+        stem,
+        prefix: "Applicability:",
+        options: R.shuffle([
+          { text: "Yes — 0/0 is indeterminate, L'Hôpital applies", correct: correct.includes("0/0 is indeterminate"), misconception: !correct.includes("0/0 is indeterminate") ? `L'Hôpital requires an INDETERMINATE form (0/0 or ∞/∞). This case isn't 0/0.` : "" },
+          { text: "Yes — ∞/∞ is indeterminate, L'Hôpital applies", correct: correct.includes("∞/∞"), misconception: !correct.includes("∞/∞") ? `L'Hôpital requires an indeterminate form. This case isn't ∞/∞.` : "" },
+          { text: "No — limit already exists by direct substitution", correct: correct.includes("already exists"), misconception: !correct.includes("already exists") ? `If direct sub gives an indeterminate form, you DO need L'Hôpital (or another technique). Otherwise the limit is just the result of direct sub.` : "" },
+          { text: "No — 1/0 is not an indeterminate form (limit is ±∞ or DNE)", correct: correct.includes("1/0"), misconception: !correct.includes("1/0") ? `1/0 isn't indeterminate (the numerator is nonzero). L'Hôpital DOESN'T apply.` : "" }
+        ]),
+        correctDisplay: correct,
+        workedSolution: `<strong>L'Hôpital's Rule applies ONLY to indeterminate forms 0/0 or ∞/∞.</strong> Other forms (like 1/0, 5/3, 0·∞, etc.) need different treatment. Verdict: <strong>${correct}</strong>.`
+      };
+    }
+  },
+
+  /* Q10 · MC · Balloon related rates */
+  {
+    id: 10, type: "mc", tag: "Related Rates · Sphere", color: "gold",
+    generate(){
+      const r = R.pick([3, 4, 5, 6, 10]);
+      const drdt = R.pick([2, 3]);
+      // V = (4/3)πr³ → dV/dt = 4πr² · dr/dt = 4π·r²·drdt
+      const dVdt = 4 * r * r * drdt;
+      return {
+        stem: `A spherical balloon's radius is increasing at <span class="mono">${drdt} cm/s</span>. When <span class="mono">r = ${r} cm</span>, how fast is the volume changing? (V = (4/3)πr³)`,
+        options: R.shuffle([
+          { html: `${dVdt}π cm³/s`, correct: true },
+          { html: `${4 * r * r}π cm³/s`, correct: false, misconception: `You computed 4πr² (the surface area derivative w.r.t. r), but forgot to multiply by dr/dt = ${drdt}. Final answer = 4πr² · dr/dt = ${dVdt}π.` },
+          { html: `${(4/3) * r * r * r}π cm³/s`, correct: false, misconception: `That's V itself, not dV/dt. Differentiate V = (4/3)πr³ w.r.t. time, then multiply by dr/dt.` },
+          { html: `${4 * r * drdt}π cm³/s`, correct: false, misconception: `You forgot to square the r. dV/dt = 4π·r²·(dr/dt), not 4π·r·(dr/dt).` },
+          { html: `${r * r * drdt}π cm³/s`, correct: false, misconception: `You forgot the factor of 4. d/dt[(4/3)πr³] = (4/3)π · 3r² · dr/dt = 4πr² · dr/dt.` },
+          { html: `${drdt}π cm³/s`, correct: false, misconception: `You only used dr/dt without the chain factor 4πr². At r = ${r}: 4π·${r}²·${drdt} = ${dVdt}π.` }
+        ]),
+        correctDisplay: `dV/dt = ${dVdt}π cm³/s`,
+        workedSolution: `Differentiate V = (4/3)πr³ implicitly w.r.t. time: dV/dt = (4/3)π · 3r² · (dr/dt) = 4πr² · (dr/dt). Substitute r = ${r}, dr/dt = ${drdt}: dV/dt = 4π·${r*r}·${drdt} = <strong>${dVdt}π cm³/s</strong>.`
+      };
+    }
+  },
+
+  /* Q11 · FIB · Ladder related rates */
+  {
+    id: 11, type: "fib", tag: "Ladder · dy/dt", color: "gold",
+    generate(){
+      const L = R.pick([13, 17, 25]);
+      // pythagorean triples: 5-12-13, 8-15-17, 7-24-25
+      const triple = L === 13 ? [5, 12] : L === 17 ? [8, 15] : [7, 24];
+      const x = triple[0];
+      const y = triple[1];
+      const dxdt = R.pick([2, 3]);
+      // x² + y² = L²  →  2x(dx/dt) + 2y(dy/dt) = 0  →  dy/dt = -(x/y)·(dx/dt)
+      // result: dy/dt = -(x*dxdt)/y
+      const num = -x * dxdt;
+      const denom = y;
+      // try to get clean numerical answer
+      const gcd = (a, b) => b === 0 ? Math.abs(a) : gcd(b, a % b);
+      const g = gcd(Math.abs(num), denom);
+      const numR = num / g, denomR = denom / g;
+      const ansStr = denomR === 1 ? numR.toString() : `${numR}/${denomR}`;
+      const decApprox = (num / denom).toFixed(2);
+      return {
+        stem: `A <span class="mono">${L} ft</span> ladder leans against a wall. The bottom slides away from the wall at <span class="mono">${dxdt} ft/s</span>. When the bottom is <span class="mono">${x} ft</span> from the wall (so the top is at <span class="mono">${y} ft</span>), how fast is the top sliding down? (Type the rate dy/dt as a fraction <span class="mono">num/den</span> or decimal — include the negative sign.)`,
+        prefix: "dy/dt =",
+        placeholder: "negative number",
+        accepted: [
+          ansStr,
+          decApprox,
+          (num/denom).toFixed(3)
+        ],
+        misconceptions: [
+          { match: [`${-numR}/${denomR}`, `${x*dxdt}/${y}`, (x*dxdt/y).toFixed(2)], why: `SIGN ERROR. The top is moving DOWN, so dy/dt must be negative. Solving: 2x·(dx/dt) + 2y·(dy/dt) = 0 → dy/dt = −x·(dx/dt)/y = negative value.` },
+          { match: [`${y}/${x*dxdt}`, (y/(x*dxdt)).toFixed(2)], why: `Inverted fraction. dy/dt = −x·(dx/dt)/y, with y in the DENOMINATOR.` },
+          { match: [dxdt.toString()], why: `That's dx/dt (the given rate). The question asks for dy/dt, which you find by differentiating x² + y² = L² implicitly.` },
+          { match: [(x*x + y*y).toString()], why: `That's L² (the length squared, constant). It doesn't change with time → its derivative is 0. Use that to solve for dy/dt.` }
+        ],
+        correctDisplay: `dy/dt = ${ansStr} ft/s (negative — top is moving down)`,
+        workedSolution: `Setup: x² + y² = ${L}² = ${L*L}. Differentiate w.r.t. t: 2x(dx/dt) + 2y(dy/dt) = 0 → dy/dt = −(x·(dx/dt))/y = −(${x}·${dxdt})/${y} = <strong>${ansStr}</strong> ft/s. The negative sign confirms the top is moving DOWN.`
+      };
+    }
+  },
+
+  /* Q12 · FIB · Square area growth */
+  {
+    id: 12, type: "fib", tag: "Square Area", color: "gold",
+    generate(){
+      const s = R.pick([4, 5, 6, 8, 10]);
+      const dsdt = R.pick([2, 3]);
+      // A = s² → dA/dt = 2s·(ds/dt)
+      const dAdt = 2 * s * dsdt;
+      return {
+        stem: `A square's side length is growing at <span class="mono">${dsdt} cm/s</span>. When the side is <span class="mono">${s} cm</span>, how fast is the area growing? (Type an integer with units in cm²/s, but just the number — e.g. <span class="mono">${dAdt}</span>.)`,
+        prefix: "dA/dt =",
+        placeholder: "integer (cm²/s)",
+        accepted: [dAdt.toString()],
+        misconceptions: [
+          { match: [(s*s).toString()], why: `That's A = s² = ${s*s} (the area itself), not dA/dt. Differentiate A = s² w.r.t. time: dA/dt = 2s·(ds/dt).` },
+          { match: [(2*s).toString()], why: `You computed 2s (the derivative of s² w.r.t. s), but forgot to multiply by ds/dt = ${dsdt}. dA/dt = 2s · (ds/dt) = ${2*s} · ${dsdt} = ${dAdt}.` },
+          { match: [(s*dsdt).toString()], why: `You forgot the factor of 2 from differentiating s². d/dt[s²] = 2s · ds/dt.` },
+          { match: [dsdt.toString()], why: `That's ds/dt (the given rate), not dA/dt. dA/dt = 2s · ds/dt = ${dAdt}.` }
+        ],
+        correctDisplay: `dA/dt = ${dAdt} cm²/s`,
+        workedSolution: `Differentiate A = s² w.r.t. t: dA/dt = 2s · (ds/dt). Plug in s = ${s}, ds/dt = ${dsdt}: dA/dt = 2·${s}·${dsdt} = <strong>${dAdt} cm²/s</strong>.`
+      };
+    }
+  },
+
+  /* Q13 · MC · Related rates setup */
+  {
+    id: 13, type: "mc", tag: "Related Rates Setup", color: "gold",
+    generate(){
+      return {
+        stem: `In a related-rates problem with V = (4/3)πr³ (sphere volume), and you're told the radius is growing at 2 cm/s, which variable(s) depend on time t?`,
+        options: R.shuffle([
+          { html: "Both V and r depend on t", correct: true },
+          { html: "Only r depends on t", correct: false, misconception: `V depends on t INDIRECTLY through r. If r changes with time, then V also changes with time. Both have derivatives w.r.t. t.` },
+          { html: "Only V depends on t", correct: false, misconception: `r is explicitly described as growing with time (2 cm/s). Both r and V are time-dependent in this problem.` },
+          { html: "Neither — both are constants", correct: false, misconception: `The problem states r is changing at 2 cm/s, so r is NOT constant. V depends on r, so V isn't constant either.` },
+          { html: "Only π depends on t", correct: false, misconception: `π is a mathematical constant — it never depends on anything. r and V are the time-dependent quantities here.` }
+        ]),
+        correctDisplay: "Both V and r are functions of t",
+        workedSolution: `<strong>In a related rates problem, identify the time-dependent quantities first.</strong> Here r changes with time (dr/dt = 2), and V depends on r, so V also changes with time (dV/dt comes from chain rule). Both V(t) and r(t) are functions of t; π is a constant.`
+      };
+    }
+  }
+
+];
+
+window.CalcDay.init({
+  dayTitle: "Day 3",
+  dayLabel: "Applications of Derivatives",
+  questions: DAY3_QUESTIONS
+});
+</script>
+
+</body>
+</html>
